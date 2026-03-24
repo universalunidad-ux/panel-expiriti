@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clientes</title>
+</head>
+<body>
+
+<h1>Clientes</h1>
+
+<h3>Nuevo cliente</h3>
+<input id="nombre" placeholder="Nombre">
+<input id="telefono" placeholder="Teléfono">
+<input id="correo" placeholder="Correo">
+<textarea id="comentarios" placeholder="Comentarios"></textarea>
+
+<button onclick="crearCliente()">Guardar</button>
+
+<hr>
+
+<h3>Lista</h3>
+<ul id="lista"></ul>
+
+<script type="module">
+import { supabase } from './supabase.js'
+import { requireAuth, logAccion } from './app.js'
+
+// 🔐 proteger página
+await requireAuth()
+
+// ➕ Crear cliente
+window.crearCliente = async () => {
+  const nombre = document.getElementById('nombre').value
+  const telefono = document.getElementById('telefono').value
+  const correo = document.getElementById('correo').value
+  const comentarios = document.getElementById('comentarios').value
+
+  const { data: userData } = await supabase.auth.getUser()
+
+  const { error } = await supabase.from('clientes').insert({
+    nombre,
+    telefono,
+    correo,
+    comentarios,
+    creado_por: userData.user.id
+  })
+
+  if (!error) {
+    await logAccion({ accion: 'crear_cliente' })
+    alert('Cliente guardado')
+    cargarClientes()
+  } else {
+    alert('Error al guardar')
+  }
+}
+
+// 📄 Listar clientes
+async function cargarClientes() {
+  const { data } = await supabase.from('clientes').select('*').order('fecha_creacion', { ascending: false })
+
+  const lista = document.getElementById('lista')
+  lista.innerHTML = ''
+
+  data.forEach(c => {
+    const li = document.createElement('li')
+    li.innerText = `${c.nombre} - ${c.telefono}`
+    lista.appendChild(li)
+  })
+}
+
+cargarClientes()
+</script>
+
+</body>
+</html>
