@@ -12,6 +12,14 @@
 <script type="module">
 import { supabase } from './supabase.js'
 
+// ✅ PROTEGER DASHBOARD
+const { data } = await supabase.auth.getSession()
+
+if (!data.session) {
+  window.location.href = 'index.html'
+}
+
+// 🔽 logout (ya lo tenías)
 window.logout = async () => {
   await supabase.auth.signOut()
   window.location.href = 'index.html'
