@@ -268,7 +268,15 @@ async function logAction(accion, documento_id = null, cliente_id = null, detalle
     detalle
   });
 }
-
+function getErrMsg(err, fallback="Error desconocido"){
+  if(!err) return fallback;
+  if(typeof err==="string") return err;
+  if(err.message) return err.message;
+  if(err.error_description) return err.error_description;
+  if(err.details) return `${err.details}`;
+  return JSON.stringify(err);
+}
+    
     function renderQuick() {
   quickList.innerHTML = "";
   FREQUENT.forEach(name => {
@@ -502,7 +510,12 @@ async function resolveClientId(nombre, nuevo) {
     .select("id")
     .single();
 
-  if (error) return null;
+  if (error) {
+    statusTxt.className = "status err";
+    statusTxt.textContent = `No se pudo crear el cliente: ${getErrMsg(error)}`;
+    return null;
+  }
+
   return data.id;
 }
 
@@ -521,6 +534,8 @@ async function uploadBatch() {
   try {
     let ok = 0;
     let fail = 0;
+    let errors = [];
+
     const isFolderMode = folderMode && pickedFiles.some(f => f.webkitRelativePath);
 
     if (isFolderMode) {
@@ -536,13 +551,19 @@ async function uploadBatch() {
       for (const folderName in groups) {
         const files = groups[folderName];
 
-        let { data: existing } = await s
+        let clientId = null;
+
+        const { data: existing, error: selErr } = await s
           .from("clientes")
           .select("id")
           .ilike("nombre", folderName)
           .limit(1);
 
-        let clientId;
+        if (selErr) {
+          fail += files.length;
+          errors.push(`Cliente "${folderName}": error buscando cliente: ${getErrMsg(selErr)}`);
+          continue;
+        }
 
         if (existing && existing.length) {
           clientId = existing[0].id;
@@ -555,6 +576,7 @@ async function uploadBatch() {
 
           if (createErr) {
             fail += files.length;
+            errors.push(`Cliente "${folderName}": error creando cliente: ${getErrMsg(createErr)}`);
             continue;
           }
 
@@ -572,10 +594,14 @@ async function uploadBatch() {
 
           const { error: upErr } = await s.storage
             .from("certificados")
-            .upload(storagePath, f, { upsert: false, contentType: "application/pdf" });
+            .upload(storagePath, f, {
+              upsert: false,
+              contentType: "application/pdf"
+            });
 
           if (upErr) {
             fail++;
+            errors.push(`Archivo "${f.name}": error subiendo a Storage: ${getErrMsg(upErr)}`);
             continue;
           }
 
@@ -595,6 +621,7 @@ async function uploadBatch() {
 
           if (dbErr) {
             fail++;
+            errors.push(`Archivo "${f.name}": error guardando en documentos: ${getErrMsg(dbErr)}`);
             continue;
           }
 
@@ -608,7 +635,7 @@ async function uploadBatch() {
       }
 
       statusTxt.className = fail ? "status err" : "status ok";
-      statusTxt.textContent = `Carga por carpetas terminada. Correctos: ${ok}. Fallidos: ${fail}.`;
+      statusTxt.innerHTML = `Carga por carpetas terminada. Correctos: ${ok}. Fallidos: ${fail}.${errors.length ? "<br><br>" + errors.slice(0,6).map(e => "• " + escapeHtml(e)).join("<br>") : ""}`;
 
       searchInput.value = "";
       await loadData();
@@ -618,7 +645,7 @@ async function uploadBatch() {
 
       setTimeout(() => {
         if (ok) closeModalFn();
-      }, 900);
+      }, 1200);
 
     } else {
       const nombre = rsInput.value.trim();
@@ -633,7 +660,7 @@ async function uploadBatch() {
 
       if (!clientId) {
         statusTxt.className = "status err";
-        statusTxt.textContent = 'Ese cliente no existe. Marca "Nuevo" para crearlo.';
+        statusTxt.textContent = 'Ese cliente no existe o no se pudo crear. Marca "Nuevo" para crearlo.';
         return;
       }
 
@@ -648,10 +675,14 @@ async function uploadBatch() {
 
         const { error: upErr } = await s.storage
           .from("certificados")
-          .upload(storagePath, f, { upsert: false, contentType: "application/pdf" });
+          .upload(storagePath, f, {
+            upsert: false,
+            contentType: "application/pdf"
+          });
 
         if (upErr) {
           fail++;
+          errors.push(`Archivo "${f.name}": error subiendo a Storage: ${getErrMsg(upErr)}`);
           continue;
         }
 
@@ -671,6 +702,7 @@ async function uploadBatch() {
 
         if (dbErr) {
           fail++;
+          errors.push(`Archivo "${f.name}": error guardando en documentos: ${getErrMsg(dbErr)}`);
           continue;
         }
 
@@ -683,7 +715,7 @@ async function uploadBatch() {
       }
 
       statusTxt.className = fail ? "status err" : "status ok";
-      statusTxt.textContent = `Carga terminada. Correctos: ${ok}. Fallidos: ${fail}.`;
+      statusTxt.innerHTML = `Carga terminada. Correctos: ${ok}. Fallidos: ${fail}.${errors.length ? "<br><br>" + errors.slice(0,6).map(e => "• " + escapeHtml(e)).join("<br>") : ""}`;
 
       searchInput.value = nombre;
       await loadData();
@@ -692,7 +724,7 @@ async function uploadBatch() {
 
       setTimeout(() => {
         if (ok) closeModalFn();
-      }, 900);
+      }, 1200);
     }
 
   } finally {
