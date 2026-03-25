@@ -1,1 +1,763 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Expiriti</title><link rel="stylesheet" href="styles.css"></head><body><header class="topbar"><div class="topbar-inner"><div class="brand">Panel Expiriti</div><div class="top-actions"><button class="btn btn-brand" id="addBtn">Agregar PDF</button><button class="btn btn-ghost" id="logoutBtn">Salir</button></div></div></header><aside class="side-quick" id="sideQuick"><div class="quick-tab">Pólizas</div><div class="quick-panel"><div class="quick-title">Empresas frecuentes</div><div class="quick-list" id="quickList"></div></div></aside><main class="wrap"><section class="panel hero"><div class="search-row"><div class="searchbox"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/></svg><input id="searchInput" placeholder="Razón social / nombre" autocomplete="off"></div><button class="btn btn-brand" id="searchBtn">Buscar</button></div><div class="muted" style="margin-top:10px;font-size:13px">Busca por razón social / nombre. Si importas carpeta, el nombre de la carpeta se usará como cliente.</div></section><section class="panel section hidden" id="recentSection"><div class="section-head"><div><div class="section-title">Últimos agregados</div><div class="count" id="recentCount">0 elementos</div></div></div><div class="recent-list" id="recentList"></div></section><section class="panel section hidden" id="systemsSection"><div class="section-head"><div><div class="section-title">Sistemas</div><div class="count" id="systemsCount">0 disponibles</div></div><div class="tag" id="activeSystemLabel">Sin filtro</div></div><div class="systems-wrap"><div class="systems-grid" id="systemsGrid"></div></div></section><section class="panel section hidden" id="resultsSection"><div class="section-head"><div><div class="section-title">Resultados</div><div class="count" id="resultsCount">0 resultados</div></div></div><div class="results-wrap"><div class="results-list" id="resultsList"></div></div></section></main><div class="overlay" id="overlay"><div class="modal"><div class="modal-head"><div class="modal-title">Agregar certificado PDF</div><button class="close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body"><div class="grid"><div class="field"><label class="label">Razón social / nombre</label><input id="rsInput" class="input" placeholder="Razón social / nombre"></div><div class="row2"><label class="check" id="newWrap"><input type="checkbox" id="isNew"> <span>Nuevo</span></label><div class="file-meta" id="fileName">Ningún archivo seleccionado</div></div><div class="field"><label class="label">Archivos PDF</label><div class="drop" id="dropZone">Arrastra PDFs aquí. Si importas carpeta, el nombre de la carpeta se usará como Razón social / nombre.</div><input id="fileInput" type="file" accept="application/pdf" multiple hidden><input id="folderInput" type="file" webkitdirectory directory multiple hidden></div><div class="actions"><button class="btn btn-ghost" id="pickFilesBtn">Elegir PDFs</button><button class="btn btn-ghost" id="pickFolderBtn">Importar carpeta</button><button class="btn btn-ghost" id="cancelBtn">Cancelar</button><button class="btn btn-brand" id="uploadBtn">Subir</button></div><div class="status" id="statusTxt"></div></div></div></div></div><script type="module">import{createClient}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";const s=createClient("https://ovfmqqqwezfdtgrtkjhf.supabase.co","sb_publishable_2ftu336Kc06w2I2iTwoIpQ_usfSTNG9"),SYSTEMS=[{name:"CONTPAQi Contabilidad",aliases:["contabilidad","contabiliza"],logo:"IMG/contabilidad (1).webp"},{name:"CONTPAQi Bancos",aliases:["bancos"],logo:"IMG/bancos (1).webp"},{name:"CONTPAQi Nóminas",aliases:["nominas","nóminas"],logo:"IMG/nominas (1).webp"},{name:"CONTPAQi XML en Línea",aliases:["xml"],logo:"IMG/xml.webp"},{name:"CONTPAQi Comercial START",aliases:["comercial start","cstart"],logo:"IMG/comercialstart (1).webp"},{name:"CONTPAQi Comercial PRO",aliases:["comercial pro"],logo:"IMG/comercialpro (1).webp"},{name:"CONTPAQi Comercial PREMIUM",aliases:["comercial premium"],logo:"IMG/comercialpremium (1).webp"},{name:"CONTPAQi Factura Electrónica",aliases:["factura","factura electronica","factura electrónica"],logo:"IMG/factura (1).webp"},{name:"CONTPAQi Evalúa",aliases:["evalua","evalúa"],logo:"IMG/evalua (1).webp"},{name:"CONTPAQi Analiza",aliases:["analiza"],logo:"IMG/analiza (1).webp"},{name:"CONTPAQi Vende",aliases:["vende"],logo:"IMG/vende (3).webp"},{name:"CONTPAQi Optimiza",aliases:["optimiza"],logo:"IMG/optimiza (1).webp"},{name:"CONTPAQi Anticipa",aliases:["anticipa"],logo:"IMG/anticipa (1).webp"},{name:"CONTPAQi Personia",aliases:["personia"],logo:"IMG/personia (2).webp"},{name:"CONTPAQi Contabiliza",aliases:["contabiliza"],logo:"IMG/contabiliza (2).webp"}],FREQUENT=["3C METROLOGY SA DE CV","EXPIRITI","CLIENTE DEMO 1","CLIENTE DEMO 2","CLIENTE DEMO 3","CLIENTE DEMO 4","CLIENTE DEMO 5","CLIENTE DEMO 6","CLIENTE DEMO 7","CLIENTE DEMO 8","CLIENTE DEMO 9","CLIENTE DEMO 10"],$=e=>document.querySelector(e),recentSection=$("#recentSection"),systemsSection=$("#systemsSection"),resultsSection=$("#resultsSection"),searchInput=$("#searchInput"),searchBtn=$("#searchBtn"),recentList=$("#recentList"),recentCount=$("#recentCount"),systemsGrid=$("#systemsGrid"),systemsCount=$("#systemsCount"),resultsList=$("#resultsList"),resultsCount=$("#resultsCount"),activeSystemLabel=$("#activeSystemLabel"),overlay=$("#overlay"),addBtn=$("#addBtn"),closeModal=$("#closeModal"),cancelBtn=$("#cancelBtn"),uploadBtn=$("#uploadBtn"),logoutBtn=$("#logoutBtn"),dropZone=$("#dropZone"),fileInput=$("#fileInput"),folderInput=$("#folderInput"),pickFilesBtn=$("#pickFilesBtn"),pickFolderBtn=$("#pickFolderBtn"),fileName=$("#fileName"),statusTxt=$("#statusTxt"),rsInput=$("#rsInput"),isNew=$("#isNew"),newWrap=$("#newWrap"),quickList=$("#quickList");let currentUser=null,allDocs=[],activeSystem="",pickedFiles=[],folderMode=!1;const norm=e=>(e||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim(),escapeHtml=e=>(e??"").replace(/[&<>"']/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[e])),fmtDate=e=>{if(!e)return"";try{return new Date(e).toLocaleDateString("es-MX")}catch{return""}},detectSystem=e=>{const t=norm(e);for(const sys of SYSTEMS){for(const a of sys.aliases)if(t.includes(norm(a)))return sys.name}return""};async function protect(){const{data}=await s.auth.getSession();if(!data.session){location.href="index.html";return}const{data:u}=await s.auth.getUser();currentUser=u.user}async function logAction(accion,documento_id=null,cliente_id=null,detalle={}){if(!currentUser)return;await s.from("bitacora").insert({usuario_id:currentUser.id,accion,documento_id,cliente_id,detalle})}function renderQuick(){quickList.innerHTML="";FREQUENT.forEach(name=>{const d=document.createElement("div");d.className="quick-item";d.textContent=name;d.onclick=()=>{searchInput.value=name;activeSystem="";runSearch()};quickList.appendChild(d)})}async function loadData(){const{data,error}=await s.from("documentos").select("id,cliente_id,nombre_archivo,url_pdf,sistema,fecha_subida,eliminado,clientes(nombre)").order("fecha_subida",{ascending:false});allDocs=error?[]:(data||[]).map(x=>({id:x.id,cliente_id:x.cliente_id,nombre_archivo:x.nombre_archivo,url_pdf:x.url_pdf,sistema:x.sistema||detectSystem(x.nombre_archivo),fecha_subida:x.fecha_subida,eliminado:!!x.eliminado,cliente_nombre:x.clientes?.nombre||""}))}function baseRows(){const q=norm(searchInput.value);return allDocs.filter(x=>!x.eliminado&&(!q||norm(x.cliente_nombre).includes(q)))}function visibleSystems(rows){const used=new Set(rows.map(x=>x.sistema).filter(Boolean));return SYSTEMS.filter(x=>used.has(x.name))}function renderRecent(rows){recentCount.textContent=`${Math.min(rows.length,8)} elementos`;if(!rows.length){recentList.innerHTML='<div class="empty">Sin PDFs para esa razón social.</div>';return}recentList.innerHTML="";rows.slice(0,8).forEach(x=>{const item=document.createElement("article");item.className="pdf-item";item.innerHTML=`<div class="pdf-top"><div><div class="pdf-name">${escapeHtml(x.nombre_archivo)}</div><div class="pdf-meta">${escapeHtml(x.cliente_nombre||"Sin razón social")} · ${fmtDate(x.fecha_subida)}</div><div class="tags">${x.sistema?`<span class="tag">${escapeHtml(x.sistema)}</span>`:""}</div></div></div><div class="pdf-actions"><button class="btn-mini" data-open="${x.id}">Abrir PDF</button><a class="btn-mini" href="cliente.html?id=${x.cliente_id}">Ver cliente</a></div>`;recentList.appendChild(item)});bindOpenButtons(recentList)}function renderSystems(rows){const visible=visibleSystems(rows);systemsCount.textContent=`${visible.length} disponibles`;activeSystemLabel.textContent=activeSystem||"Sin filtro";if(!visible.length){systemsGrid.innerHTML='<div class="empty">No hay sistemas para esa razón social.</div>';return}systemsGrid.innerHTML="";visible.forEach(sys=>{const b=document.createElement("button");b.className="system-btn"+(activeSystem===sys.name?" active":"");b.innerHTML=`<img src="${sys.logo}" alt="${sys.name}" loading="lazy" decoding="async">`;b.title=sys.name;b.onclick=()=>{activeSystem=activeSystem===sys.name?"":sys.name;renderResults()};systemsGrid.appendChild(b)})}function renderResults(){let rows=baseRows();if(activeSystem)rows=rows.filter(x=>x.sistema===activeSystem);resultsCount.textContent=`${rows.length} resultado${rows.length===1?"":"s"}`;if(!rows.length){resultsList.innerHTML='<div class="empty">Sin resultados para ese criterio.</div>';return}resultsList.innerHTML="";rows.forEach(x=>{const item=document.createElement("article");item.className="pdf-item";item.innerHTML=`<div class="pdf-top"><div><div class="pdf-name">${escapeHtml(x.cliente_nombre||"Sin razón social")}</div><div class="pdf-meta">${escapeHtml(x.nombre_archivo)}${x.fecha_subida?` · ${fmtDate(x.fecha_subida)}`:""}</div><div class="tags">${x.sistema?`<span class="tag">${escapeHtml(x.sistema)}</span>`:""}</div></div></div><div class="pdf-actions"><button class="btn-mini" data-open="${x.id}">Abrir PDF</button><a class="btn-mini" href="cliente.html?id=${x.cliente_id}">Ver cliente</a></div>`;resultsList.appendChild(item)});bindOpenButtons(resultsList)}function bindOpenButtons(scope){scope.querySelectorAll("[data-open]").forEach(b=>b.onclick=async()=>openPdf(b.dataset.open))}async function openPdf(id){const row=allDocs.find(x=>x.id===id);if(!row)return;const{data,error}=await s.storage.from("certificados").createSignedUrl(row.url_pdf,3600);if(error||!data?.signedUrl){alert("No se pudo abrir el PDF");return}await logAction("abrir_pdf",row.id,row.cliente_id,{nombre_archivo:row.nombre_archivo});window.open(data.signedUrl,"_blank","noopener")}function runSearch(){const q=searchInput.value.trim();if(!q){recentSection.classList.add("hidden");systemsSection.classList.add("hidden");resultsSection.classList.add("hidden");return}const rows=baseRows().sort((a,b)=>new Date(b.fecha_subida)-new Date(a.fecha_subida));recentSection.classList.remove("hidden");systemsSection.classList.remove("hidden");resultsSection.classList.remove("hidden");renderRecent(rows);renderSystems(rows);renderResults()}function openModal(){overlay.classList.add("open");statusTxt.className="status";statusTxt.textContent="";rsInput.value=searchInput.value.trim();isNew.checked=false;pickedFiles=[];folderMode=false;fileInput.value="";folderInput.value="";fileName.innerHTML="Ningún archivo seleccionado";rsInput.disabled=false;newWrap.classList.remove("hidden")}function closeModalFn(){overlay.classList.remove("open")}function setPickedFiles(files,isFolder){folderMode=!!isFolder;pickedFiles=[...files].filter(f=>f&&((f.type==="application/pdf")||f.name.toLowerCase().endsWith(".pdf")));fileName.innerHTML=pickedFiles.length?pickedFiles.map(f=>`<div>${escapeHtml(f.webkitRelativePath||f.name)}</div>`).join(""):"Ningún archivo seleccionado";if(folderMode){rsInput.value="";rsInput.disabled=true;newWrap.classList.add("hidden");statusTxt.className="status";statusTxt.textContent="Modo carpeta: se usará el nombre de cada carpeta como razón social."}else{rsInput.disabled=false;newWrap.classList.remove("hidden")}}async function resolveClientId(nombre,nuevo){const trimmed=nombre.trim();if(!trimmed)return null;const{data:existing,error:selErr}=await s.from("clientes").select("id").ilike("nombre",trimmed).limit(1);if(!selErr&&existing&&existing.length)return existing[0].id;if(!nuevo)return null;const{data,error}=await s.from("clientes").insert({nombre:trimmed,creado_por:currentUser.id}).select("id").single();if(error)return null;return data.id}async function uploadBatch(){if(!pickedFiles.length){statusTxt.className="status err";statusTxt.textContent="Selecciona archivos o carpeta.";return}uploadBtn.disabled=true;uploadBtn.style.opacity=.65;statusTxt.className="status";statusTxt.textContent="Procesando carga...";try{let ok=0,fail=0;const isFolderMode=folderMode&&pickedFiles.some(f=>f.webkitRelativePath);if(isFolderMode){const groups={};pickedFiles.forEach(f=>{const path=f.webkitRelativePath;if(!path)return;const folder=path.split("/")[0];groups[folder]||(groups[folder]=[]);groups[folder].push(f)});for(const folderName in groups){const files=groups[folderName];let{data:existing}=await s.from("clientes").select("id").ilike("nombre",folderName).limit(1);let clientId;if(existing&&existing.length)clientId=existing[0].id;else{const{data:newClient,error:createErr}=await s.from("clientes").insert({nombre:folderName,creado_por:currentUser.id}).select("id").single();if(createErr){fail+=files.length;continue}clientId=newClient.id}for(const f of files){const safeName=f.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,"");const storagePath=`${clientId}/${Date.now()}_${safeName}`;const{error:upErr}=await s.storage.from("certificados").upload(storagePath,f,{upsert:false,contentType:"application/pdf"});if(upErr){fail++;continue}const sistema=detectSystem(f.name);const{data:doc,error:dbErr}=await s.from("documentos").insert({cliente_id:clientId,nombre_archivo:f.name,url_pdf:storagePath,sistema,subido_por:currentUser.id}).select("id").single();if(dbErr){fail++;continue}await logAction("subir_pdf",doc?.id||null,clientId,{nombre_archivo:f.name,sistema});ok++}}statusTxt.className=fail?"status err":"status ok";statusTxt.textContent=`Carga por carpetas terminada. Correctos: ${ok}. Fallidos: ${fail}.`;searchInput.value="";await loadData();recentSection.classList.add("hidden");systemsSection.classList.add("hidden");resultsSection.classList.add("hidden");setTimeout(()=>{ok&&closeModalFn()},900)}else{const nombre=rsInput.value.trim();if(!nombre){statusTxt.className="status err";statusTxt.textContent="Captura Razón social / nombre.";return}const clientId=await resolveClientId(nombre,isNew.checked);if(!clientId){statusTxt.className="status err";statusTxt.textContent='Ese cliente no existe. Marca "Nuevo" para crearlo.';return}for(const f of pickedFiles){const safeName=f.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,"");const storagePath=`${clientId}/${Date.now()}_${safeName}`;const{error:upErr}=await s.storage.from("certificados").upload(storagePath,f,{upsert:false,contentType:"application/pdf"});if(upErr){fail++;continue}const sistema=detectSystem(f.name);const{data:doc,error:dbErr}=await s.from("documentos").insert({cliente_id:clientId,nombre_archivo:f.name,url_pdf:storagePath,sistema,subido_por:currentUser.id}).select("id").single();if(dbErr){fail++;continue}await logAction("subir_pdf",doc?.id||null,clientId,{nombre_archivo:f.name,sistema});ok++}statusTxt.className=fail?"status err":"status ok";statusTxt.textContent=`Carga terminada. Correctos: ${ok}. Fallidos: ${fail}.`;searchInput.value=nombre;await loadData();activeSystem="";runSearch();setTimeout(()=>{ok&&closeModalFn()},900)}}finally{uploadBtn.disabled=false;uploadBtn.style.opacity=1}}addBtn.onclick=openModal;closeModal.onclick=closeModalFn;cancelBtn.onclick=closeModalFn;overlay.addEventListener("click",e=>{if(e.target===overlay)closeModalFn()});logoutBtn.onclick=async()=>{await s.auth.signOut();location.href="index.html"};searchBtn.onclick=()=>{activeSystem="";runSearch()};searchInput.addEventListener("keydown",e=>{"Enter"===e.key&&(activeSystem="",runSearch())});pickFilesBtn.onclick=()=>fileInput.click();pickFolderBtn.onclick=()=>folderInput.click();dropZone.onclick=()=>fileInput.click();fileInput.onchange=e=>setPickedFiles(e.target.files||[],false);folderInput.onchange=e=>setPickedFiles(e.target.files||[],true);["dragenter","dragover"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.add("drag")}));["dragleave","drop"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.remove("drag")}));dropZone.addEventListener("drop",e=>setPickedFiles(e.dataTransfer.files||[],false));uploadBtn.onclick=uploadBatch;await protect();renderQuick();await loadData();runSearch();</script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel Expiriti</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">Panel Expiriti</div>
+    <div class="top-actions">
+      <button class="btn btn-brand" id="addBtn">Agregar PDF</button>
+      <button class="btn btn-ghost" id="logoutBtn">Salir</button>
+    </div>
+  </div>
+</header>
+
+<aside class="side-quick" id="sideQuick">
+  <div class="quick-tab">Pólizas</div>
+  <div class="quick-panel">
+    <div class="quick-title">Empresas frecuentes</div>
+    <div class="quick-list" id="quickList"></div>
+  </div>
+</aside>
+
+<main class="wrap">
+  <section class="panel hero">
+    <div class="search-row">
+      <div class="searchbox">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input id="searchInput" placeholder="Razón social / nombre" autocomplete="off">
+      </div>
+      <button class="btn btn-brand" id="searchBtn">Buscar</button>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:13px">
+      Busca por razón social / nombre. Si importas carpeta, se tomará el nombre de la subcarpeta del cliente.
+    </div>
+  </section>
+
+  <section class="panel section hidden" id="recentSection">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Últimos agregados</div>
+        <div class="count" id="recentCount">0 elementos</div>
+      </div>
+    </div>
+    <div class="recent-list" id="recentList"></div>
+  </section>
+
+  <section class="panel section hidden" id="systemsSection">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Sistemas</div>
+        <div class="count" id="systemsCount">0 disponibles</div>
+      </div>
+      <div class="tag" id="activeSystemLabel">Sin filtro</div>
+    </div>
+    <div class="systems-wrap">
+      <div class="systems-grid" id="systemsGrid"></div>
+    </div>
+  </section>
+
+  <section class="panel section hidden" id="resultsSection">
+    <div class="section-head">
+      <div>
+        <div class="section-title">Resultados</div>
+        <div class="count" id="resultsCount">0 resultados</div>
+      </div>
+    </div>
+    <div class="results-wrap">
+      <div class="results-list" id="resultsList"></div>
+    </div>
+  </section>
+</main>
+
+  <div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Agregar certificado PDF</div>
+      <button class="close" id="closeModal" aria-label="Cerrar">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="grid">
+        <div class="field">
+          <label class="label">Razón social / nombre</label>
+          <input id="rsInput" class="input" placeholder="Razón social / nombre">
+        </div>
+
+        <div class="row2">
+          <label class="check" id="newWrap">
+            <input type="checkbox" id="isNew">
+            <span>Nuevo</span>
+          </label>
+          <div class="file-meta" id="fileName">Ningún archivo seleccionado</div>
+        </div>
+
+        <div class="field">
+          <label class="label">Archivos PDF</label>
+          <div class="drop" id="dropZone">
+            Arrastra PDFs aquí. Si importas carpeta, el nombre de la carpeta del cliente se tomará automáticamente.
+          </div>
+
+          <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
+          <input id="folderInput" type="file" webkitdirectory directory multiple hidden>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-ghost" id="pickFilesBtn">Elegir PDFs</button>
+          <button class="btn btn-ghost" id="pickFolderBtn">Importar carpeta</button>
+          <button class="btn btn-ghost" id="cancelBtn">Cancelar</button>
+          <button class="btn btn-brand" id="uploadBtn">Subir</button>
+        </div>
+
+        <div class="status" id="statusTxt"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const s = createClient(
+  "https://ovfmqqqwezfdtgrtkjhf.supabase.co",
+  "sb_publishable_2ftu336Kc06w2I2iTwoIpQ_usfSTNG9"
+);
+
+const SYSTEMS = [
+  { name:"CONTPAQi Contabilidad", aliases:["contabilidad","contabiliza"], logo:"IMG/contabilidad (1).webp" },
+  { name:"CONTPAQi Bancos", aliases:["bancos"], logo:"IMG/bancos (1).webp" },
+  { name:"CONTPAQi Nóminas", aliases:["nominas","nóminas"], logo:"IMG/nominas (1).webp" },
+  { name:"CONTPAQi XML en Línea", aliases:["xml"], logo:"IMG/xml.webp" },
+  { name:"CONTPAQi Comercial START", aliases:["comercial start","cstart"], logo:"IMG/comercialstart (1).webp" },
+  { name:"CONTPAQi Comercial PRO", aliases:["comercial pro"], logo:"IMG/comercialpro (1).webp" },
+  { name:"CONTPAQi Comercial PREMIUM", aliases:["comercial premium"], logo:"IMG/comercialpremium (1).webp" },
+  { name:"CONTPAQi Factura Electrónica", aliases:["factura","factura electronica","factura electrónica"], logo:"IMG/factura (1).webp" },
+  { name:"CONTPAQi Evalúa", aliases:["evalua","evalúa"], logo:"IMG/evalua (1).webp" },
+  { name:"CONTPAQi Analiza", aliases:["analiza"], logo:"IMG/analiza (1).webp" },
+  { name:"CONTPAQi Vende", aliases:["vende"], logo:"IMG/vende (3).webp" },
+  { name:"CONTPAQi Optimiza", aliases:["optimiza"], logo:"IMG/optimiza (1).webp" },
+  { name:"CONTPAQi Anticipa", aliases:["anticipa"], logo:"IMG/anticipa (1).webp" },
+  { name:"CONTPAQi Personia", aliases:["personia"], logo:"IMG/personia (2).webp" },
+  { name:"CONTPAQi Contabiliza", aliases:["contabiliza"], logo:"IMG/contabiliza (2).webp" }
+];
+
+const FREQUENT = [
+  "3C METROLOGY SA DE CV",
+  "EXPIRITI",
+  "CLIENTE DEMO 1",
+  "CLIENTE DEMO 2",
+  "CLIENTE DEMO 3",
+  "CLIENTE DEMO 4",
+  "CLIENTE DEMO 5",
+  "CLIENTE DEMO 6",
+  "CLIENTE DEMO 7",
+  "CLIENTE DEMO 8",
+  "CLIENTE DEMO 9",
+  "CLIENTE DEMO 10"
+];
+
+const $ = e => document.querySelector(e);
+
+const recentSection = $("#recentSection");
+const systemsSection = $("#systemsSection");
+const resultsSection = $("#resultsSection");
+
+const searchInput = $("#searchInput");
+const searchBtn = $("#searchBtn");
+
+const recentList = $("#recentList");
+const recentCount = $("#recentCount");
+
+const systemsGrid = $("#systemsGrid");
+const systemsCount = $("#systemsCount");
+const activeSystemLabel = $("#activeSystemLabel");
+
+const resultsList = $("#resultsList");
+const resultsCount = $("#resultsCount");
+
+const overlay = $("#overlay");
+const addBtn = $("#addBtn");
+const closeModal = $("#closeModal");
+const cancelBtn = $("#cancelBtn");
+const uploadBtn = $("#uploadBtn");
+const logoutBtn = $("#logoutBtn");
+
+const dropZone = $("#dropZone");
+const fileInput = $("#fileInput");
+const folderInput = $("#folderInput");
+const pickFilesBtn = $("#pickFilesBtn");
+const pickFolderBtn = $("#pickFolderBtn");
+
+const fileName = $("#fileName");
+const statusTxt = $("#statusTxt");
+const rsInput = $("#rsInput");
+const isNew = $("#isNew");
+const newWrap = $("#newWrap");
+const quickList = $("#quickList");
+
+let currentUser = null;
+let allDocs = [];
+let activeSystem = "";
+let pickedFiles = [];
+let folderMode = false;
+
+    const norm = e =>
+  (e || "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+const escapeHtml = e =>
+  (e ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[m]));
+
+const fmtDate = e => {
+  if (!e) return "";
+  try { return new Date(e).toLocaleDateString("es-MX"); }
+  catch { return ""; }
+};
+
+const detectSystem = name => {
+  const t = norm(name);
+  for (const sys of SYSTEMS) {
+    for (const a of sys.aliases) {
+      if (t.includes(norm(a))) return sys.name;
+    }
+  }
+  return "";
+};
+
+const getClientFolderName = f => {
+  const p = (f.webkitRelativePath || "").split("/").filter(Boolean);
+  return p.length >= 2 ? p[p.length - 2] : "";
+};
+
+async function protect() {
+  const { data } = await s.auth.getSession();
+  if (!data.session) {
+    location.href = "index.html";
+    return;
+  }
+  const { data: u } = await s.auth.getUser();
+  currentUser = u.user;
+}
+
+async function logAction(accion, documento_id = null, cliente_id = null, detalle = {}) {
+  if (!currentUser) return;
+  await s.from("bitacora").insert({
+    usuario_id: currentUser.id,
+    accion,
+    documento_id,
+    cliente_id,
+    detalle
+  });
+}
+
+    function renderQuick() {
+  quickList.innerHTML = "";
+  FREQUENT.forEach(name => {
+    const d = document.createElement("div");
+    d.className = "quick-item";
+    d.textContent = name;
+    d.onclick = () => {
+      searchInput.value = name;
+      activeSystem = "";
+      runSearch();
+    };
+    quickList.appendChild(d);
+  });
+}
+
+async function loadData() {
+  const { data, error } = await s
+    .from("documentos")
+    .select("id,cliente_id,nombre_archivo,url_pdf,sistema,fecha_subida,eliminado,clientes(nombre)")
+    .order("fecha_subida", { ascending: false });
+
+  allDocs = error ? [] : (data || []).map(x => ({
+    id: x.id,
+    cliente_id: x.cliente_id,
+    nombre_archivo: x.nombre_archivo,
+    url_pdf: x.url_pdf,
+    sistema: x.sistema || detectSystem(x.nombre_archivo),
+    fecha_subida: x.fecha_subida,
+    eliminado: !!x.eliminado,
+    cliente_nombre: x.clientes?.nombre || ""
+  }));
+}
+
+function baseRows() {
+  const q = norm(searchInput.value);
+  return allDocs.filter(x => !x.eliminado && (!q || norm(x.cliente_nombre).includes(q)));
+}
+
+function visibleSystems(rows) {
+  const used = new Set(rows.map(x => x.sistema).filter(Boolean));
+  return SYSTEMS.filter(x => used.has(x.name));
+}
+
+function renderRecent(rows) {
+  recentCount.textContent = `${Math.min(rows.length, 8)} elementos`;
+  if (!rows.length) {
+    recentList.innerHTML = '<div class="empty">Sin PDFs para esa razón social.</div>';
+    return;
+  }
+
+  recentList.innerHTML = "";
+  rows.slice(0, 8).forEach(x => {
+    const item = document.createElement("article");
+    item.className = "pdf-item";
+    item.innerHTML = `
+      <div class="pdf-top">
+        <div>
+          <div class="pdf-name">${escapeHtml(x.nombre_archivo)}</div>
+          <div class="pdf-meta">${escapeHtml(x.cliente_nombre || "Sin razón social")} · ${fmtDate(x.fecha_subida)}</div>
+          <div class="tags">${x.sistema ? `<span class="tag">${escapeHtml(x.sistema)}</span>` : ""}</div>
+        </div>
+      </div>
+      <div class="pdf-actions">
+        <button class="btn-mini" data-open="${x.id}">Abrir PDF</button>
+        <a class="btn-mini" href="cliente.html?id=${x.cliente_id}">Ver cliente</a>
+      </div>
+    `;
+    recentList.appendChild(item);
+  });
+
+  bindOpenButtons(recentList);
+}
+
+function renderSystems(rows) {
+  const visible = visibleSystems(rows);
+  systemsCount.textContent = `${visible.length} disponibles`;
+  activeSystemLabel.textContent = activeSystem || "Sin filtro";
+
+  if (!visible.length) {
+    systemsGrid.innerHTML = '<div class="empty">No hay sistemas para esa razón social.</div>';
+    return;
+  }
+
+  systemsGrid.innerHTML = "";
+  visible.forEach(sys => {
+    const b = document.createElement("button");
+    b.className = "system-btn" + (activeSystem === sys.name ? " active" : "");
+    b.innerHTML = `<img src="${sys.logo}" alt="${sys.name}" loading="lazy" decoding="async">`;
+    b.title = sys.name;
+    b.onclick = () => {
+      activeSystem = activeSystem === sys.name ? "" : sys.name;
+      renderResults();
+    };
+    systemsGrid.appendChild(b);
+  });
+}
+
+function renderResults() {
+  let rows = baseRows();
+  if (activeSystem) rows = rows.filter(x => x.sistema === activeSystem);
+
+  resultsCount.textContent = `${rows.length} resultado${rows.length === 1 ? "" : "s"}`;
+
+  if (!rows.length) {
+    resultsList.innerHTML = '<div class="empty">Sin resultados para ese criterio.</div>';
+    return;
+  }
+
+  resultsList.innerHTML = "";
+  rows.forEach(x => {
+    const item = document.createElement("article");
+    item.className = "pdf-item";
+    item.innerHTML = `
+      <div class="pdf-top">
+        <div>
+          <div class="pdf-name">${escapeHtml(x.cliente_nombre || "Sin razón social")}</div>
+          <div class="pdf-meta">${escapeHtml(x.nombre_archivo)}${x.fecha_subida ? ` · ${fmtDate(x.fecha_subida)}` : ""}</div>
+          <div class="tags">${x.sistema ? `<span class="tag">${escapeHtml(x.sistema)}</span>` : ""}</div>
+        </div>
+      </div>
+      <div class="pdf-actions">
+        <button class="btn-mini" data-open="${x.id}">Abrir PDF</button>
+        <a class="btn-mini" href="cliente.html?id=${x.cliente_id}">Ver cliente</a>
+      </div>
+    `;
+    resultsList.appendChild(item);
+  });
+
+  bindOpenButtons(resultsList);
+}
+
+function bindOpenButtons(scope) {
+  scope.querySelectorAll("[data-open]").forEach(b => {
+    b.onclick = async () => openPdf(b.dataset.open);
+  });
+}
+
+async function openPdf(id) {
+  const row = allDocs.find(x => x.id === id);
+  if (!row) return;
+
+  const { data, error } = await s.storage.from("certificados").createSignedUrl(row.url_pdf, 3600);
+  if (error || !data?.signedUrl) {
+    alert("No se pudo abrir el PDF");
+    return;
+  }
+
+  await logAction("abrir_pdf", row.id, row.cliente_id, { nombre_archivo: row.nombre_archivo });
+  window.open(data.signedUrl, "_blank", "noopener");
+}
+
+function runSearch() {
+  const q = searchInput.value.trim();
+  if (!q) {
+    recentSection.classList.add("hidden");
+    systemsSection.classList.add("hidden");
+    resultsSection.classList.add("hidden");
+    return;
+  }
+
+  const rows = baseRows().sort((a, b) => new Date(b.fecha_subida) - new Date(a.fecha_subida));
+
+  recentSection.classList.remove("hidden");
+  systemsSection.classList.remove("hidden");
+  resultsSection.classList.remove("hidden");
+
+  renderRecent(rows);
+  renderSystems(rows);
+  renderResults();
+}
+
+    function openModal() {
+  overlay.classList.add("open");
+  statusTxt.className = "status";
+  statusTxt.textContent = "";
+  rsInput.value = searchInput.value.trim();
+  isNew.checked = false;
+  pickedFiles = [];
+  folderMode = false;
+  fileInput.value = "";
+  folderInput.value = "";
+  fileName.innerHTML = "Ningún archivo seleccionado";
+  rsInput.disabled = false;
+  newWrap.classList.remove("hidden");
+}
+
+function closeModalFn() {
+  overlay.classList.remove("open");
+}
+
+function setPickedFiles(files, isFolder) {
+  folderMode = !!isFolder;
+
+  pickedFiles = [...files].filter(f =>
+    f && ((f.type === "application/pdf") || f.name.toLowerCase().endsWith(".pdf"))
+  );
+
+  fileName.innerHTML = pickedFiles.length
+    ? pickedFiles.map(f => `<div>${escapeHtml(f.webkitRelativePath || f.name)}</div>`).join("")
+    : "Ningún archivo seleccionado";
+
+  if (folderMode) {
+    rsInput.value = "";
+    rsInput.disabled = true;
+    isNew.checked = true;
+    newWrap.classList.add("hidden");
+    statusTxt.className = "status";
+    statusTxt.textContent = "Modo carpeta: se usará el nombre de la carpeta del cliente automáticamente.";
+  } else {
+    rsInput.disabled = false;
+    newWrap.classList.remove("hidden");
+  }
+}
+
+async function resolveClientId(nombre, nuevo) {
+  const trimmed = nombre.trim();
+  if (!trimmed) return null;
+
+  const { data: existing, error: selErr } = await s
+    .from("clientes")
+    .select("id")
+    .ilike("nombre", trimmed)
+    .limit(1);
+
+  if (!selErr && existing && existing.length) return existing[0].id;
+  if (!nuevo) return null;
+
+  const { data, error } = await s
+    .from("clientes")
+    .insert({ nombre: trimmed, creado_por: currentUser.id })
+    .select("id")
+    .single();
+
+  if (error) return null;
+  return data.id;
+}
+
+async function uploadBatch() {
+  if (!pickedFiles.length) {
+    statusTxt.className = "status err";
+    statusTxt.textContent = "Selecciona archivos o carpeta.";
+    return;
+  }
+
+  uploadBtn.disabled = true;
+  uploadBtn.style.opacity = .65;
+  statusTxt.className = "status";
+  statusTxt.textContent = "Procesando carga...";
+
+  try {
+    let ok = 0;
+    let fail = 0;
+    const isFolderMode = folderMode && pickedFiles.some(f => f.webkitRelativePath);
+
+    if (isFolderMode) {
+      const groups = {};
+
+      pickedFiles.forEach(f => {
+        const folder = getClientFolderName(f);
+        if (!folder) return;
+        if (!groups[folder]) groups[folder] = [];
+        groups[folder].push(f);
+      });
+
+      for (const folderName in groups) {
+        const files = groups[folderName];
+
+        let { data: existing } = await s
+          .from("clientes")
+          .select("id")
+          .ilike("nombre", folderName)
+          .limit(1);
+
+        let clientId;
+
+        if (existing && existing.length) {
+          clientId = existing[0].id;
+        } else {
+          const { data: newClient, error: createErr } = await s
+            .from("clientes")
+            .insert({ nombre: folderName, creado_por: currentUser.id })
+            .select("id")
+            .single();
+
+          if (createErr) {
+            fail += files.length;
+            continue;
+          }
+
+          clientId = newClient.id;
+        }
+
+        for (const f of files) {
+          const safeName = f.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "_")
+            .replace(/[^a-zA-Z0-9._() -]/g, "");
+
+          const storagePath = `${clientId}/${Date.now()}_${safeName}`;
+
+          const { error: upErr } = await s.storage
+            .from("certificados")
+            .upload(storagePath, f, { upsert: false, contentType: "application/pdf" });
+
+          if (upErr) {
+            fail++;
+            continue;
+          }
+
+          const sistema = detectSystem(f.name);
+
+          const { data: doc, error: dbErr } = await s
+            .from("documentos")
+            .insert({
+              cliente_id: clientId,
+              nombre_archivo: f.name,
+              url_pdf: storagePath,
+              sistema,
+              subido_por: currentUser.id
+            })
+            .select("id")
+            .single();
+
+          if (dbErr) {
+            fail++;
+            continue;
+          }
+
+          await logAction("subir_pdf", doc?.id || null, clientId, {
+            nombre_archivo: f.name,
+            sistema
+          });
+
+          ok++;
+        }
+      }
+
+      statusTxt.className = fail ? "status err" : "status ok";
+      statusTxt.textContent = `Carga por carpetas terminada. Correctos: ${ok}. Fallidos: ${fail}.`;
+
+      searchInput.value = "";
+      await loadData();
+      recentSection.classList.add("hidden");
+      systemsSection.classList.add("hidden");
+      resultsSection.classList.add("hidden");
+
+      setTimeout(() => {
+        if (ok) closeModalFn();
+      }, 900);
+
+    } else {
+      const nombre = rsInput.value.trim();
+
+      if (!nombre) {
+        statusTxt.className = "status err";
+        statusTxt.textContent = "Captura Razón social / nombre.";
+        return;
+      }
+
+      const clientId = await resolveClientId(nombre, isNew.checked);
+
+      if (!clientId) {
+        statusTxt.className = "status err";
+        statusTxt.textContent = 'Ese cliente no existe. Marca "Nuevo" para crearlo.';
+        return;
+      }
+
+      for (const f of pickedFiles) {
+        const safeName = f.name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, "_")
+          .replace(/[^a-zA-Z0-9._() -]/g, "");
+
+        const storagePath = `${clientId}/${Date.now()}_${safeName}`;
+
+        const { error: upErr } = await s.storage
+          .from("certificados")
+          .upload(storagePath, f, { upsert: false, contentType: "application/pdf" });
+
+        if (upErr) {
+          fail++;
+          continue;
+        }
+
+        const sistema = detectSystem(f.name);
+
+        const { data: doc, error: dbErr } = await s
+          .from("documentos")
+          .insert({
+            cliente_id: clientId,
+            nombre_archivo: f.name,
+            url_pdf: storagePath,
+            sistema,
+            subido_por: currentUser.id
+          })
+          .select("id")
+          .single();
+
+        if (dbErr) {
+          fail++;
+          continue;
+        }
+
+        await logAction("subir_pdf", doc?.id || null, clientId, {
+          nombre_archivo: f.name,
+          sistema
+        });
+
+        ok++;
+      }
+
+      statusTxt.className = fail ? "status err" : "status ok";
+      statusTxt.textContent = `Carga terminada. Correctos: ${ok}. Fallidos: ${fail}.`;
+
+      searchInput.value = nombre;
+      await loadData();
+      activeSystem = "";
+      runSearch();
+
+      setTimeout(() => {
+        if (ok) closeModalFn();
+      }, 900);
+    }
+
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.style.opacity = 1;
+  }
+}
+
+    addBtn.onclick = openModal;
+closeModal.onclick = closeModalFn;
+cancelBtn.onclick = closeModalFn;
+
+overlay.addEventListener("click", e => {
+  if (e.target === overlay) closeModalFn();
+});
+
+logoutBtn.onclick = async () => {
+  await s.auth.signOut();
+  location.href = "index.html";
+};
+
+searchBtn.onclick = () => {
+  activeSystem = "";
+  runSearch();
+};
+
+searchInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    activeSystem = "";
+    runSearch();
+  }
+});
+
+pickFilesBtn.onclick = () => fileInput.click();
+pickFolderBtn.onclick = () => folderInput.click();
+dropZone.onclick = () => fileInput.click();
+
+fileInput.onchange = e => setPickedFiles(e.target.files || [], false);
+folderInput.onchange = e => setPickedFiles(e.target.files || [], true);
+
+["dragenter","dragover"].forEach(ev => {
+  dropZone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropZone.classList.add("drag");
+  });
+});
+
+["dragleave","drop"].forEach(ev => {
+  dropZone.addEventListener(ev, e => {
+    e.preventDefault();
+    dropZone.classList.remove("drag");
+  });
+});
+
+dropZone.addEventListener("drop", e => {
+  setPickedFiles(e.dataTransfer.files || [], false);
+});
+
+uploadBtn.onclick = uploadBatch;
+
+await protect();
+renderQuick();
+await loadData();
+runSearch();
+</script>
+
+</body>
+</html>
