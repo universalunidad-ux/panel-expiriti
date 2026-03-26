@@ -1,149 +1,177 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Panel Expiriti</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">Panel Expiriti</div>
-    <div class="top-actions">
-      <button class="btn btn-brand" id="addBtn">Agregar PDF</button>
-      <button class="btn btn-ghost" id="logoutBtn">Salir</button>
-    </div>
-  </div>
-</header>
-
-<aside class="side-quick" id="sideQuick">
-  <div class="quick-tab">Pólizas</div>
-  <div class="quick-panel">
-    <div class="quick-title">Empresas frecuentes</div>
-    <div class="quick-list" id="quickList"></div>
-  </div>
-</aside>
-
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard</title><link rel="stylesheet" href="styles.css"><style>
+:root{--bg:#070b12;--panel:#0f1724;--line:rgba(255,255,255,.08);--text:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--warn:#f59e0b;--danger:#ef4444;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}.topbar{position:sticky;top:0;z-index:20;background:rgba(7,11,18,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topbar-inner{max-width:1200px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:20px}.top-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#121b2a;color:var(--text);padding:10px 14px;border-radius:12px;text-decoration:none;cursor:pointer}.btn-brand{background:var(--brand);color:#04110e;border:none;font-weight:800}.wrap{max-width:1200px;margin:auto;padding:18px}.grid-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.kpi-label{font-size:13px;color:var(--mut);margin-bottom:8px}.kpi-value{font-size:30px;font-weight:900;line-height:1}.kpi-sub{margin-top:8px;color:var(--mut);font-size:12px}.sections{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}.stack{display:grid;gap:14px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-title{font-size:18px;font-weight:900}.count{font-size:13px;color:var(--mut)}.list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02)}.item-title{font-weight:800}.item-meta{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.03)}.tag.ok{color:#86efac}.tag.warn{color:#fcd34d}.tag.err{color:#fca5a5}.empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--mut)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.input,.select{background:#0b1220;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px}.table{display:grid;gap:10px}.row{display:grid;grid-template-columns:1.2fr .9fr .7fr .6fr;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}.th{font-size:12px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.04em}.mut{color:var(--mut)}@media(max-width:1100px){.grid-kpi{grid-template-columns:repeat(3,1fr)}.sections{grid-template-columns:1fr}}@media(max-width:780px){.grid-kpi{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}}
+</style></head><body>
+<header class="topbar"><div class="topbar-inner"><div class="brand">Dashboard interno</div><div class="top-actions"><a class="btn" href="clientes.html">Clientes</a><a class="btn" href="cliente.html">Detalle cliente</a><button class="btn btn-brand" id="refreshBtn">Actualizar</button></div></div></header>
 <main class="wrap">
-  <section class="panel hero">
-    <div class="search-row">
-      <div class="searchbox">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <input id="searchInput" placeholder="Razón social / nombre" autocomplete="off">
-      </div>
-      <button class="btn btn-brand" id="searchBtn">Buscar</button>
-    </div>
-    <div class="muted" style="margin-top:10px;font-size:13px">
-      Busca por razón social / nombre. Si importas carpeta, se tomará el nombre de la subcarpeta del cliente.
-    </div>
+  <div class="toolbar">
+    <input class="input" id="searchInput" placeholder="Buscar cliente o archivo">
+    <select class="select" id="statusFilter">
+      <option value="">Todos los estados</option>
+      <option value="vigente">Vigente</option>
+      <option value="por_vencer">Por vencer</option>
+      <option value="vencido">Vencido</option>
+      <option value="sin_vigencia">Sin vigencia</option>
+    </select>
+  </div>
+
+  <section class="grid-kpi">
+    <article class="card"><div class="kpi-label">Clientes</div><div class="kpi-value" id="kpiClientes">0</div><div class="kpi-sub">Total registrados</div></article>
+    <article class="card"><div class="kpi-label">PDFs activos</div><div class="kpi-value" id="kpiDocs">0</div><div class="kpi-sub">No eliminados</div></article>
+    <article class="card"><div class="kpi-label">Vigentes</div><div class="kpi-value" id="kpiVigentes">0</div><div class="kpi-sub">Más de 30 días</div></article>
+    <article class="card"><div class="kpi-label">Por vencer</div><div class="kpi-value" id="kpiPorVencer">0</div><div class="kpi-sub">0 a 30 días</div></article>
+    <article class="card"><div class="kpi-label">Vencidos</div><div class="kpi-value" id="kpiVencidos">0</div><div class="kpi-sub">Fecha pasada</div></article>
   </section>
 
-    <section class="panel section hidden" id="resultsSection">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Resultados</div>
-        <div class="count" id="resultsCount">0 resultados</div>
-      </div>
-    </div>
-    <div class="results-wrap">
-      <div class="results-list" id="resultsList"></div>
-    </div>
-  </section>
-  
-  <section class="panel section hidden" id="recentSection">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Últimos agregados</div>
-        <div class="count" id="recentCount">0 elementos</div>
-      </div>
-    </div>
-    <div class="recent-list" id="recentList"></div>
-  </section>
+  <section class="sections">
+    <div class="stack">
+      <article class="card">
+        <div class="section-head"><div><div class="section-title">Últimos documentos</div><div class="count" id="recentCount">0 elementos</div></div></div>
+        <div class="list" id="recentList"></div>
+      </article>
 
-  <section class="panel section hidden" id="systemsSection">
-    <div class="section-head">
-      <div>
-        <div class="section-title">Sistemas</div>
-        <div class="count" id="systemsCount">0 disponibles</div>
-      </div>
-      <div class="tag" id="activeSystemLabel">Sin filtro</div>
+      <article class="card">
+        <div class="section-head"><div><div class="section-title">Actividad reciente</div><div class="count" id="activityCount">0 movimientos</div></div></div>
+        <div class="list" id="activityList"></div>
+      </article>
     </div>
-    <div class="systems-wrap">
-      <div class="systems-grid" id="systemsGrid"></div>
+
+    <div class="stack">
+      <article class="card">
+        <div class="section-head"><div><div class="section-title">Por vencer</div><div class="count" id="dueCount">0 documentos</div></div></div>
+        <div class="table">
+          <div class="row th"><div>Archivo / Cliente</div><div>Sistema</div><div>Fin</div><div>Estado</div></div>
+          <div id="dueList"></div>
+        </div>
+      </article>
     </div>
-  </section>  
+  </section>
 </main>
 
-  <div class="overlay" id="overlay">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">Agregar certificado PDF</div>
-      <button class="close" id="closeModal" aria-label="Cerrar">×</button>
-    </div>
-
-    <div class="modal-body">
-      <div class="grid">
-        <div class="field">
-          <label class="label">Razón social / nombre</label>
-          <input id="rsInput" class="input" placeholder="Razón social / nombre">
-        </div>
-
-        <div class="row2">
-          <label class="check" id="newWrap">
-            <input type="checkbox" id="isNew">
-            <span>Nuevo</span>
-          </label>
-          <div class="file-meta" id="fileName">Ningún archivo seleccionado</div>
-        </div>
-
-        <div class="field">
-          <label class="label">Archivos PDF</label>
-          <div class="drop" id="dropZone">
-            Arrastra PDFs aquí. Si importas carpeta, el nombre de la carpeta del cliente se tomará automáticamente.
-          </div>
-
-          <input id="fileInput" type="file" accept="application/pdf" multiple hidden>
-          <input id="folderInput" type="file" webkitdirectory directory multiple hidden>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-ghost" id="pickFilesBtn">Elegir PDFs</button>
-          <button class="btn btn-ghost" id="pickFolderBtn">Importar carpeta</button>
-          <button class="btn btn-ghost" id="cancelBtn">Cancelar</button>
-          <button class="btn btn-brand" id="uploadBtn">Subir</button>
-        </div>
-
-        <div class="status" id="statusTxt"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script type="module">
-import{createClient as C}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-const s=C("https://ovfmqqqwezfdtgrtkjhf.supabase.co","sb_publishable_2ftu336Kc06w2I2iTwoIpQ_usfSTNG9"),$=e=>document.querySelector(e),norm=e=>(e||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim(),esc=e=>(e??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])),fmt=e=>{if(!e)return"";try{return new Date(e).toLocaleDateString("es-MX")}catch{return""}},msg=e=>e?.message||e?.error_description||e?.details||"Error desconocido";
-const SYSTEMS=[{name:"CONTPAQi Contabilidad",aliases:["contabilidad","contabiliza"]},{name:"CONTPAQi Bancos",aliases:["bancos"]},{name:"CONTPAQi Nóminas",aliases:["nominas","nóminas"]},{name:"CONTPAQi XML en Línea",aliases:["xml"]},{name:"CONTPAQi Comercial START",aliases:["comercial start","cstart"]},{name:"CONTPAQi Comercial PRO",aliases:["comercial pro"]},{name:"CONTPAQi Comercial PREMIUM",aliases:["comercial premium"]},{name:"CONTPAQi Factura Electrónica",aliases:["factura","factura electronica","factura electrónica"]},{name:"CONTPAQi Evalúa",aliases:["evalua","evalúa"]},{name:"CONTPAQi Analiza",aliases:["analiza"]},{name:"CONTPAQi Vende",aliases:["vende"]},{name:"CONTPAQi Optimiza",aliases:["optimiza"]},{name:"CONTPAQi Anticipa",aliases:["anticipa"]},{name:"CONTPAQi Personia",aliases:["personia"]},{name:"CONTPAQi Contabiliza",aliases:["contabiliza"]}],detect=n=>{const t=norm(n);for(const s of SYSTEMS)for(const a of s.aliases)if(t.includes(norm(a)))return s.name;return""},getFolder=f=>{const p=(f.webkitRelativePath||"").split("/").filter(Boolean);return p.length>=2?p[p.length-2]:""};
-let U=null,CLIENTES=[],DOCS=[],PF=[],FM=false;
-async function protect(){const{data,error}=await s.auth.getSession();if(error||!data?.session){location.href="index.html";return}const{data:u,error:uErr}=await s.auth.getUser();if(uErr||!u?.user){location.href="index.html";return}U=u.user}
-async function log(a,d=null,c=null,det={}){if(!U)return;await s.from("bitacora").insert({usuario_id:U.id,accion:a,documento_id:d,cliente_id:c,detalle:det})}
-async function load(){const[{data:cs,error:ce},{data:ds,error:de}]=await Promise.all([s.from("clientes").select("id,nombre,telefono,correo,comentarios,fecha_creacion").order("fecha_creacion",{ascending:false}),s.from("documentos").select("id,cliente_id,nombre_archivo,url_pdf,sistema,fecha_subida,eliminado,inicio_vigencia,fin_vigencia").order("fecha_subida",{ascending:false})]);CLIENTES=ce?[]:(cs||[]);DOCS=de?[]:(ds||[]).map(x=>({...x,sistema:x.sistema||detect(x.nombre_archivo)}))}
-function matchCliente(c,q){return!q||norm(c.nombre).includes(q)||norm(c.telefono).includes(q)||norm(c.correo).includes(q)||norm(c.comentarios).includes(q)}
-function matchDoc(d,q){return!q||norm(d.nombre_archivo).includes(q)||norm(d.sistema).includes(q)}
-function semaforo(fin){if(!fin)return{txt:"Sin vigencia",cls:""};const days=Math.ceil((new Date(fin)-new Date())/864e5);return days<0?{txt:"Vencido",cls:"bad"}:days<=30?{txt:"Por vencer",cls:"warn"}:{txt:"Vigente",cls:"ok"}}
-function groupedRows(){const q=norm($("#searchInput")?.value||"");return CLIENTES.map(c=>{const docs=DOCS.filter(d=>String(d.cliente_id)===String(c.id)&&!d.eliminado);const docsMatch=docs.filter(d=>matchDoc(d,q));const hitCliente=matchCliente(c,q);if(q&&!hitCliente&&!docsMatch.length)return null;return{cliente:c,docs:q?docsMatch:docs}}).filter(Boolean)}
-async function openPdf(id){const r=DOCS.find(x=>String(x.id)===String(id));if(!r)return;const{data,error}=await s.storage.from("certificados").createSignedUrl(r.url_pdf,3600);if(error||!data?.signedUrl){alert(`No se pudo abrir el PDF: ${msg(error)}`);return}await log("abrir_pdf",r.id,r.cliente_id,{nombre_archivo:r.nombre_archivo});window.open(data.signedUrl,"_blank","noopener")}
-async function docExists(clienteId,nombre){const{data,error}=await s.from("documentos").select("id,nombre_archivo,eliminado").eq("cliente_id",clienteId).eq("eliminado",false).limit(100);if(error)return false;return(data||[]).some(x=>norm(x.nombre_archivo)===norm(nombre))}
-async function resolveCID(nombre,nuevo=true){const t=(nombre||"").trim();if(!t)return null;const hit=(CLIENTES||[]).find(x=>norm(x.nombre)===norm(t));if(hit?.id)return hit.id;if(!nuevo)return null;const{data:d,error:ins}=await s.from("clientes").insert({nombre:t,creado_por:U.id}).select("id,nombre,telefono,correo,comentarios,fecha_creacion").single();if(ins)return null;CLIENTES.unshift(d);await log("crear_cliente_auto",null,d.id,{nombre:t,origen:"dashboard"});return d.id}
-function setFiles(files,isFolder=false){FM=!!isFolder;PF=[...(files||[])].filter(f=>f&&((f.type==="application/pdf")||f.name.toLowerCase().endsWith(".pdf")));const box=$("#fileName");if(box)box.innerHTML=PF.length?PF.map(f=>`<div>${esc(f.webkitRelativePath||f.name)}</div>`).join(""):"Ningún archivo seleccionado"}
-async function upload(){if(!PF.length){alert("Sin archivos PDF");return}let ok=0,fail=0,skip=0;const errs=[];if(FM&&PF.some(f=>f.webkitRelativePath)){const groups={};PF.forEach(f=>{const folder=getFolder(f);if(!folder)return;(groups[folder]||(groups[folder]=[])).push(f)});for(const [folder,files]of Object.entries(groups)){const cid=await resolveCID(folder,true);if(!cid){fail+=files.length;errs.push(`No se pudo resolver cliente: ${folder}`);continue}for(const f of files){if(await docExists(cid,f.name)){skip++;continue}const clean=f.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,""),path=`${cid}/${Date.now()}_${clean}`,{error:up}=await s.storage.from("certificados").upload(path,f,{upsert:false,contentType:"application/pdf"});if(up){fail++;errs.push(`${f.name}: ${msg(up)}`);continue}const sistema=detect(f.name),{data,error:db}=await s.from("documentos").insert({cliente_id:cid,nombre_archivo:f.name,url_pdf:path,sistema,subido_por:U.id}).select("id,cliente_id,nombre_archivo,url_pdf,sistema,fecha_subida,eliminado,inicio_vigencia,fin_vigencia").single();if(db){fail++;errs.push(`${f.name}: ${msg(db)}`);await s.storage.from("certificados").remove([path]);continue}DOCS.unshift({...data,sistema:data.sistema||detect(data.nombre_archivo)});await log("subir_pdf",data?.id||null,cid,{nombre_archivo:f.name,sistema,origen:"carpeta"});ok++}}}else{const nombre=$("#rsInput")?.value.trim()||"";if(!nombre){alert("Captura Razón social / nombre");return}const cid=await resolveCID(nombre,$("#isNew")?.checked??true);if(!cid){alert('Ese cliente no existe o no se pudo crear. Marca "Nuevo" para crearlo.');return}for(const f of PF){if(await docExists(cid,f.name)){skip++;continue}const clean=f.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,""),path=`${cid}/${Date.now()}_${clean}`,{error:up}=await s.storage.from("certificados").upload(path,f,{upsert:false,contentType:"application/pdf"});if(up){fail++;errs.push(`${f.name}: ${msg(up)}`);continue}const sistema=detect(f.name),{data,error:db}=await s.from("documentos").insert({cliente_id:cid,nombre_archivo:f.name,url_pdf:path,sistema,subido_por:U.id}).select("id,cliente_id,nombre_archivo,url_pdf,sistema,fecha_subida,eliminado,inicio_vigencia,fin_vigencia").single();if(db){fail++;errs.push(`${f.name}: ${msg(db)}`);await s.storage.from("certificados").remove([path]);continue}DOCS.unshift({...data,sistema:data.sistema||detect(data.nombre_archivo)});await log("subir_pdf",data?.id||null,cid,{nombre_archivo:f.name,sistema,origen:"manual"});ok++}}alert(`Correctos: ${ok} | Duplicados omitidos: ${skip} | Fallidos: ${fail}${errs.length?`\n\n${errs.slice(0,6).join("\n")}`:""}`);render()}
-function render(){const list=$("#resultsList"),count=$("#resultsCount");if(!list)return;const r=groupedRows();if(count)count.textContent=`${r.length} cliente${r.length===1?"":"s"}`;list.innerHTML=r.length?r.map(({cliente,docs})=>`<article class="pdf-item"><div class="pdf-top"><div><div class="pdf-name">${esc(cliente.nombre||"Sin nombre")}</div><div class="pdf-meta">${cliente.telefono?esc(cliente.telefono)+" · ":""}${cliente.correo?esc(cliente.correo):""}</div>${cliente.comentarios?`<div class="pdf-meta">${esc(cliente.comentarios)}</div>`:""}<div class="tags"><span class="tag">${docs.length} PDF${docs.length===1?"":"s"}</span></div></div><div class="pdf-actions"><a class="btn-mini" href="cliente.html?id=${cliente.id}">Ver cliente</a></div></div><div class="results-sublist">${docs.length?docs.map(d=>{const st=semaforo(d.fin_vigencia);return`<article class="pdf-item" style="margin-top:10px"><div class="pdf-top"><div><div class="pdf-name">${esc(d.nombre_archivo)}</div><div class="pdf-meta">${d.sistema?esc(d.sistema)+" · ":""}${d.fecha_subida?fmt(d.fecha_subida):""}${d.fin_vigencia?` · Fin: ${fmt(d.fin_vigencia)}`:""}</div><div class="tags"><span class="tag ${st.cls}">${st.txt}</span></div></div><div class="pdf-actions"><button class="btn-mini" data-open="${d.id}">Abrir PDF</button></div></div></article>`}).join(""):'<div class="empty" style="margin-top:10px">Sin certificados todavía.</div>'}</div></article>`).join(""):'<div class="empty">Sin resultados.</div>';list.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openPdf(b.dataset.open))}
-$("#searchBtn")?.addEventListener("click",render);$("#searchInput")?.addEventListener("input",render);$("#searchInput")?.addEventListener("keydown",e=>{if(e.key==="Enter")render()});$("#uploadBtn")?.addEventListener("click",upload);$("#fileInput")&&($("#fileInput").onchange=e=>setFiles(e.target.files,false));$("#folderInput")&&($("#folderInput").onchange=e=>setFiles(e.target.files,true));$("#pickFilesBtn")?.addEventListener("click",()=>$("#fileInput")?.click());$("#pickFolderBtn")?.addEventListener("click",()=>$("#folderInput")?.click());
-await protect();await load();render();
-</script>
+import{supabase as s,guardSession}from"./supabase.js";
 
-</body>
-</html>
+const $=q=>document.querySelector(q),
+kpiClientes=$("#kpiClientes"),kpiDocs=$("#kpiDocs"),kpiVigentes=$("#kpiVigentes"),
+kpiPorVencer=$("#kpiPorVencer"),kpiVencidos=$("#kpiVencidos"),
+recentList=$("#recentList"),recentCount=$("#recentCount"),
+activityList=$("#activityList"),activityCount=$("#activityCount"),
+dueList=$("#dueList"),dueCount=$("#dueCount"),
+refreshBtn=$("#refreshBtn"),searchInput=$("#searchInput"),statusFilter=$("#statusFilter");
+
+let docs=[],logs=[],clientes=[];
+
+const esc=v=>(v??"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])),
+norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim(),
+fmt=v=>{if(!v)return"—";try{return new Date(v).toLocaleDateString("es-MX")}catch{return"—"}},
+getErr=e=>e?.message||e?.error_description||e?.details||"Error";
+
+function estado(fin){
+  if(!fin)return"sin_vigencia";
+  const d=Math.ceil((new Date(fin)-new Date())/86400000);
+  return d<0?"vencido":d<=30?"por_vencer":"vigente";
+}
+function badgeClass(st){return st==="vigente"?"ok":st==="por_vencer"?"warn":st==="vencido"?"err":""}
+function badgeText(st){return st==="vigente"?"Vigente":st==="por_vencer"?"Por vencer":st==="vencido"?"Vencido":"Sin vigencia"}
+
+async function protect(){
+  const auth=await guardSession("index.html");
+  if(!auth)throw new Error("Sin sesión");
+}
+
+async function loadKPIs(){
+  const [{count:clientesCount,error:e1},{count:docsCount,error:e2},{count:vigCount,error:e3},{count:pvCount,error:e4},{count:venCount,error:e5}]=await Promise.all([
+    s.from("clientes").select("*",{count:"exact",head:true}),
+    s.from("documentos").select("*",{count:"exact",head:true}).eq("eliminado",false),
+    s.from("documentos_estado_view").select("*",{count:"exact",head:true}).eq("estado_vigencia_calc","vigente"),
+    s.from("documentos_estado_view").select("*",{count:"exact",head:true}).eq("estado_vigencia_calc","por_vencer"),
+    s.from("documentos_estado_view").select("*",{count:"exact",head:true}).eq("estado_vigencia_calc","vencido")
+  ]).then(r=>r.map(x=>({count:x.count||0,error:x.error})));
+
+  if(e1||e2||e3||e4||e5)console.error(e1||e2||e3||e4||e5);
+
+  kpiClientes.textContent=clientesCount||0;
+  kpiDocs.textContent=docsCount||0;
+  kpiVigentes.textContent=vigCount||0;
+  kpiPorVencer.textContent=pvCount||0;
+  kpiVencidos.textContent=venCount||0;
+}
+
+async function loadDocs(){
+  const {data,error}=await s.from("documentos").select("id,cliente_id,nombre_archivo,sistema,fecha_subida,fin_vigencia,eliminado,clientes(nombre)").eq("eliminado",false).order("fecha_subida",{ascending:false}).limit(100);
+  if(error){
+    recentList.innerHTML=`<div class="empty">Error cargando documentos: ${esc(getErr(error))}</div>`;
+    dueList.innerHTML="";
+    return;
+  }
+  docs=(data||[]).map(x=>({...x,cliente_nombre:x.clientes?.nombre||""}));
+  renderRecent();
+  renderDue();
+}
+
+async function loadLogs(){
+  const {data,error}=await s.from("bitacora_view").select("*").limit(20);
+  if(error){
+    activityList.innerHTML=`<div class="empty">Error cargando actividad: ${esc(getErr(error))}</div>`;
+    return;
+  }
+  logs=data||[];
+  renderActivity();
+}
+
+function filteredDocs(){
+  const q=norm(searchInput.value),st=statusFilter.value;
+  return docs.filter(x=>{
+    const okQ=!q||norm(x.nombre_archivo).includes(q)||norm(x.cliente_nombre).includes(q)||norm(x.sistema).includes(q);
+    const est=estado(x.fin_vigencia);
+    const okSt=!st||est===st;
+    return okQ&&okSt;
+  });
+}
+
+function renderRecent(){
+  const rows=filteredDocs().slice(0,12);
+  recentCount.textContent=`${rows.length} elementos`;
+  if(!rows.length){recentList.innerHTML='<div class="empty">Sin resultados.</div>';return}
+  recentList.innerHTML=rows.map(x=>{
+    const st=estado(x.fin_vigencia);
+    return `<article class="item"><div class="item-title">${esc(x.nombre_archivo||"PDF")}</div><div class="item-meta">${esc(x.cliente_nombre||"Sin cliente")} · ${esc(x.sistema||"Sin sistema")} · Subido: ${fmt(x.fecha_subida)}${x.fin_vigencia?` · Fin: ${fmt(x.fin_vigencia)}`:""}</div><div class="tags"><span class="tag ${badgeClass(st)}">${badgeText(st)}</span><a class="btn" href="cliente.html?id=${x.cliente_id}">Ver cliente</a></div></article>`;
+  }).join("");
+}
+
+function renderDue(){
+  const rows=filteredDocs().filter(x=>["por_vencer","vencido"].includes(estado(x.fin_vigencia))).sort((a,b)=>{
+    const da=a.fin_vigencia?new Date(a.fin_vigencia).getTime():0,db=b.fin_vigencia?new Date(b.fin_vigencia).getTime():0;
+    return da-db;
+  }).slice(0,20);
+  dueCount.textContent=`${rows.length} documentos`;
+  if(!rows.length){dueList.innerHTML='<div class="empty">Sin documentos por vencer.</div>';return}
+  dueList.innerHTML=rows.map(x=>{
+    const st=estado(x.fin_vigencia);
+    return `<div class="row"><div><div><strong>${esc(x.nombre_archivo||"PDF")}</strong></div><div class="mut">${esc(x.cliente_nombre||"Sin cliente")}</div></div><div>${esc(x.sistema||"—")}</div><div>${fmt(x.fin_vigencia)}</div><div><span class="tag ${badgeClass(st)}">${badgeText(st)}</span></div></div>`;
+  }).join("");
+}
+
+function renderActivity(){
+  activityCount.textContent=`${logs.length} movimientos`;
+  if(!logs.length){activityList.innerHTML='<div class="empty">Sin actividad reciente.</div>';return}
+  activityList.innerHTML=logs.map(l=>`<article class="item"><div class="item-title">${esc(l.accion||"Acción")}</div><div class="item-meta">${esc(l.usuario_nombre||"Usuario")} · ${esc(l.usuario_rol||"rol")} · ${fmt(l.fecha)}</div>${l.detalle?`<div class="item-meta">${esc(JSON.stringify(l.detalle))}</div>`:""}</article>`).join("");
+}
+
+function bindUI(){
+  refreshBtn.onclick=init;
+  searchInput.addEventListener("input",()=>{renderRecent();renderDue()});
+  statusFilter.onchange=()=>{renderRecent();renderDue()};
+}
+
+async function init(){
+  await loadKPIs();
+  await Promise.all([loadDocs(),loadLogs()]);
+}
+
+bindUI();
+await protect();
+await init();
+</script>
+</body></html>
+
