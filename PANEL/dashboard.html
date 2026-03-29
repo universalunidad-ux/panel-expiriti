@@ -22,7 +22,7 @@
  
 <section class="sections dash-main"><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Control rápido</div><div class="count" id="resultsCount">0 clientes</div></div><div class="toolbar"><button class="btn" id="searchBtn">Buscar</button><button class="btn" id="clearBtn">Limpiar</button><button class="btn" id="newTicketTopBtn">Nuevo ticket</button><button class="btn" id="addBtn">Subir PDFs</button><select class="select" id="themeSelect"><option value="light">Claro</option><option value="dark">Oscuro</option></select><button class="btn" id="logoutBtn">Salir</button></div></div><div class="mini-grid"><div class="subgrid"><div class="section-title" style="font-size:15px">Favoritas</div><div class="quick-list" id="quickList"></div></div><div class="subgrid"><div class="section-title" style="font-size:15px">Urgentes</div><div class="quick-list" id="urgentList"></div></div></div></article><article class="card" id="systemsWrap"><div class="section-head"><div><div class="section-title">Sistemas y certificados</div><div class="count" id="activeSystemLabel">Selecciona un cliente o busca uno</div></div><div class="tags"><span class="tag" id="systemsCount">0 sistemas</span></div></div><div class="systems-grid" id="systemsGrid"></div></article></div><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Clientes / CRM</div><div class="count">Vista detallada</div></div></div><div class="results-list" id="resultsList"></div></article></div></section>
  
-<div class="overlay" id="overlay"><div class="modal"><div class="modal-head"><div><div class="modal-title">Subir PDFs</div><div class="muted-sm">Manual o por carpeta</div></div><button class="close-x" id="closeModal">×</button></div><div class="form-grid cols"><div class="form-grid"><input class="input" id="rsInput" placeholder="Nombre / Razón Social del cliente (obligatorio en carga manual)"><label class="check"><input type="checkbox" id="isNew"> Crear cliente si no existe</label><div class="dropzone" id="dropZone"><div><strong>Arrastra PDFs aquí</strong><div class="help">o usa los botones de abajo</div></div></div><div class="toolbar"><button class="btn" id="pickFilesBtn">Elegir archivos</button><button class="btn" id="pickFolderBtn">Elegir carpeta</button></div><input id="fileInput" type="file" accept="application/pdf,.pdf" multiple hidden><input id="folderInput" type="file" webkitdirectory directory multiple hidden></div><div class="form-grid"><div class="file-name" id="fileName">Ningún archivo seleccionado</div><div class="help" id="statusTxt">Listo para subir.</div><div class="toolbar"><button class="btn btn-brand" id="uploadBtn">Subir</button><button class="btn" id="cancelBtn">Cancelar</button></div></div></div></div></div>
+<div class="overlay" id="overlay"><div class="modal"><div class="modal-head"><div><div class="modal-title">Subir PDFs</div><div class="muted-sm">Manual o por carpeta</div></div><button class="close-x" id="closeModal">×</button></div><div class="form-grid cols"><div class="form-grid"><input class="input" id="rsInput" placeholder="Nombre / Razón Social del cliente (obligatorio en carga manual)"><label class="check"><input type="checkbox" id="isNew"> Crear cliente si no existe</label><div class="dropzone" id="dropZone"><div><strong>Arrastra PDF o carpeta aquí</strong><div class="help">o usa los botones de abajo</div></div></div><div class="toolbar"><button class="btn" id="pickFilesBtn">Elegir archivos</button><button class="btn" id="pickFolderBtn">Elegir carpeta</button></div><input id="fileInput" type="file" accept="application/pdf,.pdf" multiple hidden><input id="folderInput" type="file" webkitdirectory directory multiple hidden></div><div class="form-grid"><div class="file-name" id="fileName">Ningún archivo seleccionado</div><div class="help" id="statusTxt">Listo para subir.</div><div class="toolbar"><button class="btn btn-brand" id="uploadBtn">Subir</button><button class="btn" id="cancelBtn">Cancelar</button></div></div></div></div></div>
 
 <div class="overlay" id="ticketOverlay"><div class="modal"><div class="modal-head"><div><div class="modal-title">Nuevo ticket</div><div class="muted-sm">Alta rápida</div></div><button class="close-x" id="closeTicketModal">×</button></div><div class="form-grid"><input class="input" id="ticketClienteNombre" placeholder="Cliente" readonly><input class="input" id="ticketTitulo" placeholder="Título"><textarea class="input" id="ticketDescripcion" placeholder="Descripción" rows="5"></textarea><div class="form-grid cols"><select class="select" id="ticketTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="ticketPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="help" id="ticketStatus">Completa los datos.</div><div class="toolbar"><button class="btn btn-brand" id="saveTicketBtn">Guardar ticket</button><button class="btn" id="cancelTicketBtn">Cancelar</button></div></div></div></div>
  <aside class="polizas-side" id="polizasSide"><button class="polizas-tab" id="polizasTab">Pólizas</button><section class="polizas-panel" id="polizasPanel"><div class="section-head"><div><div class="section-title">Pólizas de soporte</div><div class="count" id="polizasCount">0 clientes</div></div><button class="btn-mini" id="closePolizasBtn">Cerrar</button></div><div class="list" id="polizasList"></div></section></aside>
@@ -196,47 +196,142 @@ async function cid(nombre,nuevo=true){
 
 function setFiles(files,folderMode=0){
   FM=!!folderMode;
-  PF=[...(files||[])].filter(f=>f&&((f.type==="application/pdf")||f.name.toLowerCase().endsWith(".pdf")));
-  setHtml("#fileName",PF.length?PF.map(f=>`<div>${e(f.webkitRelativePath||f.name)}</div>`).join(""):"Ningún archivo seleccionado");
+  const all=[...(files||[])].filter(Boolean);
+  const pdfs=all.filter(f=>(f.type==="application/pdf")||f.name.toLowerCase().endsWith(".pdf"));
+  const nonPdfs=all.filter(f=>!((f.type==="application/pdf")||f.name.toLowerCase().endsWith(".pdf")));
+  PF=pdfs;
+
+  const pdfList=pdfs.length
+    ? pdfs.slice(0,120).map(f=>`<div>PDF · ${e(f.webkitRelativePath||f.name)}</div>`).join("")
+    : "<div>No se detectaron PDFs válidos.</div>";
+
+  const badList=nonPdfs.length
+    ? `<hr style="border-color:rgba(255,255,255,.08)"><div style="color:#fca5a5;font-weight:700">Ignorados (${nonPdfs.length}):</div>${nonPdfs.slice(0,120).map(f=>`<div style="color:#fca5a5">NO PERMITIDO · ${e(f.webkitRelativePath||f.name)}</div>`).join("")}`
+    : "";
+
+  setHtml("#fileName",pdfList+badList);
+
+  if(!pdfs.length){
+    setTxt("#statusTxt","No hay PDFs válidos para subir.");
+    return;
+  }
+
+  setTxt(
+    "#statusTxt",
+    nonPdfs.length
+      ? `Se detectaron ${pdfs.length} PDF(s) válidos y ${nonPdfs.length} archivo(s) no permitido(s). Los no PDF no se subirán.`
+      : `${pdfs.length} PDF(s) listos para subir.`
+  );
 }
 
 async function upload(){
   const canUpload=["admin","ventas","soporte"].includes(n(P?.rol));
   if(!canUpload)return alert("Tu usuario no puede subir certificados.");
-  if(!PF.length)return alert("Sin archivos PDF");
-  setTxt("#statusTxt","Subiendo PDFs...");
+  if(!PF.length)return alert("No hay PDFs válidos para subir.");
+
+  setTxt("#statusTxt","Procesando carga...");
   let ok=0,fail=0,skip=0,errs=[];
-  const jobs=FM&&PF.some(f=>f.webkitRelativePath)?Object.entries(PF.reduce((a,f)=>{const k=folder(f);if(k)(a[k]||(a[k]=[])).push(f);return a},{})):[[($("#rsInput")?.value||"").trim(),PF]];
-  for(const [nom,files] of jobs){
-    const x=await cid(nom,FM||($("#isNew")?.checked));
-    if(x==="__MISSING_NAME__"){fail+=files.length;errs.push("Escribe Nombre / razón social para asociar los PDFs al cliente.");continue}
-    if(x==="__NOT_FOUND__"){fail+=files.length;errs.push(`El cliente "${nom}" no existe. Marca "Crear cliente si no existe".`);continue}
-    if(String(x).startsWith("__ERR__:")){fail+=files.length;errs.push(`Cliente "${nom}": ${String(x).replace("__ERR__:","")}`);continue}
+
+  const jobs=FM&&PF.some(f=>f.webkitRelativePath)
+    ? Object.entries(
+        PF.reduce((acc,f)=>{
+          const k=folder(f);
+          if(k)(acc[k]||(acc[k]=[])).push(f);
+          return acc;
+        },{})
+      )
+    : [[($("#rsInput")?.value||"").trim(),PF]];
+
+  for(const [rawName,files] of jobs){
+    const nombreCliente=(rawName||"").trim();
+    const clienteId=await cid(nombreCliente,FM||($("#isNew")?.checked));
+
+    if(clienteId==="__MISSING_NAME__"){
+      fail+=files.length;
+      errs.push(FM
+        ? "Se detectó una carpeta sin nombre válido para crear cliente."
+        : "Escribe Nombre / razón social para asociar los PDFs.");
+      continue;
+    }
+    if(clienteId==="__NOT_FOUND__"){
+      fail+=files.length;
+      errs.push(`El cliente "${nombreCliente}" no existe. Marca "Crear cliente si no existe" o usa un nombre existente.`);
+      continue;
+    }
+    if(String(clienteId).startsWith("__ERR__:")){
+      fail+=files.length;
+      errs.push(`Cliente "${nombreCliente}": ${String(clienteId).replace("__ERR__:","")}`);
+      continue;
+    }
+
     for(const file of files){
-      if(await exists(x,file.name)){skip++;continue}
-      const clean=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,""),
-      normName=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9._-]+/g,"_"),
-      path=`${x}/${Date.now()}_${clean}`;
-      const {error:up}=await s.storage.from("certificados").upload(path,file,{upsert:false,contentType:"application/pdf"});
-      if(up){fail++;errs.push(`${file.name}: STORAGE ${m(up)}`);continue}
-      const payload={cliente_id:x,nombre_archivo:file.name,nombre_archivo_norm:normName,url_pdf:path,storage_path:path,sistema:detect(file.name)||"",subido_por:U.id,tamano_bytes:file.size||null,mime_type:file.type||"application/pdf"};
-      const ins=await s.from("documentos").insert(payload).select("*").single();
-      if(ins.error){fail++;errs.push(`${file.name}: DB ${m(ins.error)}`);try{await s.storage.from("certificados").remove([path])}catch{}continue}
-      D.unshift(ins.data);
-      await la({accion:"subir_pdf",documento_id:ins.data?.id||null,cliente_id:x,detalle:{nombre_archivo:file.name,sistema:payload.sistema,origen:FM?"carpeta":"manual"}});
-      ok++;
+      try{
+        if(await exists(clienteId,file.name)){skip++;continue}
+
+        const clean=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,""),
+        normName=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9._-]+/g,"_"),
+        path=`${clienteId}/${Date.now()}_${clean}`;
+
+        const {error:up}=await s.storage.from("certificados").upload(path,file,{upsert:false,contentType:"application/pdf"});
+        if(up){
+          fail++;
+          errs.push(`${nombreCliente||"Sin cliente"} / ${file.name}: STORAGE ${m(up)}`);
+          continue;
+        }
+
+        const payload={
+          cliente_id:clienteId,
+          nombre_archivo:file.name,
+          nombre_archivo_norm:normName,
+          url_pdf:path,
+          storage_path:path,
+          sistema:detect(file.name)||"",
+          subido_por:U.id,
+          tamano_bytes:file.size||null,
+          mime_type:file.type||"application/pdf"
+        };
+
+        const ins=await s.from("documentos").insert(payload).select("*").single();
+        if(ins.error){
+          fail++;
+          errs.push(`${nombreCliente||"Sin cliente"} / ${file.name}: DB ${m(ins.error)}`);
+          try{await s.storage.from("certificados").remove([path])}catch{}
+          continue;
+        }
+
+        D.unshift(ins.data);
+        await la({
+          accion:"subir_pdf",
+          documento_id:ins.data?.id||null,
+          cliente_id:clienteId,
+          detalle:{
+            nombre_archivo:file.name,
+            sistema:payload.sistema,
+            cliente_origen:FM?nombreCliente:(($("#rsInput")?.value||"").trim()),
+            origen:FM?"carpeta":"archivo"
+          }
+        });
+        ok++;
+      }catch(ex){
+        fail++;
+        errs.push(`${nombreCliente||"Sin cliente"} / ${file.name}: ${m(ex)}`);
+      }
     }
   }
+
   setTxt("#statusTxt",`Correctos: ${ok} | Duplicados: ${skip} | Fallidos: ${fail}`);
-  alert(`Correctos: ${ok} | Duplicados omitidos: ${skip} | Fallidos: ${fail}${errs.length?`\n\n${errs.slice(0,8).join("\n")}`:""}`);
+  alert(`Correctos: ${ok} | Duplicados omitidos: ${skip} | Fallidos: ${fail}${errs.length?`\n\n${errs.slice(0,12).join("\n")}`:""}`);
+
   if(!fail){
     $("#overlay")?.classList.remove("open");
     PF=[];
-    $("#fileInput").value="";
-    $("#folderInput").value="";
+    FM=false;
+    $("#folderInput")&&($("#folderInput").value="");
+    $("#fileInput")&&($("#fileInput").value="");
+    $("#rsInput")&&($("#rsInput").value="");
     setHtml("#fileName","Ningún archivo seleccionado");
-    $("#rsInput").value="";
   }
+
   renderAll();
   renderOps();
 }
