@@ -2,7 +2,7 @@
 :root{--bg:#070b12;--panel:#0f1724;--line:rgba(255,255,255,.08);--text:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--warn:#f59e0b;--danger:#ef4444;--ok:#22c55e}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}.topbar{position:sticky;top:0;z-index:20;background:rgba(7,11,18,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topbar-inner{max-width:1200px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:20px}.top-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#121b2a;color:var(--text);padding:10px 14px;border-radius:12px;text-decoration:none;cursor:pointer}.btn-brand{background:var(--brand);color:#04110e;border:none;font-weight:800}.wrap{max-width:1200px;margin:auto;padding:18px}.grid-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.kpi-label{font-size:13px;color:var(--mut);margin-bottom:8px}.kpi-value{font-size:30px;font-weight:900;line-height:1}.kpi-sub{margin-top:8px;color:var(--mut);font-size:12px}.sections{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}.stack{display:grid;gap:14px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-title{font-size:18px;font-weight:900}.count{font-size:13px;color:var(--mut)}.list{display:grid;gap:10px}.item{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02)}.item-title{font-weight:800}.item-meta{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid var(--line);background:rgba(255,255,255,.03)}.tag.ok{color:#86efac}.tag.warn{color:#fcd34d}.tag.err{color:#fca5a5}.empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--mut)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.input,.select{background:#0b1220;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px}.table{display:grid;gap:10px}.row{display:grid;grid-template-columns:1.2fr .9fr .7fr .6fr;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}.th{font-size:12px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.04em}.mut{color:var(--mut)}@media(max-width:1100px){.grid-kpi{grid-template-columns:repeat(3,1fr)}.sections{grid-template-columns:1fr}}@media(max-width:780px){.grid-kpi{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}.topbar-inner{align-items:flex-start;flex-direction:column}}
 </style></head><body>
-<header class="topbar"><div class="topbar-inner"><div class="brand">Dashboard interno</div><div class="top-actions"><a class="btn" href="clientes.html">Clientes</a><a class="btn" href="cliente.html">Detalle cliente</a><button class="btn btn-brand" id="refreshBtn">Actualizar</button></div></div></header>
+<header class="topbar"><div class="topbar-inner"><div class="brand">Dashboard interno</div><div class="top-actions"><a class="btn" href="clientes.html">Clientes</a><a class="btn" href="clientes.html">Detalle cliente</a><button class="btn btn-brand" id="refreshBtn">Actualizar</button></div></div></header>
 <main class="wrap">
   <div class="toolbar">
     <input class="input" id="searchInput" placeholder="Buscar cliente o archivo">
@@ -49,8 +49,7 @@ function clientDocs(id){return D.filter(x=>String(x.cliente_id)===String(id)&&!x
 function clientTickets(id){return T.filter(x=>String(x.cliente_id)===String(id))}
 function ticketWeight(t){return t?.prioridad==="urgente"?4:t?.prioridad==="alta"?3:t?.prioridad==="media"?2:1}
 function setThemeValue(v){const val=v==="dark"?"dark":"light";ap(val);localStorage.setItem("expiriti_theme",val);$("#themeSelect")&&($("#themeSelect").value=val)}
-function renderQuickPanels(){const pol=POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean),urg=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))&&n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setHtml("#quickList",pol.length?pol.map(c=>`<div class="item"><div class="item-title">${e(c.nombre||"Cliente")}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin clientes póliza</div>');setHtml("#urgentList",urg.length?urg.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Urgente")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin urgentes</div>')}
- function openTicketsRepo(monthOffset=0,clienteId=null){const now=new Date(),start=new Date(now.getFullYear(),now.getMonth()+monthOffset,1),end=new Date(now.getFullYear(),now.getMonth()+monthOffset+1,1),list=T.filter(t=>{const dt=new Date(t.fecha_creacion||t.fecha_actualizacion||0);return dt>=start&&dt<end&&(!clienteId||String(t.cliente_id)===String(clienteId))}).sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setTxt("#repoTitle",clienteId?"Tickets del cliente":"Repositorio global de tickets");setTxt("#repoSub",`${start.toLocaleDateString("es-MX",{month:"long",year:"numeric"})} · ${list.length} ticket(s)`);setHtml("#repoList",list.length?list.map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets en ese periodo</div>');$("#repoOverlay")?.classList.add("open")}
+function openTicketsRepo(monthOffset=0,clienteId=null){const now=new Date(),start=new Date(now.getFullYear(),now.getMonth()+monthOffset,1),end=new Date(now.getFullYear(),now.getMonth()+monthOffset+1,1),list=T.filter(t=>{const dt=new Date(t.fecha_creacion||t.fecha_actualizacion||0);return dt>=start&&dt<end&&(!clienteId||String(t.cliente_id)===String(clienteId))}).sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setTxt("#repoTitle",clienteId?`Tickets de ${byId(C,clienteId)?.nombre||"cliente"}`:"Repositorio global de tickets");setTxt("#repoSub",`${start.toLocaleDateString("es-MX",{month:"long",year:"numeric"})} · ${list.length} ticket(s)`);setHtml("#repoList",list.length?list.map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")} · ${f(t.fecha_actualizacion||t.fecha_creacion)||""}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ver cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets en ese periodo</div>');$("#repoOverlay")?.classList.add("open")}
  
 async function boot(){
   const auth=await g("index.html");
@@ -83,7 +82,8 @@ async function load(){
     alert(m(err));
   }
 }
-const POLIZA_CLIENTS=["GRUPO DE MEDIOS ESPECIALIZADO MÉXICO MEDIA","AUNA SEGUROS","BCA","STRM","FUCASA FUNDIDORA DE CANANEA","ORVA","HORECA ADMINISTRADORA","JANOME","OLARTE Y AKLE BACTERIOLOGOS","ARTHROS SUPPLY","GEPIC","GOYTIA Y ASOCIADOS","PROMETEO LEGAL","JAVELINA","INGENIERÍAS ELDEPCI","LANZER NOVARUM","GRAFICOLOR"];function renderQuickPanels(){const pol=POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean),urg=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))&&n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setHtml("#quickList",pol.length?pol.map(c=>`<div class="item"><div class="item-title">${e(c.nombre||"Cliente")}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin clientes póliza</div>');setHtml("#urgentList",urg.length?urg.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Urgente")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin urgentes</div>')}
+const POLIZA_CLIENTS=["GRUPO DE MEDIOS ESPECIALIZADO MÉXICO MEDIA","AUNA SEGUROS","BCA","STRM","FUCASA FUNDIDORA DE CANANEA","ORVA","HORECA ADMINISTRADORA","JANOME","OLARTE Y AKLE BACTERIOLOGOS","ARTHROS SUPPLY","GEPIC","GOYTIA Y ASOCIADOS","PROMETEO LEGAL","JAVELINA","INGENIERÍAS ELDEPCI","LANZER NOVARUM","GRAFICOLOR"];
+ function renderQuickPanels(){const pol=POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean),urg=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))&&n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setHtml("#quickList",pol.length?pol.map(c=>`<div class="item"><div class="item-title">${e(c.nombre||"Cliente")}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Ver cliente</button><button class="btn" data-act="repo_client" data-id="${c.id}">Ver tickets</button></div></div>`).join(""):'<div class="empty">Sin clientes póliza</div>');setHtml("#urgentList",urg.length?urg.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Urgente")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ver cliente</button><button class="btn" data-act="repo_client" data-id="${t.cliente_id}">Ver tickets</button></div></div>`).join(""):'<div class="empty">Sin urgentes</div>')}
  
 function rows(){
   const q=n($("#searchInput")?.value||""),sf=n($("#statusFilter")?.value||"");
@@ -94,41 +94,11 @@ function rows(){
   }).filter(x=>x.ok).filter(x=>!sf||x.d.some(d=>sem(d.fin_vigencia).t.toLowerCase().replaceAll(" ","_")===sf));
 }
 
-function renderAll(){
-  const r=rows(),activeDocs=D.filter(d=>!d.eliminado),openTickets=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado)));
-  setTxt("#resultsCount",`${r.length} clientes`);
-  setTxt("#ticketsCount",`${openTickets.length} tickets`);
-  setTxt("#activityCount",`${L.length} movimientos`);
-  setTxt("#systemsCount",`${new Set(activeDocs.map(d=>d.sistema).filter(Boolean)).size} sistemas`);
+function renderAll(){const r=rows(),openTickets=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado)));setTxt("#resultsCount",`${r.length} cliente(s)`);setTxt("#ticketsCount",`${openTickets.length} tickets`);setTxt("#activityCount",`${L.length} movimientos`);setHtml("#resultsList",r.length?r.slice(0,40).map(({c,d,t})=>`<article class="item"><div class="item-title">${e(c.nombre||"Sin nombre")}</div><div class="item-meta">${[c.telefono,c.correo].filter(Boolean).map(e).join(" · ")||"Sin contacto"} · ${d.length} PDF(s) · ${t.length} ticket(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Ver cliente</button><button class="btn" data-act="repo_client" data-id="${c.id}">Ver tickets</button><button class="btn" data-act="ticket" data-id="${c.id}">Nuevo ticket</button></div></article>`).join(""):'<div class="empty">Sin resultados</div>');setHtml("#ticketsList",openTickets.length?openTickets.slice(0,10).sort((a,b)=>ticketWeight(b)-ticketWeight(a)).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")} · ${f(t.fecha_actualizacion||t.fecha_creacion)||""}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ver cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets</div>');setHtml("#activityList",L.length?L.slice(0,10).map(x=>`<div class="item"><div class="item-title">${e(x.accion||"Movimiento")}</div><div class="item-meta">${e(x.cliente_nombre||"Sin cliente")} · ${f(x.fecha)||""}</div></div>`).join(""):'<div class="empty">Sin actividad</div>');renderQuickPanels()}
+ 
 
-  setHtml("#resultsList",r.length?r.map(({c,d,t})=>{
-    const topDoc=d[0],chips=[];
-    if(c.favorito)chips.push(`<span class="tag">Favorito</span>`);
-    chips.push(`<span class="tag">${d.length} PDFs</span>`);
-    chips.push(`<span class="tag">${t.length} tickets</span>`);
-    if(topDoc?.numero_serie)chips.push(`<span class="tag">Serie ${e(topDoc.numero_serie)}</span>`);
-    return `<article class="item"><div class="section-head"><div><div class="item-title">${e(c.nombre||"Sin nombre")}</div><div class="item-meta">${[c.telefono,c.correo].filter(Boolean).map(e).join(" · ")||"Sin contacto"}</div></div><div class="toolbar"><button class="btn" data-act="fav" data-id="${c.id}">${c.favorito?"★":"☆"}</button><button class="btn" data-act="ticket" data-id="${c.id}">Ticket</button><button class="btn" data-act="focus" data-id="${c.id}">Ver</button></div></div><div class="tags">${chips.join("")}</div></article>`;
-  }).join(""):'<div class="empty">Sin resultados</div>');
-
-  setHtml("#activityList",L.length?L.slice(0,10).map(x=>`<div class="item"><div class="item-title">${e(x.accion||"Movimiento")}</div><div class="item-meta">${e(x.cliente_nombre||"Sin cliente")} · ${f(x.fecha)||""}</div></div>`).join(""):'<div class="empty">Sin actividad</div>');
-
-  setHtml("#ticketsList",openTickets.length?openTickets.slice(0,10).sort((a,b)=>ticketWeight(b)-ticketWeight(a)).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")} · ${f(t.fecha_actualizacion||t.fecha_creacion)||""}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ir a cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets</div>');
-
-}
-
-
-function renderOps(){
-  const docs=rows().flatMap(x=>x.d).filter(d=>!AS||d.sistema===AS),today=Date.now(),late=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()<today),soon=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()>=today&&Math.ceil((new Date(d.fin_vigencia)-today)/864e5)<=30),openT=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))),urgentTickets=openT.filter(t=>n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0)),radarTickets=openT.filter(t=>{const p=n(t.prioridad),dt=new Date(t.fecha_actualizacion||t.fecha_creacion||0).getTime();return (p==="urgente"||p==="alta")&&dt>=today-14*864e5}).sort((a,b)=>ticketWeight(b)-ticketWeight(a)),polizas=docs.filter(d=>n(d.tipo_licencia).includes("poliza")||n(d.nombre_archivo).includes("poliza"));
-  setTxt("#radarCount",`${radarTickets.length} casos · urgentes + altas recientes`);
-  setTxt("#lateCount",`${late.length} documentos`);
-  setTxt("#dueCount",`${soon.length} documentos`);
-  setTxt("#polizasCount",`${polizas.length} documentos`);
-  setHtml("#radarList",radarTickets.length?radarTickets.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Ticket")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Cliente</button></div></div>`).join(""):'<div class="empty">Sin casos</div>');
-  setHtml("#lateList",late.length?late.slice(0,8).map(d=>`<div class="item"><div class="item-title">${e(d.nombre_archivo||"PDF")}</div><div class="item-meta">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")} · ${e(d.sistema||"Sin sistema")} · Fin: ${f(d.fin_vigencia)||"—"}</div><div class="toolbar"><button class="btn" data-act="open" data-id="${d.id}">Abrir</button></div></div>`).join(""):'<div class="empty">Sin vencidos</div>');
-  setHtml("#dueList",soon.length?soon.slice(0,10).map(d=>`<div class="row"><div>${e(d.nombre_archivo||"PDF")}<div class="mut">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")}</div></div><div>${e(d.sistema||"—")}</div><div>${f(d.fin_vigencia)||"—"}</div><div><span class="tag warn">Por vencer</span></div></div>`).join(""):'<div class="empty">Sin próximos vencimientos</div>');
-  setHtml("#polizasList",polizas.length?polizas.slice(0,12).map(d=>`<div class="item"><div class="item-title">${e(d.nombre_archivo||"PDF")}</div><div class="item-meta">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")} · ${f(d.fin_vigencia)||"Sin fecha"}</div><div class="toolbar"><button class="btn" data-act="open" data-id="${d.id}">Abrir</button></div></div>`).join(""):'<div class="empty">Sin pólizas</div>');
-  setTxt("#workSummary",rows().length?`${rows().length} clientes visibles · ${docs.length} documentos en contexto${AS?` · filtro: ${AS}`:""}`:"Busca cliente, razón social o archivo para ver tickets, sistemas, certificados y vigencias.");
-}
+function renderOps(){const docs=D.filter(d=>!d.eliminado),today=Date.now(),late=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()<today),soon=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()>=today&&Math.ceil((new Date(d.fin_vigencia)-today)/864e5)<=30),openT=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))),radarTickets=openT.filter(t=>{const p=n(t.prioridad),dt=new Date(t.fecha_actualizacion||t.fecha_creacion||0).getTime();return(p==="urgente"||p==="alta")&&dt>=today-14*864e5}).sort((a,b)=>ticketWeight(b)-ticketWeight(a)),polDocs=docs.filter(d=>n(d.tipo_licencia).includes("poliza")||n(d.nombre_archivo).includes("poliza"));setTxt("#workSummary",`Pólizas: ${POLIZA_CLIENTS.length} cliente(s) · Mes actual y anterior abren tickets globales`);setTxt("#radarCount",`${radarTickets.length} casos · urgentes + altas recientes`);setTxt("#lateCount",`${late.length} documento(s)`);setTxt("#dueCount",`${soon.length} documento(s)`);setTxt("#polizasCount",`${polDocs.length} documento(s)`);setHtml("#radarList",radarTickets.length?radarTickets.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Ticket")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.prioridad||"media")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ver cliente</button></div></div>`).join(""):'<div class="empty">Sin casos</div>');setHtml("#lateList",late.length?late.slice(0,8).map(d=>`<div class="item"><div class="item-title">${e(d.nombre_archivo||"PDF")}</div><div class="item-meta">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")} · ${e(d.sistema||"Sin sistema")} · Fin: ${f(d.fin_vigencia)||"—"}</div><div class="toolbar"><button class="btn" data-act="open" data-id="${d.id}">Abrir</button><button class="btn" data-act="focus" data-id="${d.cliente_id}">Cliente</button></div></div>`).join(""):'<div class="empty">Sin vencidos</div>');setHtml("#dueList",soon.length?soon.slice(0,10).map(d=>`<div class="row"><div>${e(d.nombre_archivo||"PDF")}<div class="mut">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")}</div></div><div>${e(d.sistema||"—")}</div><div>${f(d.fin_vigencia)||"—"}</div><div><span class="tag warn">Por vencer</span></div></div>`).join(""):'<div class="empty">Sin próximos vencimientos</div>');setHtml("#polizasList",POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean).map(c=>`<div class="item"><div class="item-title">${e(c.nombre)}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Ver cliente</button><button class="btn" data-act="repo_client" data-id="${c.id}">Ver tickets</button></div></div>`).join("")||'<div class="empty">Sin clientes póliza</div>')}
+ 
 
 async function openPDF(id){
   const d=byId(D,id);
@@ -330,58 +300,8 @@ if(ins.error){const txt=m(ins.error);try{await s.storage.from("certificados").re
   renderOps();
 }
 
-function bind(){
-  const dz=$("#dropZone"),fi=$("#fileInput"),fo=$("#folderInput");
-
-  document.addEventListener("click",e=>{
-    const b=e.target.closest("button,[data-act]");
-    if(!b)return;
-    const act=b.dataset.act,id=b.dataset.id,name=b.dataset.name;
-    if(b.id==="refreshBtn"){e.preventDefault();return load()}
-    if(b.id==="searchBtn"){e.preventDefault();return renderAll(),renderOps()}
-    if(b.id==="clearBtn"){e.preventDefault();$("#searchInput").value="";$("#statusFilter").value="";AS="";return renderAll(),renderOps()}
-    if(b.id==="addBtn"){e.preventDefault();return $("#overlay")?.classList.add("open")}
-    if(b.id==="closeModal"||b.id==="cancelBtn"){e.preventDefault();return $("#overlay")?.classList.remove("open")}
-    if(b.id==="pickFilesBtn"){e.preventDefault();return fi?.click()}
-    if(b.id==="pickFolderBtn"){e.preventDefault();return fo?.click()}
-    if(b.id==="uploadBtn"){e.preventDefault();return upload()}
-    if(b.id==="logoutBtn"){e.preventDefault();return o("index.html")}
-    if(b.id==="newTicketTopBtn"){e.preventDefault();const first=rows()[0]?.c;return first?ticketModal(first.id,null):alert("Busca o selecciona primero un cliente.")}
-    if(b.id==="saveTicketBtn"){e.preventDefault();return saveTicketFn()}
-    if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn"){e.preventDefault();return $("#ticketOverlay")?.classList.remove("open")}
-    if(b.id==="togglePolizasBtn"||b.id==="polizasTab"){e.preventDefault();return $("#polizasSide")?.classList.add("open")}
-    if(b.id==="closePolizasBtn"){e.preventDefault();return $("#polizasSide")?.classList.remove("open")}
-if(b.id==="toggleMesBtn"){e.preventDefault();return openTicketsRepo(0,null)}
-if(b.id==="togglePrevMesBtn"){e.preventDefault();return openTicketsRepo(-1,null)}
-if(b.id==="closeRepoModal"){e.preventDefault();return $("#repoOverlay")?.classList.remove("open")}
-   if(act==="open")return openPDF(id);
-    if(act==="ticket")return ticketModal(id,null);
-    if(act==="focus")return location.href=`cliente.html?id=${id}`;
-    if(act==="fav")return toggleFav(id);
-    if(act==="system"){AS=AS===name?"":name;renderAll();renderOps()}
-  });
-
-  document.addEventListener("input",e=>{if(e.target.matches("#searchInput")){renderAll();renderOps()}});
-  document.addEventListener("change",async e=>{
-    if(e.target.matches("#statusFilter")){renderAll();renderOps();return}
-    if(e.target.matches("#themeSelect")){const v=e.target.value==="dark"?"dark":"light";setThemeValue(v);if(U?.id)await svt(v,U.id);return}
-    if(e.target.matches("#fileInput"))return setFiles(e.target.files,0);
-    if(e.target.matches("#folderInput"))return setFiles(e.target.files,1);
-  });
-  document.addEventListener("keydown",e=>{if(e.target.matches("#searchInput")&&e.key==="Enter"){e.preventDefault();renderAll();renderOps()}});
-
-  $("#overlay")?.addEventListener("click",e=>{if(e.target.id==="overlay")$("#overlay").classList.remove("open")});
-  $("#ticketOverlay")?.addEventListener("click",e=>{if(e.target.id==="ticketOverlay")$("#ticketOverlay").classList.remove("open")});
-   $("#repoOverlay")?.addEventListener("click",e=>{if(e.target.id==="repoOverlay")$("#repoOverlay").classList.remove("open")});
-
-  dz?.addEventListener("dragover",e=>{e.preventDefault();dz.style.borderColor="#2dd4bf"});
-  dz?.addEventListener("dragleave",e=>{e.preventDefault();dz.style.borderColor=""});
-  dz?.addEventListener("drop",e=>{e.preventDefault();dz.style.borderColor="";setFiles(e.dataTransfer.files,0)});
-
-  window.addEventListener("dragover",e=>e.preventDefault(),{passive:false});
-  window.addEventListener("drop",e=>{if(!e.target?.closest?.("#dropZone"))e.preventDefault()},{passive:false});
-}
-
+function bind(){const dz=$("#dropZone"),fi=$("#fileInput"),fo=$("#folderInput");document.addEventListener("click",e=>{const b=e.target.closest("button,[data-act]");if(!b)return;const act=b.dataset.act,id=b.dataset.id;if(b.id==="refreshBtn"){e.preventDefault();return load()}if(b.id==="searchBtn"){e.preventDefault();return renderAll(),renderOps()}if(b.id==="clearBtn"){e.preventDefault();$("#searchInput").value="";$("#statusFilter").value="";return renderAll(),renderOps()}if(b.id==="addBtn"){e.preventDefault();return $("#overlay")?.classList.add("open")}if(b.id==="closeModal"||b.id==="cancelBtn"){e.preventDefault();return $("#overlay")?.classList.remove("open")}if(b.id==="pickFilesBtn"){e.preventDefault();return fi?.click()}if(b.id==="pickFolderBtn"){e.preventDefault();return fo?.click()}if(b.id==="uploadBtn"){e.preventDefault();return upload()}if(b.id==="logoutBtn"){e.preventDefault();return o("index.html")}if(b.id==="newTicketTopBtn"){e.preventDefault();const first=rows()[0]?.c;return first?ticketModal(first.id,null):alert("Busca o selecciona primero un cliente.")}if(b.id==="saveTicketBtn"){e.preventDefault();return saveTicketFn()}if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn"){e.preventDefault();return $("#ticketOverlay")?.classList.remove("open")}if(b.id==="togglePolizasBtn"||b.id==="polizasTab"){e.preventDefault();return $("#polizasSide")?.classList.add("open")}if(b.id==="closePolizasBtn"){e.preventDefault();return $("#polizasSide")?.classList.remove("open")}if(b.id==="toggleMesBtn"){e.preventDefault();return openTicketsRepo(0,null)}if(b.id==="togglePrevMesBtn"){e.preventDefault();return openTicketsRepo(-1,null)}if(b.id==="closeRepoModal"){e.preventDefault();return $("#repoOverlay")?.classList.remove("open")}if(act==="open")return openPDF(id);if(act==="ticket")return ticketModal(id,null);if(act==="repo_client")return openTicketsRepo(0,id);if(act==="focus"){localStorage.setItem("expiriti_last_client",id);return location.href=`cliente.html?id=${id}`}if(act==="fav")return toggleFav(id)});document.addEventListener("input",e=>{if(e.target.matches("#searchInput")){renderAll();renderOps()}});document.addEventListener("change",async e=>{if(e.target.matches("#statusFilter")){renderAll();renderOps();return}if(e.target.matches("#themeSelect")){const v=e.target.value==="dark"?"dark":"light";setThemeValue(v);if(U?.id)await svt(v,U.id);return}if(e.target.matches("#fileInput"))return setFiles(e.target.files,0);if(e.target.matches("#folderInput"))return setFiles(e.target.files,1)});document.addEventListener("keydown",e=>{if(e.target.matches("#searchInput")&&e.key==="Enter"){e.preventDefault();renderAll();renderOps()}});$("#overlay")?.addEventListener("click",e=>{if(e.target.id==="overlay")$("#overlay").classList.remove("open")});$("#ticketOverlay")?.addEventListener("click",e=>{if(e.target.id==="ticketOverlay")$("#ticketOverlay").classList.remove("open")});$("#repoOverlay")?.addEventListener("click",e=>{if(e.target.id==="repoOverlay")$("#repoOverlay").classList.remove("open")});dz?.addEventListener("dragover",e=>{e.preventDefault();dz.style.borderColor="#2dd4bf"});dz?.addEventListener("dragleave",e=>{e.preventDefault();dz.style.borderColor=""});dz?.addEventListener("drop",e=>{e.preventDefault();dz.style.borderColor="";setFiles(e.dataTransfer.files,0)});window.addEventListener("dragover",e=>e.preventDefault(),{passive:false});window.addEventListener("drop",e=>{if(!e.target?.closest?.("#dropZone"))e.preventDefault()},{passive:false})}
+ 
 try{
   bind();
   await boot();
@@ -390,7 +310,7 @@ try{
   console.error("Dashboard fatal:",err);
   alert(`Dashboard error: ${m(err)}`);
 }
- function openTicketsRepo({mode="global",monthOffset=0,clienteId=null}){}
+ 
 
 </script>
 </body></html>
