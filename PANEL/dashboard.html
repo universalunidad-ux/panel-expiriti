@@ -20,12 +20,14 @@
  
 <section class="sections"><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Actividad reciente</div><div class="count" id="activityCount">0 movimientos</div></div></div><div class="list" id="activityList"></div></article></div><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Tickets</div><div class="count" id="ticketsCount">0 tickets</div></div></div><div class="tickets-list" id="ticketsList"></div></article></div></section>
  
-<section class="sections dash-main"><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Control rápido</div><div class="count" id="resultsCount">0 clientes</div></div><div class="toolbar"><button class="btn" id="searchBtn">Buscar</button><button class="btn" id="clearBtn">Limpiar</button><button class="btn" id="newTicketTopBtn">Nuevo ticket</button><button class="btn" id="addBtn">Subir PDFs</button><select class="select" id="themeSelect"><option value="light">Claro</option><option value="dark">Oscuro</option></select><button class="btn" id="logoutBtn">Salir</button></div></div><div class="mini-grid"><div class="subgrid"><div class="section-title" style="font-size:15px">Favoritas</div><div class="quick-list" id="quickList"></div></div><div class="subgrid"><div class="section-title" style="font-size:15px">Urgentes</div><div class="quick-list" id="urgentList"></div></div></div></article><article class="card" id="systemsWrap"><div class="section-head"><div><div class="section-title">Sistemas y certificados</div><div class="count" id="activeSystemLabel">Selecciona un cliente o busca uno</div></div><div class="tags"><span class="tag" id="systemsCount">0 sistemas</span></div></div><div class="systems-grid" id="systemsGrid"></div></article></div><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Clientes / CRM</div><div class="count">Vista detallada</div></div></div><div class="results-list" id="resultsList"></div></article></div></section>
+<section class="sections dash-main"><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Control rápido</div><div class="count" id="resultsCount">0 clientes</div></div><div class="toolbar"><button class="btn" id="searchBtn">Buscar</button><button class="btn" id="clearBtn">Limpiar</button><button class="btn" id="newTicketTopBtn">Nuevo ticket</button><button class="btn" id="addBtn">Subir PDFs</button><select class="select" id="themeSelect"><option value="light">Claro</option><option value="dark">Oscuro</option></select><button class="btn" id="logoutBtn">Salir</button></div></div><div class="mini-grid"><div class="subgrid"><div class="section-title" style="font-size:15px">Pólizas</div><div class="quick-list" id="quickList"></div></div><div class="subgrid"><div class="section-title" style="font-size:15px">Urgentes</div><div class="quick-list" id="urgentList"></div></div></div></article>
+</div><div class="stack"><article class="card"><div class="section-head"><div><div class="section-title">Clientes / CRM</div><div class="count">Vista detallada</div></div></div><div class="results-list" id="resultsList"></div></article></div></section>
  
 <div class="overlay" id="overlay"><div class="modal"><div class="modal-head"><div><div class="modal-title">Subir PDFs</div><div class="muted-sm">Manual o por carpeta</div></div><button class="close-x" id="closeModal">×</button></div><div class="form-grid cols"><div class="form-grid"><input class="input" id="rsInput" placeholder="Nombre / Razón Social del cliente (obligatorio en carga manual)"><label class="check"><input type="checkbox" id="isNew"> Crear cliente si no existe</label><div class="dropzone" id="dropZone"><div><strong>Arrastra PDF o carpeta aquí</strong><div class="help">o usa los botones de abajo</div></div></div><div class="toolbar"><button class="btn" id="pickFilesBtn">Elegir archivos</button><button class="btn" id="pickFolderBtn">Elegir carpeta</button></div><input id="fileInput" type="file" accept="application/pdf,.pdf" multiple hidden><input id="folderInput" type="file" webkitdirectory directory multiple hidden></div><div class="form-grid"><div class="file-name" id="fileName">Ningún archivo seleccionado</div><div class="help" id="statusTxt">Listo para subir.</div><div class="toolbar"><button class="btn btn-brand" id="uploadBtn">Subir</button><button class="btn" id="cancelBtn">Cancelar</button></div></div></div></div></div>
 
 <div class="overlay" id="ticketOverlay"><div class="modal"><div class="modal-head"><div><div class="modal-title">Nuevo ticket</div><div class="muted-sm">Alta rápida</div></div><button class="close-x" id="closeTicketModal">×</button></div><div class="form-grid"><input class="input" id="ticketClienteNombre" placeholder="Cliente" readonly><input class="input" id="ticketTitulo" placeholder="Título"><textarea class="input" id="ticketDescripcion" placeholder="Descripción" rows="5"></textarea><div class="form-grid cols"><select class="select" id="ticketTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="ticketPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="help" id="ticketStatus">Completa los datos.</div><div class="toolbar"><button class="btn btn-brand" id="saveTicketBtn">Guardar ticket</button><button class="btn" id="cancelTicketBtn">Cancelar</button></div></div></div></div>
  <aside class="polizas-side" id="polizasSide"><button class="polizas-tab" id="polizasTab">Pólizas</button><section class="polizas-panel" id="polizasPanel"><div class="section-head"><div><div class="section-title">Pólizas de soporte</div><div class="count" id="polizasCount">0 clientes</div></div><button class="btn-mini" id="closePolizasBtn">Cerrar</button></div><div class="list" id="polizasList"></div></section></aside>
+<div class="overlay" id="repoOverlay"><div class="modal"><div class="modal-head"><div><div class="modal-title" id="repoTitle">Repositorio de tickets</div><div class="muted-sm" id="repoSub">Listado</div></div><button class="close-x" id="closeRepoModal">×</button></div><div class="list" id="repoList"></div></div></div>
  
 </main>
 
@@ -47,15 +49,17 @@ function clientDocs(id){return D.filter(x=>String(x.cliente_id)===String(id)&&!x
 function clientTickets(id){return T.filter(x=>String(x.cliente_id)===String(id))}
 function ticketWeight(t){return t?.prioridad==="urgente"?4:t?.prioridad==="alta"?3:t?.prioridad==="media"?2:1}
 function setThemeValue(v){const val=v==="dark"?"dark":"light";ap(val);localStorage.setItem("expiriti_theme",val);$("#themeSelect")&&($("#themeSelect").value=val)}
-
+function renderQuickPanels(){const pol=POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean),urg=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))&&n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setHtml("#quickList",pol.length?pol.map(c=>`<div class="item"><div class="item-title">${e(c.nombre||"Cliente")}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin clientes póliza</div>');setHtml("#urgentList",urg.length?urg.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Urgente")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin urgentes</div>')}
+ function openTicketsRepo(monthOffset=0,clienteId=null){const now=new Date(),start=new Date(now.getFullYear(),now.getMonth()+monthOffset,1),end=new Date(now.getFullYear(),now.getMonth()+monthOffset+1,1),list=T.filter(t=>{const dt=new Date(t.fecha_creacion||t.fecha_actualizacion||0);return dt>=start&&dt<end&&(!clienteId||String(t.cliente_id)===String(clienteId))}).sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setTxt("#repoTitle",clienteId?"Tickets del cliente":"Repositorio global de tickets");setTxt("#repoSub",`${start.toLocaleDateString("es-MX",{month:"long",year:"numeric"})} · ${list.length} ticket(s)`);setHtml("#repoList",list.length?list.map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets en ese periodo</div>');$("#repoOverlay")?.classList.add("open")}
+ 
 async function boot(){
   const auth=await g("index.html");
   if(!auth)return;
   U=auth.user;
   P=await gp()||{rol:"soporte",tema:"light"};
   setThemeValue(P?.tema==="dark"?"dark":"light");
-  $("#addBtn")&&($("#addBtn").style.display=["admin","ventas","soporte"].includes(n(P?.rol))?"inline-flex":"inline-flex");
-  await load();
+$("#addBtn")&&($("#addBtn").style.display=["admin","ventas"].includes(n(P?.rol))?"inline-flex":"none");
+ await load();
 }
 
 async function load(){
@@ -73,12 +77,14 @@ async function load(){
     L=d?.data||[];
     renderAll();
     renderOps();
+   renderQuickPanels();
   }catch(err){
     console.error("LOAD_ERR",err);
     alert(m(err));
   }
 }
-
+const POLIZA_CLIENTS=["GRUPO DE MEDIOS ESPECIALIZADO MÉXICO MEDIA","AUNA SEGUROS","BCA","STRM","FUCASA FUNDIDORA DE CANANEA","ORVA","HORECA ADMINISTRADORA","JANOME","OLARTE Y AKLE BACTERIOLOGOS","ARTHROS SUPPLY","GEPIC","GOYTIA Y ASOCIADOS","PROMETEO LEGAL","JAVELINA","INGENIERÍAS ELDEPCI","LANZER NOVARUM","GRAFICOLOR"];function renderQuickPanels(){const pol=POLIZA_CLIENTS.map(name=>C.find(c=>n(c.nombre)===n(name))).filter(Boolean),urg=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))&&n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0));setHtml("#quickList",pol.length?pol.map(c=>`<div class="item"><div class="item-title">${e(c.nombre||"Cliente")}</div><div class="item-meta">${clientTickets(c.id).length} ticket(s) histórico(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin clientes póliza</div>');setHtml("#urgentList",urg.length?urg.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Urgente")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Abrir cliente</button></div></div>`).join(""):'<div class="empty">Sin urgentes</div>')}
+ 
 function rows(){
   const q=n($("#searchInput")?.value||""),sf=n($("#statusFilter")?.value||"");
   return C.map(c=>{
@@ -108,24 +114,16 @@ function renderAll(){
 
   setHtml("#ticketsList",openTickets.length?openTickets.slice(0,10).sort((a,b)=>ticketWeight(b)-ticketWeight(a)).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Sin título")}</div><div class="item-meta">${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")} · ${f(t.fecha_actualizacion||t.fecha_creacion)||""}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Ir a cliente</button></div></div>`).join(""):'<div class="empty">Sin tickets</div>');
 
-  renderSystems(r);
 }
 
-function renderSystems(r){
-  const counts={};
-  r.forEach(({d})=>d.forEach(x=>{if(x.sistema)counts[x.sistema]=(counts[x.sistema]||0)+1}));
-  const items=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  setHtml("#systemsGrid",items.length?items.map(([name,count])=>`<button class="btn" data-act="system" data-name="${e(name)}">${e(name)} (${count})</button>`).join(""):'<div class="empty">Sin sistemas detectados</div>');
-  setTxt("#activeSystemLabel",AS||"Selecciona un cliente o busca uno");
-}
 
 function renderOps(){
-  const docs=rows().flatMap(x=>x.d).filter(d=>!AS||d.sistema===AS),today=Date.now(),late=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()<today),soon=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()>=today&&Math.ceil((new Date(d.fin_vigencia)-today)/864e5)<=30),recentTickets=T.filter(t=>{const dt=new Date(t.fecha_actualizacion||t.fecha_creacion||0).getTime();return dt>=today-14*864e5&&!["cerrado","resuelto"].includes(n(t.estado))}).sort((a,b)=>ticketWeight(b)-ticketWeight(a)),polizas=docs.filter(d=>n(d.tipo_licencia).includes("poliza")||n(d.nombre_archivo).includes("poliza"));
-  setTxt("#radarCount",`${recentTickets.length} casos · últimos 14 días`);
+  const docs=rows().flatMap(x=>x.d).filter(d=>!AS||d.sistema===AS),today=Date.now(),late=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()<today),soon=docs.filter(d=>d.fin_vigencia&&new Date(d.fin_vigencia).getTime()>=today&&Math.ceil((new Date(d.fin_vigencia)-today)/864e5)<=30),openT=T.filter(t=>!["cerrado","resuelto"].includes(n(t.estado))),urgentTickets=openT.filter(t=>n(t.prioridad)==="urgente").sort((a,b)=>new Date(b.fecha_actualizacion||b.fecha_creacion||0)-new Date(a.fecha_actualizacion||a.fecha_creacion||0)),radarTickets=openT.filter(t=>{const p=n(t.prioridad),dt=new Date(t.fecha_actualizacion||t.fecha_creacion||0).getTime();return (p==="urgente"||p==="alta")&&dt>=today-14*864e5}).sort((a,b)=>ticketWeight(b)-ticketWeight(a)),polizas=docs.filter(d=>n(d.tipo_licencia).includes("poliza")||n(d.nombre_archivo).includes("poliza"));
+  setTxt("#radarCount",`${radarTickets.length} casos · urgentes + altas recientes`);
   setTxt("#lateCount",`${late.length} documentos`);
   setTxt("#dueCount",`${soon.length} documentos`);
   setTxt("#polizasCount",`${polizas.length} documentos`);
-  setHtml("#radarList",recentTickets.length?recentTickets.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Ticket")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")}</div></div>`).join(""):'<div class="empty">Sin casos</div>');
+  setHtml("#radarList",radarTickets.length?radarTickets.slice(0,8).map(t=>`<div class="item"><div class="item-title">${e(t.titulo||"Ticket")}</div><div class="item-meta">${e(byId(C,t.cliente_id)?.nombre||"Sin cliente")} · ${e(t.tipo||"soporte")} · ${e(t.prioridad||"media")}</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${t.cliente_id}">Cliente</button></div></div>`).join(""):'<div class="empty">Sin casos</div>');
   setHtml("#lateList",late.length?late.slice(0,8).map(d=>`<div class="item"><div class="item-title">${e(d.nombre_archivo||"PDF")}</div><div class="item-meta">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")} · ${e(d.sistema||"Sin sistema")} · Fin: ${f(d.fin_vigencia)||"—"}</div><div class="toolbar"><button class="btn" data-act="open" data-id="${d.id}">Abrir</button></div></div>`).join(""):'<div class="empty">Sin vencidos</div>');
   setHtml("#dueList",soon.length?soon.slice(0,10).map(d=>`<div class="row"><div>${e(d.nombre_archivo||"PDF")}<div class="mut">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")}</div></div><div>${e(d.sistema||"—")}</div><div>${f(d.fin_vigencia)||"—"}</div><div><span class="tag warn">Por vencer</span></div></div>`).join(""):'<div class="empty">Sin próximos vencimientos</div>');
   setHtml("#polizasList",polizas.length?polizas.slice(0,12).map(d=>`<div class="item"><div class="item-title">${e(d.nombre_archivo||"PDF")}</div><div class="item-meta">${e(byId(C,d.cliente_id)?.nombre||"Sin cliente")} · ${f(d.fin_vigencia)||"Sin fecha"}</div><div class="toolbar"><button class="btn" data-act="open" data-id="${d.id}">Abrir</button></div></div>`).join(""):'<div class="empty">Sin pólizas</div>');
@@ -292,12 +290,8 @@ async function upload(){
         };
 
         const ins=await s.from("documentos").insert(payload).select("*").single();
-        if(ins.error){
-          fail++;
-          errs.push(`${nombreCliente||"Sin cliente"} / ${file.name}: DB ${m(ins.error)}`);
-          try{await s.storage.from("certificados").remove([path])}catch{}
-          continue;
-        }
+if(ins.error){const txt=m(ins.error);try{await s.storage.from("certificados").remove([path])}catch{}if(/duplicate|unique|23505/i.test(txt)){skip++;continue}fail++;errs.push(`${nombreCliente||"Sin cliente"} / ${file.name}: DB ${txt}`);continue}
+       
 
         D.unshift(ins.data);
         await la({
@@ -357,10 +351,12 @@ function bind(){
     if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn"){e.preventDefault();return $("#ticketOverlay")?.classList.remove("open")}
     if(b.id==="togglePolizasBtn"||b.id==="polizasTab"){e.preventDefault();return $("#polizasSide")?.classList.add("open")}
     if(b.id==="closePolizasBtn"){e.preventDefault();return $("#polizasSide")?.classList.remove("open")}
-    if(b.id==="toggleMesBtn"||b.id==="togglePrevMesBtn"){e.preventDefault();return renderOps()}
-    if(act==="open")return openPDF(id);
+if(b.id==="toggleMesBtn"){e.preventDefault();return openTicketsRepo(0,null)}
+if(b.id==="togglePrevMesBtn"){e.preventDefault();return openTicketsRepo(-1,null)}
+if(b.id==="closeRepoModal"){e.preventDefault();return $("#repoOverlay")?.classList.remove("open")}
+   if(act==="open")return openPDF(id);
     if(act==="ticket")return ticketModal(id,null);
-    if(act==="focus"){const c=byId(C,id);if(c){$("#searchInput").value=c.nombre;renderAll();renderOps();window.scrollTo({top:0,behavior:"smooth"})}}
+    if(act==="focus")return location.href=`cliente.html?id=${id}`;
     if(act==="fav")return toggleFav(id);
     if(act==="system"){AS=AS===name?"":name;renderAll();renderOps()}
   });
@@ -376,6 +372,7 @@ function bind(){
 
   $("#overlay")?.addEventListener("click",e=>{if(e.target.id==="overlay")$("#overlay").classList.remove("open")});
   $("#ticketOverlay")?.addEventListener("click",e=>{if(e.target.id==="ticketOverlay")$("#ticketOverlay").classList.remove("open")});
+   $("#repoOverlay")?.addEventListener("click",e=>{if(e.target.id==="repoOverlay")$("#repoOverlay").classList.remove("open")});
 
   dz?.addEventListener("dragover",e=>{e.preventDefault();dz.style.borderColor="#2dd4bf"});
   dz?.addEventListener("dragleave",e=>{e.preventDefault();dz.style.borderColor=""});
@@ -393,6 +390,7 @@ try{
   console.error("Dashboard fatal:",err);
   alert(`Dashboard error: ${m(err)}`);
 }
+ function openTicketsRepo({mode="global",monthOffset=0,clienteId=null}){}
 
 </script>
 </body></html>
