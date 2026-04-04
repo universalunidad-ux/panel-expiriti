@@ -1,0 +1,28 @@
+<style>
+.zen-bar{background:#2c3e50;padding:15px;border-radius:30px;display:flex;gap:10px;justify-content:center;margin:20px auto;max-width:450px;}
+.zen-btn{background:#34495e;color:white;border:none;padding:10px 15px;border-radius:20px;cursor:pointer;font-size:14px;transition:0.3s;}
+.zen-btn:hover, .zen-btn.active{background:#00a859;}
+</style>
+<div class="zen-bar">
+  <button class="zen-btn" onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', this)">🌿 Frecuencia 432Hz</button>
+  <button class="zen-btn" onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', this)">🎻 Clásica Focus</button>
+  <button class="zen-btn" onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', this)">🎸 Rock Inglés</button>
+</div>
+<audio id="bgMusic" loop></audio>
+<script>
+function playAudio(src, btn){
+  let player = document.getElementById('bgMusic');
+  let btns = document.querySelectorAll('.zen-btn');
+  // Si presiona el mismo botón que ya está sonando, se pausa
+  if(player.src === src && !player.paused){ 
+    player.pause(); 
+    btn.classList.remove('active');
+    return; 
+  }
+  // Limpia estilos y reproduce la nueva pista
+  btns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  player.src = src; 
+  player.play();
+}
+</script>
