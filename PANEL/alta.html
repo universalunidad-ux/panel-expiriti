@@ -50,12 +50,13 @@ $("#btnSubmit").onclick=async()=>{
     const fd=new FormData();
     fd.append("nombre",nombre);fd.append("telefono",telefono);fd.append("correo",correo);fd.append("contacto",contacto);fd.append("comentarios",comentarios);
     files.forEach(f=>fd.append("files",f));
-    /* PRODUCCIÓN:
-    const r=await fetch("/api/alta-cliente",{method:"POST",body:fd});
-    if(!r.ok)throw new Error("No se pudo procesar el alta");
-    */
-    await new Promise(r=>setTimeout(r,1200));
-    document.querySelector(".body").innerHTML='<div class="msg ok" style="font-size:15px">✅ Recibimos tu información. Tu equipo de soporte en Expiriti ya está configurando tu cuenta.</div>';
+const ENDPOINT="https://TU-PROYECTO.supabase.co/functions/v1/alta-cliente";
+const r=await fetch(ENDPOINT,{method:"POST",body:fd});
+const j=await r.json().catch(()=>({}));
+if(!r.ok)throw new Error(j.error||"No se pudo procesar el alta");
+document.querySelector(".body").innerHTML='<div class="msg ok" style="font-size:15px">✅ Recibimos tu información. Tu equipo de soporte en Expiriti ya está configurando tu cuenta.</div>';
+    
+    
   }catch(err){
     setMsg(err.message||"Hubo un error al enviar.","bad");
     btn.disabled=false;
