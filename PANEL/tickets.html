@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tablero Kanban | Expiriti</title>
+<style>
+:root{--bg:#070b12;--col:rgba(255,255,255,.02);--card:rgba(15,23,36,.8);--br:rgba(255,255,255,.08);--txt:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--danger:#ef4444;--poliza:#8b5cf6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui;height:100vh;display:flex;flex-direction:column}
+.topbar{padding:16px 24px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center;background:rgba(7,11,18,.8);backdrop-filter:blur(10px)}
+.topbar h2{margin:0;font-weight:900;letter-spacing:-0.5px}
+.kanban-board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px;flex:1;overflow-x:auto;align-items:start}
+.kanban-col{background:var(--col);border:1px solid var(--br);border-radius:16px;min-height:500px;display:flex;flex-direction:column}
+.col-header{padding:16px;border-bottom:1px solid var(--br);font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.col-count{background:rgba(255,255,255,.05);padding:2px 8px;border-radius:999px;font-size:12px;color:var(--mut)}
+.col-body{padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
+/* Tarjetas */
+.k-card{background:var(--card);border:1px solid var(--br);border-radius:12px;padding:16px;cursor:grab;transition:transform 0.1s, border-color 0.2s;backdrop-filter:blur(10px)}
+.k-card:hover{border-color:var(--brand);transform:translateY(-2px)}
+.k-card:active{cursor:grabbing;transform:scale(0.98)}
+.k-tags{display:flex;gap:6px;margin-bottom:10px}
+.tag{font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;text-transform:uppercase}
+.tag.urgente{background:rgba(239,68,68,.15);color:var(--danger)}
+.tag.poliza{background:rgba(139,92,246,.15);color:var(--poliza)}
+.k-title{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.k-meta{font-size:12px;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
+/* Highlight al arrastrar */
+.drag-over{background:rgba(45,212,191,.05);border:1px dashed var(--brand)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h2>Radar de Soporte</h2>
+  <div>
+    <button style="padding:8px 16px;border-radius:8px;border:1px solid var(--br);background:transparent;color:var(--txt);cursor:pointer">Mis Tickets</button>
+    <button style="padding:8px 16px;border-radius:8px;border:none;background:var(--brand);color:#000;font-weight:800;cursor:pointer">+ Nuevo</button>
+  </div>
+</div>
+
+<div class="kanban-board">
+  <div class="kanban-col" data-status="nuevos">
+    <div class="col-header">Nuevos <span class="col-count">2</span></div>
+    <div class="col-body" id="col-nuevos">
+      <div class="k-card" draggable="true" id="t1" onclick="location.href='ticket.html'">
+        <div class="k-tags"><span class="tag urgente">Urgente</span></div>
+        <div class="k-title">No timbra XML en Línea (Error 404)</div>
+        <div class="k-meta"><span>FUCASA</span><span>Hace 10m</span></div>
+      </div>
+      <div class="k-card" draggable="true" id="t2" onclick="location.href='ticket.html'">
+        <div class="k-tags"><span class="tag poliza">Póliza</span></div>
+        <div class="k-title">Ayuda con cierre de mes en Contabilidad</div>
+        <div class="k-meta"><span>AUNA SEGUROS</span><span>Hace 1h</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kanban-col" data-status="proceso">
+    <div class="col-header">En Proceso <span class="col-count">1</span></div>
+    <div class="col-body" id="col-proceso">
+      <div class="k-card" draggable="true" id="t3">
+        <div class="k-title">Reinstalación de Comercial Pro</div>
+        <div class="k-meta"><span>GEPIC</span><span>Juan P.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kanban-col" data-status="esperando">
+    <div class="col-header">Esperando Cliente <span class="col-count">0</span></div>
+    <div class="col-body" id="col-esperando"></div>
+  </div>
+
+  <div class="kanban-col" data-status="resueltos">
+    <div class="col-header">Resueltos <span class="col-count">0</span></div>
+    <div class="col-body" id="col-resueltos"></div>
+  </div>
+</div>
+
+<script>
+  // Lógica nativa de Drag and Drop para el Kanban
+  const cards = document.querySelectorAll('.k-card');
+  const bodies = document.querySelectorAll('.col-body');
+
+  cards.forEach(card => {
+    card.addEventListener('dragstart', () => {
+      card.classList.add('is-dragging');
+      // Hack para que la tarjeta no desaparezca del cursor
+      setTimeout(() => card.style.display = 'none', 0); 
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('is-dragging');
+      card.style.display = 'block';
+      // Aquí dispararías tu UPDATE a Supabase para cambiar el estatus del ticket
+    });
+  });
+
+  bodies.forEach(body => {
+    body.addEventListener('dragover', e => {
+      e.preventDefault(); // Necesario para permitir el drop
+      body.parentElement.classList.add('drag-over');
+    });
+    body.addEventListener('dragleave', () => {
+      body.parentElement.classList.remove('drag-over');
+    });
+    body.addEventListener('drop', e => {
+      e.preventDefault();
+      body.parentElement.classList.remove('drag-over');
+      const draggedCard = document.querySelector('.is-dragging');
+      if (draggedCard) body.appendChild(draggedCard);
+    });
+  });
+</script>
+</body>
+</html>
