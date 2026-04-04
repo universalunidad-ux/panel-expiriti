@@ -1,0 +1,27 @@
+<style>
+.search-container{max-width:600px;margin:20px auto;font-family:sans-serif;text-align:center;}
+.search-box{width:100%;padding:15px;font-size:18px;border:2px solid #333;border-radius:25px;outline:none;box-sizing:border-box;}
+.result-box{margin-top:20px;padding:20px;background:#f4f4f4;border-radius:10px;display:none;text-align:left;border-left:5px solid #00a859;}
+</style>
+<div class="search-container">
+  <h2>Decodificador de Errores</h2>
+  <input type="text" id="errInput" class="search-box" placeholder="Ej: CDEC0204 o 108" onkeyup="buscarError()">
+  <div id="resultado" class="result-box"></div>
+</div>
+<script>
+// Aquí vacías las soluciones que te generó NotebookLM
+const baseConocimiento={
+  "CDEC0204":"<b>Error CDEC0204:</b> Sello inválido.<br><b>Solución:</b> 1. Abre CONTPAQi. 2. Revoca el certificado en configuración. 3. Carga el nuevo CSD del SAT.",
+  "108":"<b>Error 108:</b> Falla en SQL.<br><b>Solución:</b> 1. Abre Services.msc en Windows. 2. Reinicia el servicio SQL Server (CONTPAQI)."
+};
+function buscarError(){
+  let val = document.getElementById('errInput').value.toUpperCase().trim();
+  let res = document.getElementById('resultado');
+  if(baseConocimiento[val]){ 
+    res.innerHTML = baseConocimiento[val]; 
+    res.style.display = "block"; 
+  } else { 
+    res.style.display = "none"; 
+  }
+}
+</script>
