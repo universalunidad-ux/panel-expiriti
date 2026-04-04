@@ -1,128 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Detalle de Cliente | Expiriti</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<title>Detalle de Cliente | Expiriti</title>
-<style>
-:root{--bg:#070b12;--card:rgba(255,255,255,.02);--br:rgba(255,255,255,.08);--txt:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--warn:#f59e0b;--bad:#ef4444;--ok:#10b981}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui}
-._w{max-width:1120px;margin:auto;padding:20px}
-/* Tabs UI */
-.tabs{display:flex;gap:16px;border-bottom:1px solid var(--br);margin-bottom:20px;overflow-x:auto}
-.tab{padding:12px 16px;color:var(--mut);cursor:pointer;font-weight:700;border-bottom:2px solid transparent;transition:all .2s}
-.tab.active{color:var(--brand);border-color:var(--brand)}
-.tab-content{display:none;animation:fadeIn .3s ease}
-.tab-content.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-/* Componentes */
-._card{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px)}
-.top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-h2,h3{margin:0} .mut{color:var(--mut);font-size:13px}
-.grid2,.grid3{display:grid;gap:12px} .grid2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))} .grid3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.box{background:rgba(255,255,255,.02);border:1px solid var(--br);border-radius:12px;padding:16px}
-.v{font-size:18px;font-weight:800;margin-top:4px}
-.btn{display:inline-flex;align-items:center;padding:10px 16px;border-radius:10px;background:var(--brand);color:#000;font-weight:700;cursor:pointer;border:none;text-decoration:none}
-.btn.ghost{background:rgba(255,255,255,.05);color:var(--txt)}
-.btn.wa{background:#10b981;color:#fff} /* Botón especial WhatsApp */
-.pill{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid var(--br)}
-.ok{color:var(--ok);border-color:rgba(16,185,129,.3)} .warn{color:var(--warn);border-color:rgba(245,158,11,.3)} .bad{color:var(--bad);border-color:rgba(239,68,68,.3)}
-/* Skeleton Loader 2026 */
-.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.02) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.02) 75%);background-size:400% 100%;animation:loading 1.5s infinite;border-radius:8px;min-height:24px}
-@keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
-</style>
-</head>
-<body>
-<div class="_w">
-  <div class="top">
-    <div><h2 id="cNombre" class="skeleton" style="width:250px;height:32px;margin-bottom:8px"></h2><div class="mut" id="sub">Cargando perfil...</div></div>
-    <div style="display:flex;gap:8px"><a class="btn ghost" href="dashboard.html">Volver</a></div>
-  </div>
-
-  <div class="_card grid3">
-    <div class="box"><div class="mut">Teléfono</div><div class="v skeleton" id="cTelefono" style="width:120px"></div></div>
-    <div class="box"><div class="mut">Correo</div><div class="v skeleton" id="cCorreo" style="width:180px"></div></div>
-    <div class="box"><div class="mut">Estatus Póliza</div><div class="v skeleton" id="cEstado" style="width:100px"></div></div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active" data-target="tab-certs">Certificados</div>
-    <div class="tab" data-target="tab-tickets">Tickets de Soporte</div>
-    <div class="tab" data-target="tab-crm">CRM & Logs</div>
-  </div>
-
-  <div id="tab-certs" class="tab-content active">
-    <div class="_card">
-      <div class="top"><h3>Sistemas CONTPAQi</h3><button class="btn ghost" id="btnUploadModal">+ Subir PDF</button></div>
-      <div id="docsList" style="display:grid;gap:10px">
-        <div class="skeleton" style="height:60px"></div>
-        <div class="skeleton" style="height:60px"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="tab-tickets" class="tab-content">
-    <div class="_card">
-      <div class="top"><h3>Historial de Casos</h3><button class="btn">+ Nuevo Ticket</button></div>
-      <div id="ticketsList" class="mut">Cargando tickets...</div>
-    </div>
-  </div>
-
-  <div id="tab-crm" class="tab-content">
-    <div class="_card grid2">
-      <div>
-        <div class="mut" style="margin-bottom:8px">Notas internas</div>
-        <textarea id="cComentarios" class="skeleton" style="width:100%;height:100px;background:var(--bg);border:1px solid var(--br);color:var(--txt);padding:12px;border-radius:12px"></textarea>
-      </div>
-      <div><button class="btn" id="btnSaveCRM" style="margin-top:28px">Guardar Notas</button></div>
-    </div>
-  </div>
-</div>
-
+<style>:root{--bg:#070b12;--card:rgba(255,255,255,.02);--br:rgba(255,255,255,.08);--txt:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--warn:#f59e0b;--bad:#ef4444;--ok:#10b981}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui}a{text-decoration:none;color:inherit}button,input,textarea{font:inherit}._w{max-width:1120px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}h2,h3{margin:0}.mut{color:var(--mut);font-size:13px}.grid2,.grid3{display:grid;gap:12px}.grid2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.grid3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}._card{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:20px;margin-bottom:16px;backdrop-filter:blur(10px)}.box{background:rgba(255,255,255,.02);border:1px solid var(--br);border-radius:12px;padding:16px}.v{font-size:18px;font-weight:800;margin-top:4px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.btn,.mini{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:10px;background:var(--brand);color:#000;font-weight:800;cursor:pointer;border:none}.mini{padding:6px 12px;font-size:13px}.ghost{background:rgba(255,255,255,.05);color:var(--txt);border:1px solid var(--br)}.wa{background:#10b981;color:#fff}.pill{padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid var(--br);display:inline-flex;align-items:center}.ok{color:var(--ok);border-color:rgba(16,185,129,.3)}.warn{color:var(--warn);border-color:rgba(245,158,11,.3)}.bad{color:var(--bad);border-color:rgba(239,68,68,.3)}.input,.file{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--br);background:#0d1522;color:#fff}.drop{padding:24px;border:1px dashed rgba(45,212,191,.45);border-radius:12px;background:rgba(45,212,191,.05);text-align:center;cursor:pointer;transition:all .2s}.tabs{display:flex;gap:16px;border-bottom:1px solid var(--br);margin-bottom:20px;overflow-x:auto}.tab{padding:12px 16px;color:var(--mut);cursor:pointer;font-weight:700;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}.tab.active{color:var(--brand);border-color:var(--brand)}.tab-content{display:none;animation:fadeIn .3s ease}.tab-content.active{display:block}@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.02) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.02) 75%);background-size:400% 100%;animation:loading 1.5s infinite;border-radius:8px;color:transparent!important;border:none!important}.skeleton *{visibility:hidden}@keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}</style>
+</head><body><div class="_w">
+<div class="top"><div><h2 id="cNombre" class="skeleton" style="width:250px;min-height:30px;margin-bottom:4px">Cargando...</h2><div class="mut skeleton" id="sub" style="width:150px">Cargando fecha...</div></div>
+<div style="display:flex;gap:8px"><a class="mini ghost" href="dashboard.html">Dashboard</a><button class="mini ghost" id="logoutBtn">Salir</button></div></div>
+<div class="_card grid3"><div class="box"><div class="mut">Teléfono</div><div class="v skeleton" id="cTelefono" style="width:120px;min-height:24px"></div><div style="margin-top:10px;display:flex;gap:6px"><a class="pill ghost" id="callBtn" href="#">📞 Llamar</a><a class="pill ghost" id="waBtn" href="#" target="_blank">💬 WA</a></div></div><div class="box"><div class="mut">Correo</div><div class="v skeleton" id="cCorreo" style="width:180px;min-height:24px"></div><div style="margin-top:10px"><a class="pill ghost" id="mailBtn" href="#">✉️ Correo</a></div></div><div class="box"><div class="mut">Estatus CRM</div><div class="v skeleton" id="cEstado" style="width:100px;min-height:24px"></div><div class="mut" style="margin-top:8px" id="cUltima">Última: —</div></div></div>
+<div class="tabs"><div class="tab active" data-target="tab-certs">Certificados <span class="pill ghost" id="kDocs" style="margin-left:6px;font-size:10px">0</span></div><div class="tab" data-target="tab-tickets">Tickets <span class="pill ghost" id="tCount" style="margin-left:6px;font-size:10px">0</span></div><div class="tab" data-target="tab-crm">CRM & Notas</div></div>
+<div id="tab-certs" class="tab-content active"><div class="_card"><div class="top"><div><h3>Sistemas CONTPAQi</h3><div class="mut" id="docsSub">0 elementos detectados</div></div><button class="mini ghost" id="toggleUploadBtn">+ Subir PDF</button></div>
+<div id="uploadZoneContainer" style="display:none;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--br)"><div class="drop" id="dropZone">Arrastra tu PDF aquí o haz clic</div><input class="file" type="file" id="file" accept="application/pdf" hidden><div class="grid2" style="margin-top:10px"><div><label class="mut">Inicio Vigencia</label><input class="input" type="date" id="vigInicio"></div><div><label class="mut">Fin Vigencia</label><input class="input" type="date" id="vigFin"></div></div><div style="margin-top:14px;display:flex;align-items:center;gap:10px"><button class="btn" id="upload">Subir Archivo</button><span class="mut" id="fileName">Ningún archivo</span></div></div>
+<div class="chips" id="sysChips"></div><div id="docsList" style="display:grid;gap:12px"><div class="box skeleton" style="height:80px"></div><div class="box skeleton" style="height:80px"></div></div></div></div>
+<div id="tab-tickets" class="tab-content"><div class="_card"><div class="top"><h3>Historial de Casos</h3></div><div id="tList" style="display:grid;gap:10px"><div class="mut">Cargando tickets...</div></div></div></div>
+<div id="tab-crm" class="tab-content"><div class="_card grid2"><div><div class="mut" style="margin-bottom:8px">Notas / Comentarios</div><textarea id="cComentarios" class="input skeleton" rows="5"></textarea></div><div><div class="mut" style="margin-bottom:8px">Responsable (Asesor)</div><input id="cResponsable" class="input skeleton"><button class="btn" id="saveCRM" style="margin-top:20px;width:100%">Guardar CRM</button></div></div></div></div>
 <script type="module">
-  // Simulador de Supabase y Lógica
-  const $ = q => document.querySelector(q);
-  const $$ = q => document.querySelectorAll(q);
-
-  // Lógica de Pestañas (Tabs)
-  $$('.tab').forEach(tab => {
-    tab.onclick = () => {
-      $$('.tab').forEach(t => t.classList.remove('active'));
-      $$('.tab-content').forEach(c => c.classList.remove('active'));
-      tab.classList.add('active');
-      $(`#${tab.dataset.target}`).classList.add('active');
-    };
-  });
-
-  // Simulador de Carga (Skeletons out)
-  setTimeout(() => {
-    const cliente = { nombre: "AUNA SEGUROS", tel: "5512345678", correo: "contacto@auna.mx", estado: "Vigente" };
-    
-    // Quitar skeletons
-    $('#cNombre').classList.remove('skeleton'); $('#cNombre').textContent = cliente.nombre;
-    $('#cTelefono').classList.remove('skeleton'); $('#cTelefono').textContent = cliente.tel;
-    $('#cCorreo').classList.remove('skeleton'); $('#cCorreo').textContent = cliente.correo;
-    $('#cEstado').classList.remove('skeleton'); $('#cEstado').innerHTML = `<span class="pill ok">Póliza Activa</span>`;
-    $('#cComentarios').classList.remove('skeleton');
-
-    // Render Certificados con Botón Mágico de WA
-    const docVence = "2026-04-14"; // Vence en 10 días
-    const msgWA = encodeURIComponent(`Hola, tu sistema CONTPAQi Comercial Premium vence el ${docVence}. ¿Te genero la cotización de renovación?`);
-    
-    $('#docsList').innerHTML = `
-      <div class="box" style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-weight:800">CONTPAQi Comercial Premium</div>
-          <div class="mut">Serie: X19283 · Vence: 14 Abr 2026</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <span class="pill warn">Vence pronto</span>
-          <a href="https://wa.me/52${cliente.tel}?text=${msgWA}" target="_blank" class="btn wa">Generar WA</a>
-        </div>
-      </div>
-    `;
-  }, 1000);
-</script>
-</body>
-</html>
+import{supabase as s,guardSession,logout,openPdfSigned,fmt,msg}from"./supabase.js";
+const $=q=>document.querySelector(q),$$=q=>document.querySelectorAll(q),qp=new URLSearchParams(location.search),id=qp.get("id")||localStorage.getItem("expiriti_last_client")||"";
+let user=null,cliente=null,docs=[],ACTIVE_SYS="";
+const tel=v=>(v||"").replace(/[^\d]/g,""),wa=v=>tel(v)?`https://wa.me/52${tel(v)}`:"#",call=v=>tel(v)?`tel:${tel(v)}`:"#",mail=v=>v?`mailto:${v}`:"#";
+const sem=f=>!f?{t:"Sin vigencia",c:""}:(d=>d<0?{t:"Vencido",c:"bad"}:d<=30?{t:"Por vencer",c:"warn"}:{t:"Vigente",c:"ok"})(Math.ceil((new Date(f)-Date.now())/864e5));
+const norm=v=>(v||"").toString().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim(),nFile=v=>norm(v).replace(/[^a-z0-9._-]+/g,"_");
+const detect=f=>{const t=`${norm(f)} ${norm(cliente?.nombre||"")}`;return /contab|conta1|usaconta/.test(t)?"CONTPAQi Contabilidad":/bancos/.test(t)?"CONTPAQi Bancos":/nomina/.test(t)?"CONTPAQi Nóminas":/xml|cfdi/.test(t)?"CONTPAQi XML en Línea":/comstart|cstart/.test(t)?"CONTPAQi Comercial START":/compro/.test(t)?"CONTPAQi Comercial PRO":/cpremium|compremium|premium/.test(t)?"CONTPAQi Comercial PREMIUM":/factura/.test(t)?"CONTPAQi Factura Electrónica":/evalua/.test(t)?"CONTPAQi Evalúa":/analiza/.test(t)?"CONTPAQi Analiza":/vende/.test(t)?"CONTPAQi Vende":/optimiza/.test(t)?"CONTPAQi Optimiza":/anticipa/.test(t)?"CONTPAQi Anticipa":/personia/.test(t)?"CONTPAQi Personia":"";};
+const parseF=v=>{let m=(v||"").match(/(\d{1,2})[-\/ ]([a-záéíóú]+)[-\/ ](\d{4})/i);if(!m)return null;let mm={ene:1,enero:1,feb:2,febrero:2,mar:3,marzo:3,abr:4,abril:4,may:5,mayo:5,jun:6,junio:6,jul:7,julio:7,ago:8,agosto:8,sep:9,septiembre:9,oct:10,octubre:10,nov:11,noviembre:11,dic:12,diciembre:12}[norm(m[2])]||0;return mm?`${m[3]}-${String(mm).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`:null};
+const exData=t=>{const g=r=>(t.match(r)||[])[1]||null;return{sis:g(/SISTEMA:\s*(.+)/i)||g(/CONTPAQi\s+([A-Za-zÁÉÍÓÚáéíóú+ ]+)/i),ver:g(/VERSI[ÓO]N:\s*(.+)/i),tipo:g(/TIPO:\s*(.+)/i),usr:g(/USUARIOS:\s*(.+)/i),emp:g(/EMPRESAS:\s*(.+)/i),ser:g(/N[ÚU]MERO DE SERIE:\s*([A-Z0-9]+)/i),verif:g(/VERIFICADOR:\s*([A-Z0-9]+)/i),vig:parseF(g(/VIGENCIA:\s*(.+)/i)),empr:g(/EMPRESA:\s*(.+)/i)||g(/RAZ[ÓO]N SOCIAL:\s*(.+)/i)}};
+const rPDF=async f=>{const b=await f.arrayBuffer(),p=await pdfjsLib.getDocument({data:b}).promise;let t="";for(let i=1;i<=p.numPages;i++){const pg=await p.getPage(i),c=await pg.getTextContent();t+=c.items.map(x=>x.str).join(" ")+" "}return exData(t)};
+const exist=async n=>{let{data:d}=await s.from("documentos").select("id").eq("cliente_id",id).eq("nombre_archivo_norm",n).eq("eliminado",false).limit(1);return!!(d&&d.length);};
+$('#toggleUploadBtn').onclick=()=>{let e=$('#uploadZoneContainer');e.style.display=e.style.display==='none'?'block':'none'};
+$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));$$('.tab-content').forEach(c=>c.classList.remove('active'));t.classList.add('active');$(`#${t.dataset.target}`).classList.add('active')});
+window.copiarTxt=(b,i)=>{navigator.clipboard.writeText(document.getElementById(i).innerText).then(()=>{let o=b.innerHTML;b.innerHTML="✅";setTimeout(()=>b.innerHTML=o,1500)})};
+const rClient=()=>{['cNombre','sub','cTelefono','cCorreo','cEstado'].forEach(x=>$(`#${x}`).classList.remove('skeleton'));$('#cNombre').textContent=cliente?.nombre||"Cliente";$('#sub').textContent=`Creado: ${fmt(cliente?.fecha_creacion)||"—"}`;$('#cTelefono').textContent=cliente?.telefono||"—";$('#cCorreo').textContent=cliente?.correo||"—";$('#cEstado').innerHTML=`<span class="pill ok">${cliente?.estatus||"Activo"}</span>`;$("#callBtn").href=call(cliente?.telefono);$("#waBtn").href=wa(cliente?.telefono);$("#mailBtn").href=mail(cliente?.correo);};
+const rSys=()=>{let a=[...new Set(docs.filter(x=>!x.eliminado).map(x=>x.sistema).filter(Boolean))].sort();if(!ACTIVE_SYS&&a.length)ACTIVE_SYS=a[0];if(ACTIVE_SYS&&!a.includes(ACTIVE_SYS))ACTIVE_SYS=a[0]||"";$("#sysChips").innerHTML=a.length?`<button class="mini ${ACTIVE_SYS===''?'':'ghost'}" data-sys="">Todos</button>`+a.map(x=>`<button class="mini ${ACTIVE_SYS===x?'':'ghost'}" data-sys="${x}">${x}</button>`).join(""):'';$$("[data-sys]").forEach(b=>b.onclick=()=>{ACTIVE_SYS=b.dataset.sys;rSys();rDocs()});};
+const rDocs=()=>{let a=docs.filter(x=>!x.eliminado&&(!ACTIVE_SYS||x.sistema===ACTIVE_SYS));$("#kDocs").textContent=docs.filter(x=>!x.eliminado).length;$("#docsSub").textContent=`${a.length} elem. ${ACTIVE_SYS}`;$("#docsList").innerHTML=a.length?a.map(d=>{let m=sem(d.fin_vigencia),u=wa(cliente?.telefono)+`?text=${encodeURIComponent(`Hola, tu ${d.sistema||'CONTPAQi'} vence el ${fmt(d.fin_vigencia)}. ¿Renovamos?`)}`;return `<div class="box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-weight:800;font-size:15px">${d.sistema||"Sin sistema"}</div><div class="mut">${d.nombre_archivo}</div><div class="mut" style="margin-top:4px">Vence: <strong style="color:var(--txt)">${fmt(d.fin_vigencia)||"No definida"}</strong></div>${d.numero_serie?`<div class="mut" style="margin-top:4px;display:flex;align-items:center;gap:6px">Serie: <code id="s-${d.id}" style="color:var(--txt);background:rgba(0,0,0,.3);padding:2px 6px;border-radius:4px">${d.numero_serie}</code> <button class="mini ghost" style="padding:2px 6px;font-size:10px" onclick="window.copiarTxt(this,'s-${d.id}')">📋 Copiar</button></div>`:''}</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="pill ${m.c}">${m.t}</span>${(m.c==='warn'||m.c==='bad')&&cliente?.telefono?`<a href="${u}" target="_blank" class="mini wa">📱 WA</a>`:''}<button class="mini ghost" data-open="${d.id}">📄 Abrir</button></div></div>`}).join(""):'<div class="mut">Sin docs.</div>';$$("[data-open]").forEach(b=>b.onclick=()=>abrirDoc(b.dataset.open))};
+const lClient=async()=>{let{data:d,error:e}=await s.from("clientes").select("*").eq("id",id).single();if(e||!d){alert("Error");location.href="dashboard.html";return}cliente=d;rClient();};
+const lDocs=async()=>{let{data:d,error:e}=await s.from("documentos").select("*").eq("cliente_id",id).order("fecha_subida",{ascending:false});if(e)return alert(msg(e));docs=d||[];rSys();rDocs();};
+const lTickets=async()=>{let{data:d}=await s.from("tickets").select("*").eq("cliente_id",id).order("fecha_creacion",{ascending:false});let a=d||[];$("#tCount").textContent=a.length;$("#tList").innerHTML=a.length?a.map(t=>`<div class="box"><div style="font-weight:700;font-size:15px">${t.titulo||"Ticket"}</div><div class="mut" style="margin-top:4px">${t.tipo||"soporte"} · ${t.prioridad||"media"} · ${fmt(t.fecha_creacion)||""}</div></div>`).join(""):'<div class="mut">Sin tickets.</div>';};
+const lCRM=async()=>{let{data:d}=await s.from("clientes").select("comentarios,rol_responsable,ultima_interaccion").eq("id",id).single();if(d){$('#cComentarios').classList.remove('skeleton');$("#cComentarios").value=d.comentarios||"";$('#cResponsable').classList.remove('skeleton');$("#cResponsable").value=d.rol_responsable||"";$("#cUltima").textContent=`Última interacción: ${d.ultima_interaccion?fmt(d.ultima_interaccion):"—"}`}};
+const saveCRM=async()=>{let b=$("#saveCRM");b.textContent="Guardando...";b.disabled=true;let u=await s.from("clientes").update({comentarios:$("#cComentarios").value,rol_responsable:$("#cResponsable").value,ultima_interaccion:new Date().toISOString()}).eq("id",id);b.textContent="Guardar CRM";b.disabled=false;if(u.error)return alert(msg(u.error));alert("CRM OK");lCRM()};
+const abrirDoc=async i=>{let r=docs.find(x=>String(x.id)===String(i));if(r)await openPdfSigned(r.storage_path||r.url_pdf,8)};
+const up=async()=>{let fi=$("#file"),f=fi?.files?.[0],vI=$("#vigInicio").value||null,vF=$("#vigFin").value||null;if(!f||!/\.pdf$/i.test(f.name))return alert("Solo PDFs");let b=$("#upload");b.textContent="Leyendo PDF...";b.disabled=true;let pd=await rPDF(f);let c=f.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._() -]/g,""),nN=nFile(f.name),sis=pd.sis?detect(pd.sis):detect(f.name);if(await exist(nN)){b.textContent="Subir Archivo";b.disabled=false;return alert("Ya existe PDF.");}b.textContent="Subiendo...";let p=`${id}/${Date.now()}_${c}`,upR=await s.storage.from("certificados").upload(p,f,{upsert:false,contentType:"application/pdf"});if(upR.error){b.textContent="Subir Archivo";b.disabled=false;return alert(msg(upR.error));}let i=await s.from("documentos").insert({cliente_id:id,nombre_archivo:f.name,nombre_archivo_norm:nN,url_pdf:p,storage_path:p,sistema:sis,version:pd.ver,tipo:pd.tipo,usuarios:pd.usr,empresas:pd.emp,numero_serie:pd.ser,verificador:pd.verif,inicio_vigencia:vI,fin_vigencia:pd.vig||vF,empresa_nombre:pd.empr||cliente?.nombre,subido_por:user.id,tamano_bytes:f.size||null,mime_type:f.type||"application/pdf"}).select("*").single();b.textContent="Subir Archivo";b.disabled=false;if(i.error){try{await s.storage.from("certificados").remove([p])}catch{}return alert(/duplicate|unique|23505/i.test(msg(i.error))?"Ya registrado.":msg(i.error));}fi.value="";$("#fileName").textContent="Ningún archivo";$("#vigInicio").value="";$("#vigFin").value="";$('#uploadZoneContainer').style.display='none';await lDocs()};
+const bind=()=>{let d=$("#dropZone"),fi=$("#file");d.onclick=()=>fi.click();fi.onchange=()=>$("#fileName").textContent=fi.files[0]?.name||"Ningún archivo seleccionado";d.ondragover=e=>{e.preventDefault();d.style.borderColor="#2dd4bf"};d.ondragleave=()=>d.style.borderColor="rgba(45,212,191,.45)";d.ondrop=e=>{e.preventDefault();d.style.borderColor="rgba(45,212,191,.45)";let f=e.dataTransfer.files[0];if(!f)return;let dt=new DataTransfer();dt.items.add(f);fi.files=dt.files;$("#fileName").textContent=f.name};$("#upload").onclick=up;$("#saveCRM").onclick=saveCRM;$("#logoutBtn").onclick=()=>logout("index.html")};
+const init=async()=>{if(!id)return location.href="clientes.html";let a=await guardSession("index.html");if(!a)return;user=a.user;bind();await Promise.all([lClient(),lDocs(),lCRM(),lTickets()]);};init();
+</script></body></html>
