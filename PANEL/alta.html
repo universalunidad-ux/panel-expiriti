@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alta de Cliente | Expiriti</title>
+<meta name="theme-color" content="#0a1018">
+<style>:root{--bg:#0a1018;--bg2:#0f1725;--panel:#111927;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--txt:#eaf1f9;--mut:#94a3b8;--brand:#2dd4bf;--brand2:#60a5fa;--bad:#ef4444;--r:24px;--r2:16px;--sh:0 24px 48px rgba(0,0,0,.36)}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#0a1018,#0b1320 38%,#0a1018);color:var(--txt);font:14px/1.45 Inter,system-ui,sans-serif;display:grid;place-items:center;padding:20px}a{text-decoration:none;color:inherit}.wrap{width:min(100%,760px);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}.top{padding:28px 28px 18px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(45,212,191,.08),rgba(96,165,250,.06))}.ey{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.title{margin:8px 0 0;font-size:30px;line-height:1.05;font-weight:950;letter-spacing:-.03em}.sub{margin-top:8px;color:var(--mut);font-size:14px}.body{padding:22px 28px 28px}.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.input,.area{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);padding:13px 14px;border-radius:14px;outline:none}.input:focus,.area:focus{border-color:rgba(45,212,191,.48);box-shadow:0 0 0 4px rgba(45,212,191,.12)}label span{display:block;font-size:12px;color:var(--mut);margin-bottom:7px}.area{min-height:100px;resize:vertical}.drop{margin-top:16px;padding:28px;border:1px dashed rgba(45,212,191,.42);border-radius:18px;background:rgba(45,212,191,.05);text-align:center;cursor:pointer}.drop.drag{background:rgba(45,212,191,.1);border-color:var(--brand)}.dt{font-size:16px;font-weight:900}.ds{margin-top:6px;font-size:13px;color:var(--mut)}.files{display:grid;gap:8px;margin-top:14px;text-align:left}.file{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.025);font-size:13px;color:var(--mut);word-break:break-word}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;border-radius:14px;border:1px solid var(--line);background:#152133;color:var(--txt);font-weight:900;min-height:46px;cursor:pointer}.btn.brand{background:linear-gradient(135deg,var(--brand),#52e5cb);color:#06231e;border-color:transparent}.btn:disabled{opacity:.55;cursor:not-allowed}.msg{margin-top:12px;font-size:13px;color:var(--mut)}.ok{color:#86efac}.bad{color:#fca5a5}.foot{margin-top:14px;font-size:12px;color:var(--mut)}@media (max-width:760px){body{padding:14px}.top{padding:22px 18px 16px}.body{padding:18px}.g2{grid-template-columns:1fr}.title{font-size:24px}.actions .btn{flex:1}}</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div class="ey">Onboarding / Bienvenida</div><h1 class="title">Bienvenido a Expiriti</h1><div class="sub">Completa tus datos y adjunta tu Constancia de Situación Fiscal, certificados CONTPAQi o ZIP. Nosotros armamos tu perfil y seguimiento.</div></div>
+<div class="body">
+<div class="grid">
+<label><span>Razón social o nombre comercial</span><input class="input" id="nombre" placeholder="Ej. FUCASA S.A. de C.V."></label>
+<div class="grid g2">
+<label><span>Teléfono WhatsApp</span><input class="input" id="telefono" type="tel" placeholder="10 dígitos"></label>
+<label><span>Correo principal</span><input class="input" id="correo" type="email" placeholder="contacto@empresa.com"></label>
+</div>
+<label><span>Responsables o contactos que nos atenderán</span><input class="input" id="contacto" placeholder="Ej. María / Juan / Soporte interno"></label>
+<label><span>Comentarios adicionales</span><textarea class="area" id="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label>
+</div>
+<label class="drop" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip"><div class="dt">📥 Arrastra tus archivos aquí</div><div class="ds">PDFs de Constancia, Certificados o carpeta ZIP</div><div class="files" id="fileList"></div></label>
+<div class="actions"><button class="btn brand" id="btnSubmit">Crear mi perfil y enviar archivos</button><button class="btn" id="btnClear" type="button">Limpiar</button></div>
+<div class="msg" id="statusMsg">Listo.</div>
+<div class="foot">Esta página debe conectarse a un endpoint controlado o Edge Function. No recomiendo insertar directo a tablas core desde público.</div>
+</div>
+</div>
+
+<script type="module">
+const $=q=>document.querySelector(q),files=[],MAX_FILES=12,MAX_MB=25;
+const setMsg=(t,c="")=>{$("#statusMsg").textContent=t;$("#statusMsg").className=`msg ${c}`.trim()};
+const human=n=>`${Math.max(1,Math.round(n/1024))} KB`;
+const renderFiles=()=>{$("#fileList").innerHTML=files.length?files.map((f,i)=>`<div class="file">📄 ${f.name} · ${human(f.size)} <button data-del="${i}" style="float:right;background:none;border:none;color:#94a3b8;cursor:pointer">Quitar</button></div>`).join(""):"";document.querySelectorAll("[data-del]").forEach(b=>b.onclick=e=>{files.splice(+e.currentTarget.dataset.del,1);renderFiles()})};
+const addFiles=list=>{for(const f of [...list]){if(files.length>=MAX_FILES)break;if(f.size>MAX_MB*1024*1024)continue;files.push(f)}renderFiles()};
+const clearAll=()=>{$("#nombre").value="";$("#telefono").value="";$("#correo").value="";$("#contacto").value="";$("#comentarios").value="";$("#fileInput").value="";files.length=0;renderFiles();setMsg("Listo.")};
+$("#btnClear").onclick=clearAll;
+$("#dropArea").onclick=e=>{if(e.target.dataset.del!=null)return;$("#fileInput").click()};
+$("#fileInput").onchange=e=>addFiles(e.target.files||[]);
+$("#dropArea").ondragover=e=>{e.preventDefault();$("#dropArea").classList.add("drag")};
+$("#dropArea").ondragleave=()=>$("#dropArea").classList.remove("drag");
+$("#dropArea").ondrop=e=>{e.preventDefault();$("#dropArea").classList.remove("drag");addFiles(e.dataTransfer.files||[])};
+
+$("#btnSubmit").onclick=async()=>{
+  const nombre=$("#nombre").value.trim(),telefono=$("#telefono").value.trim(),correo=$("#correo").value.trim(),contacto=$("#contacto").value.trim(),comentarios=$("#comentarios").value.trim();
+  if(!nombre)return setMsg("Falta el nombre o razón social.","bad");
+  if(!files.length)return setMsg("Debes subir al menos un archivo.","bad");
+  const btn=$("#btnSubmit");btn.disabled=true;setMsg("Procesando solicitud...");
+  try{
+    const fd=new FormData();
+    fd.append("nombre",nombre);fd.append("telefono",telefono);fd.append("correo",correo);fd.append("contacto",contacto);fd.append("comentarios",comentarios);
+    files.forEach(f=>fd.append("files",f));
+    /* PRODUCCIÓN:
+    const r=await fetch("/api/alta-cliente",{method:"POST",body:fd});
+    if(!r.ok)throw new Error("No se pudo procesar el alta");
+    */
+    await new Promise(r=>setTimeout(r,1200));
+    document.querySelector(".body").innerHTML='<div class="msg ok" style="font-size:15px">✅ Recibimos tu información. Tu equipo de soporte en Expiriti ya está configurando tu cuenta.</div>';
+  }catch(err){
+    setMsg(err.message||"Hubo un error al enviar.","bad");
+    btn.disabled=false;
+  }
+};
+</script>
+</body>
+</html>
