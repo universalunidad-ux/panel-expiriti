@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ticket Operación | Expiriti</title>
+<style>
+:root{--bg:#070b12;--panel:#0d141f;--br:rgba(255,255,255,.08);--txt:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--sys:#1e293b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.topbar{padding:14px 20px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center}
+/* Split Screen */
+.split{display:grid;grid-template-columns:350px 1fr;flex:1;overflow:hidden}
+.panel-left{background:var(--bg);border-right:1px solid var(--br);padding:20px;overflow-y:auto}
+.panel-right{background:var(--panel);display:flex;flex-direction:column}
+/* Contexto (Izquierda) */
+h3{margin:0 0 16px 0;font-size:20px}
+.info-box{background:rgba(255,255,255,.02);border:1px solid var(--br);border-radius:12px;padding:16px;margin-bottom:16px}
+.label{font-size:12px;color:var(--mut);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
+.val{font-size:15px;font-weight:600;margin-bottom:12px}
+.btn-magic{width:100%;padding:12px;border-radius:8px;background:rgba(45,212,191,.1);border:1px dashed var(--brand);color:var(--brand);font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-magic:hover{background:var(--brand);color:#000}
+/* Chat / Logs (Derecha) */
+.log-area{flex:1;padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.log-sys{align-self:center;background:var(--sys);color:var(--mut);font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--br)}
+.log-msg{align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid var(--br);padding:14px;border-radius:16px;border-top-left-radius:4px;max-width:80%}
+.log-msg.me{align-self:flex-end;background:rgba(45,212,191,.1);border-color:rgba(45,212,191,.3);border-radius:16px;border-top-right-radius:4px}
+.log-meta{font-size:11px;color:var(--mut);margin-bottom:6px;display:flex;justify-content:space-between}
+.editor{padding:16px;border-top:1px solid var(--br);background:var(--bg)}
+textarea{width:100%;background:#05080d;border:1px solid var(--br);border-radius:12px;padding:14px;color:#fff;resize:none;font-family:inherit;min-height:80px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><a href="tickets.html" style="color:var(--mut);text-decoration:none;margin-right:12px">← Volver</a> <strong style="color:var(--brand)">TK-0891</strong></div>
+  <div style="font-size:13px;color:var(--mut)">Presiona <kbd style="background:#222;padding:2px 6px;border-radius:4px">Ctrl + K</kbd> para buscar en todo Expiriti</div>
+</div>
+
+<div class="split">
+  <div class="panel-left">
+    <h3>No timbra XML en Línea</h3>
+    <div class="info-box">
+      <div class="label">Cliente</div>
+      <div class="val" style="display:flex;justify-content:space-between">
+        FUCASA
+        <span class="label" style="background:#8b5cf6;color:#fff;padding:2px 6px;border-radius:4px">VIP Póliza</span>
+      </div>
+      <div class="label">Sistema Afectado</div>
+      <div class="val">CONTPAQi XML en Línea</div>
+      <div class="label">Serie del Sistema</div>
+      <div class="val" style="display:flex;align-items:center;gap:8px">
+        <code id="serieTxt">XML-9982-A</code>
+        <button onclick="copiarTexto('serieTxt')" style="background:transparent;border:1px solid var(--br);color:var(--mut);border-radius:4px;cursor:pointer" title="Copiar al portapapeles">📋</button>
+      </div>
+    </div>
+    
+    <button class="btn-magic" onclick="copiarLinkPublico()">
+      🔗 Copiar Enlace Mágico del Cliente
+    </button>
+    <p style="font-size:12px;color:var(--mut);text-align:center">Envíale este enlace por WhatsApp. El cliente podrá ver el estatus sin iniciar sesión.</p>
+  </div>
+
+  <div class="panel-right">
+    <div class="log-area">
+      <div class="log-sys">Juan P. creó el ticket desde Dashboard — 10:45 AM</div>
+      
+      <div class="log-msg">
+        <div class="log-meta"><span>Reporte inicial</span><span>10:45 AM</span></div>
+        El cliente marca que al querer descargar los XML del SAT manda un error 404 de conexión en el servidor local.
+      </div>
+
+      <div class="log-sys">María S. tomó el ticket — 11:00 AM</div>
+
+      <div class="log-msg me">
+        <div class="log-meta"><span>María S. (Tú)</span><span>11:15 AM</span></div>
+        Revisé el puerto del servidor. Me conecté por AnyDesk y reinicié el servicio de CONTPAQi. Quedó resuelto.
+      </div>
+      
+      <div class="log-msg" style="border-color:#8b5cf6">
+        <div class="log-meta"><span style="color:#8b5cf6">Portal del Cliente (FUCASA)</span><span>11:20 AM</span></div>
+        ⭐⭐⭐⭐⭐ ¡Excelente servicio! Ya puedo descargar todo bien. Gracias María.
+      </div>
+      <div class="log-sys">El cliente marcó el caso como Resuelto — 11:20 AM</div>
+    </div>
+
+    <div class="editor">
+      <textarea placeholder="Escribe un log interno... (El cliente no ve esto)"></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;align-items:center">
+        <label style="font-size:13px;color:var(--mut)"><input type="checkbox"> Hacer visible para el cliente</label>
+        <button style="background:var(--brand);border:none;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer">Guardar Log</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Función Copy to Clipboard (1 Clic)
+  function copiarTexto(idElemento) {
+    const texto = document.getElementById(idElemento).innerText;
+    navigator.clipboard.writeText(texto).then(() => {
+      alert("¡Serie copiada al portapapeles!");
+    });
+  }
+
+  function copiarLinkPublico() {
+    const link = "https://expiriti.com/seguimiento?token=X8jK2";
+    navigator.clipboard.writeText(link).then(() => {
+      alert("Enlace Mágico copiado. Pégalo en WhatsApp.");
+    });
+  }
+
+  // Omni-Search (Comando + K) Simulación visual
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      const query = prompt("Omni-Search 🔍\nEscribe el nombre de un cliente, ticket o serie (Ej. FUCASA):");
+      if(query) alert(`Buscando en Supabase: "${query}"... \nAquí redirigirías a los resultados.`);
+    }
+  });
+</script>
+</body>
+</html>
