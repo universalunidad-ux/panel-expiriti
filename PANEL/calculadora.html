@@ -1,0 +1,25 @@
+<style>
+.calc-card{background:#1e1e1e;color:#fff;padding:25px;border-radius:12px;max-width:400px;margin:auto;font-family:sans-serif;box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+.calc-input{width:100%;padding:12px;margin:10px 0;box-sizing:border-box;border-radius:5px;border:none;}
+.calc-btn{width:100%;padding:14px;background:#00a859;color:white;border:none;border-radius:5px;cursor:pointer;font-weight:bold;font-size:16px;}
+.calc-btn:hover{background:#008f4c;}
+</style>
+<div class="calc-card">
+  <h3 style="margin-top:0;">Proyección de Aguinaldo</h3>
+  <input type="number" id="salario" class="calc-input" placeholder="Salario Mensual Libre ($)">
+  <input type="number" id="dias" class="calc-input" placeholder="Días trabajados en el año">
+  <input type="email" id="emailLead" class="calc-input" placeholder="Tu correo electrónico">
+  <button class="calc-btn" onclick="calcular()">Ver Mi Proyección</button>
+  <h4 id="calcRes" style="display:none;color:#00ff88;text-align:center;font-size:20px;"></h4>
+</div>
+<script>
+function calcular(){
+  let sal = document.getElementById('salario').value, dias = document.getElementById('dias').value, mail = document.getElementById('emailLead').value;
+  if(!sal || !dias || !mail){ alert("Por favor, llena todos los campos."); return; }
+  // Fórmula básica de aguinaldo (15 días de ley)
+  let aguinaldo = ((sal / 30) * 15 * (dias / 365)).toFixed(2);
+  document.getElementById('calcRes').innerText = `Tu aguinaldo proyectado es: $${aguinaldo} MXN`;
+  document.getElementById('calcRes').style.display = "block";
+  // Aquí insertarías tu código (Fetch/AJAX) para enviar 'mail' a tu base de datos de marketing.
+}
+</script>
