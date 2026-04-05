@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alta de Cliente | Expiriti</title>
+<meta name="theme-color" content="#0a1018">
+<link rel="stylesheet" href="alta.css">
+</head>
+<body>
+<main class="page">
+<section class="shell">
+<aside class="hero">
+<div class="eyebrow">Onboarding empresarial</div>
+<h1 class="hero-title">Bienvenido a Expiriti</h1>
+<p class="hero-sub">Comparte tus datos de contacto y adjunta tu Constancia de Situación Fiscal, certificados CONTPAQi o ZIP. Nosotros organizamos tu alta de forma segura.</p>
+<div class="hero-points"><article class="point"><span class="point-ico">✓</span><div><strong>Alta ordenada</strong><p>Tu información entra a un flujo controlado antes de convertirse en cliente real.</p></div></article><article class="point"><span class="point-ico">🔒</span><div><strong>Carga segura</strong><p>Tus archivos no tocan directamente la base principal ni los certificados productivos.</p></div></article><article class="point"><span class="point-ico">⚡</span><div><strong>Menos fricción</strong><p>Tu equipo reduce captura manual y gana velocidad de atención.</p></div></article></div>
+</aside>
+<section class="panel">
+<div class="panel-top"><div><div class="section-kicker">Solicitud de alta</div><h2 class="panel-title">Completa tu información</h2><p class="panel-sub">Mientras más completo venga el registro, más rápido configuramos tu cuenta.</p></div><span class="state-pill" id="statePill">Listo</span></div>
+<form id="altaForm" class="form" novalidate>
+<div class="grid"><label class="field field-full"><span>Razón social o nombre comercial</span><input class="input" id="nombre" name="nombre" placeholder="Ej. FUCASA S.A. de C.V." autocomplete="organization"></label><label class="field"><span>Teléfono WhatsApp</span><input class="input" id="telefono" name="telefono" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label><label class="field"><span>Correo principal</span><input class="input" id="correo" name="correo" type="email" placeholder="contacto@empresa.com" autocomplete="email"></label><label class="field field-full"><span>Responsables o contactos que nos atenderán</span><input class="input" id="contacto" name="contacto" placeholder="Ej. María / Juan / Soporte interno"></label><label class="field field-full"><span>Comentarios adicionales</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label></div>
+<label class="dropzone" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip,image/png,image/jpeg,image/webp"><div class="drop-icon">📥</div><div class="drop-title">Arrastra tus archivos aquí o haz clic para seleccionarlos</div><div class="drop-sub">Acepta PDF, ZIP e imagen. Máximo 12 archivos, 25 MB por archivo.</div><div class="files" id="fileList"></div></label>
+<div class="meta-row"><div class="meta-card"><span class="meta-k">Archivos</span><strong class="meta-v" id="filesCount">0</strong></div><div class="meta-card"><span class="meta-k">Peso aprox.</span><strong class="meta-v" id="filesWeight">0 KB</strong></div><div class="meta-card"><span class="meta-k">Estado</span><strong class="meta-v" id="miniStatus">En espera</strong></div></div>
+<div class="actions"><button class="btn btn-primary" id="btnSubmit" type="submit">Crear mi perfil y enviar archivos</button><button class="btn btn-ghost" id="btnClear" type="button">Limpiar</button></div>
+<div class="status" id="statusMsg">Listo para recibir tu información.</div>
+<div class="foot-note">Tu solicitud se envía a una función segura de Supabase para validación y almacenamiento temporal.</div>
+</form>
+</section>
+</section>
+</main>
+<script type="module" src="alta.js"></script>
+</body>
+</html>
