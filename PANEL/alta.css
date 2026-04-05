@@ -1,34 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Alta de Cliente | Expiriti</title>
-<meta name="theme-color" content="#0a1018">
-<link rel="stylesheet" href="alta.css">
-</head>
-<body>
-<main class="page">
-<section class="shell">
-<aside class="hero">
-<div class="eyebrow">Onboarding empresarial</div>
-<h1 class="hero-title">Bienvenido a Expiriti</h1>
-<p class="hero-sub">Comparte tus datos de contacto y adjunta tu Constancia de Situación Fiscal, certificados CONTPAQi o ZIP. Nosotros organizamos tu alta de forma segura.</p>
-<div class="hero-points"><article class="point"><span class="point-ico">✓</span><div><strong>Alta ordenada</strong><p>Tu información entra a un flujo controlado antes de convertirse en cliente real.</p></div></article><article class="point"><span class="point-ico">🔒</span><div><strong>Carga segura</strong><p>Tus archivos no tocan directamente la base principal ni los certificados productivos.</p></div></article><article class="point"><span class="point-ico">⚡</span><div><strong>Menos fricción</strong><p>Tu equipo reduce captura manual y gana velocidad de atención.</p></div></article></div>
-</aside>
-<section class="panel">
-<div class="panel-top"><div><div class="section-kicker">Solicitud de alta</div><h2 class="panel-title">Completa tu información</h2><p class="panel-sub">Mientras más completo venga el registro, más rápido configuramos tu cuenta.</p></div><span class="state-pill" id="statePill">Listo</span></div>
-<form id="altaForm" class="form" novalidate>
-<div class="grid"><label class="field field-full"><span>Razón social o nombre comercial</span><input class="input" id="nombre" name="nombre" placeholder="Ej. FUCASA S.A. de C.V." autocomplete="organization"></label><label class="field"><span>Teléfono WhatsApp</span><input class="input" id="telefono" name="telefono" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label><label class="field"><span>Correo principal</span><input class="input" id="correo" name="correo" type="email" placeholder="contacto@empresa.com" autocomplete="email"></label><label class="field field-full"><span>Responsables o contactos que nos atenderán</span><input class="input" id="contacto" name="contacto" placeholder="Ej. María / Juan / Soporte interno"></label><label class="field field-full"><span>Comentarios adicionales</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label></div>
-<label class="dropzone" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip,image/png,image/jpeg,image/webp"><div class="drop-icon">📥</div><div class="drop-title">Arrastra tus archivos aquí o haz clic para seleccionarlos</div><div class="drop-sub">Acepta PDF, ZIP e imagen. Máximo 12 archivos, 25 MB por archivo.</div><div class="files" id="fileList"></div></label>
-<div class="meta-row"><div class="meta-card"><span class="meta-k">Archivos</span><strong class="meta-v" id="filesCount">0</strong></div><div class="meta-card"><span class="meta-k">Peso aprox.</span><strong class="meta-v" id="filesWeight">0 KB</strong></div><div class="meta-card"><span class="meta-k">Estado</span><strong class="meta-v" id="miniStatus">En espera</strong></div></div>
-<div class="actions"><button class="btn btn-primary" id="btnSubmit" type="submit">Crear mi perfil y enviar archivos</button><button class="btn btn-ghost" id="btnClear" type="button">Limpiar</button></div>
-<div class="status" id="statusMsg">Listo para recibir tu información.</div>
-<div class="foot-note">Tu solicitud se envía a una función segura de Supabase para validación y almacenamiento temporal.</div>
-</form>
-</section>
-</section>
-</main>
-<script type="module" src="alta.js"></script>
-</body>
-</html>
+:root{--bg:#0a1018;--bg2:#0f1725;--bg3:#0b1320;--panel:#111927;--panel2:rgba(255,255,255,.03);--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--txt:#eaf1f9;--mut:#94a3b8;--brand:#2dd4bf;--brand2:#60a5fa;--ok:#86efac;--bad:#fca5a5;--warn:#fcd34d;--shadow:0 24px 60px rgba(0,0,0,.38);--r:28px;--r2:18px;--r3:14px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,rgba(45,212,191,.08),transparent 22%),radial-gradient(circle at top right,rgba(96,165,250,.08),transparent 24%),linear-gradient(180deg,#0a1018,#0b1320 38%,#0a1018);color:var(--txt);font:14px/1.5 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.page{min-height:100vh;display:grid;place-items:center;padding:22px}
+.shell{width:min(1180px,100%);display:grid;grid-template-columns:minmax(320px,.92fr) minmax(0,1.08fr);gap:18px;align-items:stretch}
+.hero,.panel{border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.hero{padding:34px 28px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02)),linear-gradient(135deg,rgba(45,212,191,.08),rgba(96,165,250,.06))}
+.eyebrow,.section-kicker{font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.hero-title{margin:10px 0 0;font-size:38px;line-height:1.02;font-weight:950;letter-spacing:-.04em}
+.hero-sub{margin:12px 0 0;color:#c4d3e7;font-size:15px;max-width:54ch}
+.hero-points{display:grid;gap:12px;margin-top:24px}
+.point{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.point-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:rgba(45,212,191,.12);font-size:16px;flex:0 0 auto}
+.point strong{display:block;font-size:14px}
+.point p{margin:4px 0 0;color:var(--mut);font-size:13px}
+.hero-band{margin-top:20px;padding:16px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
+.hero-k{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.hero-v{margin-top:8px;font-size:14px;color:#d7e5f3}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));padding:26px 26px 24px}
+.panel-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+.panel-title{margin:8px 0 0;font-size:28px;line-height:1.05;font-weight:950;letter-spacing:-.03em}
+.panel-sub{margin:8px 0 0;color:var(--mut)}
+.state-pill{display:inline-flex;align-items:center;min-height:34px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:12px;font-weight:900;color:#dbe8f7}
+.form{display:grid;gap:16px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.field{display:block}
+.field-full{grid-column:1/-1}
+.field span{display:block;font-size:12px;color:var(--mut);margin-bottom:7px}
+.input,.area{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--txt);padding:13px 14px;border-radius:14px;outline:none;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.input:focus,.area:focus{border-color:rgba(45,212,191,.52);box-shadow:0 0 0 4px rgba(45,212,191,.12)}
+.area{min-height:108px;resize:vertical}
+.dropzone{display:block;padding:24px;border:1px dashed rgba(45,212,191,.42);border-radius:20px;background:rgba(45,212,191,.05);text-align:center;cursor:pointer;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.dropzone:hover{transform:translateY(-1px)}
+.dropzone.drag{background:rgba(45,212,191,.1);border-color:var(--brand)}
+.drop-icon{font-size:28px}
+.drop-title{margin-top:6px;font-size:16px;font-weight:900}
+.drop-sub{margin-top:6px;font-size:13px;color:var(--mut)}
+.files{display:grid;gap:8px;margin-top:14px;text-align:left}
+.file{padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);font-size:13px;color:#d8e4f2;word-break:break-word}
+.file-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.file-meta{margin-top:4px;color:var(--mut);font-size:12px}
+.file-del{background:none;border:none;color:var(--mut);cursor:pointer;padding:0;font-size:12px}
+.meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.meta-card{padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)}
+.meta-k{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.meta-v{display:block;margin-top:6px;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);font-weight:900;min-height:48px;transition:transform .16s ease,opacity .16s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.58;cursor:not-allowed}
+.btn-primary{background:linear-gradient(135deg,var(--brand),#52e5cb);color:#06231e;border-color:transparent}
+.btn-ghost{background:#152133;color:var(--txt)}
+.status{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025);font-size:13px;color:var(--mut)}
+.status.ok{color:var(--ok)}
+.status.bad{color:var(--bad)}
+.status.warn{color:var(--warn)}
+.foot-note{font-size:12px;color:var(--mut)}
+@media (max-width:960px){.shell{grid-template-columns:1fr}.hero-title{font-size:30px}}
+@media (max-width:640px){.page{padding:14px}.hero,.panel{border-radius:22px}.hero{padding:24px 18px}.panel{padding:20px 18px}.grid,.meta-row{grid-template-columns:1fr}.panel-top{flex-direction:column}.panel-title{font-size:24px}.actions .btn{flex:1}}
