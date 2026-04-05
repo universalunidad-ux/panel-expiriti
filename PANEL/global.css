@@ -1,0 +1,9 @@
+:root{--bg:#0a1018;--panel:#111927;--line:rgba(255,255,255,.08);--txt:#eaf1f9;--mut:#94a3b8;--brand:#2dd4bf;--r:16px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px Inter,system-ui}
+button{cursor:pointer}
+.container{max-width:1100px;margin:auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.grid{display:grid;gap:12px}
+.btn{padding:10px 14px;border:none;border-radius:10px;background:var(--brand);color:#000;font-weight:700}
+.input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0f1725;color:#fff}
+.mut{color:var(--mut);font-size:12px}
