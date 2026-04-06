@@ -1,49 +1,13 @@
-import{createClient as C}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-import{$,toast}from"./global.js";
-
-const s=C("https://ovfmqqqwezfdtgrtkjhf.supabase.co","TU_ANON_KEY");
-
-async function load(){
-  const{data,error}=await s.from("solicitudes_alta").select("*").order("creado_en",{ascending:false});
-  if(error)return toast(error.message,"err");
-  render(data||[]);
-}
-
-function render(rows){
-  $("#list").innerHTML=rows.map(r=>`
-    <div class="card">
-      <strong>${r.nombre}</strong>
-      <div class="mut">${r.correo||"-"}</div>
-      <div class="mut">${r.estatus}</div>
-      <button class="btn" data-id="${r.id}">Aprobar</button>
-    </div>
-  `).join("");
-
-  document.querySelectorAll("[data-id]").forEach(b=>{
-    b.onclick=()=>approve(b.dataset.id);
-  });
-}
-
-async function approve(id){
-  if(!confirm("Crear cliente?"))return;
-
-  const{data}=await s.from("solicitudes_alta").select("*").eq("id",id).single();
-
-  const{data:c,error}=await s.from("clientes").insert({
-    nombre:data.nombre,
-    correo:data.correo,
-    telefono:data.telefono
-  }).select().single();
-
-  if(error)return toast(error.message,"err");
-
-  await s.from("solicitudes_alta").update({
-    estatus:"aprobada",
-    cliente_id:c.id
-  }).eq("id",id);
-
-  toast("Cliente creado","ok");
-  load();
-}
-
-load();
+import{supabase as s,guardSession,logAction,msg}from"./supabase.js";import{$,$$,toast,show,hide,esc}from"./global.js";
+const ST={rows:[],current:null},norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g," ").replace(/\s+/g," ").trim(),statusCls=v=>norm(v)==="aprobada"?"ok":norm(v)==="rechazada"?"bad":"warn";
+const queryRows=()=>{const q=norm($("#q").value),f=norm($("#fStatus").value);return ST.rows.filter(r=>{const hit=!q||norm(`${r.nombre} ${r.correo||""} ${r.telefono||""} ${r.estatus||""}`).includes(q);const ok=!f||norm(r.estatus)===f;return hit&&ok})};
+const renderKpis=()=>{$("#kTotal").textContent=ST.rows.length;$("#kPend").textContent=ST.rows.filter(x=>norm(x.estatus)==="pendiente").length;$("#kAprob").textContent=ST.rows.filter(x=>norm(x.estatus)==="aprobada").length};
+const rowCard=r=>`<article class="item alta-row"><div class="alta-main"><div><div class="alta-name">${esc(r.nombre||"Sin nombre")}</div><div class="alta-sub">${esc(r.correo||"Sin correo")} · ${esc(r.telefono||"Sin teléfono")}</div></div><div class="alta-files">${Array.isArray(r.archivos)?r.archivos.slice(0,4).map(f=>`<span class="file-pill">📎 ${esc(f.nombre||f.name||"archivo")}</span>`).join(""):""}</div></div><div class="alta-meta"><span class="pill ${statusCls(r.estatus)}">${esc(r.estatus||"pendiente")}</span><div class="alta-sub">${r.creado_en?new Date(r.creado_en).toLocaleString("es-MX"):""}</div><div class="alta-sub">${esc(r.contacto||r.comentarios||"")}</div></div><div class="alta-actions"><button class="mini" data-view="${r.id}">Ver</button>${norm(r.estatus)==="pendiente"?`<button class="mini" data-approve="${r.id}">Aprobar</button><button class="mini" data-reject="${r.id}">Rechazar</button>`:""}</div></article>`;
+const render=()=>{const rows=queryRows();renderKpis();$("#list").innerHTML=rows.length?rows.map(rowCard).join(""):`<div class="empty-state">No hay solicitudes con esos filtros.</div>`;$$("[data-view]").forEach(b=>b.onclick=()=>openDetail(b.dataset.view));$$("[data-approve]").forEach(b=>b.onclick=()=>approve(b.dataset.approve));$$("[data-reject]").forEach(b=>b.onclick=()=>rejectRow(b.dataset.reject))};
+const openDetail=id=>{ST.current=ST.rows.find(x=>String(x.id)===String(id));if(!ST.current)return;$("#dTitle").textContent=ST.current.nombre||"Solicitud";$("#detailBody").innerHTML=`<div class="box"><div class="k">Correo</div><div class="v small">${esc(ST.current.correo||"—")}</div></div><div class="box"><div class="k">Teléfono</div><div class="v small">${esc(ST.current.telefono||"—")}</div></div><div class="box"><div class="k">Contacto</div><div class="v small">${esc(ST.current.contacto||"—")}</div></div><div class="box"><div class="k">Estatus</div><div class="v small">${esc(ST.current.estatus||"pendiente")}</div></div><div class="box" style="grid-column:1/-1"><div class="k">Comentarios</div><div class="v small">${esc(ST.current.comentarios||"—")}</div></div>`;$("#detailStatus").textContent="Listo.";show("#detailModal")};
+const closeDetail=()=>hide("#detailModal");
+const approve=async id=>{const row=ST.rows.find(x=>String(x.id)===String(id));if(!row)return;$("#detailStatus").textContent="Creando cliente...";const ins=await s.from("clientes").insert({nombre:row.nombre,correo:row.correo,telefono:row.telefono,comentarios:row.comentarios||"",rol_responsable:"soporte",estatus:"activo"}).select().single();if(ins.error)return toast(msg(ins.error),"bad");const up=await s.from("solicitudes_alta").update({estatus:"aprobada",cliente_id:ins.data.id}).eq("id",id);if(up.error)return toast(msg(up.error),"bad");await logAction({accion:"solicitud_aprobada",cliente_id:ins.data.id,detalle:{solicitud_id:id}}).catch(()=>{});toast("Cliente creado","ok");closeDetail();await load()};
+const rejectRow=async id=>{const up=await s.from("solicitudes_alta").update({estatus:"rechazada"}).eq("id",id);if(up.error)return toast(msg(up.error),"bad");await logAction({accion:"solicitud_rechazada",detalle:{solicitud_id:id}}).catch(()=>{});toast("Solicitud rechazada","warn");closeDetail();await load()};
+const bind=()=>{$("#refreshBtn").onclick=load;$("#q").addEventListener("input",render);$("#fStatus").addEventListener("change",render);$("#closeDetail").onclick=closeDetail;$("#approveBtn").onclick=()=>ST.current&&approve(ST.current.id);$("#rejectBtn").onclick=()=>ST.current&&rejectRow(ST.current.id);$("#detailModal").addEventListener("click",e=>e.target.id==="detailModal"&&closeDetail())};
+const load=async()=>{await guardSession("index.html");const {data,error}=await s.from("solicitudes_alta").select("*").order("creado_en",{ascending:false});if(error)return toast(msg(error),"bad");ST.rows=data||[];render()};
+document.addEventListener("DOMContentLoaded",()=>{bind();load().catch(err=>toast(msg(err),"bad"))});
