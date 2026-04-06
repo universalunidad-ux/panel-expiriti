@@ -2,7 +2,7 @@ export const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(
 
 export const esc=v=>(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 
-export const show=id=>$(id)?.classList.remove("hidden"),hide=id=>$(id)?.classList.add("hidden");
+export const show=id=>{$(id)?.classList.remove("hidden");$(id)?.removeAttribute("hidden")},hide=id=>{$(id)?.classList.add("hidden");$(id)?.setAttribute("hidden","hidden")};
 
 export const toast=(t,type="")=>{const d=document.createElement("div");d.className=`toast ${type}`;d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2500)};
 
