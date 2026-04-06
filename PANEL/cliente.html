@@ -10,7 +10,8 @@
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));</script>
   <meta name="theme-color" content="#0b1220">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="cliente.css">
+<link rel="stylesheet" href="global.css">
+  <link rel="stylesheet" href="cliente.css">
 </head>
 <body>
 <header class="topbar"><div class="topin"><a class="brand" href="dashboard.html" aria-label="Volver al dashboard"><span class="brand-badge"></span><span>Panel Expiriti · Cliente</span></a><div class="top-actions"><a class="mini ghost" href="dashboard.html">Dashboard</a><a class="mini ghost" id="allTicketsTopLink" href="tickets.html">Tickets</a><button class="mini ghost" id="prefsBtn">Preferencias</button><button class="mini ghost" id="logoutBtn">Salir</button></div></div></header>
@@ -49,7 +50,7 @@
 <section class="main-grid">
 <div class="main-col">
 <section class="card">
-<div class="tabs"><button class="tab active" data-tab="docs">Certificados <span class="badge" id="tabDocsCount">0</span></button><button class="tab" data-tab="timeline">Timeline <span class="badge" id="tabTimelineCount">0</span></button><button class="tab" data-tab="crm">CRM</button><button class="tab" data-tab="bitacora">Bitácora</button></div>
+<div class="tabs"><button class="tab active" data-tab="docs">Certificados <span class="badge" id="tabDocsCount">0</span></button><button class="tab" data-tab="timeline">Timeline <span class="badge" id="tabTimelineCount">0</span></button><button class="tab" data-tab="crm">CRM</button><button class="tab" data-tab="bitacora">Bitácora</button><button class="tab" data-tab="accesos">Accesos</button></div>
 
 <div class="panel active" id="panel-docs">
 <div class="section-head slim"><div><h2>Certificados por sistema</h2><p>Filtro por sistema, vigencia, revisión y lectura del PDF.</p></div><div class="toolbar"><button class="mini ghost" id="openRenewBtn">Renovaciones</button><button class="mini ghost" id="refreshBtn">Actualizar</button></div></div>
@@ -68,7 +69,36 @@
 <div class="form-grid two"><label><span>Nombre / razón social</span><input class="input" id="cNombreEdit"></label><label><span>Responsable</span><input class="input" id="cResponsable"></label><label><span>Correo</span><input class="input" id="cCorreo" type="email"></label><label><span>Teléfono</span><input class="input" id="cTelefono"></label><label><span>Estatus</span><select class="select" id="cEstadoEdit"><option value="activo">Activo</option><option value="seguimiento">Seguimiento</option><option value="problema">Problema</option><option value="inactivo">Inactivo</option></select></label><label class="checkline"><input id="cFavorito" type="checkbox"> Cliente favorito</label></div>
 <label class="mt12"><span>Comentarios / notas internas</span><textarea class="area" id="cComentarios" placeholder="Notas útiles para soporte y ventas"></textarea></label>
 </div>
+<div class="panel" id="panel-accesos">
+  <div class="section-head slim">
+    <div>
+      <h2>Accesos</h2>
+      <p>VPS, RDP, AnyDesk y notas operativas del cliente.</p>
+    </div>
+    <button class="btn brand" id="saveAccessBtn">Guardar accesos</button>
+  </div>
 
+  <div class="form-grid two access-grid">
+    <label><span>VPS / Host</span><input class="input" id="accVps" placeholder="IP o host"></label>
+    <label><span>Puerto RDP</span><input class="input" id="accRdpPort" placeholder="3389"></label>
+    <label><span>Usuario</span><input class="input" id="accUser" placeholder="Usuario"></label>
+    <label><span>Password</span><input class="input" id="accPass" placeholder="Password"></label>
+    <label><span>AnyDesk</span><input class="input" id="accAnydesk" placeholder="ID AnyDesk"></label>
+    <label><span>Extra</span><input class="input" id="accExtra" placeholder="Otro acceso"></label>
+    <label class="full"><span>Notas</span><textarea class="area area-sm" id="accNotes" placeholder="Notas útiles para soporte"></textarea></label>
+  </div>
+
+  <div class="toolbar mt12">
+    <button class="mini ghost" id="copyAccVps">Copiar VPS</button>
+    <button class="mini ghost" id="copyAccUser">Copiar usuario</button>
+    <button class="mini ghost" id="copyAccPass">Copiar password</button>
+    <button class="mini ghost" id="copyAccAnydesk">Copiar AnyDesk</button>
+  </div>
+
+  <div class="mut mt10" id="accessStatus">Solo visible para soporte/admin.</div>
+</div>
+  
+  
 <div class="panel" id="panel-bitacora">
 <div class="section-head slim"><div><h2>Bitácora visible</h2><p>Acciones recientes sobre el cliente para dar trazabilidad al equipo.</p></div></div>
 <div class="list" id="bitacoraList"></div>
@@ -99,5 +129,6 @@
 <div class="mobile-bar"><button class="mbtn" id="mbtnTickets">Tickets</button><button class="mbtn" id="mbtnUpload">Subir PDF</button><button class="mbtn primary" id="mbtnNewTicket">Nuevo</button><button class="mbtn" id="mbtnRenew">Renovaciones</button><button class="mbtn" id="mbtnPrefs">Prefs</button></div>
 
 <script type="module" src="cliente.js"></script>
+  <script type="module" src="theme.js"></script>
 </body>
 </html>
