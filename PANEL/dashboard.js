@@ -1,0 +1,166 @@
+import { supabase as s, guardSession as g, logout as o, getProfile as gp, saveTheme as svt, applyTheme as ap, logAction as la, openPdfSigned as op, fmt as f, msg as m } from "./supabase.js";
+import { $, $$, esc as e, norm as n, toast, copyTxt } from "./global.js";
+
+const CLIENT_PAGE="cliente.html",TICKET_PAGE="ticket.html";
+const SYS=[["CONTABILIDAD",["contabilidad","contabiliza","contab","usaconta"]],["BANCOS",["bancos"]],["NOMINAS",["nominas","nóminas","nomina"]],["XML_EN_LINEA",["xml","cfdi","xml en linea"]],["COMERCIAL_START",["comercial start","cstart","comstart"]],["COMERCIAL_PRO",["comercial pro","compro"]],["COMERCIAL_PREMIUM",["comercial premium","compremium","cpremium","premium"]],["FACTURA_ELECTRONICA",["factura electronica","factura electrónica","factura","fe"]],["EVALUA",["evalua","evalúa"]],["ANALIZA",["analiza"]],["VENDE",["vende"]],["OPTIMIZA",["optimiza"]],["ANTICIPA",["anticipa"]],["PERSONIA",["personia"]]];
+const NICE={CONTABILIDAD:"CONTPAQi Contabilidad",BANCOS:"CONTPAQi Bancos",NOMINAS:"CONTPAQi Nóminas",XML_EN_LINEA:"CONTPAQi XML en Línea",COMERCIAL_START:"CONTPAQi Comercial START",COMERCIAL_PRO:"CONTPAQi Comercial PRO",COMERCIAL_PREMIUM:"CONTPAQi Comercial PREMIUM",FACTURA_ELECTRONICA:"CONTPAQi Factura Electrónica",EVALUA:"CONTPAQi Evalúa",ANALIZA:"CONTPAQi Analiza",VENDE:"CONTPAQi Vende",OPTIMIZA:"CONTPAQi Optimiza",ANTICIPA:"CONTPAQi Anticipa",PERSONIA:"CONTPAQi Personia"};
+const ICON={CONTABILIDAD:"📘",BANCOS:"🏦",NOMINAS:"🧾",XML_EN_LINEA:"🧷",COMERCIAL_START:"🛒",COMERCIAL_PRO:"🛍️",COMERCIAL_PREMIUM:"💼",FACTURA_ELECTRONICA:"🧾",EVALUA:"📊",ANALIZA:"📈",VENDE:"💳",OPTIMIZA:"⚙️",ANTICIPA:"⏩",PERSONIA:"👤"};
+let U=null,P=null,C=[],D=[],T=[],A=[],FILES=[],CTX={clienteId:null,documentoId:null};
+
+const normTxt=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g," ").replace(/\s+/g," ").trim();
+const byId=(arr,id)=>arr.find(x=>String(x.id)===String(id));
+const docsOf=id=>D.filter(x=>String(x.cliente_id)===String(id)&&!x.eliminado);
+const ticketsOf=id=>T.filter(x=>String(x.cliente_id)===String(id));
+const mask=v=>{const s=(v||"").toString();return s.length<8?s:s.slice(0,4)+"••••"+s.slice(-4)};
+const sem=v=>!v?{t:"Sin vigencia",c:""}:(d=>d<0?{t:"Vencido",c:"err"}:d<=30?{t:"Por vencer",c:"warn"}:{t:"Vigente",c:"ok"})(Math.ceil((new Date(v)-Date.now())/864e5));
+const detectSistema=t=>{const x=normTxt(t);for(const[k,arr]of SYS)for(const a of arr)if(x.includes(normTxt(a)))return k;return""};
+
+const parseFecha=v=>{const s=(v||"").toString().trim();if(!s)return null;let m=s.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return`${m[1]}-${m[2]}-${m[3]}`;m=s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);if(m)return`${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`;m=s.match(/(\d{1,2})[-\/ ]([A-Za-zÁÉÍÓÚáéíóú]+)[-\/ ](\d{4})/);if(!m)return null;const mm={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,set:9,oct:10,nov:11,dic:12}[normTxt(m[2]).slice(0,3)]||0;return mm?`${m[3]}-${String(mm).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`:null};
+const dateVal=v=>{const t=+new Date(v||0);return Number.isFinite(t)?t:0};
+const daysTo=v=>v?Math.ceil((dateVal(v)-Date.now())/864e5):null;
+const isOpenTicket=t=>!["cerrado","resuelto","closed","done","cancelado"].includes(normTxt(t?.estatus||t?.status||t?.estado));
+const ticketDate=t=>dateVal(t?.fecha_actualizacion||t?.updated_at||t?.fecha_creacion||t?.created_at);
+const ticketPri=t=>{const p=normTxt(t?.prioridad);return p==="urgente"?3:p==="alta"?2:p==="media"?1:0};
+const clientUrl=id=>`${CLIENT_PAGE}?id=${id}`;
+const ticketUrl=id=>`${TICKET_PAGE}?id=${id}`;
+
+
+function extractData(txt){
+  const g=r=>((txt.match(r)||[])[1]||"").trim(), sistemaRaw=g(/SISTEMA[:\s]*([^\n\r]+)/i)||g(/CONTPAQi[®\s]*([A-Za-zÁÉÍÓÚáéíóú+ ]+)/i);
+  return {pdf_text:txt||"",sistema_norm:detectSistema(sistemaRaw||txt),sistema:sistemaRaw||"",version:g(/VERSI[ÓO]N[:\s]*([^\n\r]+)/i),tipo:g(/TIPO[:\s]*([^\n\r]+)/i),usuarios:g(/USUARIOS[:\s]*([^\n\r]+)/i)||g(/Usuarios[:\s]*([^\n\r]+)/i),empresas:g(/EMPRESAS[:\s]*([^\n\r]+)/i)||g(/Empresas[:\s]*([^\n\r]+)/i),serie:g(/N[ÚU]MERO DE SERIE[:\s]*([A-Z0-9\-]+)/i)||g(/SERIE ORIGEN[:\s]*([A-Z0-9\-]+)/i)||g(/SERIE[:\s]*([A-Z0-9\-]+)/i),verificador:g(/VERIFICADOR[:\s]*([A-Z0-9\-]+)/i),vigencia:parseFecha(g(/VIGENCIA[:\s]*([^\n\r]+)/i)||g(/Vigencia[:\s]*([^\n\r]+)/i)),empresa:g(/EMPRESA[:\s]*([^\n\r]+)/i)||g(/Empresa[:\s]*([^\n\r]+)/i)};
+}
+
+async function readPDF(file){
+  const ab=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:ab}).promise; let txt="";
+  for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i),c=await p.getTextContent();txt+=c.items.map(x=>x.str).join(" ")+"\n"}
+  return extractData(txt);
+}
+
+async function detectCliente(raw,pdfText=""){
+  const txt=normTxt(`${raw} ${pdfText}`); if(!txt) return null;
+  let best=null,score=0;
+  for(const c of C){const cn=normTxt(c.nombre),s=(txt.includes(cn)?100:0)+(cn&&cn.split(" ").filter(w=>w.length>3&&txt.includes(w)).length*8); if(s>score){score=s;best=c.id}}
+  if(score>=24) return best;
+  const {data}=await s.from("cliente_aliases").select("cliente_id,alias");
+  for(const a of data||[]){const al=normTxt(a.alias),s=(txt.includes(al)?120:0)+(al&&al.split(" ").filter(w=>w.length>2&&txt.includes(w)).length*10); if(s>score){score=s;best=a.cliente_id}}
+  return score>=20?best:null;
+}
+
+async function existsDoc(clienteId,nombreNorm,serie=""){
+  let q=s.from("documentos").select("id").eq("cliente_id",clienteId).eq("eliminado",false).limit(1);
+  if(serie) q=q.eq("numero_serie",serie); else q=q.eq("nombre_archivo_norm",nombreNorm);
+  const {data}=await q; return !!data?.length;
+}
+
+async function ensureCliente(nombre,crear){
+  const clean=(nombre||"").trim(); if(!clean) return null;
+  const hit=C.find(x=>normTxt(x.nombre)===normTxt(clean)); if(hit) return hit.id;
+  if(!crear) return null;
+  const {data,error}=await s.from("clientes").insert({nombre:clean,creado_por:U.id,ultima_interaccion:new Date().toISOString()}).select("*").single();
+  if(error) throw error; C.unshift(data); return data.id;
+}
+
+function rows(){
+  const q=normTxt($("#searchInput")?.value),sf=normTxt($("#statusFilter")?.value);
+  return C.map(c=>{const d=docsOf(c.id),t=ticketsOf(c.id),blob=normTxt([c.nombre,c.telefono,c.correo,c.comentarios,...d.map(x=>x.nombre_archivo),...d.map(x=>x.sistema),...d.map(x=>x.sistema_norm),...d.map(x=>x.pdf_text),...d.map(x=>x.numero_serie),...d.map(x=>x.verificador)].join(" | ")); return {c,d,t,ok:!q||blob.includes(q)}}).filter(x=>x.ok).filter(x=>!sf||x.d.some(d=>sem(d.fin_vigencia).t.toLowerCase().replaceAll(" ","_")===sf));
+}
+
+const kpiData=()=>{const r=rows(),docs=r.flatMap(x=>x.d),open=T.filter(isOpenTicket);return{clientes:r.length,vigentes:docs.filter(x=>sem(x.fin_vigencia).t==="Vigente").length,porVencer:docs.filter(x=>sem(x.fin_vigencia).t==="Por vencer").length,vencidos:docs.filter(x=>sem(x.fin_vigencia).t==="Vencido").length,ticketsAbiertos:open.length}};
+const radarItems=()=>rows().map(({c,d,t})=>{const urg=t.filter(x=>ticketPri(x)>=2&&isOpenTicket(x)).length,rec=t.filter(x=>ticketDate(x)>=Date.now()-7*864e5&&isOpenTicket(x)).length,ven=d.filter(x=>sem(x.fin_vigencia).t==="Vencido").length,pv=d.filter(x=>sem(x.fin_vigencia).t==="Por vencer").length,score=urg*8+rec*4+ven*6+pv*2+(normTxt(c.estatus)==="problema"?5:0);return{c,d,t,urg,rec,ven,pv,score}}.filter(x=>x.score>0).sort((a,b)=>b.score-a.score||b.urg-a.urg||b.ven-a.ven||b.rec-a.rec).slice(0,12);
+const lateItems=()=>rows().flatMap(({c,d})=>d.filter(x=>sem(x.fin_vigencia).t==="Vencido").map(x=>({c,d:x,days:Math.abs(daysTo(x.fin_vigencia)||0)}))).sort((a,b)=>b.days-a.days).slice(0,12);
+const dueItems=()=>rows().flatMap(({c,d})=>d.filter(x=>sem(x.fin_vigencia).t==="Por vencer").map(x=>({c,d:x,days:Math.max(0,daysTo(x.fin_vigencia)||0)}))).sort((a,b)=>a.days-b.days).slice(0,12);
+const activityItems=()=>{const base=(A||[]).map(x=>({kind:"bitacora",ts:dateVal(x.fecha||x.fecha_creacion||x.created_at),raw:x})).filter(x=>x.ts);const up=D.slice(0,20).map(x=>({kind:"doc",ts:dateVal(x.fecha_subida||x.created_at),raw:x})).filter(x=>x.ts);const tk=T.slice(0,20).map(x=>({kind:"ticket",ts:ticketDate(x),raw:x})).filter(x=>x.ts);return[...base,...up,...tk].sort((a,b)=>b.ts-a.ts).slice(0,14)};
+const recentTicketItems=()=>T.filter(isOpenTicket).sort((a,b)=>ticketDate(b)-ticketDate(a)).slice(0,12);
+const quickItems=()=>C.filter(c=>c?.favorito||/poliza|póliza/i.test(`${c?.comentarios||""} ${c?.nombre||""}`)).sort((a,b)=>(b.favorito?1:0)-(a.favorito?1:0)||dateVal(b.ultima_interaccion)-dateVal(a.ultima_interaccion)||String(a.nombre||"").localeCompare(String(b.nombre||""))).slice(0,12);
+const urgentItems=()=>T.filter(t=>isOpenTicket(t)&&ticketPri(t)>=2).sort((a,b)=>ticketPri(b)-ticketPri(a)||ticketDate(b)-ticketDate(a)).slice(0,12);
+
+const renderKPIs=()=>{const k=kpiData();$("#kpiClientes")&&($("#kpiClientes").textContent=k.clientes);$("#kpiVigentes")&&($("#kpiVigentes").textContent=k.vigentes);$("#kpiPorVencer")&&($("#kpiPorVencer").textContent=k.porVencer);$("#kpiVencidos")&&($("#kpiVencidos").textContent=k.vencidos);$("#kpiTickets")&&($("#kpiTickets").textContent=k.ticketsAbiertos);$("#workSummary")&&($("#workSummary").textContent=`${k.clientes} cliente(s) visibles · ${k.vigentes} vigentes · ${k.porVencer} por vencer · ${k.vencidos} vencidos · ${k.ticketsAbiertos} ticket(s) abiertos`)}
+  const renderRadar=()=>{const items=radarItems();$("#radarCount")&&($("#radarCount").textContent=`${items.length} casos · últimos 14 días`);$("#radarList")&&($("#radarList").innerHTML=items.length?items.map(({c,urg,rec,ven,pv,score})=>`<div class="item"><div class="item-title"><a href="${clientUrl(c.id)}">${e(c.nombre||"Sin nombre")}</a></div><div class="item-meta">Score ${score} · Urgentes ${urg} · Recientes ${rec} · Vencidos ${ven} · Por vencer ${pv}</div></div>`).join(""):'<div class="empty">Sin radar por ahora</div>')};
+const renderLate=()=>{const items=lateItems();$("#lateCount")&&($("#lateCount").textContent=`${items.length} documentos`);$("#lateList")&&($("#lateList").innerHTML=items.length?items.map(({c,d,days})=>`<div class="item"><div class="item-title"><a href="${clientUrl(c.id)}">${e(c.nombre||"Sin nombre")}</a></div><div class="item-meta">${ICON[d.sistema_norm]||"📄"} ${e(NICE[d.sistema_norm]||d.sistema||d.nombre_archivo||"Documento")} · Venció ${f(d.fin_vigencia)} · Hace ${days} día(s)</div></div>`).join(""):'<div class="empty">Sin vencidos</div>')};
+const renderDue=()=>{const items=dueItems();$("#dueCount")&&($("#dueCount").textContent=`${items.length} documentos`);$("#dueList")&&($("#dueList").innerHTML=items.length?items.map(({c,d,days})=>`<div class="item"><div class="item-title"><a href="${clientUrl(c.id)}">${e(c.nombre||"Sin nombre")}</a></div><div class="item-meta">${ICON[d.sistema_norm]||"📄"} ${e(NICE[d.sistema_norm]||d.sistema||d.nombre_archivo||"Documento")} · Vence ${f(d.fin_vigencia)} · En ${days} día(s)</div></div>`).join(""):'<div class="empty">Sin próximos vencimientos</div>')};
+const renderActivity=()=>{const items=activityItems();
+                          $("#activityCount")&&($("#activityCount").textContent=`${items.length} movimientos`);$("#activityList")&&($("#activityList").innerHTML=items.length?items.map(x=>{if(x.kind==="bitacora"){const r=x.raw,c=byId(C,r.cliente_id);return`<div class="item"><div class="item-title">${e(r.accion||"Actividad")}</div><div class="item-meta">${c?`<a href="${clientUrl(c.id)}">${e(c.nombre)}</a> · `:""}${f(new Date(x.ts))}</div></div>`}if(x.kind==="doc"){const r=x.raw,c=byId(C,r.cliente_id);return`<div class="item"><div class="item-title">PDF subido</div><div class="item-meta">${c?`<a href="${clientUrl(c.id)}">${e(c.nombre)}</a> · `:""}${e(r.nombre_archivo||"Documento")} · ${f(new Date(x.ts))}</div></div>`}const r=x.raw,c=byId(C,r.cliente_id);return`<div class="item"><div class="item-title">Ticket ${e(r.titulo||"sin título")}</div><div class="item-meta">${c?`<a href="${clientUrl(c.id)}">${e(c.nombre)}</a> · `:""}${e(r.prioridad||"media")} · ${f(new Date(x.ts))}</div></div>`}).join(""):'<div class="empty">Sin actividad reciente</div>')};
+const renderRecentTickets=()=>{const items=recentTicketItems();$("#ticketsCount")&&($("#ticketsCount").textContent=`${items.length} tickets`);$("#ticketsList")&&($("#ticketsList").innerHTML=items.length?items.map(t=>{const c=byId(C,t.cliente_id);return`<div class="item"><div class="item-title"><a href="${ticketUrl(t.id)}">${e(t.titulo||"Ticket")}</a></div><div class="item-meta">${c?`<a href="${clientUrl(c.id)}">${e(c.nombre)}</a> · `:""}${e(t.prioridad||"media")} · ${e(t.estatus||t.status||"abierto")}</div></div>`}).join(""):'<div class="empty">Sin tickets recientes</div>')};
+const renderQuick=()=>{const items=quickItems();$("#quickCount")&&($("#quickCount").textContent=items.length);$("#quickList")&&($("#quickList").innerHTML=items.length?items.map(c=>`<div class="item"><div class="item-title"><a href="${clientUrl(c.id)}">${e(c.nombre||"Sin nombre")}</a></div><div class="item-meta">${c.favorito?"Favorito":"Póliza"}${c.estatus?` · ${e(c.estatus)}`:""}</div></div>`).join(""):'<div class="empty">Sin favoritos o pólizas</div>')};
+const renderUrgent=()=>{const items=urgentItems();$("#urgentCount")&&($("#urgentCount").textContent=items.length);$("#urgentList")&&($("#urgentList").innerHTML=items.length?items.map(t=>{const c=byId(C,t.cliente_id);return`<div class="item"><div class="item-title"><a href="${ticketUrl(t.id)}">${e(t.titulo||"Ticket urgente")}</a></div><div class="item-meta">${c?`<a href="${clientUrl(c.id)}">${e(c.nombre)}</a> · `:""}${e(t.prioridad||"urgente")} · ${e(t.estatus||t.status||"abierto")}</div></div>`}).join(""):'<div class="empty">Sin urgentes</div>')};
+const renderBoards=()=>{renderKPIs();renderRadar();renderLate();renderDue();renderActivity();renderRecentTickets();renderQuick();renderUrgent()};
+
+function renderAll(){
+  const r=rows(); $("#resultsCount").textContent=`${r.length} cliente(s)`;
+  $("#resultsList").innerHTML=r.length?r.slice(0,30).map(({c,d,t})=>`<div class="item"><div class="item-title">${e(c.nombre||"Sin nombre")}</div><div class="item-meta">${[c.telefono,c.correo].filter(Boolean).map(e).join(" · ")||"Sin contacto"} · ${d.length} certificado(s) · ${t.length} ticket(s)</div><div class="toolbar"><button class="btn" data-act="focus" data-id="${c.id}">Ver cliente</button><button class="btn" data-act="ticket" data-id="${c.id}">Nuevo ticket</button><button class="btn" data-act="tickets_page" data-id="${c.id}">Tickets</button></div><div class="list" style="margin-top:10px">${d.length?d.slice(0,12).map(x=>{const s=sem(x.fin_vigencia),sis=x.sistema_norm||detectSistema(`${x.sistema} ${x.nombre_archivo} ${x.pdf_text}`),tipoEmpresa=(String(x.empresas||"").trim()==="1"?"Monoempresa":x.empresas?"Multiempresa":"—");return`<div class="item" style="padding:10px"><div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><div class="item-title">${ICON[sis]||"📄"} ${e(NICE[sis]||x.sistema||"PDF")}</div><div class="item-meta">${e(x.nombre_archivo||"PDF")} · ${x.usuarios?`${e(x.usuarios)} usuario(s)`:"—"} · ${e(tipoEmpresa)} · ${x.fin_vigencia?`Vence: ${f(x.fin_vigencia)}`:"Sin vigencia"}</div><div class="item-meta">${x.numero_serie?`Serie: <span style="filter:blur(2px)">${e(mask(x.numero_serie))}</span>`:""} ${x.verificador?` · Verificador: <span style="filter:blur(2px)">${e(mask(x.verificador))}</span>`:""}</div></div><div class="toolbar">${x.numero_serie?`<button class="btn" data-copy="${e(x.numero_serie)}">Copiar serie</button>`:""}${x.verificador?`<button class="btn" data-copy="${e(x.verificador)}">Copiar verificador</button>`:""}<button class="btn" data-act="open" data-id="${x.id}">Abrir</button></div></div><div class="tags"><span class="tag ${s.c}">${s.t}</span></div></div>`}).join(""):'<div class="empty">Sin certificados</div>'}</div></div>`).join(""):'<div class="empty">Sin resultados</div>';
+  renderBoards();
+}
+
+async function upload(){
+if(!["admin","ventas"].includes(normTxt(P?.rol)))return toast("Solo admin y ventas pueden subir PDFs.","warn");
+if(!FILES.length)return toast("No hay PDFs seleccionados.","warn");
+  $("#statusTxt").textContent="Procesando...";
+  let ok=0,dup=0,err=0,errors=[];
+  for(const file of FILES){
+    try{
+      const pdf=await readPDF(file), folder=((file.webkitRelativePath||"").split("/").filter(Boolean).slice(-2,-1)[0]||""), rawBase=[pdf.empresa,folder,file.name,$("#rsInput")?.value||""].join(" ");
+      let clienteId=await detectCliente(rawBase,pdf.pdf_text); if(!clienteId) clienteId=await ensureCliente(pdf.empresa||$("#rsInput")?.value||folder,$("#isNew")?.checked);
+      if(!clienteId){err++;errors.push(`Cliente no detectado: ${file.name}`);continue}
+      const nombreNorm=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9._-]+/g,"_");
+      if(await existsDoc(clienteId,nombreNorm,pdf.serie)){dup++;continue}
+      const safe=file.name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,"_").replace(/[^a-zA-Z0-9._()-]/g,""), path=`${clienteId}/${Date.now()}_${safe}`;
+      const up=await s.storage.from("certificados").upload(path,file,{upsert:false,contentType:"application/pdf"}); if(up.error) throw up.error;
+      const ins=await s.from("documentos").insert({
+        cliente_id:clienteId,nombre_archivo:file.name,nombre_archivo_norm:nombreNorm,url_pdf:path,storage_path:path,
+        sistema:pdf.sistema||"",sistema_norm:pdf.sistema_norm||detectSistema(file.name),version:pdf.version||null,tipo:pdf.tipo||null,usuarios:pdf.usuarios||null,empresas:pdf.empresas||null,
+        numero_serie:pdf.serie||null,verificador:pdf.verificador||null,fin_vigencia:pdf.vigencia||null,empresa_nombre:pdf.empresa||null,pdf_text:pdf.pdf_text||null,
+        subido_por:U.id,tamano_bytes:file.size||null,mime_type:file.type||"application/pdf"
+      }).select("*").single();
+      if(ins.error){await s.storage.from("certificados").remove([path]); throw ins.error}
+      D.unshift(ins.data); ok++; await la({accion:"subir_pdf",documento_id:ins.data.id,cliente_id:clienteId,detalle:{nombre_archivo:file.name}});
+    }catch(ex){err++;errors.push(`${file.name}: ${m(ex)}`)}
+  }
+  $("#statusTxt").textContent=`OK:${ok} DUP:${dup} ERR:${err}`; renderAll();
+  if(!err){$("#overlay")?.classList.remove("open"); FILES=[]; $("#fileName").innerHTML="Ningún archivo seleccionado"; $("#fileInput").value=""; $("#folderInput").value=""}
+if(errors.length){console.error("UPLOAD_ERRORS",errors);toast(`Errores: ${errors.length}. Revisa consola o estado.`,"bad")}
+}
+
+async function openPDF(id){const d=byId(D,id); if(!d) return; await op(d.storage_path||d.url_pdf,8)}
+function ticketModal(clienteId,documentoId=null){const c=byId(C,clienteId); CTX={clienteId,documentoId}; $("#ticketClienteNombre").value=c?.nombre||""; $("#ticketTitulo").value=""; $("#ticketDescripcion").value=""; $("#ticketTipo").value="soporte"; $("#ticketPrioridad").value="media"; $("#ticketStatus").textContent="Completa los datos."; $("#ticketOverlay")?.classList.add("open")}
+async function saveTicketFn(){if(!CTX.clienteId) return $("#ticketStatus").textContent="Primero abre un cliente."; const titulo=$("#ticketTitulo").value.trim(); if(!titulo) return $("#ticketStatus").textContent="El título es obligatorio."; const {data,error}=await s.from("tickets").insert({cliente_id:CTX.clienteId,documento_id:CTX.documentoId,titulo,descripcion:$("#ticketDescripcion").value.trim(),tipo:$("#ticketTipo").value,prioridad:$("#ticketPrioridad").value,creado_por:U.id,origen:"dashboard"}).select("*").single(); if(error) return $("#ticketStatus").textContent=m(error); T.unshift(data); $("#ticketOverlay")?.classList.remove("open"); renderAll()}
+
+async function loadActivity(){try{const a=await s.from("bitacora_view").select("*").order("fecha",{ascending:false}).limit(30);if(!a.error){A=a.data||[];return}const b=await s.from("bitacora").select("*").order("fecha_creacion",{ascending:false}).limit(30);A=b.data||[]}catch{A=[]}}
+async function load(){const [a,b,c]=await Promise.all([s.from("clientes").select("*").order("nombre"),s.from("documentos").select("*").eq("eliminado",false).order("fecha_subida",{ascending:false}),s.from("tickets").select("*").order("fecha_actualizacion",{ascending:false})]);await loadActivity();if(a.error||b.error||c.error)throw(a.error||b.error||c.error);C=a.data||[];D=b.data||[];T=c.data||[];renderAll()}
+async function boot(){const auth=await g("index.html"); if(!auth) return; U=auth.user; P=await gp()||{rol:"soporte",tema:"light"}; ap(P.tema==="dark"?"dark":"light"); if($("#themeSelect")) $("#themeSelect").value=P.tema==="dark"?"dark":"light"; if($("#addBtn")) $("#addBtn").style.display=["admin","ventas"].includes(normTxt(P?.rol))?"inline-flex":"none"; await load()}
+
+function bind(){
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("button,[data-act],[data-copy]"); if(!b) return;
+    if(b.dataset.copy) return copyTxt(b.dataset.copy,"Copiado");
+    const act=b.dataset.act,id=b.dataset.id;
+    if(b.id==="refreshBtn") return load();
+    if(b.id==="searchBtn") return renderAll();
+    if(b.id==="clearBtn") return ($("#searchInput").value="",renderAll());
+    if(b.id==="goClientBtn"){const first=rows()[0]?.c;if(!first)return toast("Busca un cliente primero.","warn");localStorage.setItem("expiriti_last_client",first.id);return location.href=`${CLIENT_PAGE}?id=${first.id}`;}
+    if(b.id==="addBtn") return $("#overlay")?.classList.add("open");
+    if(b.id==="closeModal"||b.id==="cancelBtn") return $("#overlay")?.classList.remove("open");
+    if(b.id==="pickFilesBtn") return $("#fileInput")?.click();
+    if(b.id==="pickFolderBtn") return $("#folderInput")?.click();
+    if(b.id==="uploadBtn") return upload();
+    if(b.id==="logoutBtn") return o("index.html");
+    if(b.id==="newTicketTopBtn") return toast("Primero abre un cliente y luego crea el ticket.","warn");
+    if(b.id==="saveTicketBtn") return saveTicketFn();
+    if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn") return $("#ticketOverlay")?.classList.remove("open");
+    if(act==="open") return openPDF(id);
+    if(act==="ticket") return ticketModal(id);
+    if(act==="focus"){localStorage.setItem("expiriti_last_client",id); return location.href=`${CLIENT_PAGE}?id=${id}`;}
+    if(act==="tickets_page"){localStorage.setItem("expiriti_last_client",id); return location.href=`tickets.html?cliente_id=${id}`;}
+  });
+  document.addEventListener("input",e=>{if(e.target.matches("#searchInput")) renderAll()});
+  document.addEventListener("change",async e=>{
+    if(e.target.matches("#statusFilter")) return renderAll();
+    if(e.target.matches("#themeSelect")){ap(e.target.value);localStorage.setItem("expiriti_theme",e.target.value);try{await svt(e.target.value,U?.id)}catch{}}
+    if(e.target.matches("#fileInput")||e.target.matches("#folderInput")){
+      FILES=[...(e.target.files||[])].filter(f=>f.name.toLowerCase().endsWith(".pdf"));
+      $("#fileName").innerHTML=FILES.length?FILES.map(f=>`<div>PDF · ${e(f.webkitRelativePath||f.name)}</div>`).join(""):"<div>No se detectaron PDFs válidos.</div>";
+      $("#statusTxt").textContent=FILES.length?`${FILES.length} PDF(s) listos para subir.`:"No hay PDFs válidos.";
+    }
+  });
+}
+
+try{bind();await boot();console.log("Dashboard_OK")}catch(err){console.error(err);toast(`Dashboard error: ${m(err)}`,"bad")}
