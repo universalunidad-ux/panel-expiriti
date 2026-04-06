@@ -10,10 +10,10 @@ export const copyTxt=(v,msg="Copiado")=>navigator.clipboard.writeText(v||"").the
 
 export const debounce=(fn,ms=300)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
 
-export const norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+export const norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
 
 export const bindModal=(id,closeSel)=>{const m=$(id);m?.addEventListener("click",e=>{if(e.target===m||e.target.closest(closeSel))hide(id)})};
-
+export const qp=k=>new URLSearchParams(location.search).get(k);
 /* THEME */
 export const applyTheme=v=>document.documentElement.setAttribute("data-theme",v==="dark"?"dark":"light");
 export const toggleTheme=()=>{const t=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";localStorage.setItem("expiriti_theme",t);applyTheme(t)};
