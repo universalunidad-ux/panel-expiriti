@@ -7,21 +7,37 @@
 <link rel="stylesheet" href="global.css"><link rel="stylesheet" href="ticket.css"><script type="module" src="theme.js"></script>
 </head>
 <body>
-<header class="topbar"><div class="topbar-inner"><a class="brand" href="tickets.html"><span class="brand-dot"></span><span>Ticket</span></a><div class="top-actions"><a class="mini" href="tickets.html">Volver</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="tickets.html"><span class="brand-dot"></span><span>Ticket</span></a><div class="top-actions"><a class="mini" href="tickets.html">Volver</a><button class="mini" id="tkRefreshBtn" type="button">Actualizar</button><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
 
 <main class="ticket-page wrap">
 <aside class="panel ticket-side">
-<h2 id="tkTitle">Cargando ticket</h2>
+<div class="side-head"><div><div class="section-kicker">Soporte operativo</div><h1 id="tkTitle">Cargando ticket…</h1></div><div class="chips" id="tkTopChips"><span class="tag">Ticket</span></div></div>
+<div class="box-grid">
 <div class="box"><div class="k">Cliente</div><div class="v small" id="tkClient">—</div></div>
-<div class="box"><div class="k">Sistema</div><div class="v small" id="tkSystem">—</div></div>
+<div class="box"><div class="k">Sistema / tipo</div><div class="v small" id="tkSystem">—</div></div>
 <div class="box"><div class="k">Estado</div><div class="v small" id="tkState">—</div></div>
 <div class="box"><div class="k">Prioridad</div><div class="v small" id="tkPriority">—</div></div>
-<div class="actions"><button class="btn" id="copyMagicBtn">🔗 Copiar enlace</button></div>
+<div class="box"><div class="k">Creado</div><div class="v small" id="tkCreated">—</div></div>
+<div class="box"><div class="k">ID</div><div class="v small mono" id="tkId">—</div></div>
+</div>
+<section class="panel inset"><div class="row-head"><h3>Resumen operativo</h3></div><div class="mut" id="tkSummary">Resumen del caso, urgencia, evidencia y siguiente paso.</div></section>
+<section class="panel inset"><div class="row-head"><h3>Acciones rápidas</h3></div><div class="quick-actions"><button class="btn" id="copyMagicBtn" type="button">🔗 Copiar enlace</button><button class="btn" id="askXmlBtn" type="button">Pedir XML</button><button class="btn" id="askShotBtn" type="button">Pedir captura</button><button class="btn" id="askRemoteBtn" type="button">Pedir acceso remoto</button><button class="btn" id="setWaitBtn" type="button">Esperando cliente</button><button class="btn btn-brand" id="setSolveBtn" type="button">Marcar resuelto</button></div></section>
+<section class="panel inset"><div class="row-head"><h3>Evidencia</h3></div><div class="evidence-list" id="tkEvidence"><div class="empty-state">Aún no hay evidencia adjunta.</div></div></section>
 </aside>
 
-<section class="panel ticket-main">
-<div class="log-area" id="logArea"></div>
-<div class="editor"><textarea class="area" id="logText" placeholder="Escribe un log interno..."></textarea><div class="actions"><button class="btn btn-brand" id="saveLogBtn">Guardar log</button></div></div>
+<section class="ticket-main">
+<section class="panel hero-ticket"><div class="hero-top"><div><div class="section-kicker">Timeline del caso</div><h2>Conversación, logs y contexto</h2></div><div class="hero-meta"><span class="tag" id="tkStateTag">—</span><span class="tag" id="tkPriorityTag">—</span></div></div><div class="mut">Aquí vive el hilo operativo del ticket: reporte inicial, notas, solicitudes, seguimiento y solución.</div></section>
+<section class="panel"><div class="tabs-lite"><button class="mini is-active" type="button">Timeline</button><button class="mini" type="button" disabled>Transcripción</button><button class="mini" type="button" disabled>Archivos</button></div><div class="log-area" id="logArea"></div></section>
+<section class="panel composer">
+<div class="section-head"><div><div class="section-kicker">Nueva entrada</div><h3>Registrar seguimiento</h3></div></div>
+<div class="composer-grid">
+<div class="field span-2"><label class="lbl" for="logText">Nota interna / avance</label><textarea class="area" id="logText" placeholder="Escribe qué se revisó, qué error viste, qué pidió el cliente, qué sigue, o la solución aplicada..."></textarea></div>
+<div class="field"><label class="lbl" for="logKind">Tipo</label><select class="select" id="logKind"><option value="nota">Nota interna</option><option value="seguimiento">Seguimiento</option><option value="solicitud">Solicitud al cliente</option><option value="solucion">Solución</option></select></div>
+<div class="field"><label class="lbl" for="logState">Cambiar estado</label><select class="select" id="logState"><option value="">Sin cambio</option><option value="nuevo">Nuevo</option><option value="en proceso">En proceso</option><option value="esperando cliente">Esperando cliente</option><option value="resuelto">Resuelto</option></select></div>
+</div>
+<div class="actions"><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar log</button></div>
+<div class="mut" id="logStatus">Puedes usar esto como bitácora operativa del caso.</div>
+</section>
 </section>
 </main>
 
