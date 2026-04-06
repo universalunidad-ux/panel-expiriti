@@ -1,114 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
-<head> 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tablero Kanban | Expiriti</title>
-<style>
-:root{--bg:#070b12;--col:rgba(255,255,255,.02);--card:rgba(15,23,36,.8);--br:rgba(255,255,255,.08);--txt:#e8eef6;--mut:#94a3b8;--brand:#2dd4bf;--danger:#ef4444;--poliza:#8b5cf6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,system-ui;height:100vh;display:flex;flex-direction:column}
-.topbar{padding:16px 24px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center;background:rgba(7,11,18,.8);backdrop-filter:blur(10px)}
-.topbar h2{margin:0;font-weight:900;letter-spacing:-0.5px}
-.kanban-board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px;flex:1;overflow-x:auto;align-items:start}
-.kanban-col{background:var(--col);border:1px solid var(--br);border-radius:16px;min-height:500px;display:flex;flex-direction:column}
-.col-header{padding:16px;border-bottom:1px solid var(--br);font-weight:800;display:flex;justify-content:space-between;align-items:center}
-.col-count{background:rgba(255,255,255,.05);padding:2px 8px;border-radius:999px;font-size:12px;color:var(--mut)}
-.col-body{padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
-/* Tarjetas */
-.k-card{background:var(--card);border:1px solid var(--br);border-radius:12px;padding:16px;cursor:grab;transition:transform 0.1s, border-color 0.2s;backdrop-filter:blur(10px)}
-.k-card:hover{border-color:var(--brand);transform:translateY(-2px)}
-.k-card:active{cursor:grabbing;transform:scale(0.98)}
-.k-tags{display:flex;gap:6px;margin-bottom:10px}
-.tag{font-size:11px;font-weight:800;padding:4px 8px;border-radius:6px;text-transform:uppercase}
-.tag.urgente{background:rgba(239,68,68,.15);color:var(--danger)}
-.tag.poliza{background:rgba(139,92,246,.15);color:var(--poliza)}
-.k-title{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4}
-.k-meta{font-size:12px;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
-/* Highlight al arrastrar */
-.drag-over{background:rgba(45,212,191,.05);border:1px dashed var(--brand)}
-</style>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tickets | Panel Expiriti</title>
+<script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
+<link rel="stylesheet" href="global.css"><link rel="stylesheet" href="tickets.css"><script type="module" src="theme.js"></script>
 </head>
 <body>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="dashboard.html"><span class="brand-dot"></span><span>Tickets</span></a><div class="top-actions"><a class="mini" href="dashboard.html">Dashboard</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
 
-<div class="topbar">
-  <h2>Radar de Soporte</h2>
-  <div>
-    <button style="padding:8px 16px;border-radius:8px;border:1px solid var(--br);background:transparent;color:var(--txt);cursor:pointer">Mis Tickets</button>
-    <button style="padding:8px 16px;border-radius:8px;border:none;background:var(--brand);color:#000;font-weight:800;cursor:pointer">+ Nuevo</button>
-  </div>
-</div>
+<main class="wrap tickets-page">
+<section class="panel tickets-toolbar"><div class="searchbox"><span>🔎</span><input id="tkSearch" placeholder="Buscar ticket o cliente"><button class="btn btn-brand" id="tkRefresh">Actualizar</button></div><div class="toolbar"><button class="btn btn-brand" id="tkNewBtn">Nuevo</button></div></section>
 
-<div class="kanban-board">
-  <div class="kanban-col" data-status="nuevos">
-    <div class="col-header">Nuevos <span class="col-count">2</span></div>
-    <div class="col-body" id="col-nuevos">
-      <div class="k-card" draggable="true" id="t1" onclick="location.href='ticket.html'">
-        <div class="k-tags"><span class="tag urgente">Urgente</span></div>
-        <div class="k-title">No timbra XML en Línea (Error 404)</div>
-        <div class="k-meta"><span>FUCASA</span><span>Hace 10m</span></div>
-      </div>
-      <div class="k-card" draggable="true" id="t2" onclick="location.href='ticket.html'">
-        <div class="k-tags"><span class="tag poliza">Póliza</span></div>
-        <div class="k-title">Ayuda con cierre de mes en Contabilidad</div>
-        <div class="k-meta"><span>AUNA SEGUROS</span><span>Hace 1h</span></div>
-      </div>
-    </div>
-  </div>
+<section class="kanban-board">
+<article class="kanban-col"><div class="col-header">Nuevos <span class="col-count" id="count-nuevo">0</span></div><div class="col-body" id="col-nuevo"></div></article>
+<article class="kanban-col"><div class="col-header">En proceso <span class="col-count" id="count-proceso">0</span></div><div class="col-body" id="col-proceso"></div></article>
+<article class="kanban-col"><div class="col-header">Esperando cliente <span class="col-count" id="count-espera">0</span></div><div class="col-body" id="col-espera"></div></article>
+<article class="kanban-col"><div class="col-header">Resueltos <span class="col-count" id="count-resuelto">0</span></div><div class="col-body" id="col-resuelto"></div></article>
+</section>
+</main>
 
-  <div class="kanban-col" data-status="proceso">
-    <div class="col-header">En Proceso <span class="col-count">1</span></div>
-    <div class="col-body" id="col-proceso">
-      <div class="k-card" draggable="true" id="t3">
-        <div class="k-title">Reinstalación de Comercial Pro</div>
-        <div class="k-meta"><span>GEPIC</span><span>Juan P.</span></div>
-      </div>
-    </div>
-  </div>
+<div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Alta rápida</div><h3>Nuevo ticket</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid-2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
 
-  <div class="kanban-col" data-status="esperando">
-    <div class="col-header">Esperando Cliente <span class="col-count">0</span></div>
-    <div class="col-body" id="col-esperando"></div>
-  </div>
-
-  <div class="kanban-col" data-status="resueltos">
-    <div class="col-header">Resueltos <span class="col-count">0</span></div>
-    <div class="col-body" id="col-resueltos"></div>
-  </div>
-</div>
-
-<script>
-  // Lógica nativa de Drag and Drop para el Kanban
-  const cards = document.querySelectorAll('.k-card');
-  const bodies = document.querySelectorAll('.col-body');
-
-  cards.forEach(card => {
-    card.addEventListener('dragstart', () => {
-      card.classList.add('is-dragging');
-      // Hack para que la tarjeta no desaparezca del cursor
-      setTimeout(() => card.style.display = 'none', 0); 
-    });
-    card.addEventListener('dragend', () => {
-      card.classList.remove('is-dragging');
-      card.style.display = 'block';
-      // Aquí dispararías tu UPDATE a Supabase para cambiar el estatus del ticket
-    });
-  });
-
-  bodies.forEach(body => {
-    body.addEventListener('dragover', e => {
-      e.preventDefault(); // Necesario para permitir el drop
-      body.parentElement.classList.add('drag-over');
-    });
-    body.addEventListener('dragleave', () => {
-      body.parentElement.classList.remove('drag-over');
-    });
-    body.addEventListener('drop', e => {
-      e.preventDefault();
-      body.parentElement.classList.remove('drag-over');
-      const draggedCard = document.querySelector('.is-dragging');
-      if (draggedCard) body.appendChild(draggedCard);
-    });
-  });
-</script>
+<script type="module" src="global.js"></script><script type="module" src="tickets.js"></script>
 </body>
 </html>
