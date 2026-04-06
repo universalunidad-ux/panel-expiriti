@@ -1,4 +1,4 @@
-import{supabase as s,guardSession,logAction,msg}from"./supabase.js";import{$,$$,toast,show,hide,esc}from"./global.js";
+ import{supabase as s,guardSession,logAction,msg}from"./supabase.js";import{$,$$,toast,show,hide,esc}from"./global.js";
 const ST={tickets:[],clientes:[]},norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g," ").replace(/\s+/g," ").trim(),pri=v=>norm(v)==="urgente"?"bad":norm(v)==="alta"?"warn":"",bucket=v=>{const x=norm(v);return x==="resuelto"||x==="cerrado"?"resuelto":x==="en proceso"||x==="proceso"?"proceso":x==="esperando cliente"||x==="espera"?"espera":"nuevo"};
 const byCliente=id=>ST.clientes.find(c=>String(c.id)===String(id));
 const queryRows=()=>{const q=norm($("#tkSearch").value);return ST.tickets.filter(t=>!q||norm(`${t.titulo} ${t.descripcion||""} ${byCliente(t.cliente_id)?.nombre||""}`).includes(q))};
