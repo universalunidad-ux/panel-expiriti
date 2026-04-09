@@ -1,0 +1,32 @@
+.soporte-page{display:grid;gap:14px}
+.hero-support{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:14px;align-items:center}
+.hero-support h1{margin:8px 0 0;font-size:clamp(30px,4vw,44px);line-height:1.02;letter-spacing:-.04em;font-weight:950;max-width:11ch}
+.hero-support .mut{max-width:62ch;line-height:1.55}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-content:flex-start}
+.support-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:14px;align-items:start}
+.support-form{display:grid;gap:16px}
+.support-side{display:grid;gap:14px;position:sticky;top:86px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{display:grid;gap:7px;min-width:0}
+.field.span-2{grid-column:1/-1}
+.lbl{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--muted)}
+.upload-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.row-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.row-head h3{margin:0;font-size:16px;font-weight:900;letter-spacing:-.02em}
+.section-head.compact{margin-top:4px}
+.mini-list{display:grid;gap:8px;padding-left:18px;margin:0}
+.mini-list li{color:var(--muted);line-height:1.5}
+.preview-card{display:grid;gap:8px}
+.preview-card .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.preview-card .v{font-size:14px;font-weight:850;line-height:1.4;word-break:break-word}
+.support-form .actions{display:flex;gap:10px;flex-wrap:wrap}
+.support-form .actions .btn{min-width:190px}
+#spStatus{min-height:20px}
+#spFiles.input{padding:10px 12px}
+#spDesc,#spVoiceText{min-height:120px}
+.support-side .panel.inset{padding:14px}
+.support-side .chips{display:flex;gap:8px;flex-wrap:wrap}
+.support-side .mini{white-space:nowrap}
+.support-form .input,.support-form .select,.support-form .area{min-width:0}
+@media(max-width:1100px){.support-layout,.hero-support{grid-template-columns:1fr}.support-side{position:static}.hero-badges{justify-content:flex-start}}
+@media(max-width:760px){.form-grid,.upload-grid{grid-template-columns:1fr}.support-form .actions{display:grid;grid-template-columns:1fr}.support-form .actions .btn{width:100%;min-width:0}.hero-support h1{max-width:none}}
