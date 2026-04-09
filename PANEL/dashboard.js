@@ -1,13 +1,18 @@
 import { supabase as s, guardSession as g, logout as o, getProfile as gp, saveTheme as svt, applyTheme as ap, logAction as la, openPdfSigned as op, fmt as f, msg as m } from "./supabase.js";
-import { $, $$, esc as e, norm as n, toast, copyTxt } from "./global.js";
+import { $, $$, esc as e, norm as n, toast, copyTxt, show, hide, bindModal, initRayito, setRayitoItems } from "./global.js";
+
 
 const CLIENT_PAGE="cliente.html",TICKET_PAGE="ticket.html";
 const SYS=[["CONTABILIDAD",["contabilidad","contabiliza","contab","usaconta"]],["BANCOS",["bancos"]],["NOMINAS",["nominas","nóminas","nomina"]],["XML_EN_LINEA",["xml","cfdi","xml en linea"]],["COMERCIAL_START",["comercial start","cstart","comstart"]],["COMERCIAL_PRO",["comercial pro","compro"]],["COMERCIAL_PREMIUM",["comercial premium","compremium","cpremium","premium"]],["FACTURA_ELECTRONICA",["factura electronica","factura electrónica","factura","fe"]],["EVALUA",["evalua","evalúa"]],["ANALIZA",["analiza"]],["VENDE",["vende"]],["OPTIMIZA",["optimiza"]],["ANTICIPA",["anticipa"]],["PERSONIA",["personia"]]];
 const NICE={CONTABILIDAD:"CONTPAQi Contabilidad",BANCOS:"CONTPAQi Bancos",NOMINAS:"CONTPAQi Nóminas",XML_EN_LINEA:"CONTPAQi XML en Línea",COMERCIAL_START:"CONTPAQi Comercial START",COMERCIAL_PRO:"CONTPAQi Comercial PRO",COMERCIAL_PREMIUM:"CONTPAQi Comercial PREMIUM",FACTURA_ELECTRONICA:"CONTPAQi Factura Electrónica",EVALUA:"CONTPAQi Evalúa",ANALIZA:"CONTPAQi Analiza",VENDE:"CONTPAQi Vende",OPTIMIZA:"CONTPAQi Optimiza",ANTICIPA:"CONTPAQi Anticipa",PERSONIA:"CONTPAQi Personia"};
 const ICON={CONTABILIDAD:"📘",BANCOS:"🏦",NOMINAS:"🧾",XML_EN_LINEA:"🧷",COMERCIAL_START:"🛒",COMERCIAL_PRO:"🛍️",COMERCIAL_PREMIUM:"💼",FACTURA_ELECTRONICA:"🧾",EVALUA:"📊",ANALIZA:"📈",VENDE:"💳",OPTIMIZA:"⚙️",ANTICIPA:"⏩",PERSONIA:"👤"};
 let U=null,P=null,C=[],D=[],T=[],A=[],FILES=[],CTX={clienteId:null,documentoId:null};
+const canUpload=()=>["admin","ventas"].includes(normTxt(P?.rol));
+const openModal=sel=>show(sel);
+const closeModal=sel=>hide(sel);
+const setRayitoDashboard=()=>setRayitoItems([{label:"Actualizar dashboard",onClick:()=>load()},{label:"Buscar cliente",onClick:()=>$("#searchInput")?.focus()},{label:"Subir PDFs",onClick:()=>canUpload()?openModal("#overlay"):toast("Solo admin y ventas pueden subir PDFs.","warn")},{label:"Nuevo ticket",onClick:()=>toast("Primero abre un cliente y luego crea el ticket.","warn")},{label:"Ver pólizas",onClick:()=>$("#polizasSide")?.classList.toggle("open")}]);
 
-const normTxt=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g," ").replace(/\s+/g," ").trim();
+const normTxt=n;
 const byId=(arr,id)=>arr.find(x=>String(x.id)===String(id));
 const docsOf=id=>D.filter(x=>String(x.cliente_id)===String(id)&&!x.eliminado);
 const ticketsOf=id=>T.filter(x=>String(x.cliente_id)===String(id));
@@ -92,7 +97,7 @@ function renderAll(){
 }
 
 async function upload(){
-if(!["admin","ventas"].includes(normTxt(P?.rol)))return toast("Solo admin y ventas pueden subir PDFs.","warn");
+if(!canUpload()) return toast("Solo admin y ventas pueden subir PDFs.","warn");
 if(!FILES.length)return toast("No hay PDFs seleccionados.","warn");
   $("#statusTxt").textContent="Procesando...";
   let ok=0,dup=0,err=0,errors=[];
@@ -126,41 +131,8 @@ async function saveTicketFn(){if(!CTX.clienteId) return $("#ticketStatus").textC
 
 async function loadActivity(){try{const a=await s.from("bitacora_view").select("*").order("fecha",{ascending:false}).limit(30);if(!a.error){A=a.data||[];return}const b=await s.from("bitacora").select("*").order("fecha_creacion",{ascending:false}).limit(30);A=b.data||[]}catch{A=[]}}
 async function load(){const [a,b,c]=await Promise.all([s.from("clientes").select("*").order("nombre"),s.from("documentos").select("*").eq("eliminado",false).order("fecha_subida",{ascending:false}),s.from("tickets").select("*").order("fecha_actualizacion",{ascending:false})]);await loadActivity();if(a.error||b.error||c.error)throw(a.error||b.error||c.error);C=a.data||[];D=b.data||[];T=c.data||[];renderAll()}
-async function boot(){const auth=await g("index.html"); if(!auth) return; U=auth.user; P=await gp()||{rol:"soporte",tema:"light"}; ap(P.tema==="dark"?"dark":"light"); if($("#themeSelect")) $("#themeSelect").value=P.tema==="dark"?"dark":"light"; if($("#addBtn")) $("#addBtn").style.display=["admin","ventas"].includes(normTxt(P?.rol))?"inline-flex":"none"; await load()}
+async function boot(){const auth=await g("index.html");if(!auth)return;U=auth.user;P=await gp()||{rol:"soporte",tema:"light"};ap(P.tema==="dark"?"dark":"light");if($("#themeSelect"))$("#themeSelect").value=P.tema==="dark"?"dark":"light";if($("#addBtn"))$("#addBtn").style.display=canUpload()?"inline-flex":"none";bindModal("#overlay");bindModal("#ticketOverlay");bindModal("#repoOverlay");initRayito();setRayitoDashboard();await load();}
+function bind(){document.addEventListener("click",e=>{const b=e.target.closest("button,[data-act],[data-copy]");if(!b)return;if(b.dataset.copy)return copyTxt(b.dataset.copy,"Copiado");const act=b.dataset.act,id=b.dataset.id;if(b.id==="refreshBtn")return load();if(b.id==="searchBtn")return renderAll();if(b.id==="clearBtn")return($("#searchInput").value="",$("#statusFilter").value="",renderAll());if(b.id==="goClientBtn"){const first=rows()[0]?.c;if(!first)return toast("Busca un cliente primero.","warn");localStorage.setItem("expiriti_last_client",first.id);return location.href=`${CLIENT_PAGE}?id=${first.id}`}if(b.id==="addBtn")return canUpload()?openModal("#overlay"):toast("Solo admin y ventas pueden subir PDFs.","warn");if(b.id==="closeModal"||b.id==="cancelBtn")return closeModal("#overlay");if(b.id==="pickFilesBtn")return $("#fileInput")?.click();if(b.id==="pickFolderBtn")return $("#folderInput")?.click();if(b.id==="uploadBtn")return upload();if(b.id==="logoutBtn")return o("index.html");if(b.id==="newTicketTopBtn")return toast("Primero abre un cliente y luego crea el ticket.","warn");if(b.id==="saveTicketBtn")return saveTicketFn();if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn")return closeModal("#ticketOverlay");if(b.id==="closeRepoModal")return closeModal("#repoOverlay");if(b.id==="togglePolizasBtn"||b.id==="polizasTab")return $("#polizasSide")?.classList.toggle("open");if(b.id==="closePolizasBtn")return $("#polizasSide")?.classList.remove("open");if(act==="open")return openPDF(id);if(act==="ticket")return ticketModal(id);if(act==="focus"){localStorage.setItem("expiriti_last_client",id);return location.href=`${CLIENT_PAGE}?id=${id}`;}if(act==="tickets_page"){localStorage.setItem("expiriti_last_client",id);return location.href=`tickets.html?cliente_id=${id}`;}});document.addEventListener("input",e=>{if(e.target.matches("#searchInput"))renderAll()});document.addEventListener("change",async e=>{if(e.target.matches("#statusFilter"))return renderAll();if(e.target.matches("#themeSelect")){ap(e.target.value);localStorage.setItem("expiriti_theme",e.target.value);try{await svt(e.target.value,U?.id)}catch{}}if(e.target.matches("#fileInput")||e.target.matches("#folderInput")){FILES=[...(e.target.files||[])].filter(f=>f.name.toLowerCase().endsWith(".pdf"));$("#fileName").innerHTML=FILES.length?FILES.map(f=>`<div>PDF · ${e(f.webkitRelativePath||f.name)}</div>`).join(""):"<div>No se detectaron PDFs válidos.</div>";$("#statusTxt").textContent=FILES.length?`${FILES.length} PDF(s) listos para subir.`:"No hay PDFs válidos.";}});}
 
-function bind(){
-  document.addEventListener("click",e=>{
-    const b=e.target.closest("button,[data-act],[data-copy]"); if(!b) return;
-    if(b.dataset.copy) return copyTxt(b.dataset.copy,"Copiado");
-    const act=b.dataset.act,id=b.dataset.id;
-    if(b.id==="refreshBtn") return load();
-    if(b.id==="searchBtn") return renderAll();
-    if(b.id==="clearBtn") return ($("#searchInput").value="",renderAll());
-    if(b.id==="goClientBtn"){const first=rows()[0]?.c;if(!first)return toast("Busca un cliente primero.","warn");localStorage.setItem("expiriti_last_client",first.id);return location.href=`${CLIENT_PAGE}?id=${first.id}`;}
-    if(b.id==="addBtn") return $("#overlay")?.classList.add("open");
-    if(b.id==="closeModal"||b.id==="cancelBtn") return $("#overlay")?.classList.remove("open");
-    if(b.id==="pickFilesBtn") return $("#fileInput")?.click();
-    if(b.id==="pickFolderBtn") return $("#folderInput")?.click();
-    if(b.id==="uploadBtn") return upload();
-    if(b.id==="logoutBtn") return o("index.html");
-    if(b.id==="newTicketTopBtn") return toast("Primero abre un cliente y luego crea el ticket.","warn");
-    if(b.id==="saveTicketBtn") return saveTicketFn();
-    if(b.id==="closeTicketModal"||b.id==="cancelTicketBtn") return $("#ticketOverlay")?.classList.remove("open");
-    if(act==="open") return openPDF(id);
-    if(act==="ticket") return ticketModal(id);
-    if(act==="focus"){localStorage.setItem("expiriti_last_client",id); return location.href=`${CLIENT_PAGE}?id=${id}`;}
-    if(act==="tickets_page"){localStorage.setItem("expiriti_last_client",id); return location.href=`tickets.html?cliente_id=${id}`;}
-  });
-  document.addEventListener("input",e=>{if(e.target.matches("#searchInput")) renderAll()});
-  document.addEventListener("change",async e=>{
-    if(e.target.matches("#statusFilter")) return renderAll();
-    if(e.target.matches("#themeSelect")){ap(e.target.value);localStorage.setItem("expiriti_theme",e.target.value);try{await svt(e.target.value,U?.id)}catch{}}
-    if(e.target.matches("#fileInput")||e.target.matches("#folderInput")){
-      FILES=[...(e.target.files||[])].filter(f=>f.name.toLowerCase().endsWith(".pdf"));
-      $("#fileName").innerHTML=FILES.length?FILES.map(f=>`<div>PDF · ${e(f.webkitRelativePath||f.name)}</div>`).join(""):"<div>No se detectaron PDFs válidos.</div>";
-      $("#statusTxt").textContent=FILES.length?`${FILES.length} PDF(s) listos para subir.`:"No hay PDFs válidos.";
-    }
-  });
-}
 
 try{bind();await boot();console.log("Dashboard_OK")}catch(err){console.error(err);toast(`Dashboard error: ${m(err)}`,"bad")}
