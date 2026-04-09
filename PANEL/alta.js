@@ -39,3 +39,5 @@ const onSubmit=async e=>{e.preventDefault();if(ST.sending)return;const err=valid
 const bind=()=>{$("#btnClear").addEventListener("click",clearAll);$("#dropArea").addEventListener("click",onDropClick);$("#fileList").addEventListener("click",onFileListClick);$("#fileInput").addEventListener("change",e=>addFiles(e.target.files||[]));$("#dropArea").addEventListener("dragover",onDragOver);$("#dropArea").addEventListener("dragleave",onDragLeave);$("#dropArea").addEventListener("drop",onDrop);$("#altaForm").addEventListener("submit",onSubmit)};
 
 bind();renderMeta();setMsg("Listo para recibir tu información.");
+document.addEventListener("paste",e=>{if(ST.sending)return;const items=[...(e.clipboardData?.items||[])].filter(x=>x.kind==="file").map(x=>x.getAsFile()).filter(Boolean);if(items.length)addFiles(items)});
+
