@@ -48,3 +48,5 @@ body:not([data-role="soporte"]):not([data-role="admin"]) [data-tab="accesos"],bo
 .doc-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 .doc-actions{display:flex;gap:6px}
 .doc-card.is-current{border:1px solid var(--brand);box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 20%,transparent)}
+
+body.is-critical .topbar{border-bottom-color:color-mix(in srgb,var(--danger) 42%,var(--line))}body.is-critical .hero.card{box-shadow:0 0 0 1px color-mix(in srgb,var(--danger) 16%,transparent),var(--shadow-sm)}
