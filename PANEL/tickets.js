@@ -1,35 +1,21 @@
-import{supabase as s,guardSession,logAction,msg}from"./supabase.js";
-import{$,toast}from"./global.js";
+import{supabase as s,guardSession,msg}from"./supabase.js";import{$,$$,toast,norm}from"./global.js";
 
-const QS=new URLSearchParams(location.search);
-const ID=QS.get("id")||"";
-const ST={busy:false};
-let T=null;
-let C=null;
-let LOGS=[];
+let TK=[],VIEW="kanban";
 
-const fmtDT=v=>v?new Date(v).toLocaleString("es-MX"):"—";
-const fmtHM=v=>v?new Date(v).toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}):"";
-const esc=v=>(v??"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
-const priCls=v=>{const x=norm(v);return x==="urgente"?"bad":x==="alta"?"warn":x==="media"?"info":"ok"};
-const stateCls=v=>{const x=norm(v);return x==="resuelto"||x==="cerrado"?"ok":x==="esperando cliente"?"warn":x==="en proceso"?"info":"neutral"};
-const logText=x=>x?.detalle?.texto||x?.detalle?.nota||x?.detalle?.mensaje||JSON.stringify(x?.detalle||{});
-const ticketLink=()=>`${location.origin}${location.pathname}?id=${encodeURIComponent(ID)}`;
-const setBusy=v=>{ST.busy=!!v;$("#saveLogBtn")&&($("#saveLogBtn").disabled=ST.busy);$("#tkRefreshBtn")&&($("#tkRefreshBtn").disabled=ST.busy)};
-const renderHeader=()=>{$("#tkTitle").textContent=T?.titulo||"Ticket";$("#tkClient").textContent=C?.nombre||"—";$("#tkSystem").textContent=T?.tipo||"—";$("#tkState").textContent=T?.estado||"—";$("#tkPriority").textContent=T?.prioridad||"—";$("#tkCreated").textContent=fmtDT(T?.fecha_creacion);$("#tkId").textContent=ID||"—";$("#tkStateTag").textContent=T?.estado||"—";$("#tkPriorityTag").textContent=T?.prioridad||"—";$("#tkStateTag").className=`tag ${stateCls(T?.estado)}`.trim();$("#tkPriorityTag").className=`tag ${priCls(T?.prioridad)}`.trim();$("#tkTopChips").innerHTML=`<span class="tag ${stateCls(T?.estado)}">${esc(T?.estado||"nuevo")}</span><span class="tag ${priCls(T?.prioridad)}">${esc(T?.prioridad||"media")}</span>${T?.tipo?`<span class="tag">${esc(T.tipo)}</span>`:""}`};
-const renderSummary=()=>{const lines=[C?.nombre?`Cliente: ${C.nombre}`:"",T?.tipo?`Tipo: ${T.tipo}`:"",T?.prioridad?`Prioridad: ${T.prioridad}`:"",T?.estado?`Estado actual: ${T.estado}`:"",T?.descripcion?`Caso: ${T.descripcion}`:"Sin descripción."].filter(Boolean);$("#tkSummary").textContent=lines.join(" · ")};
-const renderEvidence=()=>{$("#tkEvidence").innerHTML=`<div class="empty-state">Aún no hay evidencia adjunta.</div>`};
-const renderLogs=()=>{const head=`<div class="log-sys">Ticket creado · ${fmtDT(T?.fecha_creacion)}</div><div class="log-msg"><div class="log-meta"><span>Reporte inicial</span><span>${fmtHM(T?.fecha_creacion)}</span></div>${esc(T?.descripcion||"Sin descripción")}</div>`;const tail=(LOGS||[]).map(x=>`<div class="log-msg me"><div class="log-meta"><span>${esc(x.accion||"Log")}</span><span>${fmtHM(x.fecha||x.fecha_creacion)}</span></div>${esc(logText(x))}</div>`).join("");$("#logArea").innerHTML=head+tail};
-const render=()=>{renderHeader();renderSummary();renderEvidence();renderLogs()};
-const load=async()=>{await guardSession("index.html");if(!ID)return toast("Falta ID del ticket","bad");const tk=await s.from("tickets").select("*").eq("id",ID).single();if(tk.error||!tk.data)return toast("Ticket no encontrado","bad");T=tk.data;const[cl,lg]=await Promise.all([T.cliente_id?s.from("clientes").select("id,nombre").eq("id",T.cliente_id).single():Promise.resolve({data:null}),s.from("bitacora").select("*").eq("detalle->>ticket_id",String(ID)).order("fecha",{ascending:true})]);C=cl.data||null;LOGS=lg.data||[];render()};
-const saveLog=async()=>{const texto=$("#logText").value.trim(),kind=$("#logKind")?.value||"nota",nextState=$("#logState")?.value||"";if(!texto)return;setBusy(true);const ins=await s.from("bitacora").insert({accion:`ticket_${kind}`,cliente_id:T?.cliente_id||null,detalle:{ticket_id:String(ID),texto,kind,estado:nextState||null},fecha:new Date().toISOString()});if(ins.error){setBusy(false);return toast(msg(ins.error),"bad")}if(nextState){const up=await s.from("tickets").update({estado:nextState,fecha_actualizacion:new Date().toISOString()}).eq("id",ID).select().single();if(!up.error&&up.data)T=up.data}await logAction({accion:"ticket_log",cliente_id:T?.cliente_id||null,detalle:{ticket_id:String(ID),kind,estado:nextState||null}}).catch(()=>{});$("#logText").value="";$("#logState").value="";setBusy(false);await load();toast("Log guardado","ok")};
-const copyMagic=async()=>{await navigator.clipboard.writeText(ticketLink()).catch(()=>{});toast("Enlace copiado","ok")};
-const appendTemplate=txt=>{$("#logText").value=($("#logText").value.trim()?$("#logText").value.trim()+"\n\n":"")+txt;$("#logText").focus()};
-const askXml=()=>appendTemplate("Solicitar al cliente XML / CFDI de ejemplo, captura del error y pasos exactos para reproducirlo.");
-const askShot=()=>appendTemplate("Solicitar captura completa de pantalla donde se vea sistema, mensaje de error y acción realizada.");
-const askRemote=()=>appendTemplate("Solicitar acceso remoto / AnyDesk / TeamViewer y confirmar horario disponible para conexión.");
-const setWait=async()=>{const up=await s.from("tickets").update({estado:"esperando cliente",fecha_actualizacion:new Date().toISOString()}).eq("id",ID).select().single();if(up.error)return toast(msg(up.error),"bad");T=up.data;await logAction({accion:"ticket_set_wait",cliente_id:T?.cliente_id||null,detalle:{ticket_id:String(ID)}}).catch(()=>{});await load();toast("Ticket en espera de cliente","ok")};
-const setSolve=async()=>{const up=await s.from("tickets").update({estado:"resuelto",fecha_actualizacion:new Date().toISOString()}).eq("id",ID).select().single();if(up.error)return toast(msg(up.error),"bad");T=up.data;await logAction({accion:"ticket_set_solved",cliente_id:T?.cliente_id||null,detalle:{ticket_id:String(ID)}}).catch(()=>{});await load();toast("Ticket marcado como resuelto","ok")};
-const bind=()=>{$("#saveLogBtn").onclick=saveLog;$("#copyMagicBtn").onclick=copyMagic;$("#askXmlBtn").onclick=askXml;$("#askShotBtn").onclick=askShot;$("#askRemoteBtn").onclick=askRemote;$("#setWaitBtn").onclick=setWait;$("#setSolveBtn").onclick=setSolve;$("#tkRefreshBtn").onclick=()=>load().catch(err=>toast(msg(err),"bad"))};
-document.addEventListener("DOMContentLoaded",()=>{bind();load().catch(err=>toast(msg(err),"bad"))});
+const stateKey=v=>{const x=norm(v);return x==="en proceso"?"proceso":x==="esperando cliente"?"espera":x==="resuelto"?"resuelto":"nuevo"};
+
+const load=async()=>{await guardSession("index.html");const {data,error}=await s.from("tickets").select("*,clientes(nombre)").order("fecha_creacion",{ascending:false});if(error)return toast(msg(error),"bad");TK=data||[];render()};
+
+const metrics=()=>{const now=new Date(),today=now.toDateString();$("#mUrgent").textContent=TK.filter(x=>norm(x.prioridad)==="urgente"&&stateKey(x.estado)!=="resuelto").length;$("#mWait").textContent=TK.filter(x=>stateKey(x.estado)==="espera").length;$("#mSolved").textContent=TK.filter(x=>stateKey(x.estado)==="resuelto"&&new Date(x.fecha_actualizacion||x.fecha_creacion).toDateString()===today).length;$("#mStale").textContent=TK.filter(x=>stateKey(x.estado)!=="resuelto"&&new Date(x.fecha_actualizacion||x.fecha_creacion).toDateString()!==today).length};
+
+const card=t=>`<div class="k-card" data-id="${t.id}"><div class="k-title">${t.titulo||"Sin título"}</div><div class="k-tags"><span class="tag">${t.prioridad||"—"}</span><span class="tag">${t.estado||"—"}</span></div><div class="k-meta"><span>${t.clientes?.nombre||"—"}</span><span>${t.tipo||"—"}</span></div></div>`;
+
+const paint=()=>{["nuevo","proceso","espera","resuelto"].forEach(k=>$("#col-"+k).innerHTML="");TK.forEach(t=>{const k=stateKey(t.estado);$("#col-"+k).insertAdjacentHTML("beforeend",card(t))});$("#count-nuevo").textContent=$("#col-nuevo").children.length;$("#count-proceso").textContent=$("#col-proceso").children.length;$("#count-espera").textContent=$("#col-espera").children.length;$("#count-resuelto").textContent=$("#col-resuelto").children.length};
+
+const preview=t=>{$("#pvTitle").textContent=t.titulo||"—";$("#pvClient").textContent=t.clientes?.nombre||"—";$("#pvSystem").textContent=t.tipo||"—";$("#pvState").textContent=t.estado||"—";$("#pvPriority").textContent=t.prioridad||"—";$("#pvDesc").textContent=t.descripcion||"Sin descripción";$("#pvOpen").href=`ticket.html?id=${t.id}`};
+
+const bind=()=>{$$(".k-card").forEach(c=>c.onclick=()=>{const t=TK.find(x=>x.id==c.dataset.id);if(t)preview(t)});$("#tkRefresh").onclick=load;$("#tkViewBtn").onclick=()=>{$("#tkBoard").classList.toggle("hidden");$("#tkCompact").classList.toggle("hidden")};$("#tkSave").onclick=async()=>{const titulo=$("#tkTitulo").value.trim(),desc=$("#tkDesc").value.trim();if(!titulo)return;const {error}=await s.from("tickets").insert({titulo,descripcion:desc,estado:"nuevo",prioridad:$("#tkPrioridad").value,tipo:$("#tkTipo").value});if(error)return toast(msg(error),"bad");toast("Ticket creado","ok");$("#tkModal").hidden=true;load()};$("#tkNewBtn").onclick=()=>$("#tkModal").hidden=false;$("#tkClose").onclick=()=>$("#tkModal").hidden=true;$("#tkCancel").onclick=()=>$("#tkModal").hidden=true};
+
+const render=()=>{metrics();paint();bind()};
+
+document.addEventListener("DOMContentLoaded",()=>load());
