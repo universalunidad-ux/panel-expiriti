@@ -14,8 +14,8 @@
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));</script>
 </head>
 <body data-surface="support">
-  <header class="topbar"><div class="topbar-inner"><a class="brand" href="dashboard.html" aria-label="Volver al dashboard"><span class="brand-dot"></span><span>Panel Expiriti · Cliente</span></a><div class="top-actions"><a class="mini btn-ghost" href="dashboard.html">Dashboard</a><a class="mini btn-ghost" id="allTicketsTopLink" href="tickets.html">Tickets</a><button class="mini btn-ghost" id="prefsBtn" type="button">Preferencias</button><button class="mini btn-ghost" id="logoutBtn" type="button">Salir</button></div></div></header>
-
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="dashboard.html" aria-label="Volver al dashboard"><span class="brand-dot"></span><span>Panel Expiriti · Cliente</span></a><div class="top-actions"><a class="mini btn-ghost" href="dashboard.html">Dashboard</a><a class="mini btn-ghost" id="allTicketsTopLink" href="tickets.html">Tickets</a><button class="mini btn-ghost" id="prefsBtn" type="button">Preferencias</button><button class="mini btn-ghost" id="logoutBtn" type="button">Salir</button></div></div></header>
+  
 <main class="wrap">
 <section class="hero card">
 <div class="hero-main">
@@ -52,24 +52,24 @@
 <section class="card">
 <div class="tabs"><button class="tab active" data-tab="docs">Certificados <span class="badge" id="tabDocsCount">0</span></button><button class="tab" data-tab="timeline">Timeline <span class="badge" id="tabTimelineCount">0</span></button><button class="tab" data-tab="crm">CRM</button><button class="tab" data-tab="bitacora">Bitácora</button><button class="tab" data-tab="accesos">Accesos</button></div>
 
-<div class="panel active" id="panel-docs">
+<div class="panel tab-panel active" id="panel-docs">
 <div class="section-head slim"><div><h2>Certificados por sistema</h2><p>Filtro por sistema, vigencia, revisión y lectura del PDF.</p></div><div class="toolbar"><button class="mini btn-ghost" id="openRenewBtn">Renovaciones</button><button class="mini btn-ghost" id="refreshBtn">Actualizar</button></div></div>
 <div class="filters"><input class="search" id="searchInput" placeholder="Buscar por sistema, serie, verificador, empresa o texto PDF"><select class="select" id="statusFilter"><option value="">Todos</option><option value="vigente">Vigente</option><option value="por_vencer">Por vencer</option><option value="vencido">Vencido</option><option value="sin_vigencia">Sin vigencia</option></select><select class="select" id="reviewFilter"><option value="">Toda revisión</option><option value="si">Requiere revisión</option><option value="pdf_error">PDF con error</option><option value="ok">Lectura OK</option></select><div class="seg"><button class="active" data-view="cards">Cards</button><button data-view="compact">Compacto</button></div></div>
 <div class="chips" id="sysChips"></div>
 <div class="list" id="docsList"></div>
 </div>
 
-<div class="panel" id="panel-timeline">
+<div class="panel tab-panel" id="panel-timeline">
 <div class="section-head slim"><div><h2>Timeline operativo</h2><p>Eventos útiles del cliente, tickets, CRM, bitácora y documentos.</p></div></div>
 <div class="list timeline" id="timelineList"></div>
 </div>
 
-<div class="panel" id="panel-crm">
+<div class="panel tab-panel" id="panel-crm">
 <div class="section-head slim"><div><h2>CRM útil</h2><p>Contexto interno, contacto, estado y seguimiento comercial/soporte.</p></div><button class="btn btn-brand" id="saveCRMBtn">Guardar CRM</button></div>
 <div class="form-grid two"><label><span>Nombre / razón social</span><input class="input" id="cNombreEdit"></label><label><span>Responsable</span><input class="input" id="cResponsable"></label><label><span>Correo</span><input class="input" id="cCorreo" type="email"></label><label><span>Teléfono</span><input class="input" id="cTelefono"></label><label><span>Estatus</span><select class="select" id="cEstadoEdit"><option value="activo">Activo</option><option value="seguimiento">Seguimiento</option><option value="problema">Problema</option><option value="inactivo">Inactivo</option></select></label><label class="checkline"><input id="cFavorito" type="checkbox"> Cliente favorito</label></div>
 <label class="mt12"><span>Comentarios / notas internas</span><textarea class="area" id="cComentarios" placeholder="Notas útiles para soporte y ventas"></textarea></label>
 </div>
-<div class="panel" id="panel-accesos">
+<div class="panel tab-panel" id="panel-accesos">
   <div class="section-head slim">
     <div>
       <h2>Accesos</h2>
@@ -99,7 +99,7 @@
 </div>
   
   
-<div class="panel" id="panel-bitacora">
+<div class="panel tab-panel" id="panel-bitacora">
 <div class="section-head slim"><div><h2>Bitácora visible</h2><p>Acciones recientes sobre el cliente para dar trazabilidad al equipo.</p></div></div>
 <div class="list" id="bitacoraList"></div>
 </div>
