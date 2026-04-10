@@ -5,7 +5,7 @@
 .hero-badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-content:flex-start}
 .support-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:14px;align-items:start}
 .support-form{display:grid;gap:16px}
-.support-side{display:grid;gap:14px;position:sticky;top:86px} 
+.support-side{display:grid;gap:14px;position:sticky;top:86px}
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .field{display:grid;gap:7px;min-width:0}
 .field.span-2{grid-column:1/-1}
@@ -24,9 +24,16 @@
 #spStatus{min-height:20px}
 #spFiles.input{padding:10px 12px}
 #spDesc,#spVoiceText{min-height:120px}
-.support-side .panel.inset{padding:14px}
+.support-side .panel.inset{padding:14px;box-shadow:var(--shadow-xs)}
 .support-side .chips{display:flex;gap:8px;flex-wrap:wrap}
 .support-side .mini{white-space:nowrap}
 .support-form .input,.support-form .select,.support-form .area{min-width:0}
+#spFilesMeta{display:grid;gap:10px}
+#spFilesMeta .item{padding:12px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent))}
+#spFilesMeta .item-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.hero-support .chips .tag{font-weight:800}
+.support-form .section-head h2,.support-form .section-head h3{margin:0}
+.support-form{position:relative}
+.support-form::after{content:"";display:block;height:1px;background:transparent}
 @media(max-width:1100px){.support-layout,.hero-support{grid-template-columns:1fr}.support-side{position:static}.hero-badges{justify-content:flex-start}}
 @media(max-width:760px){.form-grid,.upload-grid{grid-template-columns:1fr}.support-form .actions{display:grid;grid-template-columns:1fr}.support-form .actions .btn{width:100%;min-width:0}.hero-support h1{max-width:none}}
