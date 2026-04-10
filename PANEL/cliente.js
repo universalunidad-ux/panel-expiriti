@@ -2,7 +2,7 @@ import{supabase as s,guardSession,logout,openPdfSigned,fmt,msg,getProfile,logAct
 import{$,$$,qp,toast,show,hide,copyTxt,debounce}from"./global.js";
 import{PREFS,normTxt,wa,readPDF,uploadClientPdf,saveTicket as saveTicketCore,saveCRM as saveCRMCore}from"./cliente.core.js";
 import{renderHeader,renderStats,renderSystems,renderDocs,renderTicketsMini,renderTimeline,renderBitacora,renderRenewals,renderChecklist,renderCRM,previewUpload,renderTicketFiles,renderAccess}from"./cliente.ui.js";
-
+ 
 const CLIENT_ID=qp("id")||localStorage.getItem("expiriti_last_client")||"",PREF_KEY="expiriti_cliente_prefs_v2",ACCESS_KEY=id=>`expiriti_access_${id}`;
 let USER=null,PROFILE=null,CLIENT=null,DOCS=[],TICKETS=[],BIT=[],CURRENT_SYS="",CURRENT_VIEW="cards",PICKED_FILE=null,PICKED_DATA=null,TICKET_FILES=[];
 
