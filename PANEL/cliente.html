@@ -4,21 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Cliente | Panel Expiriti</title>
-<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a1018">
-<link rel="apple-touch-icon" href="icono-192.png">
-<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));</script>
-  <meta name="theme-color" content="#0a1018">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icono-192.png">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin> 
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
 <link rel="stylesheet" href="global.css">
 <link rel="stylesheet" href="cliente.css">
 <script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));</script>
-  
 </head>
 <body data-surface="support">
-  <header class="topbar"><div class="topin"><a class="brand" href="dashboard.html" aria-label="Volver al dashboard"><span class="brand-badge"></span><span>Panel Expiriti · Cliente</span></a><div class="top-actions"><a class="mini ghost" href="dashboard.html">Dashboard</a><a class="mini ghost" id="allTicketsTopLink" href="tickets.html">Tickets</a><button class="mini ghost" id="prefsBtn">Preferencias</button><button class="mini ghost" id="logoutBtn">Salir</button></div></div></header>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="dashboard.html" aria-label="Volver al dashboard"><span class="brand-dot"></span><span>Panel Expiriti · Cliente</span></a><div class="top-actions"><a class="mini btn-ghost" href="dashboard.html">Dashboard</a><a class="mini btn-ghost" id="allTicketsTopLink" href="tickets.html">Tickets</a><button class="mini btn-ghost" id="prefsBtn" type="button">Preferencias</button><button class="mini btn-ghost" id="logoutBtn" type="button">Salir</button></div></div></header>
 
 <main class="wrap">
 <section class="hero card">
@@ -27,7 +23,7 @@
 <div class="hero-grid">
 <article class="metric soft"><div class="k">Responsable</div><div class="v small" id="cResponsableView">—</div></article><article class="metric soft"><div class="k">Última interacción</div><div class="v small" id="cUltima">—</div></article><article class="metric soft"><div class="k">Completitud</div><div class="v small" id="profileScore">0%</div></article><article class="metric soft"><div class="k">Próxima acción</div><div class="v small" id="nextAction">—</div></article>
 </div>
-<div class="hero-actions"><button class="btn brand" id="openNewTicketBtn">Nuevo ticket</button><button class="btn ghost" id="toggleUploadBtn">Subir PDF</button><a class="btn ghost" id="waBtn" href="#" target="_blank" rel="noopener">WhatsApp</a><button class="btn ghost" id="openLatestBtn">Abrir último PDF</button></div>
+<div class="hero-actions"><button class="btn btn-brand" id="openNewTicketBtn">Nuevo ticket</button><button class="btn btn-ghost" id="toggleUploadBtn">Subir PDF</button><a class="btn btn-ghost" id="waBtn" href="#" target="_blank" rel="noopener">WhatsApp</a><button class="btn btn-ghost" id="openLatestBtn">Abrir último PDF</button></div>
 </div>
 <aside class="hero-side">
 <div class="stats-grid">
@@ -38,7 +34,7 @@
 </section>
 
 <section class="card hidden" id="uploadCard">
-<div class="section-head"><div><h2>Subida inteligente</h2><p>Lee el PDF, detecta sistema, licenciamiento, serie, verificador y vigencia antes de guardar.</p></div><button class="mini ghost" id="closeUploadBtn">Cerrar</button></div>
+<div class="section-head"><div><h2>Subida inteligente</h2><p>Lee el PDF, detecta sistema, licenciamiento, serie, verificador y vigencia antes de guardar.</p></div><button class="mini btn-ghost" id="closeUploadBtn">Cerrar</button></div>
 <div class="upload-layout">
 <label class="dropzone" id="dropZone"><input id="fileInput" type="file" accept="application/pdf,.pdf" hidden><span class="drop-title">Arrastra un PDF aquí o haz clic para seleccionarlo</span><span class="drop-sub" id="fileName">Ningún archivo seleccionado</span></label>
 <div class="upload-panel">
@@ -46,7 +42,7 @@
 <div class="preview-grid">
 <div class="pv"><span>Sistema</span><strong id="pvSistema">—</strong></div><div class="pv"><span>Versión comercial</span><strong id="pvVersion">—</strong></div><div class="pv"><span>Tipo documento</span><strong id="pvTipo">—</strong></div><div class="pv"><span>Tipo licencia</span><strong id="pvLic">—</strong></div><div class="pv"><span>Usuarios</span><strong id="pvUsuarios">—</strong></div><div class="pv"><span>Empresas</span><strong id="pvEmpresas">—</strong></div><div class="pv"><span>Serie</span><strong id="pvSerie">—</strong></div><div class="pv"><span>Verificador</span><strong id="pvVer">—</strong></div><div class="pv"><span>Empresa certificado</span><strong id="pvEmpresa">—</strong></div><div class="pv"><span>Vigencia</span><strong id="pvVigencia">—</strong></div><div class="pv"><span>Lectura PDF</span><strong id="pvLectura">—</strong></div><div class="pv"><span>Requiere revisión</span><strong id="pvRevision">—</strong></div>
 </div>
-<div class="toolbar"><button class="btn brand" id="uploadBtn">Subir PDF</button><button class="btn ghost" id="clearUploadBtn">Limpiar</button><span class="mut" id="uploadStatus">Listo.</span></div>
+<div class="toolbar"><button class="btn btn-brand" id="uploadBtn">Subir PDF</button><button class="btn btn-ghost" id="clearUploadBtn">Limpiar</button><span class="mut" id="uploadStatus">Listo.</span></div>
 </div>
 </div>
 </section>
@@ -57,7 +53,7 @@
 <div class="tabs"><button class="tab active" data-tab="docs">Certificados <span class="badge" id="tabDocsCount">0</span></button><button class="tab" data-tab="timeline">Timeline <span class="badge" id="tabTimelineCount">0</span></button><button class="tab" data-tab="crm">CRM</button><button class="tab" data-tab="bitacora">Bitácora</button><button class="tab" data-tab="accesos">Accesos</button></div>
 
 <div class="panel active" id="panel-docs">
-<div class="section-head slim"><div><h2>Certificados por sistema</h2><p>Filtro por sistema, vigencia, revisión y lectura del PDF.</p></div><div class="toolbar"><button class="mini ghost" id="openRenewBtn">Renovaciones</button><button class="mini ghost" id="refreshBtn">Actualizar</button></div></div>
+<div class="section-head slim"><div><h2>Certificados por sistema</h2><p>Filtro por sistema, vigencia, revisión y lectura del PDF.</p></div><div class="toolbar"><button class="mini btn-ghost" id="openRenewBtn">Renovaciones</button><button class="mini btn-ghost" id="refreshBtn">Actualizar</button></div></div>
 <div class="filters"><input class="search" id="searchInput" placeholder="Buscar por sistema, serie, verificador, empresa o texto PDF"><select class="select" id="statusFilter"><option value="">Todos</option><option value="vigente">Vigente</option><option value="por_vencer">Por vencer</option><option value="vencido">Vencido</option><option value="sin_vigencia">Sin vigencia</option></select><select class="select" id="reviewFilter"><option value="">Toda revisión</option><option value="si">Requiere revisión</option><option value="pdf_error">PDF con error</option><option value="ok">Lectura OK</option></select><div class="seg"><button class="active" data-view="cards">Cards</button><button data-view="compact">Compacto</button></div></div>
 <div class="chips" id="sysChips"></div>
 <div class="list" id="docsList"></div>
@@ -69,7 +65,7 @@
 </div>
 
 <div class="panel" id="panel-crm">
-<div class="section-head slim"><div><h2>CRM útil</h2><p>Contexto interno, contacto, estado y seguimiento comercial/soporte.</p></div><button class="btn brand" id="saveCRMBtn">Guardar CRM</button></div>
+<div class="section-head slim"><div><h2>CRM útil</h2><p>Contexto interno, contacto, estado y seguimiento comercial/soporte.</p></div><button class="btn btn-brand" id="saveCRMBtn">Guardar CRM</button></div>
 <div class="form-grid two"><label><span>Nombre / razón social</span><input class="input" id="cNombreEdit"></label><label><span>Responsable</span><input class="input" id="cResponsable"></label><label><span>Correo</span><input class="input" id="cCorreo" type="email"></label><label><span>Teléfono</span><input class="input" id="cTelefono"></label><label><span>Estatus</span><select class="select" id="cEstadoEdit"><option value="activo">Activo</option><option value="seguimiento">Seguimiento</option><option value="problema">Problema</option><option value="inactivo">Inactivo</option></select></label><label class="checkline"><input id="cFavorito" type="checkbox"> Cliente favorito</label></div>
 <label class="mt12"><span>Comentarios / notas internas</span><textarea class="area" id="cComentarios" placeholder="Notas útiles para soporte y ventas"></textarea></label>
 </div>
@@ -79,7 +75,7 @@
       <h2>Accesos</h2>
       <p>VPS, RDP, AnyDesk y notas operativas del cliente.</p>
     </div>
-    <button class="btn brand" id="saveAccessBtn">Guardar accesos</button>
+    <button class="btn btn-brand" id="saveAccessBtn">Guardar accesos</button>
   </div>
 
   <div class="form-grid two access-grid">
@@ -93,10 +89,10 @@
   </div>
 
   <div class="toolbar mt12">
-    <button class="mini ghost" id="copyAccVps">Copiar VPS</button>
-    <button class="mini ghost" id="copyAccUser">Copiar usuario</button>
-    <button class="mini ghost" id="copyAccPass">Copiar password</button>
-    <button class="mini ghost" id="copyAccAnydesk">Copiar AnyDesk</button>
+    <button class="mini btn-ghost" id="copyAccVps">Copiar VPS</button>
+    <button class="mini btn-ghost" id="copyAccUser">Copiar usuario</button>
+    <button class="mini btn-ghost" id="copyAccPass">Copiar password</button>
+    <button class="mini btn-ghost" id="copyAccAnydesk">Copiar AnyDesk</button>
   </div>
 
   <div class="mut mt10" id="accessStatus">Solo visible para soporte/admin.</div>
@@ -115,20 +111,20 @@
 <div class="section-head slim"><div><h2>Soporte rápido</h2><p>Vista táctica para soporte y ventas.</p></div></div>
 <div class="checklist" id="quickChecklist"></div>
 <div class="side-stack">
-<div class="box"><div class="rowline"><strong>Tickets recientes</strong><a class="mini ghost" id="allTicketsLink" href="tickets.html">Ver todos</a></div><div class="list mini-list mt10" id="ticketsList"></div></div>
-<div class="box"><div class="rowline"><strong>Renovaciones</strong><button class="mini ghost" id="openRenewBtn2">Abrir</button></div><div class="list mini-list mt10" id="renewMiniList"></div></div>
-<div class="box"><div class="rowline"><strong>Accesos rápidos</strong></div><div class="toolbar mt10"><a class="mini ghost" id="callBtn" href="#">Llamar</a><a class="mini ghost" id="mailBtn" href="#">Correo</a><button class="mini ghost" id="copyNameBtn">Copiar nombre</button><button class="mini ghost" id="copyIdBtn">Copiar ID</button></div></div>
+<div class="box"><div class="rowline"><strong>Tickets recientes</strong><a class="mini btn-ghost" id="allTicketsLink" href="tickets.html">Ver todos</a></div><div class="list mini-list mt10" id="ticketsList"></div></div>
+<div class="box"><div class="rowline"><strong>Renovaciones</strong><button class="mini btn-ghost" id="openRenewBtn2">Abrir</button></div><div class="list mini-list mt10" id="renewMiniList"></div></div>
+<div class="box"><div class="rowline"><strong>Accesos rápidos</strong></div><div class="toolbar mt10"><a class="mini btn-ghost" id="callBtn" href="#">Llamar</a><a class="mini btn-ghost" id="mailBtn" href="#">Correo</a><button class="mini btn-ghost" id="copyNameBtn">Copiar nombre</button><button class="mini btn-ghost" id="copyIdBtn">Copiar ID</button></div></div>
 </div>
 </section>
 </aside>
 </section>
 </main>
 
-<aside class="drawer right" id="prefsDrawer"><div class="drawer-head"><strong>Preferencias</strong><button class="mini ghost" id="closePrefsBtn">Cerrar</button></div><div class="drawer-body"><div class="box"><div class="k">Densidad visual</div><div class="toolbar mt10"><button class="mini ghost" data-pref-density="normal">Normal</button><button class="mini ghost" data-pref-density="compact">Compacta</button></div></div><div class="box mt12"><label class="checkline"><input id="prefMaskSeries" type="checkbox"> Ocultar serie/verificador por defecto</label></div><div class="box mt12"><label class="checkline"><input id="prefAutoUpload" type="checkbox"> Abrir subida al entrar</label></div></div></aside>
+<aside class="drawer right" id="prefsDrawer"><div class="drawer-head"><strong>Preferencias</strong><button class="mini btn-ghost" id="closePrefsBtn">Cerrar</button></div><div class="drawer-body"><div class="box"><div class="k">Densidad visual</div><div class="toolbar mt10"><button class="mini btn-ghost" data-pref-density="normal">Normal</button><button class="mini btn-ghost" data-pref-density="compact">Compacta</button></div></div><div class="box mt12"><label class="checkline"><input id="prefMaskSeries" type="checkbox"> Ocultar serie/verificador por defecto</label></div><div class="box mt12"><label class="checkline"><input id="prefAutoUpload" type="checkbox"> Abrir subida al entrar</label></div></div></aside>
 
-<aside class="drawer right lg" id="renewDrawer"><div class="drawer-head"><strong>Renovaciones y alertas</strong><button class="mini ghost" id="closeRenewBtn">Cerrar</button></div><div class="drawer-body"><div class="list" id="renewList"></div></div></aside>
+<aside class="drawer right lg" id="renewDrawer"><div class="drawer-head"><strong>Renovaciones y alertas</strong><button class="mini btn-ghost" id="closeRenewBtn">Cerrar</button></div><div class="drawer-body"><div class="list" id="renewList"></div></div></aside>
 
-<aside class="drawer right xl" id="ticketDrawer"><div class="drawer-head"><strong>Nuevo ticket</strong><button class="mini ghost" id="closeTicketBtn">Cerrar</button></div><div class="drawer-body"><div class="form-grid two"><label><span>Cliente</span><input class="input" id="tCliente" readonly></label><label><span>Título</span><input class="input" id="tTitulo" placeholder="Ej. Renovación pendiente / Error al abrir"></label><label><span>Tipo</span><select class="select" id="tTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select></label><label><span>Prioridad</span><select class="select" id="tPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></label></div><label class="mt12"><span>Descripción</span><textarea class="area area-sm" id="tDesc"></textarea></label><div class="box mt12"><div class="rowline"><strong>Adjuntos del ticket</strong><label class="mini ghost filepick">Agregar<input id="ticketFiles" type="file" multiple hidden accept=".pdf,image/*,audio/*"></label></div><div class="mut mt8">Soporta PDF, imagen y audio como evidencia.</div><div class="list mini-list mt10" id="ticketFilesList"></div></div><div class="toolbar mt12"><button class="btn brand" id="saveTicketBtn">Guardar ticket</button><span class="mut" id="ticketStatus">Listo.</span></div></div></aside>
+<aside class="drawer right xl" id="ticketDrawer"><div class="drawer-head"><strong>Nuevo ticket</strong><button class="mini btn-ghost" id="closeTicketBtn">Cerrar</button></div><div class="drawer-body"><div class="form-grid two"><label><span>Cliente</span><input class="input" id="tCliente" readonly></label><label><span>Título</span><input class="input" id="tTitulo" placeholder="Ej. Renovación pendiente / Error al abrir"></label><label><span>Tipo</span><select class="select" id="tTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select></label><label><span>Prioridad</span><select class="select" id="tPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></label></div><label class="mt12"><span>Descripción</span><textarea class="area area-sm" id="tDesc"></textarea></label><div class="box mt12"><div class="rowline"><strong>Adjuntos del ticket</strong><label class="mini ghost filepick">Agregar<input id="ticketFiles" type="file" multiple hidden accept=".pdf,image/*,audio/*"></label></div><div class="mut mt8">Soporta PDF, imagen y audio como evidencia.</div><div class="list mini-list mt10" id="ticketFilesList"></div></div><div class="toolbar mt12"><button class="btn btn-brand" id="saveTicketBtn">Guardar ticket</button><span class="mut" id="ticketStatus">Listo.</span></div></div></aside>
 
 <div class="mobile-bar"><button class="mbtn" id="mbtnTickets">Tickets</button><button class="mbtn" id="mbtnUpload">Subir PDF</button><button class="mbtn primary" id="mbtnNewTicket">Nuevo</button><button class="mbtn" id="mbtnRenew">Renovaciones</button><button class="mbtn" id="mbtnPrefs">Prefs</button></div>
 
