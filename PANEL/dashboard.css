@@ -95,3 +95,15 @@
 .dashboard-toolbar .toolbar{grid-template-columns:1fr}
 .hero-actions{display:grid;grid-template-columns:1fr}
 }
+
+.is-critical{border-color:color-mix(in srgb,var(--danger) 32%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--danger) 8%,var(--panel)),color-mix(in srgb,var(--panel-2) 98%,transparent))}
+.is-hot{border-color:color-mix(in srgb,var(--warn) 30%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--warn) 8%,var(--panel)),color-mix(in srgb,var(--panel-2) 98%,transparent))}
+.row-actions{opacity:.0;transform:translateY(2px);transition:.16s ease}
+.ops-item:hover .row-actions,.client-row:hover .row-actions{opacity:1;transform:none}
+@media(max-width:820px){.row-actions{opacity:1;transform:none}}
+
+.toast-wrap{position:fixed;right:16px;bottom:16px;display:grid;gap:10px;z-index:120}
+.toast{min-width:260px;max-width:360px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow-md)}
+.toast.ok{border-color:color-mix(in srgb,var(--ok) 24%,var(--line))}
+.toast.warn{border-color:color-mix(in srgb,var(--warn) 24%,var(--line))}
+.toast.bad{border-color:color-mix(in srgb,var(--danger) 24%,var(--line))}
