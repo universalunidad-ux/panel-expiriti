@@ -1,57 +1,7 @@
-const V="expiriti-v1.0.1",S=`static-${V}`,P=`pages-${V}`,A=[
-  "./",
-  "./index.html",
-  "./dashboard.html",
-  "./cliente.html",
-  "./tickets.html",
-  "./ticket.html",
-  "./global.css",
-  "./global.js",
-  "./dashboard.css",
-  "./dashboard.js",
-  "./cliente.css",
-  "./cliente.js",
-  "./cliente.core.js",
-  "./cliente.ui.js",
-  "./tickets.css",
-  "./tickets.js",
-  "./ticket.css",
-  "./ticket.js",
-  "./icono-192.png",
-  "./icono-512.png",
-  "./manifest.json"
-];
-
-self.addEventListener("install",e=>{e.waitUntil((async()=>{const c=await caches.open(S);await c.addAll(A);await self.skipWaiting()})())});
-self.addEventListener("activate",e=>{e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>![S,P].includes(k)).map(k=>caches.delete(k)));await self.clients.claim()})())});
-self.addEventListener("fetch",e=>{
-  const r=e.request,u=new URL(r.url);
-  if(r.method!=="GET")return;
-  if(u.origin!==location.origin)return;
-  if(u.hostname.includes("supabase.co"))return;
-  if(r.mode==="navigate"){
-    e.respondWith((async()=>{
-      try{
-        const n=await fetch(r);
-        const c=await caches.open(P);
-        c.put(r,n.clone());
-        return n;
-      }catch{
-        const c=await caches.open(P);
-        return await c.match(r)||await c.match("./dashboard.html")||new Response("Sin conexión",{status:503,headers:{"Content-Type":"text/plain;charset=UTF-8"}});
-      }
-    })());
-    return;
-  }
-  e.respondWith((async()=>{
-    const c=await caches.open(S),m=await c.match(r);
-    if(m)return m;
-    try{
-      const n=await fetch(r);
-      if(n.ok&&u.origin===location.origin)c.put(r,n.clone());
-      return n;
-    }catch{
-      return m||new Response("",{status:504});
-    }
-  })());
+const V="expiriti-v1.0.1",S=`static-${V}`,P=`pages-${V}`,A=["./","./index.html","./dashboard.html","./cliente.html","./tickets.html","./ticket.html","./global.css","./global.js","./dashboard.css","./dashboard.js","./cliente.css","./cliente.js","./cliente.core.js","./cliente.ui.js","./tickets.css","./tickets.js","./ticket.css","./ticket.js","./icono-192.png","./icono-512.png","./manifest.json"];
+self.addEventListener("install",e=>e.waitUntil((async()=>{const c=await caches.open(S);await c.addAll(A);await self.skipWaiting()})()));
+self.addEventListener("activate",e=>e.waitUntil((async()=>{const ks=await caches.keys();await Promise.all(ks.filter(k=>![S,P].includes(k)).map(k=>caches.delete(k)));await self.clients.claim()})()));
+self.addEventListener("fetch",e=>{const r=e.request,u=new URL(r.url);if(r.method!=="GET")return;if(u.origin!==location.origin)return;if(u.hostname.includes("supabase.co"))return;
+if(r.mode==="navigate")return e.respondWith((async()=>{try{const n=await fetch(r);(await caches.open(P)).put(r,n.clone());return n}catch{const c=await caches.open(P);return await c.match(r)||await c.match("./dashboard.html")||new Response("Sin conexión",{status:503,headers:{"Content-Type":"text/plain;charset=UTF-8"}})}})());
+e.respondWith((async()=>{const c=await caches.open(S),m=await c.match(r);if(m)return m;try{const n=await fetch(r);if(n.ok&&u.origin===location.origin)c.put(r,n.clone());return n}catch{return m||new Response("",{status:504})}})());
 });
