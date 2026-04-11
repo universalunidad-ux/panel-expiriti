@@ -23,20 +23,38 @@
       <div class="rail-title">Panel interno</div>
     </div>
   </div>
-  <nav class="rail-nav">
-    <a class="rail-link" href="dashboard.html" data-nav="dashboard"><span class="rail-ic">⌂</span><span class="rail-tx">Inicio</span></a>
-    <a class="rail-link" href="tickets.html" data-nav="tickets"><span class="rail-ic">🎫</span><span class="rail-tx">Tickets</span></a>
-    <a class="rail-link" href="cliente.html" data-nav="clientes"><span class="rail-ic">👥</span><span class="rail-tx">Clientes</span></a>
-    <a class="rail-link" href="altas.html" data-nav="altas"><span class="rail-ic">＋</span><span class="rail-tx">Altas</span></a>
-    <div class="rail-group" data-role-only="soporte admin">
-      <button class="rail-link rail-parent" type="button" data-rail-parent="servers"><span class="rail-ic">☁️</span><span class="rail-tx">Servidores</span><span class="rail-caret">›</span></button>
-      <div class="rail-sub" data-rail-sub="servers">
-        <button class="rail-sublink" type="button" data-open-panel="infra_vps">VPS / VDI</button>
-        <button class="rail-sublink" type="button" data-open-panel="infra_anydesk">Accesos AnyDesk</button>
-      </div>
-    </div>
-    <button class="rail-link" type="button" data-open-panel="polizas"><span class="rail-ic">🛡️</span><span class="rail-tx">Pólizas</span></button>
-  </nav>
+    
+<nav class="rail-nav">
+  <a class="rail-link" href="dashboard.html" data-nav="dashboard"><span class="rail-ic">⌂</span><span class="rail-tx">Inicio</span></a>
+
+  <a class="rail-link" href="tickets.html" data-nav="tickets">
+    <span class="rail-ic">🎫</span><span class="rail-tx">Tickets</span><span class="rail-badge" id="railOpenCount">0</span>
+  </a>
+
+  <a class="rail-link" href="cliente.html" data-nav="clientes"><span class="rail-ic">👥</span><span class="rail-tx">Clientes</span></a>
+  <a class="rail-link" href="altas.html" data-nav="altas"><span class="rail-ic">＋</span><span class="rail-tx">Altas</span></a>
+
+  <div class="rail-group" data-role-only="soporte admin">
+    <button class="rail-link rail-parent" type="button" data-rail-parent="servers"><span class="rail-ic">☁️</span><span class="rail-tx">Servidores</span><span class="rail-caret">›</span></button>
+    <div class="rail-sub" data-rail-sub="servers">
+      <button class="rail-sublink" type="button" data-open-panel="infra_vps">VPS / VDI</button>
+      <button class="rail-sublink" type="button" data-open-panel="infra_anydesk">Accesos AnyDesk</button></div></div>
+  <button class="rail-link" type="button" data-open-panel="polizas"><span class="rail-ic">🛡️</span><span class="rail-tx">Pólizas</span></button>
+  <div class="rail-group">
+    <button class="rail-link rail-parent" type="button" data-rail-parent="recent"><span class="rail-ic">🕘</span><span class="rail-tx">Últimos clientes</span><span class="rail-caret">›</span></button>
+    <div class="rail-sub" data-rail-sub="recent">
+      <button class="rail-sublink" type="button" data-open-panel="recent_clients">Ver recientes</button></div></div>
+  <div class="rail-group" data-role-only="ventas admin">
+    <button class="rail-link rail-parent" type="button" data-rail-parent="ventas"><span class="rail-ic">📈</span><span class="rail-tx">Ventas</span><span class="rail-caret">›</span></button>
+    <div class="rail-sub" data-rail-sub="ventas">
+      <button class="rail-sublink" type="button" data-open-panel="oportunidades">Oportunidades</button>
+      <button class="rail-sublink" type="button" data-open-panel="renovaciones">Renovaciones</button></div></div>
+</nav>
+<div class="rail-foot">
+  <button class="rail-help" type="button" data-open-panel="shortcuts">Atajos de teclado</button>
+</div>
+    
+    
 </aside>
 <div class="app-scrim" id="appScrim"></div>
   
