@@ -2,7 +2,7 @@
 color-scheme:light;
 --bg:#f6f8fb;--bg-soft:#eef3f9;--bg-elev:#ffffff;
 --panel:#ffffff;--panel-2:#f8fafc;--panel-3:#f1f5f9;
---text:#0f172a;--muted:#64748b;--line:rgba(15,23,42,.10);--line-2:rgba(15,23,42,.16);
+--text:#0f172a;--muted:#64748b;--line:rgba(15,23,42,.10);--line-2:rgba(15,23,42,.16); 
 --brand:#0f766e;--brand-2:#14b8a6;--brand-ink:#041311;
 --ok:#15803d;--warn:#d97706;--danger:#dc2626;--info:#2563eb;
 --focus:0 0 0 4px color-mix(in srgb,var(--brand) 18%,transparent);
