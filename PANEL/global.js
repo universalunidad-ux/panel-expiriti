@@ -24,3 +24,7 @@ export const initRayito=()=>{if($("#rayito"))return;const b=document.createEleme
 export const setRayitoItems=items=>{const p=$("#rayito-panel");if(!p)return;const arr=(items||[]).filter(Boolean);p.innerHTML=`<div class="list">${arr.length?arr.map((x,i)=>`<button class="mini" type="button" data-rayito="${i}">${esc(x.label||`Acción ${i+1}`)}</button>`).join(""):`<div class="mut">Sin acciones</div>`}</div>`;$$("[data-rayito]",p).forEach?.(()=>{});p.querySelectorAll("[data-rayito]").forEach(b=>b.addEventListener("click",()=>{const fn=arr[+b.dataset.rayito]?.onClick;try{fn&&fn()}catch(err){console.error(err)}}))}
 
 document.addEventListener("DOMContentLoaded",()=>{initTheme();initThemeToggle()});
+
+export const openAppPanel=({title="Panel",sub="Vista interna",html=""}={})=>{const p=$("#appPanel"),b=$("#appPanelBackdrop");if(!p)return;$("#appPanelTitle")&&($("#appPanelTitle").textContent=title);$("#appPanelSub")&&($("#appPanelSub").textContent=sub);$("#appPanelBody")&&($("#appPanelBody").innerHTML=html);p.classList.add("open");b?.classList.add("open")};
+export const closeAppPanel=()=>{$("#appPanel")?.classList.remove("open");$("#appPanelBackdrop")?.classList.remove("open")};
+export const initAppPanel=()=>{if(document.documentElement.dataset.appPanelBound)return;document.documentElement.dataset.appPanelBound="1";document.addEventListener("click",e=>{if(e.target.closest("#appPanelClose")||e.target.closest("#appPanelBackdrop"))closeAppPanel()})};
