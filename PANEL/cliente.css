@@ -2,7 +2,7 @@
 .hero-main,.hero-side,.main-col,.side-col,.upload-panel{min-width:0} 
 .hero-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}
 .stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.hero-side .box,.side-card .box,.pv{padding:14px}
+.hero-side .box,.side-card .box,.pv{padding:14px} 
 .upload-layout{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,1.1fr);gap:14px}
 .dropzone{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:240px;padding:24px;border:1px dashed color-mix(in srgb,var(--brand) 38%,var(--line));border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--panel));text-align:center;cursor:pointer}
 .dropzone.drag{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,var(--panel))}
