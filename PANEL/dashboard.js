@@ -8,7 +8,7 @@ const ICON={CONTABILIDAD:"📘",BANCOS:"🏦",NOMINAS:"🧾",XML_EN_LINEA:"🧷"
 let U=null,P=null,C=[],D=[],T=[],A=[],FILES=[],CTX={clienteId:null,documentoId:null};
 const canUpload=()=>["admin","ventas"].includes(normTxt(P?.rol));
 const openModal=sel=>show(sel);
-const closeModal=sel=>hide(sel);
+const closeModal=sel=>hide(sel); 
 const setRayitoDashboard=()=>setRayitoItems([{label:"Actualizar dashboard",onClick:()=>load()},{label:"Buscar cliente",onClick:()=>$("#searchInput")?.focus()},{label:"Subir PDFs",onClick:()=>canUpload()?openModal("#overlay"):toast("Solo admin y ventas pueden subir PDFs.","warn")},{label:"Nuevo ticket",onClick:()=>openClientPicker()},{label:"Ver pólizas",onClick:()=>document.querySelector('[data-open-panel="polizas"]')?.click()}]);
 
 
