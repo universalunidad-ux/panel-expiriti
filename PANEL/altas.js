@@ -1,6 +1,5 @@
 import { supabase as s, guardSession, logAction, msg, fmt } from "./supabase.js";
-import { $, toast, show, hide, esc, norm, debounce, bindModal } from "./global.js";
-
+import { $, toast, show, hide, esc, norm, debounce, bindModal, initAppRail, setAppRole, initAppPanel, setRailOpenCount } from "./global.js";
 const ST={rows:[],current:null,busy:false};
 
 const statusCls=v=>norm(v)==="aprobada"?"ok":norm(v)==="rechazada"?"bad":"warn";
@@ -37,7 +36,7 @@ const rejectRow=async id=>{const row=byId(id);if(!row||ST.busy)return;if(!isPend
 
 const onListClick=async e=>{const b=e.target.closest("[data-act][data-id]");if(!b)return;const {act,id}=b.dataset;if(act==="view")openDetail(id);if(act==="approve")await approve(id);if(act==="reject")await rejectRow(id)};
 
-const load=async()=>{const ok=await guardSession("index.html");if(!ok)return;const {data,error}=await s.from("solicitudes_alta").select("*").order("creado_en",{ascending:false});if(error)return toast(msg(error),"bad");ST.rows=data||[];if(ST.current)ST.current=byId(ST.current.id);render();if(ST.current)syncDetailState()};
+const load=async()=>{const ok=await guardSession("index.html");if(!ok)return;const profile=(await s.from("perfiles").select("*").limit(1).maybeSingle()).data||{rol:"soporte"};setAppRole(profile.rol||"soporte");initAppRail("altas");initAppPanel();setRailOpenCount(0);const {data,error}=await s.from("solicitudes_alta").select("*").order("creado_en",{ascending:false});if(error)return toast(msg(error),"bad");bad");ST.rows=data||[];if(ST.current)ST.current=byId(ST.current.id);render();if(ST.current)syncDetailState()};
 
 const bind=()=>{$("#refreshBtn")?.addEventListener("click",load);$("#q")?.addEventListener("input",debounce(render,180));$("#fStatus")?.addEventListener("change",render);$("#list")?.addEventListener("click",onListClick);$("#closeDetail")?.addEventListener("click",closeDetail);$("#approveBtn")?.addEventListener("click",()=>ST.current&&approve(ST.current.id));$("#rejectBtn")?.addEventListener("click",()=>ST.current&&rejectRow(ST.current.id));document.addEventListener("keydown",e=>e.key==="Escape"&&!$("#detailModal")?.hasAttribute("hidden")&&closeDetail());bindModal("#detailModal",".icon-btn")};
 
