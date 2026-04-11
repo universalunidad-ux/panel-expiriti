@@ -377,5 +377,5 @@ body[data-shell="app"]{padding-left:0}
 .rail-group.open>.rail-sub{display:grid}
 }
 @media(min-width:981px){.rail-toggle{display:none}}
-[data-role-only][hidden]{display:none!important}
+[data-role-only]{display:none}[data-role-only][hidden]{display:none!important}.rail-group[data-role-only]:not([hidden]){display:grid}
 @media(max-width:620px){.app-panel{width:100vw}}
