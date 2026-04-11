@@ -66,5 +66,8 @@
 <div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Alta rápida</div><h3>Nuevo ticket</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid-2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
 
 <script type="module" src="global.js"></script><script type="module" src="tickets.js"></script>
+<div class="app-panel-backdrop" id="appPanelBackdrop"></div>
+<aside class="app-panel" id="appPanel"><div class="app-panel-head"><div><div class="app-panel-title" id="appPanelTitle">Panel</div><div class="app-panel-sub" id="appPanelSub">Vista interna</div></div><button class="close-x" id="appPanelClose" type="button">×</button></div><div class="app-panel-body" id="appPanelBody"></div></aside>
+
 </body>
 </html>
