@@ -1,5 +1,5 @@
 import{supabase as s,guardSession,logout,openPdfSigned,fmt,msg,getProfile,logAction}from"./supabase.js";
-import{$,$$,qp,toast,show,hide,copyTxt,debounce}from"./global.js";
+import{$,$$,qp,toast,show,hide,copyTxt,debounce,initAppRail,setAppRole,initAppPanel,setRailOpenCount,pushRecentClient}from"./global.js";
 import{PREFS,normTxt,wa,readPDF,uploadClientPdf,saveTicket as saveTicketCore,saveCRM as saveCRMCore}from"./cliente.core.js";
 import{renderHeader,renderStats,renderSystems,renderDocs,renderTicketsMini,renderTimeline,renderBitacora,renderRenewals,renderChecklist,renderCRM,previewUpload,renderTicketFiles,renderAccess}from"./cliente.ui.js";
  
