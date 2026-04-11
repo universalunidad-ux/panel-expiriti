@@ -307,3 +307,18 @@ padding:18px;overflow:auto;box-shadow:-20px 0 60px rgba(0,0,0,.18)
 .side-quick{top:auto;bottom:18px}
 .quick-tab{writing-mode:horizontal-tb;transform:none;border-radius:14px;padding:12px 14px}
 }
+
+
+.app-panel-backdrop{position:fixed;inset:0;background:rgba(3,10,24,.34);backdrop-filter:blur(4px);opacity:0;pointer-events:none;z-index:88;transition:.18s ease}
+.app-panel{position:fixed;top:0;right:0;bottom:0;width:min(520px,100vw);transform:translateX(100%);z-index:89;display:grid;grid-template-rows:auto 1fr;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 97%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent));border-left:1px solid var(--line);box-shadow:-18px 0 40px rgba(0,0,0,.16);transition:transform .18s ease}
+.app-panel.open{transform:none}
+.app-panel-backdrop.open{opacity:1;pointer-events:auto}
+.app-panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.app-panel-title{font-size:22px;font-weight:950;letter-spacing:-.03em}
+.app-panel-sub{font-size:12px;color:var(--muted);line-height:1.45}
+.app-panel-body{overflow:auto;padding:16px;display:grid;gap:12px}
+.panel-card{display:grid;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel-2) 97%,transparent)}
+.panel-kv{display:grid;gap:6px}
+.panel-k{font-size:11px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel-v{font-size:14px;line-height:1.45;color:var(--text)}
+@media(max-width:620px){.app-panel{width:100vw}}
