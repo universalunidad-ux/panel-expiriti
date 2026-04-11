@@ -1,4 +1,4 @@
-import{$,$$,toast,debounce,show,hide,bindModal,norm,initAppRail,setAppRole,initAppPanel,setRailOpenCount,pushRecentClient}from"./global.js";
+import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData}from"./global.js";
 let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:""},VIEW="kanban",SELECTED_ID="";
 
 const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
@@ -13,7 +13,7 @@ const filtered=()=>TK.filter(t=>(!FILTER.q||ticketBlob(t).includes(norm(FILTER.q
 const byId=id=>TK.find(x=>String(x.id)===String(id));
 const openCount=arr=>(arr||[]).filter(t=>!["cerrado","resuelto","closed","done","cancelado"].includes(norm(t?.estado||t?.estatus||t?.status))).length;
 
-const load=async()=>{await guardSession("index.html");const profile=(await s.from("perfiles").select("*").limit(1).maybeSingle()).data||{rol:"soporte"};setAppRole(profile.rol||"soporte");initAppRail("tickets");initAppPanel();const {data,error}=await s.from("tickets").select("*,clientes(id,nombre)").order("fecha_actualizacion",{ascending:false});if(error)return toast(msg(error),"bad");TK=data||[];setRailOpenCount(openCount(TK));renderAll();if(SELECTED_ID&&byId(SELECTED_ID))renderPreview(byId(SELECTED_ID));else if(filtered()[0])renderPreview(filtered()[0])};
+const load=async()=>{await guardSession("index.html");const profile=(await s.from("perfiles").select("*").limit(1).maybeSingle()).data||{rol:"soporte"};ensureAppShell({page:"tickets",role:profile.rol||"soporte",title:"Tickets",kicker:"Expiriti · mesa operativa",actionsHtml:`<a class="mini" href="dashboard.html">Dashboard</a><button class="mini" id="tkViewBtn" type="button">Vista compacta</button><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button>`});setAppRole(profile.rol||"soporte");const {data,error}=await s.from("tickets").select("*,clientes(id,nombre)").order("fecha_actualizacion",{ascending:false});if(error)return toast(msg(error),"bad");TK=data||[];setGlobalSearchData({tickets:TK,clientes:TK.map(t=>t.clientes).filter(Boolean)});setRailOpenCount(openCount(TK));renderAll();if(SELECTED_ID&&byId(SELECTED_ID))renderPreview(byId(SELECTED_ID));else if(filtered()[0])renderPreview(filtered()[0])};
 
 const renderMetrics=()=>{const rows=filtered(),today=new Date().toDateString();$("#mUrgent").textContent=rows.filter(x=>norm(x.prioridad)==="urgente"&&stateKey(x.estado)!=="resuelto").length;$("#mWait").textContent=rows.filter(x=>stateKey(x.estado)==="espera").length;$("#mStale").textContent=rows.filter(x=>stateKey(x.estado)!=="resuelto"&&new Date(x.fecha_actualizacion||x.fecha_creacion).toDateString()!==today).length;$("#mSolved").textContent=rows.filter(x=>stateKey(x.estado)==="resuelto"&&new Date(x.fecha_actualizacion||x.fecha_creacion).toDateString()===today).length};
 
