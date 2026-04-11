@@ -1,5 +1,4 @@
-import{supabase as s,guardSession,msg}from"./supabase.js";import{$,$$,toast,debounce,show,hide,bindModal,norm}from"./global.js";
-
+import{$,$$,toast,debounce,show,hide,bindModal,norm,initAppRail,setAppRole,initAppPanel,setRailOpenCount,pushRecentClient}from"./global.js";
 let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:""},VIEW="kanban",SELECTED_ID="";
 
 const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
