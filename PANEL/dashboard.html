@@ -1,49 +1,11 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Dashboard | Panel Expiriti</title><meta name="theme-color" content="#0a1018"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icono-192.png"><link rel="stylesheet" href="global.css"><link rel="stylesheet" href="dashboard.css"><script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error));</script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
-<body data-surface="support" data-shell="app">
-<aside class="app-rail" id="appRail">
-  <button class="rail-toggle" id="railToggle" type="button" aria-label="Abrir menú">☰</button>
-  <div class="rail-brand">
-    <div class="rail-logo">✦</div>
-    <div class="rail-copy">
-      <div class="rail-eyebrow">Expiriti</div>
-      <div class="rail-title">Panel interno</div></div></div>
- <nav class="rail-nav">
-  <a class="rail-link" href="dashboard.html" data-nav="dashboard"><span class="rail-ic">⌂</span><span class="rail-tx">Inicio</span></a>
+<body data-surface="support" data-shell="app" data-page="dashboard">
 
-  <a class="rail-link" href="tickets.html" data-nav="tickets">
-    <span class="rail-ic">🎫</span><span class="rail-tx">Tickets</span><span class="rail-badge" id="railOpenCount">0</span>
-  </a>
-
-  <a class="rail-link" href="cliente.html" data-nav="clientes"><span class="rail-ic">👥</span><span class="rail-tx">Clientes</span></a>
-  <a class="rail-link" href="altas.html" data-nav="altas"><span class="rail-ic">＋</span><span class="rail-tx">Altas</span></a>
-
-  <div class="rail-group" data-role-only="soporte admin">
-    <button class="rail-link rail-parent" type="button" data-rail-parent="servers"><span class="rail-ic">☁️</span><span class="rail-tx">Servidores</span><span class="rail-caret">›</span></button>
-    <div class="rail-sub" data-rail-sub="servers">
-      <button class="rail-sublink" type="button" data-open-panel="infra_vps">VPS / VDI</button>
-      <button class="rail-sublink" type="button" data-open-panel="infra_anydesk">Accesos AnyDesk</button></div></div>
-  <button class="rail-link" type="button" data-open-panel="polizas"><span class="rail-ic">🛡️</span><span class="rail-tx">Pólizas</span></button>
-  <div class="rail-group"><button class="rail-link rail-parent" type="button" data-rail-parent="recent"><span class="rail-ic">🕘</span><span class="rail-tx">Últimos clientes</span><span class="rail-caret">›</span></button>
-    <div class="rail-sub" data-rail-sub="recent">
-      <button class="rail-sublink" type="button" data-open-panel="recent_clients">Ver recientes</button></div></div>
-
-  <div class="rail-group" data-role-only="ventas admin">
-    <button class="rail-link rail-parent" type="button" data-rail-parent="ventas"><span class="rail-ic">📈</span><span class="rail-tx">Ventas</span><span class="rail-caret">›</span></button>
-    <div class="rail-sub" data-rail-sub="ventas">
-      <button class="rail-sublink" type="button" data-open-panel="oportunidades">Oportunidades</button>
-      <button class="rail-sublink" type="button" data-open-panel="renovaciones">Renovaciones</button></div></div>
-</nav>
-<div class="rail-foot">
-  <button class="rail-help" type="button" data-open-panel="shortcuts">Atajos de teclado</button>
-</div>
+<div id="appShell"></div>
   
-</aside>
-<div class="app-scrim" id="appScrim"></div>
-
-<body data-surface="support" data-shell="app">
-<header class="topbar"><div class="topbar-inner"><div class="brand-wrap"><div class="brand-eyebrow">Expiriti · soporte operativo</div><div class="brand">Dashboard interno</div></div><div class="top-actions"><a class="btn" href="cliente.html">Busca por cliente</a><a class="btn" href="tickets.html">Ir a tickets</a><a class="btn" href="ticket.html">Nuevo ticket</a><button class="btn" id="goClientBtn" type="button">Detalle cliente</button><button class="btn btn-brand" id="refreshBtn" type="button">Actualizar</button></div></div></header>
-
+<main class="dashboard-page" id="pageMount">
+  
 <main class="dashboard-page">
 <section class="dashboard-hero card"><div class="hero-copy"><div class="hero-head"><div class="hero-kicker">Centro operativo interno</div><h1>Qué atender primero y cómo mantener el día bajo control.</h1><p class="hero-sub" id="workSummary">Panel interno para soporte Expiriti: prioriza urgentes, reduce retrabajo y mantén seguimiento claro sin saturarte.</p></div><div class="hero-micro" id="heroMicro"></div><div class="hero-actions"><button class="btn btn-brand" id="heroRefreshBtn" type="button">Actualizar tablero</button><button class="btn" id="heroNewTicketBtn" type="button">Nuevo ticket</button><button class="btn" id="heroRepoBtn" type="button">Repositorio mensual</button><button class="btn" id="heroPolizasBtn" type="button">Pólizas</button></div></div><div class="hero-aside"><div class="kpi-grid"><button class="kpi-card info" id="kpiOpenTicketsCard" data-kpi="open_tickets" type="button"><div class="kpi-top"><div class="kpi-label">Tickets abiertos</div><div class="kpi-icon">🎫</div></div><div class="kpi-value" id="kpiTickets">0</div><div class="kpi-sub">Abrir tickets activos</div></button><button class="kpi-card bad" id="kpiUrgentCard" data-kpi="urgent" type="button"><div class="kpi-top"><div class="kpi-label">Urgentes</div><div class="kpi-icon">🔥</div></div><div class="kpi-value" id="kpiUrgentes">0</div><div class="kpi-sub">Ver prioridad alta y urgente</div></button><button class="kpi-card warn" id="kpiDueCard" data-kpi="due" type="button"><div class="kpi-top"><div class="kpi-label">Por vencer</div><div class="kpi-icon">⏳</div></div><div class="kpi-value" id="kpiPorVencer">0</div><div class="kpi-sub">Revisar seguimiento próximo</div></button><button class="kpi-card bad" id="kpiLateCard" data-kpi="late" type="button"><div class="kpi-top"><div class="kpi-label">Vencidos</div><div class="kpi-icon">🚨</div></div><div class="kpi-value" id="kpiVencidos">0</div><div class="kpi-sub">Revisar riesgo operativo</div></button></div></div></section>
 <section class="dashboard-toolbar card"><div class="searchbox"><input class="input" id="searchInput" placeholder="Buscar cliente, ticket, sistema, serie o alias interno"><div id="searchSuggest" class="suggest-panel hidden" hidden></div></div><div class="toolbar-actions"><select class="select" id="statusFilter"><option value="">Todos</option><option value="vigente">Vigente</option><option value="por_vencer">Por vencer</option><option value="vencido">Vencido</option><option value="sin_vigencia">Sin vigencia</option></select><div class="toolbar-group"><button class="btn" id="toggleMesBtn">Mes actual</button><button class="btn" id="togglePrevMesBtn">Mes anterior</button></div><div class="toolbar-group"><button class="btn" id="searchBtn">Buscar</button><button class="btn" id="clearBtn">Limpiar</button><button class="btn" id="newTicketTopBtn">Nuevo ticket</button><button class="btn" id="addBtn">Subir PDFs</button></div><div class="toolbar-group toolbar-meta"><select class="select" id="themeSelect"><option value="light">Claro</option><option value="dark">Oscuro</option></select><button class="btn" id="logoutBtn">Salir</button></div></div></section>
