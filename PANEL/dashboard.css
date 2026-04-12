@@ -1,4 +1,4 @@
-:root{--dash-max:1460px;--dash-gap:14px;--dash-gap-sm:10px;--dash-pad:16px;--dash-pad-lg:20px;--dash-r:22px;--dash-r-md:18px;--dash-r-sm:14px;--dash-shadow:0 14px 40px rgba(3,10,24,.10);--dash-shadow-sm:0 8px 24px rgba(3,10,24,.06);--dash-blur:10px;--dash-top:84px;--sticky-top:92px}
+:root{--dash-max:1460px;--dash-gap:12px;--dash-gap-sm:8px;--dash-pad:14px;--dash-pad-lg:16px;--dash-r:20px;--dash-r-md:16px;--dash-r-sm:14px;--dash-shadow:0 14px 40px rgba(3,10,24,.10);--dash-shadow-sm:0 8px 24px rgba(3,10,24,.06);--dash-blur:10px;--dash-top:76px;--sticky-top:84px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body[data-surface="support"]{min-height:100vh;background:radial-gradient(1200px 700px at 100% 0%,color-mix(in srgb,var(--brand) 7%,transparent),transparent 55%),radial-gradient(900px 520px at 0% 100%,color-mix(in srgb,var(--brand-2) 7%,transparent),transparent 58%),linear-gradient(180deg,color-mix(in srgb,var(--bg) 98%,white 0%),color-mix(in srgb,var(--bg) 100%,transparent))}
@@ -10,6 +10,7 @@ button{font:inherit}
 .brand-eyebrow{font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .brand{font-size:clamp(28px,3.3vw,40px);font-weight:950;line-height:1.02;letter-spacing:-.05em;color:var(--text)}
 .top-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+
 .dashboard-page{width:min(var(--dash-max),calc(100% - 28px));margin:14px auto 28px;display:grid;gap:var(--dash-gap)}
 .card{display:grid;gap:12px;padding:var(--dash-pad-lg);border-radius:var(--dash-r);border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 95%,transparent),color-mix(in srgb,var(--panel-2) 99%,transparent));box-shadow:var(--dash-shadow-sm);min-width:0}
 .card:hover{border-color:color-mix(in srgb,var(--brand) 12%,var(--line))}
