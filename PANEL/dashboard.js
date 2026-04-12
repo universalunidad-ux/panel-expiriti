@@ -1,6 +1,6 @@
 import { supabase as s, guardSession as g, logout as o, getProfile as gp, saveTheme as svt, applyTheme as ap, logAction as la, openPdfSigned as op, fmt as f, msg as m } from "./supabase.js";
 import { $, $$, esc as e, norm as n, toast, copyTxt, show, hide, bindModal, initRayito, setRayitoItems, debounce, ensureAppShell, setAppRole, setRailOpenCount, pushRecentClient, setGlobalSearchData } from "./global.js";
-
+ 
 const CLIENT_PAGE="cliente.html",TICKET_PAGE="ticket.html";
 const SYS=[["CONTABILIDAD",["contabilidad","contabiliza","contab","usaconta"]],["BANCOS",["bancos"]],["NOMINAS",["nominas","nóminas","nomina"]],["XML_EN_LINEA",["xml","cfdi","xml en linea"]],["COMERCIAL_START",["comercial start","cstart","comstart"]],["COMERCIAL_PRO",["comercial pro","compro"]],["COMERCIAL_PREMIUM",["comercial premium","compremium","cpremium","premium"]],["FACTURA_ELECTRONICA",["factura electronica","factura electrónica","factura","fe"]],["EVALUA",["evalua","evalúa"]],["ANALIZA",["analiza"]],["VENDE",["vende"]],["OPTIMIZA",["optimiza"]],["ANTICIPA",["anticipa"]],["PERSONIA",["personia"]]];
 const NICE={CONTABILIDAD:"CONTPAQi Contabilidad",BANCOS:"CONTPAQi Bancos",NOMINAS:"CONTPAQi Nóminas",XML_EN_LINEA:"CONTPAQi XML en Línea",COMERCIAL_START:"CONTPAQi Comercial START",COMERCIAL_PRO:"CONTPAQi Comercial PRO",COMERCIAL_PREMIUM:"CONTPAQi Comercial PREMIUM",FACTURA_ELECTRONICA:"CONTPAQi Factura Electrónica",EVALUA:"CONTPAQi Evalúa",ANALIZA:"CONTPAQi Analiza",VENDE:"CONTPAQi Vende",OPTIMIZA:"CONTPAQi Optimiza",ANTICIPA:"CONTPAQi Anticipa",PERSONIA:"CONTPAQi Personia"};
