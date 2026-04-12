@@ -1,7 +1,7 @@
 export const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
 export const esc=v=>(v??"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 export const norm=v=>(v||"").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g," ").trim();
-export const qp=k=>new URLSearchParams(location.search).get(k);
+export const qp=k=>new URLSearchParams(location.search).get(k); 
  
 export const show=v=>{const el=typeof v==="string"?$(v):v;el?.classList.remove("hidden");el?.classList.add("open");el?.removeAttribute("hidden");return el};
 export const hide=v=>{const el=typeof v==="string"?$(v):v;el?.classList.add("hidden");el?.classList.remove("open");el?.setAttribute("hidden","hidden");return el};
