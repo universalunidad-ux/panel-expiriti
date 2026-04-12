@@ -17,7 +17,7 @@
 <div class="searchbox"><span>🔎</span><input id="tkSearch" placeholder="Buscar ticket, cliente, sistema, prioridad o estado"></div>
 <div class="toolbar-grid">
 <select class="select" id="tkFilterPriority"><option value="">Prioridad</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select>
-<select class="select" id="tkFilterState"><option value="">Estado</option><option value="nuevo">Nuevo</option><option value="en proceso">En proceso</option><option value="esperando cliente">Esperando cliente</option><option value="resuelto">Resuelto</option></select>
+<select class="select" id="tkFilterState"><option value="">Estado</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select>
 <select class="select" id="tkFilterType"><option value="">Tipo</option><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select>
 <input class="input" id="tkFilterClient" placeholder="Cliente">
 <button class="btn" id="tkOnlyUrgent" type="button">Solo urgentes</button>
@@ -27,9 +27,10 @@
 
 <section class="board-layout">
 <section class="kanban-board" id="tkBoard">
-<article class="kanban-col"><div class="col-header">Nuevos <span class="col-count" id="count-nuevo">0</span></div><div class="col-body" id="col-nuevo"></div></article>
-<article class="kanban-col"><div class="col-header">En proceso <span class="col-count" id="count-proceso">0</span></div><div class="col-body" id="col-proceso"></div></article>
-<article class="kanban-col"><div class="col-header">Esperando cliente <span class="col-count" id="count-espera">0</span></div><div class="col-body" id="col-espera"></div></article>
+  
+<article class="kanban-col"><div class="col-header">Abiertos <span class="col-count" id="count-abierto">0</span></div><div class="col-body" id="col-abierto"></div></article>
+<article class="kanban-col"><div class="col-header">En proceso <span class="col-count" id="count-en_proceso">0</span></div><div class="col-body" id="col-en_proceso"></div></article>
+<article class="kanban-col"><div class="col-header">Esperando cliente <span class="col-count" id="count-esperando_cliente">0</span></div><div class="col-body" id="col-esperando_cliente"></div></article>
 <article class="kanban-col"><div class="col-header">Resueltos <span class="col-count" id="count-resuelto">0</span></div><div class="col-body" id="col-resuelto"></div></article>
 </section>
 
