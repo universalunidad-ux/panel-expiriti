@@ -1,10 +1,11 @@
 .soporte-page{display:grid;gap:14px}
 .hero-support{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:14px;align-items:center}
-.hero-support h1{margin:8px 0 0;font-size:clamp(30px,4vw,44px);line-height:1.02;letter-spacing:-.04em;font-weight:950;max-width:11ch}
+.hero-support h1{margin:8px 0 0;font-size:clamp(28px,4vw,44px);line-height:1.02;letter-spacing:-.04em;font-weight:950;max-width:11ch}
 .hero-support .mut{max-width:62ch;line-height:1.55}
 .hero-badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-content:flex-start}
 .support-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:14px;align-items:start}
-.support-form{display:grid;gap:16px}
+.support-form{display:grid;gap:16px;position:relative}
+.support-form::after{content:"";display:block;height:1px;background:transparent}
 .support-side{display:grid;gap:14px;position:sticky;top:86px}
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .field{display:grid;gap:7px;min-width:0}
@@ -33,7 +34,5 @@
 #spFilesMeta .item-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
 .hero-support .chips .tag{font-weight:800}
 .support-form .section-head h2,.support-form .section-head h3{margin:0}
-.support-form{position:relative}
-.support-form::after{content:"";display:block;height:1px;background:transparent}
 @media(max-width:1100px){.support-layout,.hero-support{grid-template-columns:1fr}.support-side{position:static}.hero-badges{justify-content:flex-start}}
 @media(max-width:760px){.form-grid,.upload-grid{grid-template-columns:1fr}.support-form .actions{display:grid;grid-template-columns:1fr}.support-form .actions .btn{width:100%;min-width:0}.hero-support h1{max-width:none}}
