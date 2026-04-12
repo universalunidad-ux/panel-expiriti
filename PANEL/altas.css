@@ -1,7 +1,7 @@
 .altas-page{display:grid;gap:14px}
 .altas-hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(280px,.82fr);gap:14px;align-items:stretch}
-.altas-hero h1{margin:8px 0 0;font-size:clamp(28px,4vw,40px);line-height:1.02;letter-spacing:-.04em}
-.altas-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:stretch}
+.altas-hero h1{margin:8px 0 0;font-size:clamp(26px,3.4vw,40px);line-height:1.02;letter-spacing:-.04em}
+.altas-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:stretch}
 .altas-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
 .altas-toolbar .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .alta-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(180px,.75fr) auto;gap:14px;align-items:start}
@@ -15,9 +15,9 @@
 .altas-toolbar .searchbox{min-width:0}
 #list .item{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
 #list .item:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 20%,var(--line))}
-#detailBody{grid-template-columns:repeat(2,minmax(0,1fr))}
+#detailBody{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 #detailBody .box{min-width:0}
 #detailBody .v{word-break:break-word}
-@media(max-width:980px){.altas-hero,.alta-row{grid-template-columns:1fr}.alta-actions{justify-content:flex-start}.altas-kpis{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:980px){.altas-hero,.alta-row{grid-template-columns:1fr}.alta-actions{justify-content:flex-start}.altas-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:720px){.altas-toolbar{grid-template-columns:1fr}.altas-toolbar .toolbar{display:grid;grid-template-columns:1fr 1fr}.altas-kpis,#detailBody{grid-template-columns:1fr}.file-pill{white-space:normal}}
-@media(max-width:520px){.altas-toolbar .toolbar{grid-template-columns:1fr}}
+@media(max-width:520px){.altas-page{gap:12px}.altas-toolbar .toolbar{grid-template-columns:1fr}.alta-actions .mini,.alta-actions .btn{width:100%;justify-content:center}}
