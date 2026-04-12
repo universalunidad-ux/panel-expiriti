@@ -6,7 +6,7 @@
 <script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
 <link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
 </head>
-<body>
+<body data-surface="client">
 <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Soporte Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
 
 <main class="wrap soporte-page">
@@ -46,16 +46,14 @@
 
 <aside class="panel support-side">
 <section class="panel inset"><div class="row-head"><h3>Cómo agilizar tu caso</h3></div><ul class="mini-list"><li>Escribe qué intentabas hacer.</li><li>Adjunta el mensaje de error o una captura.</li><li>Si aplica, envía XML, PDF o Excel de ejemplo.</li><li>Indica si afecta a todos o solo a una persona.</li></ul></section>
-<section class="panel inset"><div class="row-head"><h3>Sugerencias rápidas</h3></div><div class="chips">
-<button class="mini btn-ghost" type="button" data-fill="timbrar">No puedo timbrar</button>
-<button class="mini btn-ghost" type="button" data-fill="abrir">No abre el sistema</button>
-<button class="mini btn-ghost" type="button" data-fill="xml">Error con XML</button>
-<button class="mini btn-ghost" type="button" data-fill="empresa">Problema con empresa</button>
-  <section class="panel inset"><div class="row-head"><h3>Vista previa</h3></div><div class="preview-card"><div class="k">Título</div><div class="v" id="pvTitle">—</div><div class="k">Sistema</div><div class="v" id="pvSystem">—</div><div class="k">Impacto</div><div class="v" id="pvImpact">—</div></div></section>
+
+  <section class="panel inset"><div class="row-head"><h3>Sugerencias rápidas</h3></div><div class="chips"><button class="mini btn-ghost" type="button" data-fill="timbrar">No puedo timbrar</button><button class="mini btn-ghost" type="button" data-fill="abrir">No abre el sistema</button><button class="mini btn-ghost" type="button" data-fill="xml">Error con XML</button><button class="mini btn-ghost" type="button" data-fill="empresa">Problema con empresa</button></div></section>
+<section class="panel inset"><div class="row-head"><h3>Vista previa</h3></div><div class="preview-card"><div class="k">Título</div><div class="v" id="pvTitle">—</div><div class="k">Sistema</div><div class="v" id="pvSystem">—</div><div class="k">Impacto</div><div class="v" id="pvImpact">—</div></div></section>
 </aside>
+  
 </section>
 </main>
 
-<script type="module" src="global.js"></script><script type="module" src="soporte.js"></script>
+<script type="module" src="soporte.js"></script>
 </body>
 </html>
