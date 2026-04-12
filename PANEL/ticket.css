@@ -1,8 +1,8 @@
-.ticket-page{display:grid;grid-template-columns:360px minmax(0,1fr);gap:14px;min-height:calc(100vh - 92px)}
+.ticket-page{display:grid;grid-template-columns:360px minmax(0,1fr);gap:14px;align-items:start;min-height:calc(100vh - 92px)}
 .ticket-side{display:grid;align-content:start;gap:12px}
 .ticket-main{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;min-height:680px}
 .side-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.side-head h1{margin:4px 0 0;font-size:28px;line-height:1.04;letter-spacing:-.03em}
+.side-head h1{margin:4px 0 0;font-size:clamp(24px,2.4vw,28px);line-height:1.04;letter-spacing:-.03em}
 .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .box{padding:14px}
 .box .k{font-size:11px}
@@ -18,7 +18,7 @@
 .evidence-meta{font-size:13px;color:var(--muted)}
 .hero-ticket{display:grid;gap:10px}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.hero-top h2{margin:0;font-size:24px;line-height:1.08;letter-spacing:-.03em}
+.hero-top h2{margin:0;font-size:clamp(20px,2vw,24px);line-height:1.08;letter-spacing:-.03em}
 .hero-meta{display:flex;gap:8px;flex-wrap:wrap}
 .tabs-lite{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .tabs-lite .mini.is-active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:var(--brand-ink);border-color:transparent}
@@ -40,4 +40,4 @@ body.is-critical .hero-ticket{box-shadow:0 0 0 1px color-mix(in srgb,var(--dange
 @media(max-width:1180px){.ticket-page{grid-template-columns:320px minmax(0,1fr)}.composer-grid{grid-template-columns:1fr 200px 200px}}
 @media(max-width:980px){.ticket-page{grid-template-columns:1fr}.ticket-main{min-height:560px}.ticket-side{order:-1}.log-msg{max-width:100%}}
 @media(max-width:760px){.box-grid,.composer-grid{grid-template-columns:1fr}.field.span-2{grid-column:auto}.quick-actions .btn{flex:1 1 100%}.hero-top{flex-direction:column}.ticket-main{grid-template-rows:auto auto auto}}
-@media(max-width:480px){.side-head h1{font-size:24px}.hero-top h2{font-size:22px}.box,.inset,.log-msg{padding:12px}}
+@media(max-width:480px){.ticket-page{gap:12px}.side-head h1{font-size:24px}.hero-top h2{font-size:22px}.box,.inset,.log-msg{padding:12px}}
