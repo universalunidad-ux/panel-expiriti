@@ -45,10 +45,14 @@
 <label class="field"><span>Horario de contacto</span><input class="input" id="horarioContacto" name="horarioContacto" placeholder="Ej. 9:00 a 18:00"></label>
 <label class="field"><span>Cumpleaños</span><input class="input" id="cumpleanos" name="cumpleanos" type="date"></label>
 
-<label class="field field-full"><span>Contacto alterno (opcional)</span><input class="input" id="contactoAltNombre" name="contactoAltNombre" placeholder="Nombre de respaldo"></label>
-<label class="field"><span>Correo alterno</span><input class="input" id="contactoAltCorreo" name="contactoAltCorreo" type="email" placeholder="alterno@empresa.com"></label>
-<label class="field"><span>Teléfono alterno</span><input class="input" id="contactoAltTelefono" name="contactoAltTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
-
+  <div class="field field-full"><button class="btn btn-ghost" id="toggleAltContactBtn" type="button" aria-expanded="false" aria-controls="altContactBlock">Agregar contacto adicional</button></div>
+<div class="grid alt-contact-block" id="altContactBlock" hidden>
+<label class="field field-full"><span>Contacto adicional</span><input class="input" id="contactoAltNombre" name="contactoAltNombre" placeholder="Nombre de respaldo"></label>
+<label class="field"><span>Puesto contacto adicional</span><input class="input" id="contactoAltPuesto" name="contactoAltPuesto" placeholder="Ej. Sistemas"></label>
+<label class="field"><span>Correo contacto adicional</span><input class="input" id="contactoAltCorreo" name="contactoAltCorreo" type="email" placeholder="alterno@empresa.com"></label>
+<label class="field"><span>Teléfono contacto adicional</span><input class="input" id="contactoAltTelefono" name="contactoAltTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+</div>
+  
 <label class="field field-full"><span>Comentarios</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Cambios internos, horarios especiales, responsables, notas útiles"></textarea></label>
 </div>
 
