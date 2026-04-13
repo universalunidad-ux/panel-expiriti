@@ -46,11 +46,14 @@
 <label class="field"><span>Horario de contacto</span><input class="input" id="horarioContacto" name="horarioContacto" placeholder="Ej. 9:00 a 14:00"></label>
 <label class="field"><span>Cumpleaños del contacto principal</span><input class="input" id="contactoCumple" name="contactoCumple" type="date"></label>
 
-<label class="field field-full"><span>Contacto alterno opcional</span><input class="input" id="contactoAlternoNombre" name="contactoAlternoNombre" placeholder="Ej. Juan Pérez"></label>
-<label class="field"><span>Puesto contacto alterno</span><input class="input" id="contactoAlternoPuesto" name="contactoAlternoPuesto" placeholder="Ej. Sistemas"></label>
-<label class="field"><span>Correo contacto alterno</span><input class="input" id="contactoAlternoCorreo" name="contactoAlternoCorreo" type="email" placeholder="juan@empresa.com"></label>
-<label class="field"><span>Teléfono contacto alterno</span><input class="input" id="contactoAlternoTelefono" name="contactoAlternoTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
-
+<div class="field field-full"><button class="btn btn-ghost" id="toggleAltContactBtn" type="button" aria-expanded="false" aria-controls="altContactBlock">Agregar contacto adicional</button></div>
+<div class="grid alt-contact-block" id="altContactBlock" hidden>
+<label class="field field-full"><span>Contacto adicional</span><input class="input" id="contactoAlternoNombre" name="contactoAlternoNombre" placeholder="Ej. Juan Pérez"></label>
+<label class="field"><span>Puesto contacto adicional</span><input class="input" id="contactoAlternoPuesto" name="contactoAlternoPuesto" placeholder="Ej. Sistemas"></label>
+<label class="field"><span>Correo contacto adicional</span><input class="input" id="contactoAlternoCorreo" name="contactoAlternoCorreo" type="email" placeholder="juan@empresa.com"></label>
+<label class="field"><span>Teléfono contacto adicional</span><input class="input" id="contactoAlternoTelefono" name="contactoAlternoTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+</div>
+  
 <label class="field field-full"><span>Comentarios adicionales</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label>
 </div>
   <label class="dropzone" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip,image/png,image/jpeg,image/webp"><div class="drop-icon">📥</div><div class="drop-title">Arrastra tus archivos aquí o haz clic para seleccionarlos</div><div class="drop-sub">Acepta PDF, ZIP e imagen. Máximo 12 archivos, 25 MB por archivo.</div><div class="files" id="fileList"></div></label>
