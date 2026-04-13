@@ -1,4 +1,4 @@
-const $=q=>document.querySelector(q),files=[],MAX_FILES=12,MAX_MB=25,ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/super-service",ST={sending:false};
+const $=q=>document.querySelector(q),files=[],MAX_FILES=12,MAX_MB=25,ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/submit-alta",ST={sending:false};
 
 const esc=v=>(v??"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const digits=v=>(v||"").replace(/\D+/g,"");
