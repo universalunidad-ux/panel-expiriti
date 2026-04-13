@@ -21,7 +21,7 @@
     <h1 class="hero-title">Bienvenido a Expiriti</h1>
   </div>
   <div class="hero-copy">
-    <p class="hero-sub">Comparte tus datos de contacto y adjunta tu Constancia de Situación Fiscal, certificados CONTPAQi o ZIP. Nosotros organizamos tu alta de forma segura.</p>
+    <p class="hero-sub">Comparte los datos de tu empresa, registra a tu contacto principal y adjunta tu Constancia de Situación Fiscal, certificados CONTPAQi o ZIP. Nosotros organizamos tu alta de forma segura.</p>
     <div class="hero-points">
       <article class="point"><span class="point-ico">✓</span><div><strong>Alta ordenada</strong><p>Tu información entra a un flujo controlado antes de convertirse en cliente real.</p></div></article>
       <article class="point"><span class="point-ico">🔒</span><div><strong>Carga segura</strong><p>Tus archivos no tocan directamente la base principal ni los certificados productivos.</p></div></article>
@@ -31,14 +31,33 @@
 </aside>
   
 <section class="panel">
-<div class="panel-top"><div><div class="section-kicker">Solicitud de alta</div><h2 class="panel-title">Completa tu información</h2><p class="panel-sub">Mientras más completo venga el registro, más rápido configuramos tu cuenta.</p></div><span class="state-pill" id="statePill">Listo</span></div>
+<div class="panel-top"><div><div class="section-kicker">Solicitud de alta</div><h2 class="panel-title">Empresa y contacto principal</h2><p class="panel-sub">Mientras más completo venga el registro, más rápido podremos validar tu alta y preparar tu cuenta.</p></div><span class="state-pill" id="statePill">Listo</span></div>
 <form id="altaForm" class="form" novalidate>
-<div class="grid"><label class="field field-full"><span>Razón social o nombre comercial</span><input class="input" id="nombre" name="nombre" placeholder="Ej. FUCASA S.A. de C.V." autocomplete="organization"></label><label class="field"><span>Teléfono WhatsApp</span><input class="input" id="telefono" name="telefono" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label><label class="field"><span>Correo principal</span><input class="input" id="correo" name="correo" type="email" placeholder="contacto@empresa.com" autocomplete="email"></label><label class="field field-full"><span>Contacto principal</span><input class="input" id="contacto_nombre" name="contacto_nombre" placeholder="Ej. María López"></label><label class="field"><span>Puesto</span><input class="input" id="contacto_puesto" name="contacto_puesto" placeholder="Ej. Administración / Contabilidad / TI"></label><label class="field"><span>Correo del contacto</span><input class="input" id="contacto_correo" name="contacto_correo" type="email" placeholder="Ej. maria@empresa.com"></label><label class="field"><span>WhatsApp / teléfono del contacto</span><input class="input" id="contacto_telefono" name="contacto_telefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label><label class="field"><span>Método preferido de contacto</span><select class="select" id="metodo_contacto_preferido" name="metodo_contacto_preferido"><option value="whatsapp">WhatsApp</option><option value="correo">Correo</option><option value="telefono">Llamada</option></select></label><label class="field"><span>Horario de contacto</span><input class="input" id="horario_contacto" name="horario_contacto" placeholder="Ej. 9 am a 2 pm"></label><label class="field"><span>Cumpleaños del contacto</span><input class="input" id="cumpleanos" name="cumpleanos" type="date"></label><label class="field field-full"><span>Comentarios adicionales</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label></div>
-<label class="dropzone" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip,image/png,image/jpeg,image/webp"><div class="drop-icon">📥</div><div class="drop-title">Arrastra tus archivos aquí o haz clic para seleccionarlos</div><div class="drop-sub">Acepta PDF, ZIP e imagen. Máximo 12 archivos, 25 MB por archivo.</div><div class="files" id="fileList"></div></label>
+<div class="grid">
+<label class="field field-full"><span>Razón social o nombre comercial</span><input class="input" id="nombre" name="nombre" placeholder="Ej. FUCASA S.A. de C.V." autocomplete="organization"></label>
+<label class="field"><span>Teléfono principal empresa</span><input class="input" id="telefono" name="telefono" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label>
+<label class="field"><span>Correo principal empresa</span><input class="input" id="correo" name="correo" type="email" placeholder="contacto@empresa.com" autocomplete="email"></label>
+
+<label class="field field-full"><span>Nombre del contacto principal</span><input class="input" id="contactoNombre" name="contactoNombre" placeholder="Ej. María González" autocomplete="name"></label>
+<label class="field"><span>Puesto del contacto principal</span><input class="input" id="contactoPuesto" name="contactoPuesto" placeholder="Ej. Administración / Contabilidad / Dirección"></label>
+<label class="field"><span>Correo del contacto principal</span><input class="input" id="contactoCorreo" name="contactoCorreo" type="email" placeholder="maria@empresa.com" autocomplete="email"></label>
+<label class="field"><span>Teléfono o WhatsApp del contacto principal</span><input class="input" id="contactoTelefono" name="contactoTelefono" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label>
+<label class="field"><span>Método de contacto preferido</span><select class="select" id="metodoContacto" name="metodoContacto"><option value="">Selecciona</option><option value="whatsapp">WhatsApp</option><option value="telefono">Llamada</option><option value="correo">Correo</option></select></label>
+<label class="field"><span>Horario de contacto</span><input class="input" id="horarioContacto" name="horarioContacto" placeholder="Ej. 9:00 a 14:00"></label>
+<label class="field"><span>Cumpleaños del contacto principal</span><input class="input" id="contactoCumple" name="contactoCumple" type="date"></label>
+
+<label class="field field-full"><span>Contacto alterno opcional</span><input class="input" id="contactoAlternoNombre" name="contactoAlternoNombre" placeholder="Ej. Juan Pérez"></label>
+<label class="field"><span>Puesto contacto alterno</span><input class="input" id="contactoAlternoPuesto" name="contactoAlternoPuesto" placeholder="Ej. Sistemas"></label>
+<label class="field"><span>Correo contacto alterno</span><input class="input" id="contactoAlternoCorreo" name="contactoAlternoCorreo" type="email" placeholder="juan@empresa.com"></label>
+<label class="field"><span>Teléfono contacto alterno</span><input class="input" id="contactoAlternoTelefono" name="contactoAlternoTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+
+<label class="field field-full"><span>Comentarios adicionales</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Horarios, notas, sistemas, observaciones"></textarea></label>
+</div>
+  <label class="dropzone" id="dropArea"><input id="fileInput" type="file" hidden multiple accept=".pdf,.zip,application/pdf,application/zip,image/png,image/jpeg,image/webp"><div class="drop-icon">📥</div><div class="drop-title">Arrastra tus archivos aquí o haz clic para seleccionarlos</div><div class="drop-sub">Acepta PDF, ZIP e imagen. Máximo 12 archivos, 25 MB por archivo.</div><div class="files" id="fileList"></div></label>
 <div class="meta-row"><div class="meta-card"><span class="meta-k">Archivos</span><strong class="meta-v" id="filesCount">0</strong></div><div class="meta-card"><span class="meta-k">Peso aprox.</span><strong class="meta-v" id="filesWeight">0 KB</strong></div><div class="meta-card"><span class="meta-k">Estado</span><strong class="meta-v" id="miniStatus">En espera</strong></div></div>
-<div class="actions"><button class="btn btn-brand" id="btnSubmit" type="submit">Crear mi perfil y enviar archivos</button><button class="btn btn-ghost" id="btnClear" type="button">Limpiar</button></div>
+<div class="actions"><button class="btn btn-brand" id="btnSubmit" type="submit">Registrar empresa y enviar archivos</button><button class="btn btn-ghost" id="btnClear" type="button">Limpiar</button></div>
 <div class="status" id="statusMsg">Listo para recibir tu información.</div>
-<div class="foot-note">Tu solicitud se envía a una función segura de Supabase para validación, creación del cliente o contacto principal y almacenamiento temporal de archivos.</div>
+<div class="foot-note">Tu solicitud se envía a una función segura de Supabase para validación, creación de contacto principal y almacenamiento temporal de archivos.</div>
 </form>
 </section>
 </section>
