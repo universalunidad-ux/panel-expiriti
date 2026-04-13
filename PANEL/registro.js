@@ -1,32 +1,78 @@
-.page{min-height:100vh;display:grid;place-items:center;padding:24px}
-.shell{width:min(1240px,100%);display:grid;grid-template-columns:minmax(420px,.98fr) minmax(560px,1.02fr);gap:18px;align-items:stretch}
-.hero{display:grid;grid-template-rows:auto 1fr;gap:18px;padding:26px;min-height:720px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 88%,transparent),color-mix(in srgb,var(--panel-2) 96%,transparent)),linear-gradient(90deg,color-mix(in srgb,var(--brand) 10%,transparent),transparent 42%,color-mix(in srgb,var(--brand-2) 8%,transparent))}
-.hero-top{display:grid;gap:18px}
-.hero-copy{display:grid;gap:18px;align-content:start}
-.hero-title{margin:0;font-size:clamp(38px,5vw,56px);line-height:.95;font-weight:950;letter-spacing:-.05em;max-width:9ch}
-.hero-sub{margin:0;font-size:15px;line-height:1.6;color:var(--muted);max-width:58ch}
-.hero-points{display:grid;gap:12px}
-.point{display:grid;grid-template-columns:30px 1fr;gap:12px;padding:16px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel-2) 82%,transparent)}
-.point-ico{display:grid;place-items:center;width:30px;height:30px;border-radius:12px;background:color-mix(in srgb,var(--brand) 14%,transparent)}
-.point strong{display:block;font-size:15px}
-.point p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--muted)}
-.panel{padding:24px;display:grid;align-content:start}
-.panel-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
-.panel-title{margin:8px 0 0;font-size:clamp(28px,3vw,40px);line-height:1.02;font-weight:950;letter-spacing:-.04em}
-.panel-sub{margin:8px 0 0;color:var(--muted);max-width:58ch}
-.form{display:grid;gap:16px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.field{display:block;min-width:0}
-.field-full{grid-column:1/-1}
-.field span{display:block;margin-bottom:7px;font-size:12px;color:var(--muted)}
-.area{min-height:108px}
-.actions{display:flex;gap:10px;flex-wrap:wrap}
-.actions .btn{min-width:210px}
-.trust-box{display:grid;gap:8px;padding:16px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel-2) 96%,transparent)}
-.trust-head{font-size:13px;font-weight:900;letter-spacing:.04em}
-.trust-copy{margin:0;font-size:13px;line-height:1.55;color:var(--muted)}
-.trust-link{font-size:13px;font-weight:800;text-decoration:none}
-.checkline{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:13px;line-height:1.5}
-.status,.foot-note{font-size:12px;color:var(--muted)}
-@media(max-width:1120px){.shell{grid-template-columns:1fr}.hero{min-height:auto}}
-@media(max-width:760px){.page{padding:14px}.hero,.panel{padding:20px}.grid{grid-template-columns:1fr}.actions{display:grid}.actions .btn{width:100%;min-width:0}.panel-top{flex-direction:column}}
+const $=q=>document.querySelector(q),ST={sending:false};
+const ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/submit-registro";
+const esc=v=>(v??"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const digits=v=>(v||"").replace(/\D+/g,"");
+const mailOk=v=>!v||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const setBusy=v=>{ST.sending=!!v;$("#btnSubmit").disabled=ST.sending;$("#btnClear").disabled=ST.sending};
+const setMsg=(text,variant="")=>{const el=$("#statusMsg");el.textContent=text;el.className=`status ${variant}`.trim();$("#statePill").textContent=variant==="ok"?"Enviado":variant==="bad"?"Error":variant==="warn"?"Atención":ST.sending?"Enviando":"Listo"};
+const clearAll=()=>{if(ST.sending)return;$("#registroForm").reset();setMsg("Listo para registrar tu información.")};
+
+const validate=()=>{
+  const empresa=$("#empresa").value.trim(),correoEmpresa=$("#correoEmpresa").value.trim(),telefonoEmpresa=digits($("#telefonoEmpresa").value),contactoNombre=$("#contactoNombre").value.trim(),contactoCorreo=$("#contactoCorreo").value.trim(),contactoTelefono=digits($("#contactoTelefono").value),contactoWhatsapp=digits($("#contactoWhatsapp").value),contactoAltCorreo=$("#contactoAltCorreo").value.trim(),contactoAltTelefono=digits($("#contactoAltTelefono").value),accept=$("#acceptData").checked;
+  if(!empresa)return"Falta la razón social o nombre comercial.";
+  if(correoEmpresa&&!mailOk(correoEmpresa))return"El correo principal empresa no parece válido.";
+  if($("#telefonoEmpresa").value.trim()&&telefonoEmpresa.length<10)return"El teléfono principal empresa parece incompleto.";
+  if(!contactoNombre)return"Falta el nombre del contacto principal.";
+  if(contactoCorreo&&!mailOk(contactoCorreo))return"El correo del contacto principal no parece válido.";
+  if($("#contactoTelefono").value.trim()&&contactoTelefono.length<10)return"El teléfono del contacto principal parece incompleto.";
+  if($("#contactoWhatsapp").value.trim()&&contactoWhatsapp.length<10)return"El WhatsApp del contacto principal parece incompleto.";
+  if(contactoAltCorreo&&!mailOk(contactoAltCorreo))return"El correo del contacto alterno no parece válido.";
+  if($("#contactoAltTelefono").value.trim()&&contactoAltTelefono.length<10)return"El teléfono del contacto alterno parece incompleto.";
+  if(!accept)return"Debes confirmar el tratamiento de datos para continuar.";
+  return"";
+};
+
+const buildFormData=()=>{
+  const fd=new FormData();
+  fd.append("empresa",$("#empresa").value.trim());
+  fd.append("correo_empresa",$("#correoEmpresa").value.trim());
+  fd.append("telefono_empresa",digits($("#telefonoEmpresa").value));
+  fd.append("contacto_nombre",$("#contactoNombre").value.trim());
+  fd.append("contacto_puesto",$("#contactoPuesto").value.trim());
+  fd.append("contacto_correo",$("#contactoCorreo").value.trim());
+  fd.append("contacto_telefono",digits($("#contactoTelefono").value));
+  fd.append("contacto_whatsapp",digits($("#contactoWhatsapp").value));
+  fd.append("metodo_contacto_preferido",$("#metodoContacto").value);
+  fd.append("horario_contacto",$("#horarioContacto").value.trim());
+  fd.append("cumpleanos_contacto",$("#cumpleanos").value);
+  fd.append("contacto_alterno_nombre",$("#contactoAltNombre").value.trim());
+  fd.append("contacto_alterno_correo",$("#contactoAltCorreo").value.trim());
+  fd.append("contacto_alterno_telefono",digits($("#contactoAltTelefono").value));
+  fd.append("comentarios",$("#comentarios").value.trim());
+  fd.append("origen","registro_publico");
+  return fd;
+};
+
+const readJsonSafe=async r=>{const txt=await r.text();try{return txt?JSON.parse(txt):{}}catch{return{raw:txt}}};
+
+const renderSuccess=j=>{
+  const empresa=esc($("#empresa").value.trim()),contacto=esc($("#contactoNombre").value.trim());
+  document.querySelector(".panel").innerHTML=`<div class="panel-top"><div><div class="section-kicker">Registro enviado</div><h2 class="panel-title">Gracias, ya recibimos tus datos</h2><p class="panel-sub">Tu información quedó enviada para validación y consolidación en tu expediente con Expiriti.</p></div><span class="state-pill">Enviado</span></div><div class="status ok">✅ Registro recibido correctamente${j?.solicitud_id?`: ${esc(String(j.solicitud_id))}`:""}.</div><div class="grid" style="margin-top:16px"><div class="field"><span>Empresa</span><div class="input" style="display:flex;align-items:center">${empresa}</div></div><div class="field"><span>Contacto principal</span><div class="input" style="display:flex;align-items:center">${contacto||"Registrado"}</div></div></div><div class="foot-note">Si ya existías en nuestra base, actualizaremos tus datos. Si no, prepararemos tu registro para revisión interna.</div>`;
+};
+
+const onSubmit=async e=>{
+  e.preventDefault();
+  if(ST.sending)return;
+  const err=validate();
+  if(err)return setMsg(err,"bad");
+  setBusy(true);
+  setMsg("Enviando registro...");
+  try{
+    const r=await fetch(ENDPOINT,{method:"POST",body:buildFormData()});
+    const j=await readJsonSafe(r);
+    if(!r.ok)throw new Error(j?.error||j?.message||j?.raw||"No se pudo enviar el registro.");
+    setMsg("Registro enviado correctamente.","ok");
+    renderSuccess(j);
+  }catch(err){
+    setMsg(err?.message||"Hubo un error al enviar.","bad");
+    setBusy(false);
+  }
+};
+
+const bind=()=>{
+  $("#btnClear").addEventListener("click",clearAll);
+  $("#registroForm").addEventListener("submit",onSubmit);
+};
+
+bind();
+setMsg("Listo para registrar tu información.");
