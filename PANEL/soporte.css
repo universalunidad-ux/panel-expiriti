@@ -24,7 +24,7 @@
 .support-form .actions .btn{min-width:190px}
 #spStatus{min-height:20px}
 #spFiles.input{padding:10px 12px}
-#spDesc,#spVoiceText{min-height:120px}
+#spDesc,#spExtra{min-height:120px}
 .support-side .panel.inset{padding:14px;box-shadow:var(--shadow-xs)}
 .support-side .chips{display:flex;gap:8px;flex-wrap:wrap}
 .support-side .mini{white-space:nowrap}
