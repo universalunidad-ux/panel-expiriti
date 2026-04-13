@@ -3,15 +3,16 @@
 .ticket-main{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;min-height:680px}
 .side-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .side-head h1{margin:4px 0 0;font-size:clamp(24px,2.4vw,28px);line-height:1.04;letter-spacing:-.03em}
-.box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
 .box{padding:14px}
 .box .k{font-size:11px}
 .box .v.small{font-size:15px;line-height:1.35}
+.box .v.small{word-break:break-word}
 .inset{padding:14px}
 .row-head,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .row-head h3,.section-head h3{margin:0;font-size:16px;letter-spacing:-.02em}
 .quick-actions{display:flex;flex-wrap:wrap;gap:8px}
-.quick-actions .btn{flex:1 1 150px}
+.quick-actions .btn{flex:1 1 160px;min-height:42px}
 .evidence-list{display:grid;gap:10px;min-height:72px}
 .evidence-item{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel) 96%,transparent)}
 .evidence-title{font-weight:900}
