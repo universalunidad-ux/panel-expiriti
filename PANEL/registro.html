@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Registro de contacto | Expiriti</title>
+<meta name="theme-color" content="#0a1018">
+<script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
+<link rel="stylesheet" href="global.css">
+<link rel="stylesheet" href="registro.css">
+<script type="module" src="theme.js"></script>
+</head>
+<body data-surface="client">
+<main class="page">
+<section class="shell">
+<aside class="hero">
+  <div class="hero-top">
+    <div><div class="eyebrow">Registro de contacto</div></div>
+    <h1 class="hero-title">Actualiza tus datos con Expiriti</h1>
+  </div>
+  <div class="hero-copy">
+    <p class="hero-sub">Si ya eres cliente, aquí puedes registrar o actualizar a la persona principal de contacto y dejar un responsable alterno para soporte, seguimiento y renovaciones.</p>
+    <div class="hero-points">
+      <article class="point"><span class="point-ico">✓</span><div><strong>Contacto claro</strong><p>Ayuda a que soporte, seguimiento y renovaciones lleguen a la persona correcta.</p></div></article>
+      <article class="point"><span class="point-ico">⚡</span><div><strong>Menos retrabajo</strong><p>Tu equipo evita repetir datos en llamadas, correos y tickets futuros.</p></div></article>
+      <article class="point"><span class="point-ico">🔒</span><div><strong>Uso interno controlado</strong><p>Los datos se revisan y consolidan en tu expediente de cliente.</p></div></article>
+    </div>
+  </div>
+</aside>
+
+<section class="panel">
+<div class="panel-top"><div><div class="section-kicker">Registro</div><h2 class="panel-title">Empresa y contacto</h2><p class="panel-sub">Completa o corrige tus datos. Esto nos ayuda a atenderte más rápido en soporte y seguimiento.</p></div><span class="state-pill" id="statePill">Listo</span></div>
+
+<form id="registroForm" class="form" novalidate>
+<div class="grid">
+<label class="field field-full"><span>Razón social o nombre comercial</span><input class="input" id="empresa" name="empresa" placeholder="Ej. FUCASA S.A. de C.V." autocomplete="organization"></label>
+<label class="field"><span>Correo principal empresa</span><input class="input" id="correoEmpresa" name="correoEmpresa" type="email" placeholder="contacto@empresa.com" autocomplete="email"></label>
+<label class="field"><span>Teléfono principal empresa</span><input class="input" id="telefonoEmpresa" name="telefonoEmpresa" type="tel" placeholder="10 dígitos" inputmode="tel" autocomplete="tel"></label>
+<label class="field field-full"><span>Nombre del contacto principal</span><input class="input" id="contactoNombre" name="contactoNombre" placeholder="Ej. María López" autocomplete="name"></label>
+<label class="field"><span>Puesto</span><input class="input" id="contactoPuesto" name="contactoPuesto" placeholder="Administración / Sistemas"></label>
+<label class="field"><span>Correo del contacto</span><input class="input" id="contactoCorreo" name="contactoCorreo" type="email" placeholder="maria@empresa.com" autocomplete="email"></label>
+<label class="field"><span>Teléfono</span><input class="input" id="contactoTelefono" name="contactoTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+<label class="field"><span>WhatsApp</span><input class="input" id="contactoWhatsapp" name="contactoWhatsapp" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+<label class="field"><span>Método preferido</span><select class="select" id="metodoContacto" name="metodoContacto"><option value="">Selecciona</option><option value="correo">Correo</option><option value="telefono">Llamada</option><option value="whatsapp">WhatsApp</option></select></label>
+<label class="field"><span>Horario de contacto</span><input class="input" id="horarioContacto" name="horarioContacto" placeholder="Ej. 9:00 a 18:00"></label>
+<label class="field"><span>Cumpleaños</span><input class="input" id="cumpleanos" name="cumpleanos" type="date"></label>
+
+<label class="field field-full"><span>Contacto alterno (opcional)</span><input class="input" id="contactoAltNombre" name="contactoAltNombre" placeholder="Nombre de respaldo"></label>
+<label class="field"><span>Correo alterno</span><input class="input" id="contactoAltCorreo" name="contactoAltCorreo" type="email" placeholder="alterno@empresa.com"></label>
+<label class="field"><span>Teléfono alterno</span><input class="input" id="contactoAltTelefono" name="contactoAltTelefono" type="tel" placeholder="10 dígitos" inputmode="tel"></label>
+
+<label class="field field-full"><span>Comentarios</span><textarea class="area" id="comentarios" name="comentarios" placeholder="Cambios internos, horarios especiales, responsables, notas útiles"></textarea></label>
+</div>
+
+<div class="trust-box">
+  <div class="trust-head">Privacidad y uso responsable de datos</div>
+  <p class="trust-copy">Tus datos se usan únicamente para atención, soporte, seguimiento comercial y administración de tu cuenta con Expiriti. Aplicamos medidas razonables de resguardo y control interno.</p>
+  <p class="trust-copy">Tratamiento conforme a la normativa aplicable en México, incluyendo la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</p>
+  <a class="trust-link" href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf" target="_blank" rel="noopener">Consultar legislación vigente</a>
+</div>
+
+<label class="checkline">
+<input type="checkbox" id="acceptData" name="acceptData">
+<span>Confirmo que los datos proporcionados son correctos y autorizo su uso para fines de atención y relación comercial con Expiriti.</span>
+</label>
+
+<div class="actions">
+<button class="btn btn-brand" id="btnSubmit" type="submit">Guardar registro</button>
+<button class="btn btn-ghost" id="btnClear" type="button">Limpiar</button>
+</div>
+
+<div class="status" id="statusMsg">Listo para registrar tu información.</div>
+<div class="foot-note">Si ya existes en nuestra base, actualizaremos tu expediente. Si no, prepararemos tu registro para validación.</div>
+</form>
+</section>
+</section>
+</main>
+<script type="module" src="registro.js"></script>
+</body>
+</html>
