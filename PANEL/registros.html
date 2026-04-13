@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Registros | Panel Expiriti</title>
+<meta name="theme-color" content="#0a1018">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
+<link rel="manifest" href="../site.webmanifest">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="global.css">
+<link rel="stylesheet" href="registros.css">
+<script>"serviceWorker"in navigator&&window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.error))</script>
+</head>
+<body data-surface="support" data-shell="app" data-page="registros">
+<div id="appShell"></div>
+
+<main class="wrap altas-page" id="pageMount">
+<section class="panel altas-hero">
+  <div>
+    <div class="section-kicker">Revisión interna</div>
+    <h1>Solicitudes de registro</h1>
+    <p class="mut">Revisa registros de contactos enviados por clientes existentes y consolida los datos en su expediente sin fricción.</p>
+  </div>
+  <div class="grid-3 altas-kpis">
+    <div class="metric"><span class="k">Total</span><strong class="v" id="kTotal">0</strong></div>
+    <div class="metric"><span class="k">Pendientes</span><strong class="v warn" id="kPend">0</strong></div>
+    <div class="metric"><span class="k">Aprobadas</span><strong class="v ok" id="kAprob">0</strong></div>
+  </div>
+</section>
+
+<section class="panel altas-toolbar">
+  <div class="searchbox"><span>🔎</span><input id="q" placeholder="Buscar por empresa, correo, teléfono o contacto"></div>
+  <div class="toolbar">
+    <select class="select" id="fStatus">
+      <option value="">Todos</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="aprobada">Aprobada</option>
+      <option value="rechazada">Rechazada</option>
+    </select>
+    <button class="btn btn-ghost" id="refreshBtn">Actualizar</button>
+  </div>
+</section>
+
+<section class="list" id="list"></section>
+</main>
+
+<div class="overlay" id="detailModal" hidden>
+  <div class="modal">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Registro</div>
+        <h3 id="dTitle">Detalle</h3>
+      </div>
+      <button class="icon-btn" id="closeDetail">✕</button>
+    </div>
+    <div class="grid" id="detailBody"></div>
+    <div class="actions">
+      <button class="btn btn-brand" id="approveBtn">Consolidar</button>
+      <button class="btn btn-ghost" id="rejectBtn">Rechazar</button>
+    </div>
+    <div class="mut" id="detailStatus">Listo.</div>
+  </div>
+</div>
+
+<script type="module" src="registros.js"></script>
+</body>
+</html>
