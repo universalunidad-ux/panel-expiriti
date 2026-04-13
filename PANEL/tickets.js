@@ -1,6 +1,6 @@
 import{supabase as s,guardSession,msg}from"./supabase.js";
 import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb}from"./global.js";
-let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:"",noEvidence:false,readyClose:false},VIEW=localStorage.getItem("expiriti_tickets_view")||"kanban",SELECTED_ID="";
+let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:"",noEvidence:false,readyClose:false,impactHigh:false,urgentStale:false},VIEW=localStorage.getItem("expiriti_tickets_view")||"kanban",SELECTED_ID="";
 
 const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
 const daysSince=v=>v?Math.floor((Date.now()-new Date(v).getTime())/864e5):999;
@@ -15,10 +15,11 @@ const evidenceCount=t=>Array.isArray(t?.adjuntos)?t.adjuntos.length:Number(t?.ev
 const impactKey=t=>{const x=norm(t?.impacto||t?.impact||"");return x==="alta"?"alta":x==="media"?"media":x==="baja"?"baja":x==="preventiva"?"preventiva":""};
 const nextAction=t=>{const s=stateKey(rawState(t)),d=norm(`${t?.titulo||""} ${t?.descripcion||""}`);if(s==="esperando_cliente")return"Esperar cliente";if(s==="resuelto")return"Cerrar";if(d.includes("xml"))return"Pedir XML";if(d.includes("captura")||d.includes("pantalla"))return"Revisar evidencia";if(d.includes("remoto")||d.includes("anydesk")||d.includes("teamviewer"))return"Coordinar remoto";if(s==="abierto")return"Triage";return"Seguimiento"};
 const readyToClose=t=>stateKey(rawState(t))==="resuelto";
+const healthTag=t=>{const s=stateKey(rawState(t)),stale=daysSince(t.fecha_actualizacion||t.fecha_creacion),ev=evidenceCount(t),impact=impactKey(t);if(readyToClose(t))return{txt:"Listo para cerrar",cls:"ok"};if(s==="esperando_cliente")return{txt:"Bloqueado",cls:"warn"};if(norm(t.prioridad)==="urgente"||impact==="alta"||stale>=3)return{txt:"Crítico",cls:"bad"};if(!ev)return{txt:"Falta evidencia",cls:"warn"};return{txt:"Fluyendo",cls:"info"}};
 const triageScore=t=>{const stale=daysSince(t.fecha_actualizacion||t.fecha_creacion),ev=evidenceCount(t),impact=impactKey(t),prio=norm(t.prioridad)==="urgente"?4:norm(t.prioridad)==="alta"?3:norm(t.prioridad)==="media"?2:1,state=stateKey(rawState(t));return(prio*10)+(impact==="alta"?8:impact==="media"?4:0)+(stale>=3?7:stale>=1?3:0)+(ev?0:4)+(state==="esperando_cliente"?-2:0)+(state==="resuelto"?-6:0)};
 
 const ticketBlob=t=>norm([t.titulo,t.descripcion,t.tipo,t.prioridad,t.estado,t.clientes?.nombre].join(" | "));
-const filtered=()=>TK.filter(t=>(!FILTER.q||ticketBlob(t).includes(norm(FILTER.q)))&&(!FILTER.priority||norm(t.prioridad)===norm(FILTER.priority))&&(!FILTER.state||stateKey(rawState(t))===stateKey(FILTER.state))&&(!FILTER.type||norm(t.tipo)===norm(FILTER.type))&&(!FILTER.client||norm(t.clientes?.nombre||"").includes(norm(FILTER.client)))&&(!FILTER.noEvidence||evidenceCount(t)===0)&&(!FILTER.readyClose||readyToClose(t)));
+const filtered=()=>TK.filter(t=>(!FILTER.q||ticketBlob(t).includes(norm(FILTER.q)))&&(!FILTER.priority||norm(t.prioridad)===norm(FILTER.priority))&&(!FILTER.state||stateKey(rawState(t))===stateKey(FILTER.state))&&(!FILTER.type||norm(t.tipo)===norm(FILTER.type))&&(!FILTER.client||norm(t.clientes?.nombre||"").includes(norm(FILTER.client)))&&(!FILTER.noEvidence||evidenceCount(t)===0)&&(!FILTER.readyClose||readyToClose(t))&&(!FILTER.impactHigh||impactKey(t)==="alta")&&(!FILTER.urgentStale||(norm(t.prioridad)==="urgente"&&daysSince(t.fecha_actualizacion||t.fecha_creacion)>=1&&!["resuelto","cerrado"].includes(stateKey(rawState(t))))));
 const byId=id=>TK.find(x=>String(x.id)===String(id));
 const openCount=arr=>(arr||[]).filter(t=>!["resuelto","cerrado"].includes(stateKey(rawState(t)))).length;
 
