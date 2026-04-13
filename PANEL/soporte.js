@@ -2,6 +2,7 @@ import{$,$$,toast,esc,debounce}from"./global.js";
 
 const ST={files:[],sending:false},MAX_FILES=10,MAX_MB_FILE=20,MAX_MB_TOTAL=60,ALLOWED_EXT=["jpg","jpeg","png","webp","pdf","xml","xls","xlsx","csv","txt","zip"],ALLOWED_MIME=["image/jpeg","image/png","image/webp","application/pdf","text/xml","application/xml","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","text/csv","text/plain","application/zip","application/x-zip-compressed"];
 const human=n=>n>=1024*1024?`${(n/1024/1024).toFixed(1)} MB`:`${Math.max(1,Math.round(n/1024))} KB`,digits=v=>(v||"").replace(/\D+/g,""),validMail=v=>!v||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),ext=f=>(f?.name?.split(".").pop()||"").toLowerCase(),fileKey=f=>`${(f.name||"").toLowerCase()}__${f.size||0}__${(f.type||"").toLowerCase()}`,total=()=>ST.files.reduce((a,f)=>a+(f.size||0),0);
+const impactToPriority=v=>v==="alta"?"alta":v==="media"?"media":"baja";
 const SUPPORT_ENDPOINT="https://TU-PROYECTO.supabase.co/functions/v1/submit-support";
 const allowedFile=f=>ALLOWED_EXT.includes(ext(f))||ALLOWED_MIME.includes((f.type||"").toLowerCase());
 const setBusy=v=>{ST.sending=!!v;$("#spSendBtn")&&($("#spSendBtn").disabled=ST.sending);$("#spDraftBtn")&&($("#spDraftBtn").disabled=ST.sending);$("#spFiles")&&($("#spFiles").disabled=ST.sending)};
