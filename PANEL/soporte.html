@@ -2,8 +2,7 @@
 <html lang="es" data-theme="light"> 
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>1. El //"Muro de la Victoria" (Hackeando el Sesgo de Negatividad) //
-El cerebro humano tiene un sesgo de negatividad: recuerda más un insulto que diez cumplidos. En soporte, el 99% de las interacciones inician con un problema, una queja o un error de sistema.oporte | Expiriti</title>
+<title>Ticket de Soporte | Expiriti</title>
 <script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
 <link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
 </head>
@@ -11,7 +10,7 @@ El cerebro humano tiene un sesgo de negatividad: recuerda más un insulto que di
 <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Soporte Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
 
 <main class="wrap soporte-page">
-<section class="panel hero-support"><div><div class="section-kicker">Mesa de ayuda</div><h1>Levanta tu solicitud de soporte</h1><p class="mut">Cuéntanos qué intentabas hacer, qué ocurrió y adjunta evidencia si la tienes. Entre más claro llegue el caso, más rápido lo resolvemos.</p><div class="chips mt8"><span class="tag ok">Más claro = más rápido</span><span class="tag">No necesitas lenguaje técnico</span><span class="tag">Puedes adjuntar evidencia</span></div></div><div class="hero-badges"><span class="tag">Texto</span><span class="tag">Audio</span><span class="tag">Capturas</span><span class="tag">PDF</span><span class="tag">XML / CFDI</span><span class="tag">Excel</span></div></section>
+<section class="panel hero-support"><div><div class="section-kicker">Mesa de ayuda</div><h1>Levanta tu solicitud de soporte</h1><p class="mut">Cuéntanos qué intentabas hacer, qué ocurrió, desde cuándo pasa y adjunta evidencia si la tienes. Entre más claro llegue el caso, más rápido podremos ayudarte.</p><div class="chips mt8"><span class="tag ok">Más claro = más rápido</span><span class="tag">No necesitas lenguaje técnico</span><span class="tag">Adjunta evidencia si la tienes</span><span class="tag">Indica desde cuándo ocurre</span></div></div><div class="hero-badges"><span class="tag">Texto</span><span class="tag">Capturas</span><span class="tag">PDF</span><span class="tag">XML / CFDI</span><span class="tag">Excel</span><span class="tag">ZIP</span></div></section>
   
 <section class="support-layout">
 <form class="panel support-form" id="supportForm">
@@ -32,12 +31,16 @@ El cerebro humano tiene un sesgo de negatividad: recuerda más un insulto que di
 
 <div class="field"><label class="lbl" for="spImpact">¿Qué tanto te afecta?</label><select class="select" id="spImpact"><option value="alta">No me deja trabajar</option><option value="media">Me retrasa, pero sigo</option><option value="baja">Es duda o ajuste</option><option value="preventiva">Es preventivo</option></select></div>
 <div class="field"><label class="lbl" for="spChannel">Canal preferido</label><select class="select" id="spChannel"><option value="correo">Correo</option><option value="telefono">Llamada</option><option value="whatsapp">WhatsApp</option></select></div>
+<div class="field"><label class="lbl" for="spSince">¿Desde cuándo ocurre?</label><input class="input" id="spSince" placeholder="Ej. desde hoy en la mañana, desde ayer, desde la actualización..."></div>
+<div class="field"><label class="lbl" for="spAffected">¿A cuántos afecta?</label><select class="select" id="spAffected"><option value="solo_yo">Solo a mí</option><option value="varios">A varios usuarios</option><option value="todos">A toda la empresa / todos</option><option value="no_se">No estoy seguro</option></select></div>
+<div class="field span-2"><label class="lbl" for="spLastChange">¿Hubo algún cambio antes del problema?</label><select class="select" id="spLastChange"><option value="">Selecciona</option><option value="actualizacion">Actualización de sistema o versión</option><option value="contrasena">Cambio de contraseña o usuario</option><option value="equipo">Cambio de equipo o sesión</option><option value="restauracion">Restauración / respaldo / migración</option><option value="red">Cambio de red, internet o servidor</option><option value="sin_cambio">No hubo cambio previo</option><option value="no_se">No lo sé</option></select></div>
+<div class="field span-2"><label class="lbl" for="spAvailability">Horario disponible para contacto</label><input class="input" id="spAvailability" placeholder="Ej. hoy de 1 a 3 pm, mañana después de las 10, horario abierto..."></div>
 </div>
 
 <div class="section-head compact"><div><div class="section-kicker">Paso 2</div><h3>Evidencia y contexto</h3></div></div>
 <div class="upload-grid">
-<div class="field span-2"><label class="lbl" for="spFiles">Adjuntos</label><input class="input" id="spFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"><div class="mut">Puedes adjuntar capturas, PDF, XML / CFDI, Excel o archivos relacionados.</div></div>
-<div class="field span-2"><label class="lbl" for="spVoiceText">Mensaje por voz o dictado</label><textarea class="area" id="spVoiceText" placeholder="Aquí puede ir texto dictado, transcripción manual o resumen hablado del caso."></textarea></div>
+<div class="field span-2"><label class="lbl" for="spFiles">Adjuntos</label><input class="input" id="spFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"><div class="mut">Puedes adjuntar capturas, PDF, XML / CFDI, Excel, ZIP o archivos relacionados. Si aparece un error, una captura completa ayuda mucho.</div></div>
+<div class="field span-2"><label class="lbl" for="spExtra">Contexto adicional</label><textarea class="area" id="spExtra" placeholder="Aquí puedes agregar cualquier detalle útil: horario en que falla, usuario afectado, área involucrada, pasos que ya intentaste o algo que debamos considerar."></textarea></div>
 </div>
 
 <div class="section-head compact"><div><div class="section-kicker">Paso 3</div><h3>Enviar solicitud</h3></div></div>
@@ -46,7 +49,7 @@ El cerebro humano tiene un sesgo de negatividad: recuerda más un insulto que di
 </form>
 
 <aside class="panel support-side">
-<section class="panel inset"><div class="row-head"><h3>Cómo agilizar tu caso</h3></div><ul class="mini-list"><li>Escribe qué intentabas hacer.</li><li>Adjunta el mensaje de error o una captura.</li><li>Si aplica, envía XML, PDF o Excel de ejemplo.</li><li>Indica si afecta a todos o solo a una persona.</li></ul></section>
+<section class="panel inset"><div class="row-head"><h3>Cómo agilizar tu caso</h3></div><ul class="mini-list"><li>Escribe qué intentabas hacer antes del problema.</li><li>Indica desde cuándo ocurre.</li><li>Adjunta el mensaje de error o una captura completa.</li><li>Si aplica, envía XML, PDF o Excel de ejemplo.</li><li>Indica si afecta solo a una persona o a varios usuarios.</li></ul></section>
 
   <section class="panel inset"><div class="row-head"><h3>Sugerencias rápidas</h3></div><div class="chips"><button class="mini btn-ghost" type="button" data-fill="timbrar">No puedo timbrar</button><button class="mini btn-ghost" type="button" data-fill="abrir">No abre el sistema</button><button class="mini btn-ghost" type="button" data-fill="xml">Error con XML</button><button class="mini btn-ghost" type="button" data-fill="empresa">Problema con empresa</button></div></section>
 <section class="panel inset"><div class="row-head"><h3>Vista previa</h3></div><div class="preview-card"><div class="k">Título</div><div class="v" id="pvTitle">—</div><div class="k">Sistema</div><div class="v" id="pvSystem">—</div><div class="k">Impacto</div><div class="v" id="pvImpact">—</div></div></section>
