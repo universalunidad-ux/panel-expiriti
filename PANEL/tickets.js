@@ -1,4 +1,4 @@
-import{supabase as s,guardSession,msg}from"./supabase.js";
+ import{supabase as s,guardSession,msg}from"./supabase.js";
 import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb}from"./global.js";
 let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:"",noEvidence:false,readyClose:false,impactHigh:false,urgentStale:false},VIEW=localStorage.getItem("expiriti_tickets_view")||"kanban",SELECTED_ID="";
 
