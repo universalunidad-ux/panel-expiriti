@@ -56,6 +56,19 @@ a{text-decoration:none} button{font:inherit}
 .tab.active{color:var(--text);border-color:color-mix(in srgb,var(--brand) 18%,var(--line));background:color-mix(in srgb,var(--brand) 8%,var(--panel-2))}
 .tab-panel{display:none;padding:16px}
 .tab-panel.active,.form-grid,.side-stack,.list,.checklist{display:grid;gap:12px}
+.contacts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.contact-card{display:grid;gap:12px;padding:14px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel-2) 97%,transparent);box-shadow:var(--client-shadow-sm)}
+.contact-card.is-primary{border-color:color-mix(in srgb,var(--brand) 28%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 10%,transparent),var(--client-shadow-sm)}
+.contact-card.is-off{opacity:.78}
+.contact-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.contact-name{font-size:16px;font-weight:950;line-height:1.2;color:var(--text)}
+.contact-sub{font-size:13px;line-height:1.45;color:var(--muted)}
+.contact-chips,.contact-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.contact-body{display:grid;gap:8px}
+.contact-line{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:start}
+.contact-line strong{font-size:12px;font-weight:850;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.contact-line span{font-size:14px;line-height:1.45;color:var(--text);word-break:break-word}
+
 
 .section-head.slim{align-items:center}
 .section-head h2{margin:0;font-size:20px;line-height:1.08;font-weight:950;color:var(--text)}
@@ -124,5 +137,5 @@ body.is-critical .hero.card{box-shadow:0 0 0 1px color-mix(in srgb,var(--danger)
 
 @media(max-width:1240px){.hero-grid{grid-template-columns:repeat(2,1fr)} .main-grid{grid-template-columns:1fr 330px} .preview-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1060px){.hero,.main-grid,.upload-layout{grid-template-columns:1fr} .side-col{order:-1} .drawer,.drawer.lg,.drawer.xl{width:min(96vw,560px)}}
-@media(max-width:780px){body{padding-bottom:92px} .hero-grid,.stats-grid,.form-grid.two,.form-grid.three,.filters,.preview-grid,.access-grid{grid-template-columns:1fr} .hero-head{flex-direction:column} .mobile-bar{display:flex} .drawer,.drawer.lg,.drawer.xl{top:0;right:0;bottom:0;width:100vw;border-radius:0} .top-actions{width:100%} .top-actions .mini,.hero-actions .btn{flex:1} .chips{overflow:auto;flex-wrap:nowrap;padding-bottom:2px} .doc-main,.doc-right{flex-direction:column;align-items:flex-start} .doc-badges{justify-content:flex-start}}
+@media(max-width:780px){body{padding-bottom:92px} .hero-grid,.stats-grid,.form-grid.two,.form-grid.three,.filters,.preview-grid,.access-grid,.contacts-grid{grid-template-columns:1fr} .hero-head{flex-direction:column} .mobile-bar{display:flex} .drawer,.drawer.lg,.drawer.xl{top:0;right:0;bottom:0;width:100vw;border-radius:0} .top-actions{width:100%} .top-actions .mini,.hero-actions .btn{flex:1} .chips{overflow:auto;flex-wrap:nowrap;padding-bottom:2px} .doc-main,.doc-right{flex-direction:column;align-items:flex-start} .doc-badges{justify-content:flex-start} .contact-line{grid-template-columns:1fr}}
 @media(max-width:460px){.wrap,.topbar-inner{width:calc(100% - 16px)} .title{font-size:clamp(22px,8vw,30px)} .mbtn{min-height:40px} .hero-side .box,.side-card .box,.pv,.item,.metric{padding:12px} .tabs{padding:14px 14px 0} .tab-panel{padding:14px}}
