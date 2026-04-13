@@ -1,0 +1,61 @@
+import { supabase as s, guardSession, logAction, msg, fmt } from "./supabase.js";
+import { $, toast, show, hide, esc, norm, debounce, bindModal, ensureAppShell, setAppRole, setRailOpenCount, setGlobalSearchData, setBreadcrumb } from "./global.js";
+
+const ST={rows:[],current:null,busy:false};
+
+const statusCls=v=>norm(v)==="aprobada"?"ok":norm(v)==="rechazada"?"bad":"warn";
+const isPend=v=>norm(v)==="pendiente";
+const byId=id=>ST.rows.find(x=>String(x.id)===String(id))||null;
+const rowText=r=>`${r?.empresa||""} ${r?.correo_empresa||""} ${r?.telefono_empresa||""} ${r?.estatus||""} ${r?.contacto_nombre||""} ${r?.contacto_correo||""} ${r?.contacto_telefono||""} ${r?.comentarios||""}`;
+const setBusy=v=>{ST.busy=!!v;$("#approveBtn")&&($("#approveBtn").disabled=ST.busy);$("#rejectBtn")&&($("#rejectBtn").disabled=ST.busy);$("#refreshBtn")&&($("#refreshBtn").disabled=ST.busy)};
+
+const queryRows=()=>{const q=norm($("#q")?.value),f=norm($("#fStatus")?.value);return ST.rows.filter(r=>(!q||norm(rowText(r)).includes(q))&&(!f||norm(r.estatus)===f))};
+
+const renderKpis=()=>{$("#kTotal").textContent=ST.rows.length;$("#kPend").textContent=ST.rows.filter(x=>isPend(x.estatus)).length;$("#kAprob").textContent=ST.rows.filter(x=>norm(x.estatus)==="aprobada").length};
+
+const rowCard=r=>`<article class="item alta-row" data-id="${esc(String(r.id))}"><div class="alta-main"><div><div class="alta-name">${esc(r.empresa||"Sin empresa")}</div><div class="alta-sub">${esc(r.correo_empresa||"Sin correo")} · ${esc(r.telefono_empresa||"Sin teléfono")}</div><div class="alta-sub">${esc(r.contacto_nombre||"Sin contacto")} ${r.contacto_correo?`· ${esc(r.contacto_correo)}`:""}</div></div></div><div class="alta-meta"><span class="pill ${statusCls(r.estatus)}">${esc(r.estatus||"pendiente")}</span><div class="alta-sub">${r.creado_en?esc(new Date(r.creado_en).toLocaleString("es-MX")):""}</div><div class="alta-sub">${esc(r.contacto_puesto||r.comentarios||"")}</div></div><div class="alta-actions"><button class="mini" data-act="view" data-id="${esc(String(r.id))}">Ver</button>${isPend(r.estatus)?`<button class="mini" data-act="approve" data-id="${esc(String(r.id))}">Consolidar</button><button class="mini" data-act="reject" data-id="${esc(String(r.id))}">Rechazar</button>`:""}</div></article>`;
+
+const render=()=>{const rows=queryRows();renderKpis();$("#list").innerHTML=rows.length?rows.map(rowCard).join(""):`<div class="empty-state">No hay registros con esos filtros.</div>`};
+
+const detailHtml=r=>`<div class="box"><div class="k">Empresa</div><div class="v small">${esc(r.empresa||"—")}</div></div><div class="box"><div class="k">Correo empresa</div><div class="v small">${esc(r.correo_empresa||"—")}</div></div><div class="box"><div class="k">Teléfono empresa</div><div class="v small">${esc(r.telefono_empresa||"—")}</div></div><div class="box"><div class="k">Contacto principal</div><div class="v small">${esc(r.contacto_nombre||"—")}</div></div><div class="box"><div class="k">Puesto</div><div class="v small">${esc(r.contacto_puesto||"—")}</div></div><div class="box"><div class="k">Correo contacto</div><div class="v small">${esc(r.contacto_correo||"—")}</div></div><div class="box"><div class="k">Teléfono contacto</div><div class="v small">${esc(r.contacto_telefono||"—")}</div></div><div class="box"><div class="k">WhatsApp</div><div class="v small">${esc(r.contacto_whatsapp||"—")}</div></div><div class="box"><div class="k">Método preferido</div><div class="v small">${esc(r.metodo_contacto_preferido||"—")}</div></div><div class="box"><div class="k">Horario</div><div class="v small">${esc(r.horario_contacto||"—")}</div></div><div class="box"><div class="k">Cumpleaños</div><div class="v small">${esc(r.cumpleanos_contacto||"—")}</div></div><div class="box"><div class="k">Contacto alterno</div><div class="v small">${esc(r.contacto_alterno_nombre||"—")}</div></div><div class="box"><div class="k">Correo alterno</div><div class="v small">${esc(r.contacto_alterno_correo||"—")}</div></div><div class="box"><div class="k">Teléfono alterno</div><div class="v small">${esc(r.contacto_alterno_telefono||"—")}</div></div><div class="box"><div class="k">Estatus</div><div class="v small">${esc(r.estatus||"pendiente")}</div></div><div class="box"><div class="k">Fecha</div><div class="v small">${r.creado_en?esc(fmt(r.creado_en)||new Date(r.creado_en).toLocaleDateString("es-MX")):"—"}</div></div><div class="box"><div class="k">Cliente ligado</div><div class="v small">${esc(r.cliente_id||"—")}</div></div><div class="box"><div class="k">Contacto ligado</div><div class="v small">${esc(r.contacto_id||"—")}</div></div><div class="box" style="grid-column:1/-1"><div class="k">Comentarios</div><div class="v small">${esc(r.comentarios||"—")}</div></div>`;
+
+const syncDetailState=()=>{const r=ST.current;if(!r)return;$("#dTitle").textContent=r.empresa||"Registro";$("#detailBody").innerHTML=detailHtml(r);$("#approveBtn").disabled=ST.busy||!isPend(r.estatus);$("#rejectBtn").disabled=ST.busy||!isPend(r.estatus);$("#detailStatus").textContent=isPend(r.estatus)?"Listo para consolidar datos de contacto.":"Registro ya procesado."};
+
+const openDetail=id=>{const r=byId(id);if(!r)return;ST.current=r;syncDetailState();show("#detailModal")};
+const closeDetail=()=>{ST.current=null;hide("#detailModal")};
+
+const findExistingClient=async row=>{
+  const q=(row?.correo_empresa||"").trim();
+  if(q){const byMail=await s.from("clientes").select("id,nombre").eq("correo",q).limit(1).maybeSingle();if(byMail.data)return byMail.data}
+  const tel=(row?.telefono_empresa||"").trim();
+  if(tel){const byTel=await s.from("clientes").select("id,nombre").eq("telefono",tel).limit(1).maybeSingle();if(byTel.data)return byTel.data}
+  const name=(row?.empresa||"").trim();
+  if(name){const byName=await s.from("clientes").select("id,nombre").eq("nombre",name).limit(1).maybeSingle();if(byName.data)return byName.data}
+  return null
+};
+
+const findExistingContact=async(row,cliente_id)=>{
+  if(!cliente_id)return null;
+  const correo=(row?.contacto_correo||"").trim(),telefono=(row?.contacto_telefono||"").trim();
+  const q=await s.from("clientes_contactos").select("id,nombre,correo,telefono").eq("cliente_id",cliente_id).limit(30);
+  if(q.error||!q.data?.length)return null;
+  return q.data.find(x=>(correo&&norm(x.correo||"")===norm(correo))||(telefono&&norm((x.telefono||"").replace(/\D+/g,""))===norm((telefono||"").replace(/\D+/g,""))))||null
+};
+
+const createClientFromRequest=async row=>await s.from("clientes").insert({nombre:row.empresa,correo:row.correo_empresa,telefono:row.telefono_empresa,comentarios:row.comentarios||"",rol_responsable:"soporte",estatus:"activo",origen_registro:"registro_publico"}).select().single();
+
+const createPrimaryContactFromRequest=async(row,cliente_id)=>await s.from("clientes_contactos").insert({cliente_id,nombre:row.contacto_nombre||"Contacto principal",puesto:row.contacto_puesto||null,correo:row.contacto_correo||null,telefono:row.contacto_telefono||null,whatsapp:row.contacto_whatsapp||row.contacto_telefono||null,metodo_contacto_preferido:row.metodo_contacto_preferido||null,es_principal:false,activo:true,origen_alta:"registro_publico",cumpleanos:row.cumpleanos_contacto||null,notas:row.comentarios||null,ultima_interaccion_en:new Date().toISOString()}).select().single();
+
+const createContactHistory=async(row,cliente_id,contacto_id)=>await s.from("clientes_contacto_historial").insert({contacto_id,cliente_id,nombre:row.contacto_nombre||null,puesto:row.contacto_puesto||null,correo:row.contacto_correo||null,telefono:row.contacto_telefono||null,whatsapp:row.contacto_whatsapp||row.contacto_telefono||null,metodo_contacto_preferido:row.metodo_contacto_preferido||null,accion:"confirmacion",origen:"registro_publico"});
+
+const approve=async id=>{const row=byId(id);if(!row||ST.busy)return;if(!isPend(row.estatus))return toast("El registro ya no está pendiente","warn");setBusy(true);$("#detailStatus")&&($("#detailStatus").textContent="Consolidando contacto...");let cliente_id=row.cliente_id||null,contacto_id=row.contacto_id||null;if(!cliente_id){const existing=await findExistingClient(row);if(existing)cliente_id=existing.id;else{const ins=await createClientFromRequest(row);if(ins.error){setBusy(false);return toast(msg(ins.error),"bad")}cliente_id=ins.data.id}}if(!contacto_id){const existingContact=await findExistingContact(row,cliente_id);if(existingContact)contacto_id=existingContact.id;else{const c=await createPrimaryContactFromRequest(row,cliente_id);if(c.error){setBusy(false);return toast(msg(c.error),"bad")}contacto_id=c.data.id;await createContactHistory(row,cliente_id,contacto_id).catch(()=>{})}}const up=await s.from("solicitudes_registro").update({estatus:"aprobada",cliente_id,contacto_id}).eq("id",id);if(up.error){setBusy(false);return toast(msg(up.error),"bad")}await logAction({accion:"registro_aprobado",cliente_id,detalle:{solicitud_registro_id:id,contacto_id}}).catch(()=>{});toast("Registro consolidado","ok");await load();setBusy(false);closeDetail()};
+
+const rejectRow=async id=>{const row=byId(id);if(!row||ST.busy)return;if(!isPend(row.estatus))return toast("El registro ya no está pendiente","warn");setBusy(true);$("#detailStatus")&&($("#detailStatus").textContent="Rechazando registro...");const up=await s.from("solicitudes_registro").update({estatus:"rechazada"}).eq("id",id);if(up.error){setBusy(false);return toast(msg(up.error),"bad")}await logAction({accion:"registro_rechazado",detalle:{solicitud_registro_id:id}}).catch(()=>{});toast("Registro rechazado","warn");await load();setBusy(false);closeDetail()};
+
+const onListClick=async e=>{const b=e.target.closest("[data-act][data-id]");if(!b)return;const {act,id}=b.dataset;if(act==="view")openDetail(id);if(act==="approve")await approve(id);if(act==="reject")await rejectRow(id)};
+
+const load=async()=>{const ok=await guardSession("index.html");if(!ok)return;const profile=(await s.from("perfiles").select("*").limit(1).maybeSingle()).data||{rol:"soporte"};ensureAppShell({page:"registros",role:profile.rol||"soporte",title:"Registros",kicker:"Expiriti · contactos y actualización",actionsHtml:`<a class="mini btn-ghost" href="dashboard.html">Dashboard</a><a class="mini btn-ghost" href="altas.html">Altas</a><button class="mini btn-ghost" id="refreshBtnTop" type="button">Actualizar</button><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button>`});setAppRole(profile.rol||"soporte");setRailOpenCount(0);const {data,error}=await s.from("solicitudes_registro").select("*").order("creado_en",{ascending:false});if(error)return toast(msg(error),"bad");ST.rows=data||[];setGlobalSearchData({clientes:[],tickets:[]});setBreadcrumb([{label:"Panel",href:"dashboard.html"},{label:"Registros"}]);render()};
+
+const bind=()=>{$("#refreshBtn")?.addEventListener("click",load);$("#refreshBtnTop")?.addEventListener("click",load);$("#q")?.addEventListener("input",debounce(render,180));$("#fStatus")?.addEventListener("change",render);$("#list")?.addEventListener("click",onListClick);$("#closeDetail")?.addEventListener("click",closeDetail);$("#approveBtn")?.addEventListener("click",()=>ST.current&&approve(ST.current.id));$("#rejectBtn")?.addEventListener("click",()=>ST.current&&rejectRow(ST.current.id));document.addEventListener("keydown",e=>e.key==="Escape"&&!$("#detailModal")?.hasAttribute("hidden")&&closeDetail());bindModal("#detailModal",".icon-btn")};
+
+document.addEventListener("DOMContentLoaded",()=>{bind();load().catch(err=>toast(msg(err),"bad"))});
