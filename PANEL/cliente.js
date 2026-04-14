@@ -18,6 +18,7 @@ const loadClient=async()=>{const{data,error}=await s.from("clientes").select("*"
 const loadDocs=async()=>{const{data,error}=await s.from("documentos").select("*").eq("cliente_id",CLIENT_ID).eq("eliminado",false).order("fecha_subida",{ascending:false});if(error)throw error;DOCS=data||[]};
 const loadTickets=async()=>{const{data,error}=await s.from("tickets").select("*").eq("cliente_id",CLIENT_ID).order("fecha_actualizacion",{ascending:false});if(error)throw error;TICKETS=data||[]};
 const loadContacts=async()=>{const{data,error}=await s.from("clientes_contactos").select("*").eq("cliente_id",CLIENT_ID).order("es_principal",{ascending:false}).order("nombre",{ascending:true});CONTACTS=error?[]:(data||[])};
+const loadBitacora=async()=>{const{data,error}=await s.from("bitacora").select("*").eq("cliente_id",CLIENT_ID).order("fecha",{ascending:false}).limit(40);BIT=error?[]:(data||[])};
 const bootData=async()=>Promise.all([loadClient(),loadDocs(),loadTickets(),loadBitacora(),loadContacts()]);
 
 const loadAccess=()=>{if(!canAccess())return renderAccess({acc:{}});let d={};try{d=JSON.parse(localStorage.getItem(ACCESS_KEY(CLIENT_ID))||"{}")}catch{}renderAccess({acc:d})};
