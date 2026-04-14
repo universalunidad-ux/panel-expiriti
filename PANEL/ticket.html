@@ -29,8 +29,17 @@
 <div class="field"><label class="lbl" for="logKind">Tipo</label><select class="select" id="logKind"><option value="nota">Nota interna</option><option value="seguimiento">Seguimiento</option><option value="solicitud">Solicitud al cliente</option><option value="solucion">Solución</option></select></div>
 <div class="field"><label class="lbl" for="logState">Cambiar estado</label><select class="select" id="logState"><option value="">Sin cambio</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select></div>
 </div>
-<div class="actions"><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar log</button></div>
-<div class="mut" id="logStatus">Puedes usar esto como bitácora operativa del caso.</div>
+<div class="actions composer-actions"><button class="btn" id="quickReplyBtn" type="button">Respuestas</button><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar log</button></div>
+<div class="quick-replies" id="quickReplies" hidden>
+<button class="mini btn-ghost" type="button" data-qr="xml">Pedir XML</button>
+<button class="mini btn-ghost" type="button" data-qr="captura">Pedir captura</button>
+<button class="mini btn-ghost" type="button" data-qr="remoto">Pedir acceso remoto</button>
+<button class="mini btn-ghost" type="button" data-qr="horario">Solicitar horario</button>
+<button class="mini btn-ghost" type="button" data-qr="espera">Esperando cliente</button>
+<button class="mini btn-ghost" type="button" data-qr="solucion">Solución aplicada</button>
+<button class="mini btn-ghost" type="button" data-qr="resuelto">Marcar resuelto</button>
+</div>
+  <div class="mut" id="logStatus">Puedes usar esto como bitácora operativa del caso.</div>
 </section>
 </section>
 </main>
