@@ -2,61 +2,94 @@
 <html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Seguimiento de ticket | Expiriti</title>
+<title>Seguimiento | Expiriti</title>
 <script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
-<link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
+<link rel="stylesheet" href="global.css"><link rel="stylesheet" href="theme.css"><script type="module" src="theme.js"></script>
+<style>
+:root{--st-blur:16px;--st-rad:22px}
+.estado-page{display:grid;gap:18px}
+.estado-hero{display:grid;gap:14px;padding:22px;border:1px solid var(--line);border-radius:var(--st-rad);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 84%,transparent),color-mix(in srgb,var(--panel2) 92%,transparent));backdrop-filter:blur(var(--st-blur))}
+.estado-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:18px;align-items:start}
+.estado-main,.estado-side{display:grid;gap:18px}
+.estado-card{display:grid;gap:14px;padding:18px;border:1px solid var(--line);border-radius:var(--st-rad);background:color-mix(in srgb,var(--panel) 86%,transparent);backdrop-filter:blur(var(--st-blur))}
+.estado-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.estado-kpi{display:grid;gap:6px;padding:14px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel2) 92%,transparent)}
+.estado-kpi .k{font-size:12px;opacity:.75}
+.estado-kpi .v{font-weight:800}
+.estado-timeline{display:grid;gap:12px}
+.tl-item{position:relative;display:grid;gap:6px;padding:14px 14px 14px 44px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel2) 88%,transparent)}
+.tl-item::before{content:"";position:absolute;left:20px;top:18px;width:10px;height:10px;border-radius:999px;background:var(--text)}
+.tl-item:not(:last-child)::after{content:"";position:absolute;left:24px;top:30px;bottom:-14px;width:2px;background:color-mix(in srgb,var(--line) 82%,transparent)}
+.tl-item.done::before{background:var(--ok,#22c55e)}
+.tl-item.active::before{background:var(--brand,#7c3aed);box-shadow:0 0 0 6px color-mix(in srgb,var(--brand) 18%,transparent)}
+.tl-title{font-weight:800}
+.tl-meta{font-size:12px;opacity:.78}
+.estado-reply{display:grid;gap:12px}
+.estado-reply.hidden{display:none}
+.estado-actions{display:flex;gap:10px;flex-wrap:wrap}
+.estado-drop{display:grid;gap:8px}
+.estado-note{font-size:13px;opacity:.8}
+.estado-lock{font-size:13px;opacity:.8}
+.estado-chips{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:980px){.estado-grid{grid-template-columns:1fr}.estado-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.estado-kpis{grid-template-columns:1fr}.estado-hero,.estado-card{padding:16px}}
+</style>
 </head>
 <body data-surface="client">
-<header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Seguimiento Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Soporte Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
 
-<main class="wrap soporte-page">
-<section class="panel hero-support">
-<div>
-<div class="section-kicker">Seguimiento</div>
-<h1 id="stTitle">Consultando ticket…</h1>
-<p class="mut" id="stLead">Estamos validando tu enlace seguro.</p>
-<div class="chips mt8" id="stChips"><span class="tag">Folio</span></div>
+<main class="wrap estado-page">
+<section class="estado-hero">
+<div class="section-kicker">Seguimiento sin fricción</div>
+<h1 id="stHeroTitle">Consultando tu ticket…</h1>
+<p class="mut" id="stHeroLead">Estamos validando tu enlace seguro para mostrarte el estado actual del caso.</p>
+<div class="estado-chips" id="stHeroChips"><span class="tag">Folio</span></div>
+</section>
+
+<section class="estado-grid">
+<section class="estado-main">
+<article class="estado-card">
+<div class="section-head"><div><div class="section-kicker">Resumen del caso</div><h2 id="stStateLabel">—</h2></div></div>
+<div class="estado-kpis">
+<div class="estado-kpi"><div class="k">Folio</div><div class="v" id="stFolio">—</div></div>
+<div class="estado-kpi"><div class="k">Prioridad</div><div class="v" id="stPriority">—</div></div>
+<div class="estado-kpi"><div class="k">Tipo</div><div class="v" id="stType">—</div></div>
+<div class="estado-kpi"><div class="k">Actualizado</div><div class="v" id="stUpdated">—</div></div>
 </div>
+<div class="preview-card"><div class="k">Título</div><div class="v" id="stTitle">—</div></div>
+</article>
+
+<article class="estado-card">
+<div class="section-head"><div><div class="section-kicker">Línea de tiempo</div><h3>Así va tu solicitud</h3></div></div>
+<div class="estado-timeline" id="stTimeline"><div class="empty-state">Sin movimientos aún.</div></div>
+</article>
+
+<article class="estado-card estado-reply hidden" id="stReplyBox">
+<div class="section-head"><div><div class="section-kicker">Responder ahora</div><h3>Te pedimos información para avanzar</h3></div></div>
+<div class="mut">Si te solicitamos XML, capturas o más contexto, puedes enviarlo aquí mismo sin correos ni contraseñas.</div>
+<div class="field"><label class="lbl" for="stReplyText">Mensaje</label><textarea class="area" id="stReplyText" placeholder="Escribe aquí la información solicitada o cualquier detalle que ayude a continuar el caso."></textarea></div>
+<div class="field estado-drop"><label class="lbl" for="stReplyFiles">Adjuntos</label><input class="input" id="stReplyFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"><div class="estado-note" id="stReplyFilesMeta">Puedes subir XML, capturas, PDF, Excel, TXT o ZIP.</div></div>
+<div class="estado-actions"><button class="btn btn-brand" id="stReplySend" type="button">Enviar respuesta</button><button class="btn btn-ghost" id="stReplyClear" type="button">Limpiar</button></div>
+<div class="mut" id="stReplyStatus">Este bloque se activa solo cuando tu ticket está esperando tu respuesta.</div>
+</article>
 </section>
 
-<section class="support-layout">
-<section class="panel support-form">
-<div class="section-head"><div><div class="section-kicker">Estado actual</div><h2 id="stState">—</h2></div></div>
-<div class="preview-card">
-<div class="k">Folio</div><div class="v" id="stFolio">—</div>
-<div class="k">Título</div><div class="v" id="stTicketTitle">—</div>
-<div class="k">Sistema / tipo</div><div class="v" id="stType">—</div>
-<div class="k">Prioridad</div><div class="v" id="stPriority">—</div>
-<div class="k">Última actualización</div><div class="v" id="stUpdated">—</div>
-</div>
-
-<div class="section-head compact"><div><div class="section-kicker">Línea de tiempo</div><h3>Avance del caso</h3></div></div>
-<div id="stTimeline" class="list"><div class="empty-state">Sin movimientos aún.</div></div>
-
-<section class="panel inset hidden" id="stReplyBox">
-<div class="row-head"><h3>Enviar respuesta</h3></div>
-<div class="field"><label class="lbl" for="stReplyText">Mensaje / detalle solicitado</label><textarea class="area" id="stReplyText" placeholder="Aquí puedes responder o agregar el dato que te solicitamos."></textarea></div>
-<div class="field"><label class="lbl" for="stReplyFiles">Adjuntos</label><input class="input" id="stReplyFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"></div>
-<div class="actions"><button class="btn btn-brand" id="stReplySend" type="button">Enviar respuesta</button></div>
-<div class="mut" id="stReplyStatus">Este espacio se habilita cuando el caso está esperando tu respuesta.</div>
-</section>
-</section>
-
-<aside class="panel support-side">
-<section class="panel inset">
-<div class="row-head"><h3>Qué significa cada estado</h3></div>
+<aside class="estado-side">
+<article class="estado-card">
+<div class="section-head"><div><div class="section-kicker">Qué significa</div><h3>Estados del ticket</h3></div></div>
 <ul class="mini-list">
 <li><b>Recibido:</b> ya entró a nuestra mesa.</li>
-<li><b>En revisión:</b> un agente ya está revisando el caso.</li>
-<li><b>Esperando tu respuesta:</b> necesitamos un dato o archivo para avanzar.</li>
+<li><b>En revisión:</b> un agente está analizando el caso.</li>
+<li><b>Esperando tu respuesta:</b> necesitamos un dato o archivo para continuar.</li>
 <li><b>Resuelto:</b> ya se aplicó una solución.</li>
 <li><b>Cerrado:</b> caso concluido.</li>
 </ul>
-</section>
-<section class="panel inset">
-<div class="row-head"><h3>Enlace seguro</h3></div>
-<div class="mut">Este enlace contiene un token privado. Procura no compartirlo fuera de tu equipo.</div>
-</section>
+</article>
+
+<article class="estado-card">
+<div class="section-head"><div><div class="section-kicker">Enlace seguro</div><h3>Uso del magic link</h3></div></div>
+<div class="estado-lock">Este enlace incluye un token privado de un solo propósito: sirve únicamente para ver el estado del ticket y responder cuando haga falta.</div>
+</article>
 </aside>
 </section>
 </main>
