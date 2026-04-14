@@ -4,13 +4,15 @@
 <body data-surface="support" data-shell="app" data-page="tickets">
 <div id="appShell"></div>
 <main class="wrap tickets-page" id="pageMount">
-<section class="panel tickets-hero"><div><div class="section-kicker">Centro de control</div><h1>Mesa operativa de soporte</h1><p class="mut">Prioriza rápido, filtra sin fricción y entra al contexto del caso sin perder tiempo.</p></div><div class="hero-actions"><button class="btn" id="tkRefresh">Actualizar</button><button class="btn" id="tkFocusBtn" type="button">Modo foco</button><button class="btn btn-brand" id="tkNewBtn">Nuevo ticket</button></div></section>
+<section class="panel tickets-hero"><div><div class="section-kicker">Centro de control</div><h1>Mesa operativa de soporte</h1><p class="mut">Prioriza rápido, filtra sin fricción y entra al contexto del caso sin perder tiempo.</p></div><div class="hero-actions"><button class="btn" id="tkRefresh">Actualizar</button><button class="btn" id="tkEditBtn" type="button">✏️ Vista</button><button class="btn btn-brand" id="tkNewBtn">Nuevo ticket</button></div><div class="mut tk-edit-help hidden" id="tkEditHelp">✏️ Editar vista: arrastra columnas para ordenar tu mesa. Toca otra vez el lápiz para salir.</div></section>
+  
 
 <section class="metrics-grid">
 <article class="panel metric"><div class="k">Urgentes abiertos</div><div class="v" id="mUrgent">0</div></article>
 <article class="panel metric"><div class="k">Esperando cliente</div><div class="v" id="mWait">0</div></article>
 <article class="panel metric"><div class="k">Sin tocar hoy</div><div class="v" id="mStale">0</div></article>
 <article class="panel metric"><div class="k">Resueltos hoy</div><div class="v" id="mSolved">0</div></article>
+
 </section>
 
 <section class="panel tickets-toolbar">
