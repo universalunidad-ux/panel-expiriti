@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Seguimiento de ticket | Expiriti</title>
+<script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
+<link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
+</head>
+<body data-surface="client">
+<header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Seguimiento Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
+
+<main class="wrap soporte-page">
+<section class="panel hero-support">
+<div>
+<div class="section-kicker">Seguimiento</div>
+<h1 id="stTitle">Consultando ticket…</h1>
+<p class="mut" id="stLead">Estamos validando tu enlace seguro.</p>
+<div class="chips mt8" id="stChips"><span class="tag">Folio</span></div>
+</div>
+</section>
+
+<section class="support-layout">
+<section class="panel support-form">
+<div class="section-head"><div><div class="section-kicker">Estado actual</div><h2 id="stState">—</h2></div></div>
+<div class="preview-card">
+<div class="k">Folio</div><div class="v" id="stFolio">—</div>
+<div class="k">Título</div><div class="v" id="stTicketTitle">—</div>
+<div class="k">Sistema / tipo</div><div class="v" id="stType">—</div>
+<div class="k">Prioridad</div><div class="v" id="stPriority">—</div>
+<div class="k">Última actualización</div><div class="v" id="stUpdated">—</div>
+</div>
+
+<div class="section-head compact"><div><div class="section-kicker">Línea de tiempo</div><h3>Avance del caso</h3></div></div>
+<div id="stTimeline" class="list"><div class="empty-state">Sin movimientos aún.</div></div>
+
+<section class="panel inset hidden" id="stReplyBox">
+<div class="row-head"><h3>Enviar respuesta</h3></div>
+<div class="field"><label class="lbl" for="stReplyText">Mensaje / detalle solicitado</label><textarea class="area" id="stReplyText" placeholder="Aquí puedes responder o agregar el dato que te solicitamos."></textarea></div>
+<div class="field"><label class="lbl" for="stReplyFiles">Adjuntos</label><input class="input" id="stReplyFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"></div>
+<div class="actions"><button class="btn btn-brand" id="stReplySend" type="button">Enviar respuesta</button></div>
+<div class="mut" id="stReplyStatus">Este espacio se habilita cuando el caso está esperando tu respuesta.</div>
+</section>
+</section>
+
+<aside class="panel support-side">
+<section class="panel inset">
+<div class="row-head"><h3>Qué significa cada estado</h3></div>
+<ul class="mini-list">
+<li><b>Recibido:</b> ya entró a nuestra mesa.</li>
+<li><b>En revisión:</b> un agente ya está revisando el caso.</li>
+<li><b>Esperando tu respuesta:</b> necesitamos un dato o archivo para avanzar.</li>
+<li><b>Resuelto:</b> ya se aplicó una solución.</li>
+<li><b>Cerrado:</b> caso concluido.</li>
+</ul>
+</section>
+<section class="panel inset">
+<div class="row-head"><h3>Enlace seguro</h3></div>
+<div class="mut">Este enlace contiene un token privado. Procura no compartirlo fuera de tu equipo.</div>
+</section>
+</aside>
+</section>
+</main>
+
+<script type="module" src="estado.js"></script>
+</body>
+</html>
