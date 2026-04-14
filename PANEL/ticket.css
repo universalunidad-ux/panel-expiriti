@@ -51,3 +51,12 @@ body.is-critical .hero-ticket{box-shadow:0 0 0 1px color-mix(in srgb,var(--dange
 .ev-frame{width:100%;height:72vh;border:0;border-radius:12px;background:#fff}
 .ev-pre{margin:0;white-space:pre-wrap;word-break:break-word;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 body.modal-open{overflow:hidden}
+
+.focus-wrap{display:grid;gap:14px}
+.focus-meta{display:flex;gap:8px;flex-wrap:wrap}
+.focus-boxes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.focus-desc{font-size:14px}
+body.focus-mode #tkBoard,body.focus-mode #tkPreview,body.focus-mode #tkCompact{display:none!important}
+body.focus-mode #tkFocusPanel{display:grid!important}
+@media (max-width:820px){.focus-boxes{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.focus-boxes{grid-template-columns:1fr}}
