@@ -6,14 +6,17 @@
 <main class="ticket-page wrap" id="pageMount">
 <aside class="panel ticket-side">
 <div class="side-head"><div><div class="section-kicker">Soporte operativo</div><h1 id="tkTitle">Cargando ticket…</h1></div><div class="chips" id="tkTopChips"><span class="tag">Ticket</span></div></div>
+
 <div class="box-grid">
 <div class="box"><div class="k">Cliente</div><div class="v small" id="tkClient">—</div></div>
 <div class="box"><div class="k">Sistema / tipo</div><div class="v small" id="tkSystem">—</div></div>
 <div class="box"><div class="k">Estado</div><div class="v small" id="tkState">—</div></div>
 <div class="box"><div class="k">Prioridad</div><div class="v small" id="tkPriority">—</div></div>
+<div class="box"><div class="k">SLA</div><div class="v small" id="tkSla">—</div></div>
 <div class="box"><div class="k">Creado</div><div class="v small" id="tkCreated">—</div></div>
 <div class="box"><div class="k">ID</div><div class="v small mono" id="tkId">—</div></div>
 </div>
+  
 <section class="panel inset"><div class="row-head"><h3>Contexto rápido</h3></div><div class="box-grid"><div class="box"><div class="k">Impacto</div><div class="v small" id="tkImpact">—</div></div><div class="box"><div class="k">Afecta</div><div class="v small" id="tkAffected">—</div></div><div class="box"><div class="k">Desde cuándo</div><div class="v small" id="tkSince">—</div></div><div class="box"><div class="k">Próximo paso</div><div class="v small" id="tkNext">—</div></div><div class="box"><div class="k">Último cambio</div><div class="v small" id="tkLastChange">—</div></div><div class="box"><div class="k">Horario disponible</div><div class="v small" id="tkAvailability">—</div></div></div></section>
 <section class="panel inset"><div class="row-head"><h3>Fricción del cliente</h3></div><div class="box-grid"><div class="box"><div class="k">Tickets 30d</div><div class="v small" id="tkHeatTotal">—</div></div><div class="box"><div class="k">Urgentes 30d</div><div class="v small" id="tkHeatUrgent">—</div></div><div class="box"><div class="k">En espera</div><div class="v small" id="tkHeatWait">—</div></div><div class="box"><div class="k">Nivel</div><div class="v small" id="tkHeatLevel">—</div></div></div><div class="chips mt8" id="tkHeatChips"><span class="tag">Sin datos</span></div></section>
 <section class="panel inset"><div class="row-head"><h3>Acciones rápidas</h3></div><div class="quick-actions"><button class="btn" id="copyMagicBtn" type="button">🔗 Copiar enlace</button><button class="btn" id="askXmlBtn" type="button">Pedir XML</button><button class="btn" id="askShotBtn" type="button">Pedir captura</button><button class="btn" id="askRemoteBtn" type="button">Pedir acceso remoto</button><button class="btn" id="setWaitBtn" type="button">Esperando cliente</button><button class="btn btn-brand" id="setSolveBtn" type="button">Marcar resuelto</button><button class="btn btn-ghost" id="reopenBtn" type="button">Reabrir</button><button class="btn btn-ghost" id="closeBtn" type="button">Cerrar</button></div></section>
