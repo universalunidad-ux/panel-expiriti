@@ -113,3 +113,16 @@ a{text-decoration:none} button{font:inherit}
 .micro-pill,.tag{backdrop-filter:none}
 @media (prefers-reduced-motion:reduce){.ops-main>*,.kpi-flash{animation:none}.kpi-card,.suggest-item,.item,.client-row,.ops-item,.compact-item{transition:none}}
 
+.dashboard-hero{grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);gap:16px;align-items:center}
+.hero-copy-compact{gap:14px}
+.dashboard-hero h1{margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.04;letter-spacing:-.05em;font-weight:980;max-width:none;white-space:nowrap}
+.hero-sub{max-width:60ch;font-size:14px;line-height:1.55;color:var(--muted)}
+.searchbox-hero{max-width:760px}
+.searchbox-hero .input{min-height:56px;padding:0 18px;border-radius:18px;font-size:15px}
+.dashboard-toolbar{grid-template-columns:1fr;gap:12px}
+.toolbar-head{display:grid;gap:4px}
+.hero-micro{min-height:0}
+@media(max-width:1180px){.dashboard-hero{grid-template-columns:1fr}.searchbox-hero{max-width:none}}
+@media(max-width:980px){.dashboard-hero h1{white-space:normal}.searchbox-hero .input{min-height:52px}}
+@media(max-width:620px){.searchbox-hero .input{min-height:50px;font-size:14px}.toolbar-actions{gap:10px}.toolbar-group,.toolbar-meta{width:100%}.toolbar-group .btn,.toolbar-meta .btn,.toolbar-group .select,.toolbar-meta .select{flex:1}}
+
