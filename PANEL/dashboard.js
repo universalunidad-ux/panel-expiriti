@@ -14,7 +14,7 @@ const setRayitoDashboard=()=>setRayitoItems([{label:"Actualizar dashboard",onCli
 
 
 const normTxt=n;
-const byId=(arr,id)=>arr.find(x=>String(x.id)===String(id));
+const byId=(arr,id)=>arr.find(x=>String(x.id)===String(id));  
 const findClient=q=>{const x=normTxt(q);if(!x)return null;return C.find(c=>String(c.id)===String(q)||normTxt(c.nombre).includes(x)||normTxt(`${c.nombre} ${c.correo||""} ${c.telefono||""}`).includes(x))||null};
 
 const docsOf=id=>D.filter(x=>String(x.cliente_id)===String(id)&&!x.eliminado);
@@ -90,7 +90,7 @@ const radarItems=()=>rows().map(({c,d,t})=>{const urg=t.filter(x=>ticketPri(x)>=
 const lateItems=()=>rows().flatMap(({c,d})=>d.filter(x=>sem(x.fin_vigencia).t==="Vencido").map(x=>({c,d:x,days:Math.abs(daysTo(x.fin_vigencia)||0)}))).sort((a,b)=>b.days-a.days).slice(0,12);
 const dueItems=()=>rows().flatMap(({c,d})=>d.filter(x=>sem(x.fin_vigencia).t==="Por vencer").map(x=>({c,d:x,days:Math.max(0,daysTo(x.fin_vigencia)||0)}))).sort((a,b)=>a.days-b.days).slice(0,12);
 const activityItems=()=>{const base=(A||[]).map(x=>({kind:"bitacora",ts:dateVal(x.fecha||x.fecha_creacion||x.created_at),raw:x})).filter(x=>x.ts);const up=D.slice(0,20).map(x=>({kind:"doc",ts:dateVal(x.fecha_subida||x.created_at),raw:x})).filter(x=>x.ts);const tk=T.slice(0,20).map(x=>({kind:"ticket",ts:ticketDate(x),raw:x})).filter(x=>x.ts);return[...base,...up,...tk].sort((a,b)=>b.ts-a.ts).slice(0,LIM.activity)};
-const recentTicketItems=()=>T.filter(isOpenTicket).sort((a,b)=>ticketDate(b)-ticketDate(a)).slice(0,LIM.tickets);const quickItems=()=>C.filter(c=>c?.favorito||/poliza|póliza/i.test(`${c?.comentarios||""} ${c?.nombre||""}`)).sort((a,b)=>(b.favorito?1:0)-(a.favorito?1:0)||dateVal(b.ultima_interaccion)-dateVal(a.ultima_interaccion)||String(a.nombre||"").localeCompare(String(b.nombre||""))).slice(0,12);
+const recentTicketItems=()=>T.filter(isOpenTicket).sort((a,b)=>ticketDate(b)-ticketDate(a)).slice(0,LIM.tickets);const quickItems=()=>C.filter(c=>c?.favorito||/poliza|póliza/i.test(`${c?.comentarios||""} ${c?.nombre||""}`)).sort((a,b)=>(b.favorito?1:0)-(a.favorito?1:0)||dateVal(b.ultima_interaccion)-dateVal(a.ultima_interaccion)||String(a.nombre||"").localeCompare(String(b.nombre||""))).slice(0,LIM.quick);
 const urgentItems=()=>T.filter(t=>isOpenTicket(t)&&ticketPri(t)>=2).sort((a,b)=>ticketPri(b)-ticketPri(a)||ticketDate(b)-ticketDate(a)).slice(0,LIM.urgent);
 const isSupportRole=()=>!["admin","ventas","venta","sales","direccion","dirección"].includes(normTxt(P?.rol));
 const isSalesRole=()=>["admin","ventas","venta","sales","direccion","dirección"].includes(normTxt(P?.rol));
