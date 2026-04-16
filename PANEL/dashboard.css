@@ -19,8 +19,8 @@ a{text-decoration:none} button{font:inherit}
 .card:hover,.suggest-item:hover{border-color:color-mix(in srgb,var(--brand) 12%,var(--line))}
 
 .dashboard-hero,.dashboard-toolbar,.ops-grid{display:grid;gap:12px}
-.dashboard-hero{grid-template-columns:minmax(0,1.08fr) minmax(460px,.92fr);gap:14px;align-items:start}
-.dashboard-toolbar{grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);align-items:start}
+
+
 .ops-grid{grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr)}
 .hero-copy,.hero-aside,.hero-head,.ops-main,.ops-side,.section-card,.head-copy,.activity-copy{display:grid;gap:10px;min-width:0}
 .head-copy,.activity-copy{gap:3px}
@@ -28,22 +28,21 @@ a{text-decoration:none} button{font:inherit}
 
 .hero-kicker,.section-meta,.count{font-size:12px;color:var(--muted)}
 .hero-kicker{font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}
-.dashboard-hero h1{margin:0;font-size:clamp(24px,3vw,34px);line-height:1.02;letter-spacing:-.05em;font-weight:980;max-width:9ch}
-.hero-sub,.section-sub,.ops-meta,.item-meta,.meta,.client-sub,.activity-meta,.kpi-sub{font-size:12px;line-height:1.45;color:var(--muted)}
-.hero-sub{max-width:60ch;font-size:13px}
+
+
 .section-title,.modal-title{font-size:clamp(18px,1.6vw,22px);font-weight:950;line-height:1.06;color:var(--text)}
 .modal-title{font-size:18px;line-height:1.1}
 .ops-title,.item-title,.title,.client-name{font-size:15px;font-weight:900;line-height:1.2;color:var(--text)}
 .ops-title a,.item-title a,.title a,.client-name a{color:inherit}
 
-.hero-micro{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:28px}
+
 .micro-pill,.tag,.score-ring{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
 .micro-pill{gap:8px;min-height:30px;padding:0 12px;background:color-mix(in srgb,var(--panel-2) 97%,transparent);font-size:12px;font-weight:700;color:var(--muted)}
 .micro-pill strong{color:var(--text);font-weight:850}
 
 .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .kpi-card{appearance:none;display:grid;gap:8px;align-content:start;min-height:104px;padding:14px;border-radius:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),color-mix(in srgb,var(--panel-3) 100%,transparent));box-shadow:var(--dash-shadow-sm);cursor:pointer;transition:.16s ease;text-align:left}
-.kpi-card:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 18%,var(--line));box-shadow:var(--dash-shadow)}
+
 .kpi-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
 .kpi-icon{font-size:18px}.kpi-value{font-size:clamp(24px,2.2vw,34px);line-height:1;font-weight:980;letter-spacing:-.045em;color:var(--text)}
 .kpi-card.info .kpi-value{color:var(--info)} .kpi-card.warn .kpi-value{color:var(--warn)} .kpi-card.bad .kpi-value{color:var(--danger)} .kpi-card.ok .kpi-value{color:var(--ok)}
@@ -52,7 +51,7 @@ a{text-decoration:none} button{font:inherit}
 .suggest-panel{position:absolute;left:0;right:0;top:calc(100% + 6px);display:grid;gap:8px;padding:10px;border-radius:18px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 97%,transparent);backdrop-filter:blur(12px);box-shadow:var(--dash-shadow);z-index:25}
 .suggest-panel.hidden,[hidden].suggest-panel{display:none}
 .suggest-item{display:grid;gap:4px;padding:12px 14px;border-radius:14px;cursor:pointer}
-.suggest-item:hover,.item:hover,.client-row:hover,.ops-item:hover,.compact-item:hover{transform:translateY(-1px)}
+
 
 .radar-list,.late-list,.due-list,.client-list,.compact-list,.activity-list{display:grid;gap:10px}
 .item,.compact-item,.ops-item,.client-row{display:grid;gap:8px;padding:12px;border-radius:16px}
@@ -111,7 +110,7 @@ a{text-decoration:none} button{font:inherit}
 .suggest-item:hover,.item:hover,.client-row:hover,.ops-item:hover,.compact-item:hover{transform:none}
 .kpi-card:hover{transform:none;box-shadow:var(--dash-shadow-sm)}
 .micro-pill,.tag{backdrop-filter:none}
-@media (prefers-reduced-motion:reduce){.ops-main>*,.kpi-flash{animation:none}.kpi-card,.suggest-item,.item,.client-row,.ops-item,.compact-item{transition:none}}
+
 
 .dashboard-hero{grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);gap:16px;align-items:center}
 .hero-copy-compact{gap:14px}
