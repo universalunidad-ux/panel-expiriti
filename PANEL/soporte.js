@@ -8,7 +8,7 @@ const human=n=>n>=1024*1024?`${(n/1024/1024).toFixed(1)} MB`:`${Math.max(1,Math.
 const impactToPriority=v=>v==="alta"?"alta":v==="media"?"media":"baja";
 const mxNow=()=>new Date(new Date().toLocaleString("en-US",{timeZone:"America/Mexico_City"}));
 const inUrgentWindow=()=>{const d=mxNow(),day=d.getDay(),h=d.getHours(),m=d.getMinutes(),hm=h*60+m;if(day>=1&&day<=5)return hm>=600&&hm<1080;if(day===6)return hm>=600&&hm<840;return false};
-const urgentMsg=()=>inUrgentWindow()?"Estás dentro del horario de urgencias. Si compartes el acceso remoto, podremos acelerar la revisión.":"Estás fuera del horario de urgencias. Tu caso quedará registrado y el equipo lo tomará a primera hora hábil."};
+const urgentMsg=()=>inUrgentWindow()?"Estás dentro del horario de urgencias. Si compartes el acceso remoto, podremos acelerar la revisión.":"Estás fuera del horario de urgencias. Tu caso quedará registrado y el equipo lo tomará a primera hora hábil.";
 const syncUrgentUi=()=>{const on=$("#spImpact")?.value==="alta";$("#spUrgentBox")?.classList.toggle("hidden",!on);if($("#spUrgentMsg"))$("#spUrgentMsg").textContent=urgentMsg()};
 const setBusy=v=>{ST.sending=!!v;$("#spSendBtn")&&($("#spSendBtn").disabled=ST.sending);$("#spDraftBtn")&&($("#spDraftBtn").disabled=ST.sending);$("#spFiles")&&($("#spFiles").disabled=ST.sending)};
 const setStatus=(t,type="")=>{$("#spStatus").textContent=t;$("#spStatus").className=`mut ${type}`.trim()};
