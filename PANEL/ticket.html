@@ -23,27 +23,26 @@
 <section class="panel inset"><div class="row-head"><h3>Evidencia</h3></div><div class="evidence-list" id="tkEvidence"><div class="empty-state">Aún no hay evidencia adjunta.</div></div></section>
 </aside>
 
-<section class="ticket-main">
-<section class="panel hero-ticket"><div class="hero-top"><div><div class="section-kicker">Timeline del caso</div><h2>Conversación, logs y contexto</h2></div><div class="hero-meta"><span class="tag" id="tkStateTag">—</span><span class="tag" id="tkPriorityTag">—</span></div></div><div class="mut">Aquí vive el hilo operativo del ticket: reporte inicial, notas, solicitudes, seguimiento y solución.</div><div class="mut mt8" id="tkSummary">—</div></section>
-<section class="panel"><div class="tabs-lite"><button class="mini is-active" type="button">Timeline</button><button class="mini" type="button" disabled>Transcripción</button><button class="mini" type="button" disabled>Archivos</button></div><div class="log-area" id="logArea"></div></section>
+<section class="panel hero-ticket"><div class="hero-top"><div><div class="section-kicker">Historial del caso</div><h2>Conversación y seguimiento</h2></div><div class="hero-meta"><span class="tag" id="tkStateTag">—</span><span class="tag" id="tkPriorityTag">—</span></div></div><div class="mut">Aquí verás lo que reportó el cliente, lo que ya se revisó y lo siguiente que conviene hacer.</div><div class="mut mt8" id="tkSummary">—</div></section>
+<section class="panel"><div class="tabs-lite"><button class="mini is-active" type="button">Historial</button><button class="mini" type="button" disabled>Archivos</button></div><div class="log-area" id="logArea"></div></section>
 <section class="panel composer">
-<div class="section-head"><div><div class="section-kicker">Nueva entrada</div><h3>Registrar seguimiento</h3></div></div>
+<div class="section-head"><div><div class="section-kicker">Nuevo avance</div><h3>Agregar seguimiento</h3></div></div>
 <div class="composer-grid">
-<div class="field span-2"><label class="lbl" for="logText">Nota interna / avance</label><textarea class="area" id="logText" placeholder="Escribe qué se revisó, qué error viste, qué pidió el cliente, qué sigue, o la solución aplicada..."></textarea></div>
-<div class="field"><label class="lbl" for="logKind">Tipo</label><select class="select" id="logKind"><option value="nota">Nota interna</option><option value="seguimiento">Seguimiento</option><option value="solicitud">Solicitud al cliente</option><option value="solucion">Solución</option></select></div>
-<div class="field"><label class="lbl" for="logState">Cambiar estado</label><select class="select" id="logState"><option value="">Sin cambio</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select></div>
+<div class="field span-2"><label class="lbl" for="logText">Mensaje o avance</label><textarea class="area" id="logText" placeholder="Escribe qué revisaste, qué pidió el cliente, qué hallaste o qué sigue."></textarea></div>
+<div class="field"><label class="lbl" for="logKind">Cómo guardar este avance</label><select class="select" id="logKind"><option value="nota">Nota interna</option><option value="seguimiento">Seguimiento visible</option><option value="solicitud">Solicitud al cliente</option><option value="solucion">Solución o cierre</option></select></div>
+<div class="field"><label class="lbl" for="logState">Estado del caso</label><select class="select" id="logState"><option value="">Sin cambio</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select></div>
 </div>
-<div class="actions composer-actions"><button class="btn" id="quickReplyBtn" type="button">Respuestas</button><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar log</button></div>
+<div class="actions composer-actions"><button class="btn" id="quickReplyBtn" type="button">Mensajes sugeridos</button><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar avance</button></div>
 <div class="quick-replies" id="quickReplies" hidden>
-<button class="mini btn-ghost" type="button" data-qr="xml">Pedir XML</button>
+<button class="mini btn-ghost" type="button" data-qr="xml">Pedir archivo XML</button>
 <button class="mini btn-ghost" type="button" data-qr="captura">Pedir captura</button>
 <button class="mini btn-ghost" type="button" data-qr="remoto">Pedir acceso remoto</button>
-<button class="mini btn-ghost" type="button" data-qr="horario">Solicitar horario</button>
-<button class="mini btn-ghost" type="button" data-qr="espera">Esperando cliente</button>
-<button class="mini btn-ghost" type="button" data-qr="solucion">Solución aplicada</button>
+<button class="mini btn-ghost" type="button" data-qr="horario">Pedir horario</button>
+<button class="mini btn-ghost" type="button" data-qr="espera">Quedar en espera</button>
+<button class="mini btn-ghost" type="button" data-qr="solucion">Confirmar solución</button>
 <button class="mini btn-ghost" type="button" data-qr="resuelto">Marcar resuelto</button>
 </div>
-  <div class="mut" id="logStatus">Puedes usar esto como bitácora operativa del caso.</div>
+<div class="mut" id="logStatus">Guarda aquí avances claros para que el equipo retome el caso sin fricción.</div>
 </section>
 </section>
 </main>
