@@ -36,7 +36,6 @@ const clientUrl=id=>`${CLIENT_PAGE}?id=${id}`;
 const ticketUrl=id=>`${TICKET_PAGE}?id=${id}`;
 const randToken=()=>crypto.randomUUID().replace(/-/g,"")+crypto.randomUUID().replace(/-/g,"");
 const nextFolioSimple=async()=>{const{count,error}=await s.from("tickets").select("*",{count:"exact",head:true});if(error)throw error;return`SP-${Number(count||0)+1}`};
-
 const clientCritico=c=>{const d=docsOf(c.id),t=ticketsOf(c.id),rec=t.filter(x=>isOpenTicket(x)&&ticketDate(x)>=Date.now()-7*864e5).length,urg=t.filter(x=>isOpenTicket(x)&&ticketPri(x)>=2).length,ven=d.filter(x=>sem(x.fin_vigencia).t==="Vencido").length;return{on:rec>3||(urg>0&&ven>0),rec,urg,ven}};
 const latestDocOf=id=>docsOf(id).slice().sort((a,b)=>dateVal(b.fecha_subida||b.created_at)-dateVal(a.fecha_subida||a.created_at))[0]||null;
 const isPolizaClient=c=>!!(c?.favorito||/poliza|póliza/i.test(`${c?.comentarios||""} ${c?.nombre||""}`));
