@@ -8,7 +8,7 @@ const LIM=new Proxy({}, {get:(_,k)=>(isMobileView()?LIM_BASE.mobile:LIM_BASE.des
 const SYS=[["CONTABILIDAD",["contabilidad","contabiliza","contab","usaconta"]],["BANCOS",["bancos"]],["NOMINAS",["nominas","nóminas","nomina"]],["XML_EN_LINEA",["xml","cfdi","xml en linea"]],["COMERCIAL_START",["comercial start","cstart","comstart"]],["COMERCIAL_PRO",["comercial pro","compro"]],["COMERCIAL_PREMIUM",["comercial premium","compremium","cpremium","premium"]],["FACTURA_ELECTRONICA",["factura electronica","factura electrónica","factura","fe"]],["EVALUA",["evalua","evalúa"]],["ANALIZA",["analiza"]],["VENDE",["vende"]],["OPTIMIZA",["optimiza"]],["ANTICIPA",["anticipa"]],["PERSONIA",["personia"]]];
 const NICE={CONTABILIDAD:"CONTPAQi Contabilidad",BANCOS:"CONTPAQi Bancos",NOMINAS:"CONTPAQi Nóminas",XML_EN_LINEA:"CONTPAQi XML en Línea",COMERCIAL_START:"CONTPAQi Comercial START",COMERCIAL_PRO:"CONTPAQi Comercial PRO",COMERCIAL_PREMIUM:"CONTPAQi Comercial PREMIUM",FACTURA_ELECTRONICA:"CONTPAQi Factura Electrónica",EVALUA:"CONTPAQi Evalúa",ANALIZA:"CONTPAQi Analiza",VENDE:"CONTPAQi Vende",OPTIMIZA:"CONTPAQi Optimiza",ANTICIPA:"CONTPAQi Anticipa",PERSONIA:"CONTPAQi Personia"};
 const ICON={CONTABILIDAD:"📘",BANCOS:"🏦",NOMINAS:"🧾",XML_EN_LINEA:"🧷",COMERCIAL_START:"🛒",COMERCIAL_PRO:"🛍️",COMERCIAL_PREMIUM:"💼",FACTURA_ELECTRONICA:"🧾",EVALUA:"📊",ANALIZA:"📈",VENDE:"💳",OPTIMIZA:"⚙️",ANTICIPA:"⏩",PERSONIA:"👤"};
-
+ 
 let U=null,P=null,C=[],D=[],T=[],A=[],FILES=[],CTX={clienteId:null,documentoId:null},RT_CH=null,LAST_URGENT_COUNT=0,BATCH={tickets:new Set(),urgent:new Set()};
 const canUpload=()=>["admin","ventas"].includes(normTxt(P?.rol));
 const openModal=sel=>show(sel);
