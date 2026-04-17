@@ -8,7 +8,7 @@
 <div class="hero-main">
 <div class="hero-head">
 <div><div class="eyebrow">Cliente / Operación</div><h1 class="title skel" id="cNombre">Cargando cliente</h1><div class="sub skel" id="subMeta">Cargando metadatos</div></div>
-<div class="hero-badges"><span class="badge-pill" id="badgeEstado">—</span><span class="badge-pill hidden" id="badgeCritico">🔥 Cliente crítico</span><span class="badge-pill" id="badgeSalud">Salud: —</span></div>
+<div class="hero-badges"><span class="badge-pill" id="badgeEstado">—</span><span class="badge-pill hidden" id="badgeCritico">🔥 Cliente crítico</span><span class="badge-pill" id="badgeSalud">Salud: —</span><span class="badge-pill hidden" id="badgeDataHealth">Datos por validar</span><span class="badge-pill hidden" id="badgeBirthday">🎉 Cumple cercano</span></div>
 </div>
 
 <div class="hero-grid">
@@ -16,8 +16,12 @@
 <article class="metric soft"><div class="k">Última interacción</div><div class="v small" id="cUltima">—</div></article>
 <article class="metric soft"><div class="k">Completitud</div><div class="v small" id="profileScore">0%</div></article>
 <article class="metric soft"><div class="k">Próxima acción</div><div class="v small" id="nextAction">—</div></article>
+<article class="metric soft"><div class="k">Método ideal</div><div class="v small" id="heroBestContact">—</div></article>
+<article class="metric soft"><div class="k">Horario laboral</div><div class="v small" id="heroWorkHours">—</div></article>
+<article class="metric soft"><div class="k">1ª respuesta prom.</div><div class="v small" id="heroSlaFirst">—</div></article>
+<article class="metric soft"><div class="k">Resolución prom.</div><div class="v small" id="heroSlaClose">—</div></article>
 </div>
-
+ 
 <div class="hero-actions">
 <button class="btn btn-brand" id="openNewTicketBtn">Nuevo ticket</button>
 <button class="btn btn-ghost" id="toggleUploadBtn">Subir PDF</button>
@@ -37,6 +41,7 @@
 </div>
 <div class="box mt12"><div class="k">Último documento cargado</div><div class="v small" id="lastDocLabel">—</div></div>
 <div class="box mt12"><div class="k">Semáforo general</div><div class="chips mt8" id="heroChips"></div></div>
+<div class="box mt12 hidden" id="stickyAlertBox"><div class="k">Nota prioritaria</div><div class="v small" id="stickyAlertText">—</div></div>
 </aside>
 </section>
 
@@ -110,11 +115,13 @@
 <section class="card side-card">
 <div class="section-head slim"><div><h2>Soporte rápido</h2><p>Vista táctica para soporte y ventas.</p></div></div>
 <div class="checklist" id="quickChecklist"></div>
-
+<div class="box hidden" id="birthdayBox"><div class="k">Cumpleaños</div><div class="v small" id="birthdayText">—</div></div>
+<div class="box hidden" id="contactIntelBox"><div class="k">Inteligencia de contacto</div><div class="v small" id="contactIntelText">—</div></div>
+ 
 <div class="side-stack">
 <div class="box"><div class="rowline"><strong>Tickets recientes</strong><a class="mini btn-ghost" href="tickets.html" id="allTicketsLink">Ver todos</a></div><div class="list mini-list mt10" id="ticketsList"></div></div>
 <div class="box"><div class="rowline"><strong>Renovaciones</strong><button class="mini btn-ghost" id="openRenewBtn2">Abrir</button></div><div class="list mini-list mt10" id="renewMiniList"></div></div>
-<div class="box"><div class="rowline"><strong>Accesos rápidos</strong></div><div class="toolbar mt10"><a class="mini btn-ghost" id="callBtn" href="#">Llamar</a><a class="mini btn-ghost" id="mailBtn" href="#">Correo</a><button class="mini btn-ghost" id="copyNameBtn">Copiar nombre</button><button class="mini btn-ghost" id="copyIdBtn">Copiar ID</button></div></div>
+<div class="box"><div class="rowline"><strong>Accesos rápidos</strong></div><div class="toolbar mt10"><a class="mini btn-ghost" id="callBtn" href="#">Llamar</a><a class="mini btn-ghost" id="mailBtn" href="#">Correo</a><a class="mini btn-ghost" id="waQuickBtn" href="#" target="_blank" rel="noopener">WhatsApp</a><button class="mini btn-ghost" id="copyNameBtn">Copiar nombre</button><button class="mini btn-ghost" id="copyIdBtn">Copiar ID</button></div></div>
 </div>
 </section>
 </aside>
