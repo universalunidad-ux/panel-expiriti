@@ -112,3 +112,5 @@
 @media (max-width:640px){.estado-page{padding-block:14px 22px}.estado-hero{padding:16px;border-radius:20px}.estado-hero-card{padding:16px;border-radius:18px}.estado-card{padding:16px;border-radius:20px}.estado-kpis{grid-template-columns:1fr;gap:10px}.estado-actions{display:grid;grid-template-columns:1fr}.estado-actions>.btn{width:100%}.tl-item{padding:13px 13px 13px 40px}.tl-item::before{left:17px}.tl-item:not(:last-child)::after{left:21px}.chat-fab{right:12px;bottom:12px;padding:0 14px}.chat-pop{right:0;bottom:0;width:100vw;height:100dvh;max-height:none;border-radius:20px 20px 0 0}.chat-backdrop{background:rgba(2,6,23,.52)}.chat-scroll,.files-scroll{padding:14px}.chat-msg{max-width:94%}}
 @media (max-width:420px){.estado-hero-copy h1{font-size:clamp(24px,8vw,32px)}.estado-chips{gap:6px}.estado-chips .tag{font-size:12px}.estado-card .section-head{gap:8px}.chat-fab-tx{display:none}}
 @media (prefers-reduced-motion:reduce){.estado-hero,.estado-card,.tl-item,.chat-fab{transition:none;animation:none}}
+
+.file-thumb{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin-bottom:8px}
