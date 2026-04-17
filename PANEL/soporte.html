@@ -19,7 +19,41 @@
 <section class="support-layout">
 <form class="panel support-form" id="supportForm">
 <div class="section-head"><div><div class="section-kicker">Paso 1</div><h2>Información del caso</h2></div></div>
+<section class="panel inset" id="spIdentityBox">
+  <div class="row-head">
+    <h3>Identifiquemos tu empresa y contacto</h3>
+  </div>
+  <div class="mut">
+    Si ya te registraste antes con nosotros, podemos usar esos datos para que no tengas que escribir todo otra vez.
+  </div>
 
+  <div class="actions" style="margin-top:10px">
+    <button class="btn btn-ghost" type="button" id="spMatchBtn">Buscar datos registrados</button>
+  </div>
+
+  <div class="panel inset hidden" id="spMatchResult" style="margin-top:12px">
+    <div class="row-head">
+      <h3 id="spMatchTitle">Resultado</h3>
+    </div>
+    <div class="mut" id="spMatchText">—</div>
+
+    <div class="preview-card" id="spMatchCard" style="margin-top:10px">
+      <div class="k">Empresa detectada</div>
+      <div class="v" id="spMatchCompany">—</div>
+      <div class="k">Contacto detectado</div>
+      <div class="v" id="spMatchContact">—</div>
+      <div class="k">Nivel de coincidencia</div>
+      <div class="v" id="spMatchLevel">—</div>
+    </div>
+
+    <div class="actions" style="margin-top:12px">
+      <button class="btn btn-brand" type="button" id="spUseDetectedBtn">Sí, estos datos son correctos</button>
+      <button class="btn btn-ghost" type="button" id="spOtherPersonBtn">Sí, soy de esa empresa, pero soy otra persona</button>
+      <button class="btn btn-ghost" type="button" id="spNoMatchBtn">No corresponde</button>
+    </div>
+  </div>
+</section>
+  
 <div class="form-grid">
 <div class="field"><label class="lbl" for="spName">Nombre</label><input class="input" id="spName" placeholder="Tu nombre"></div>
 <div class="field"><label class="lbl" for="spCompany">Empresa</label><input class="input" id="spCompany" placeholder="Empresa o razón social"></div>
@@ -48,6 +82,11 @@
 </div>
 
 <div class="section-head compact"><div><div class="section-kicker">Paso 3</div><h3>Enviar solicitud</h3></div></div>
+  <input type="hidden" id="spClienteIdConfirmado" value="">
+<input type="hidden" id="spContactoIdConfirmado" value="">
+<input type="hidden" id="spEmpresaConfirmada" value="0">
+<input type="hidden" id="spContactoConfirmado" value="0">
+<input type="hidden" id="spContactoEsNuevo" value="0">
 <div class="actions"><button class="btn btn-brand" id="spSendBtn" type="submit">Enviar solicitud</button><button class="btn btn-ghost" id="spDraftBtn" type="button">Limpiar</button></div>
 <div class="mut" id="spStatus">Completa los datos principales y agrega evidencia si la tienes.</div>
 </form>
