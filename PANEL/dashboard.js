@@ -29,7 +29,7 @@ const detectSistema=t=>{const x=normTxt(t);for(const[k,arr]of SYS)for(const a of
 const parseFecha=v=>{const s=(v||"").toString().trim();if(!s)return null;let m=s.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return`${m[1]}-${m[2]}-${m[3]}`;m=s.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);if(m)return`${m[3]}-${String(m[2]).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`;m=s.match(/(\d{1,2})[-\/ ]([A-Za-zÁÉÍÓÚáéíóú]+)[-\/ ](\d{4})/);if(!m)return null;const mm={ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,set:9,oct:10,nov:11,dic:12}[normTxt(m[2]).slice(0,3)]||0;return mm?`${m[3]}-${String(mm).padStart(2,"0")}-${String(m[1]).padStart(2,"0")}`:null};
 const dateVal=v=>{const t=+new Date(v||0);return Number.isFinite(t)?t:0};
 const daysTo=v=>v?Math.ceil((dateVal(v)-Date.now())/864e5):null;
-const isOpenTicket=t=>!["cerrado","resuelto","closed","done","cancelado"].includes(normTxt(t?.estatus||t?.status||t?.estado));
+const isOpenTicket=t=>!["cerrado","resuelto","closed","done","cancelado"].includes(normTxt(t?.estado||t?.status));
 const ticketDate=t=>dateVal(t?.fecha_actualizacion||t?.updated_at||t?.fecha_creacion||t?.created_at);
 const ticketPri=t=>{const p=normTxt(t?.prioridad);return p==="urgente"?3:p==="alta"?2:p==="media"?1:0};
 const clientUrl=id=>`${CLIENT_PAGE}?id=${id}`;
