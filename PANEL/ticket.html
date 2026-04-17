@@ -82,7 +82,11 @@
 <div class="field span-2"><label class="lbl" for="logFiles">Adjuntos públicos del mensaje</label><input class="input" id="logFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip"><div class="mut" id="logFilesMeta">Si este avance es visible al cliente, los adjuntos viajarán al portal.</div></div>
 </div>
 <div class="actions composer-actions"><button class="btn" id="quickReplyBtn" type="button">Mensajes sugeridos</button><button class="btn btn-brand" id="saveLogBtn" type="button">Guardar avance</button></div>
-<div class="quick-replies" id="quickReplies" hidden>
+<div class="composer-visibility" id="tkComposerVisibility">
+<div class="chips"><span class="tag ok" id="tkComposerModeTag">Interno</span><span class="tag" id="tkComposerStateTag">Sin cambio de estado</span></div>
+<div class="mut" id="tkComposerModeText">Este avance quedará solo para uso interno del equipo.</div>
+</div>
+  <div class="quick-replies" id="quickReplies" hidden>
 <button class="mini btn-ghost" type="button" data-qr="xml">Pedir archivo XML</button>
 <button class="mini btn-ghost" type="button" data-qr="captura">Pedir captura</button>
 <button class="mini btn-ghost" type="button" data-qr="remoto">Pedir acceso remoto</button>
