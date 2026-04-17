@@ -4,7 +4,7 @@
 <body data-surface="support" data-shell="app" data-page="tickets">
 <div id="appShell"></div>
 <main class="wrap tickets-page" id="pageMount">
-<section class="panel tickets-hero"><div><div class="section-kicker">Centro de control</div><h1>Mesa operativa de soporte</h1><p class="mut">Prioriza rápido, filtra sin fricción y entra al contexto del caso sin perder tiempo.</p></div><div class="hero-actions"><button class="btn" id="tkRefresh">Actualizar</button><button class="btn" id="tkEditBtn" type="button">✏️ Vista</button><button class="btn" id="tkFocusBtn" type="button">Modo foco</button><button class="btn btn-brand" id="tkNewBtn">Nuevo ticket</button></div><div class="mut tk-edit-help hidden" id="tkEditHelp">✏️ Editar vista: arrastra columnas para ordenar tu mesa. Toca otra vez el lápiz para salir.</div></section>
+<section class="panel tickets-hero"><div><div class="section-kicker">Seguimiento diario</div><h1>Casos de soporte</h1><p class="mut">Ubica rápido qué requiere atención, qué está esperando respuesta y qué ya puede concluirse.</p></div><div class="hero-actions"><button class="btn" id="tkRefresh">Actualizar</button><button class="btn" id="tkEditBtn" type="button">✏️ Vista</button><button class="btn" id="tkFocusBtn" type="button">Modo foco</button><button class="btn btn-brand" id="tkNewBtn">Nuevo ticket</button></div><div class="mut tk-edit-help hidden" id="tkEditHelp">✏️ Editar vista: arrastra columnas para ordenar tu mesa. Toca otra vez el lápiz para salir.</div></section>
   
 
 <section class="metrics-grid">
@@ -33,10 +33,10 @@
 
 <section class="board-layout">
 <section class="panel hidden" id="tkFocusPanel">
-<div class="section-head"><div><div class="section-kicker">Siguiente acción</div><h3 id="fkTitle">Sin tickets por atender</h3></div><div class="actions"><button class="btn btn-ghost" id="fkExit" type="button">Salir de foco</button><button class="btn" id="fkNext" type="button">Siguiente</button></div></div>
+<div class="section-head"><div><div class="section-kicker">Prioridad sugerida</div><h3 id="fkTitle">Sin casos por atender</h3></div><div class="actions"><button class="btn btn-ghost" id="fkExit" type="button">Salir</button><button class="btn" id="fkNext" type="button">Ver siguiente</button></div></div>
 <div class="focus-wrap">
 <div class="focus-meta" id="fkMeta"><span class="tag">Sin datos</span></div>
-<div class="focus-desc mut" id="fkDesc">Aquí verás el ticket más prioritario según triage y señales operativas.</div>
+<div class="focus-desc mut" id="fkDesc">Aquí verás el caso que conviene atender primero según prioridad, impacto, archivos y tiempo sin avance.</div>
 <div class="focus-boxes">
 <div class="box"><div class="k">Cliente</div><div class="v small" id="fkClient">—</div></div>
 <div class="box"><div class="k">Sistema</div><div class="v small" id="fkSystem">—</div></div>
@@ -59,27 +59,27 @@
 </section>
 
 <aside class="panel ticket-preview" id="tkPreview">
-<div class="section-head"><div><div class="section-kicker">Vista rápida</div><h3 id="pvTitle">Selecciona un ticket</h3></div></div>
+<div class="section-head"><div><div class="section-kicker">Resumen rápido</div><h3 id="pvTitle">Selecciona un caso</h3></div></div>
 <div class="preview-meta">
 <div class="box"><div class="k">Cliente</div><div class="v small" id="pvClient">—</div></div>
 <div class="box"><div class="k">Sistema</div><div class="v small" id="pvSystem">—</div></div>
 <div class="box"><div class="k">Estado</div><div class="v small" id="pvState">—</div></div>
 <div class="box"><div class="k">Prioridad</div><div class="v small" id="pvPriority">—</div></div>
 </div>
-<div class="panel inset"><div class="row-head"><h3>Resumen</h3></div><div class="mut" id="pvDesc">Aquí aparecerá una vista rápida del caso para evitar abrir y cerrar tickets innecesariamente.</div></div>
-<div class="panel inset"><div class="row-head"><h3>Señales</h3></div><div class="chips" id="pvChips"><span class="tag">Sin selección</span></div></div>
+<div class="panel inset"><div class="row-head"><h3>Resumen</h3></div><div class="mut" id="pvDesc">Aquí verás una vista breve del caso para decidir rápido si hace falta abrir el detalle completo.</div></div>
+<div class="panel inset"><div class="row-head"><h3>Indicadores</h3></div><div class="chips" id="pvChips"><span class="tag">Sin selección</span></div></div>
 <div class="actions"><a class="btn btn-brand" id="pvOpen" href="javascript:void(0)">Abrir ticket</a></div>
 </aside>
 </section>
 
 <section class="panel compact-list hidden" id="tkCompact">
-<div class="section-head"><div><div class="section-kicker">Vista alterna</div><h3>Lista compacta</h3></div></div>
+<div class="section-head"><div><div class="section-kicker">Vista resumida</div><h3>Lista compacta</h3></div></div>
 <div class="compact-head"><div>Prioridad</div><div>Cliente</div><div>Título</div><div>Sistema</div><div>Estado</div><div>Última actividad</div></div>
 <div class="compact-body" id="tkCompactRows"><div class="empty-state">Sin tickets.</div></div>
 </section>
 </main>
 
-<div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Alta rápida</div><h3>Nuevo ticket</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
+<div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Registro rápido</div><h3>Nuevo caso</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
 
 <script type="module" src="tickets.js"></script>
 </body>
