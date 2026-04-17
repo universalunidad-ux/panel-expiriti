@@ -75,6 +75,18 @@
 </div>
 <div class="chips mt8" id="tkPortalChips"><span class="tag">Sin datos</span></div>
 </section>
+
+  <section class="panel inset">
+<div class="row-head"><h3>Notificaciones</h3></div>
+<div class="composer-grid">
+<div class="field"><label class="lbl" for="tkNotifSound">Audio</label><select class="select" id="tkNotifSound"><option value="1">Activo</option><option value="0">Desactivado</option></select></div>
+<div class="field"><label class="lbl" for="tkNotifVisual">Visual</label><select class="select" id="tkNotifVisual"><option value="1">Activo</option><option value="0">Desactivado</option></select></div>
+<div class="field"><label class="lbl" for="tkNotifTone">Tono</label><select class="select" id="tkNotifTone"><option value="soft">Suave</option><option value="strong">Fuerte</option></select></div>
+<div class="field"><label class="lbl" for="tkNotifVolume">Volumen</label><input class="input" id="tkNotifVolume" type="range" min="0" max="1" step="0.1" value="0.5"></div>
+</div>
+<div class="actions mt8"><button class="btn" id="tkSaveNotifBtn" type="button">Guardar preferencias</button><button class="btn btn-ghost" id="tkTestNotifBtn" type="button">Probar aviso</button></div>
+<div class="mut" id="tkNotifStatus">Estas preferencias afectan avisos internos de esta cuenta.</div>
+</section>
   
 <section class="panel inset"><div class="row-head"><h3>Fricción del cliente</h3></div><div class="box-grid"><div class="box"><div class="k">Tickets 30d</div><div class="v small" id="tkHeatTotal">—</div></div><div class="box"><div class="k">Urgentes 30d</div><div class="v small" id="tkHeatUrgent">—</div></div><div class="box"><div class="k">En espera</div><div class="v small" id="tkHeatWait">—</div></div><div class="box"><div class="k">Nivel</div><div class="v small" id="tkHeatLevel">—</div></div></div><div class="chips mt8" id="tkHeatChips"><span class="tag">Sin datos</span></div></section>
 <section class="panel inset"><div class="row-head"><h3>Acciones rápidas</h3></div><div class="quick-actions"><button class="btn" id="copyMagicBtn" type="button">🔗 Copiar enlace</button><button class="btn" id="askXmlBtn" type="button">Pedir XML</button><button class="btn" id="askShotBtn" type="button">Pedir captura</button><button class="btn" id="askRemoteBtn" type="button">Pedir acceso remoto</button><button class="btn" id="setWaitBtn" type="button">Esperando cliente</button><button class="btn btn-brand" id="setSolveBtn" type="button">Marcar resuelto</button><button class="btn btn-ghost" id="reopenBtn" type="button">Reabrir</button><button class="btn btn-ghost" id="closeBtn" type="button">Cerrar</button></div></section>
