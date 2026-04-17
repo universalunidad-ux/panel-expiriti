@@ -1,8 +1,8 @@
 import{$,toast,esc}from"./global.js";
 
 const API_BASE="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1";
-const ESTADO_ENDPOINT=`${API_BASE}/estado-ticket`;
-const RESPONDER_ENDPOINT=`${API_BASE}/estado-ticket-responder`;
+const ESTADO_ENDPOINT=`${API_BASE}/estado-ticket-ts`;
+const RESPONDER_ENDPOINT=`${API_BASE}/estado-ticket-responder-ts`;
 const QS=new URLSearchParams(location.search),folio=(QS.get("folio")||"").trim(),token=(QS.get("token")||"").trim();
 const ST={ticket:null,sending:false,files:[]};
 const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
