@@ -12,7 +12,8 @@
 <article class="panel metric"><div class="k">Esperando cliente</div><div class="v" id="mWait">0</div></article>
 <article class="panel metric"><div class="k">Sin tocar hoy</div><div class="v" id="mStale">0</div></article>
 <article class="panel metric"><div class="k">Resueltos hoy</div><div class="v" id="mSolved">0</div></article>
-
+<article class="panel metric"><div class="k">Por consolidar</div><div class="v" id="mPendingIdentity">0</div></article>
+<article class="panel metric"><div class="k">Sin cliente ligado</div><div class="v" id="mNoClient">0</div></article>
 </section>
 
 <section class="panel tickets-toolbar">
@@ -27,8 +28,12 @@
 <button class="btn btn-ghost" id="tkReadyClose" type="button">Listos para cerrar</button>
 <button class="btn btn-ghost" id="tkImpactHigh" type="button">Impacto alto</button>
 <button class="btn btn-ghost" id="tkUrgentStale" type="button">Urgente + sin tocar</button>
-  <button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
+<button class="btn btn-ghost" id="tkNeedsIdentity" type="button">Por consolidar</button>
+<button class="btn btn-ghost" id="tkNoClientLinked" type="button">Sin cliente ligado</button>
+<button class="btn btn-ghost" id="tkMatchMedium" type="button">Match medio</button>
+<button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
 </div>
+  
 </section>
 
 <section class="board-layout">
