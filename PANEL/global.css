@@ -67,3 +67,8 @@ body[data-shell=app]{--rail-w:188px;padding-left:var(--rail-w)} .app-rail{positi
 .ok{color:#16a34a}
 .warn{color:#d97706}
 .bad{color:#dc2626}
+
+.action-now{border-color:rgba(245,158,11,.34);box-shadow:0 0 0 1px rgba(245,158,11,.14) inset}
+.action-now .title a,.action-now .ops-title a{font-weight:700}
+@media (max-width:620px){.action-now{box-shadow:none;border-width:1px}}
+
