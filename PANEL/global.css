@@ -81,3 +81,4 @@ body[data-shell=app]{--rail-w:188px;padding-left:var(--rail-w)} .app-rail{positi
 .empty-dash,.empty-state{opacity:.88}
 #activitySection .activity-item,#quickSection .item,#lateSection .ops-item,#dueSection .ops-item{opacity:.94}
 #urgentSection,#waitingClientSection,#identityPendingSection{scroll-margin-top:88px}
+@media (max-width:620px){.action-now{box-shadow:none;border-width:1px}}
