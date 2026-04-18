@@ -1,6 +1,6 @@
-.ticket-page{display:grid;grid-template-columns:minmax(300px,356px) minmax(0,1fr);gap:18px;align-items:start;min-height:calc(100vh - 92px)}
+.ticket-page{display:grid;grid-template-columns:minmax(380px,460px) minmax(0,1fr);gap:18px;align-items:start;min-height:calc(100vh - 92px)}
 
-.ticket-main{display:grid;grid-template-rows:auto minmax(340px,1fr) auto;gap:14px;min-height:calc(100vh - 120px);min-width:0}
+.ticket-main{display:grid;grid-template-rows:auto minmax(360px,1fr) auto;gap:10px;min-height:calc(100vh - 120px);min-width:0}
 
 .side-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .side-head h1{margin:4px 0 0;font-size:clamp(24px,2.4vw,28px);line-height:1.04;letter-spacing:-.03em}
@@ -32,7 +32,9 @@
 .log-meta{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:color-mix(in srgb,var(--muted) 92%,transparent);margin-bottom:7px}
 
 .field{display:grid;gap:6px;min-width:0}
-.composer-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px 220px;gap:12px;align-items:start}
+.composer-grid{display:grid;grid-template-columns:minmax(0,1fr) 200px 200px;gap:12px;align-items:start}
+.composer{background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+
 .field.span-2{grid-column:1/-1}
 .lbl{font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--muted) 92%,transparent)}
 .composer .actions .btn{min-width:170px}
@@ -40,7 +42,7 @@
 .empty-state{padding:18px 12px;text-align:center;border:1px dashed var(--line-2);border-radius:16px;color:var(--muted)}
 body.is-critical .topbar{border-bottom-color:color-mix(in srgb,var(--danger) 36%,var(--line))}
 body.is-critical .hero-ticket{box-shadow:0 0 0 1px color-mix(in srgb,var(--danger) 14%,transparent),var(--shadow-sm)}
-@media(max-width:1180px){.ticket-page{grid-template-columns:320px minmax(0,1fr)}}
+@media(max-width:1180px){.ticket-page{grid-template-columns:minmax(340px,400px) minmax(0,1fr)}}
 @media(max-width:980px){.ticket-page{grid-template-columns:1fr}.ticket-side{position:static;order:-1}.ticket-main{min-height:auto}.log-area{max-height:none;min-height:300px}}
 @media(max-width:760px){.box-grid,.composer-grid{grid-template-columns:1fr}.field.span-2{grid-column:auto}.quick-actions .btn{flex:1 1 100%}.hero-top{flex-direction:column;align-items:flex-start}.tabs-lite{margin-bottom:10px}}
 @media(max-width:480px){.ticket-page{gap:12px}.side-head h1{font-size:22px}.hero-top h2{font-size:22px}.panel,.inset,.box,.log-msg,.hero-ticket{padding:12px}}
@@ -62,7 +64,7 @@ body.focus-mode #tkBoard,body.focus-mode #tkPreview,body.focus-mode #tkCompact{d
 body.focus-mode #tkFocusPanel{display:grid!important}
 @media (max-width:820px){.focus-boxes{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.focus-boxes{grid-template-columns:1fr}}
-@media(min-width:981px){.ticket-side{max-height:calc(100vh - 96px);overflow:auto;padding-right:2px}}
+@media(min-width:981px){.ticket-side{max-height:none;overflow:visible;padding-right:0}}
 
 
 .hero-meta .tag{min-height:26px}
@@ -126,6 +128,14 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .ticket-side::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 28%,transparent);border-radius:999px}
 .ticket-main>.panel,.ticket-side>.panel,.ticket-side>.inset{contain:layout paint}
 
+
+.ticket-main{grid-template-rows:auto minmax(360px,1fr) auto}
+.ticket-main>.panel{border-radius:22px}
+.ticket-main>.panel+.panel{margin-top:-2px}
+.composer{border-top-left-radius:18px;border-top-right-radius:18px}
+
+.log-area{min-height:520px;max-height:none}
+.composer{padding-top:14px;border-top:1px solid var(--line)}
 
 
 
