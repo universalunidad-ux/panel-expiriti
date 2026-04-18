@@ -139,3 +139,9 @@ body.is-critical .hero.card{box-shadow:0 0 0 1px color-mix(in srgb,var(--danger)
 @media(max-width:1060px){.hero,.main-grid,.upload-layout{grid-template-columns:1fr} .side-col{order:-1} .drawer,.drawer.lg,.drawer.xl{width:min(96vw,560px)}}
 @media(max-width:780px){body{padding-bottom:92px} .hero-grid,.stats-grid,.form-grid.two,.form-grid.three,.filters,.preview-grid,.access-grid,.contacts-grid{grid-template-columns:1fr} .hero-head{flex-direction:column} .mobile-bar{display:flex} .drawer,.drawer.lg,.drawer.xl{top:0;right:0;bottom:0;width:100vw;border-radius:0} .top-actions{width:100%} .top-actions .mini,.hero-actions .btn{flex:1} .chips{overflow:auto;flex-wrap:nowrap;padding-bottom:2px} .doc-main,.doc-right{flex-direction:column;align-items:flex-start} .doc-badges{justify-content:flex-start} .contact-line{grid-template-columns:1fr}}
 @media(max-width:460px){.wrap,.topbar-inner{width:calc(100% - 16px)} .title{font-size:clamp(22px,8vw,30px)} .mbtn{min-height:40px} .hero-side .box,.side-card .box,.pv,.item,.metric{padding:12px} .tabs{padding:14px 14px 0} .tab-panel{padding:14px}}
+
+#panel-contactos .item,#panel-crm .box{box-shadow:none}
+#panel-contactos .toolbar{margin-top:8px}
+#panel-contactos .chips{margin-top:8px}
+#panel-crm .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:760px){#panel-crm .box-grid{grid-template-columns:1fr}}
