@@ -1,15 +1,14 @@
-import{$,toast,esc}from"./global.js";
+import{$,toast,esc,fmtDT,ticketStateKey,ticketStateCls,prettyBytes}from"./global.js";
 
 const API_BASE="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1";
 const ESTADO_ENDPOINT=`${API_BASE}/estado-ticket-ts`;
 const RESPONDER_ENDPOINT=`${API_BASE}/estado-ticket-responder-ts`;
 const QS=new URLSearchParams(location.search),folio=(QS.get("folio")||"").trim(),token=(QS.get("token")||"").trim();
 const ST={ticket:null,sending:false,files:[],open:false,tab:"history",notify:false,lastSig:"",lastState:"",poller:null,lastMsgs:0,lastFiles:0,seenFirstLoad:false};
-const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
 const sk=v=>(v||"").toString().trim().toLowerCase();
-const human=n=>n>=1024*1024?`${(n/1024/1024).toFixed(1)} MB`:`${Math.max(1,Math.round(n/1024))} KB`;
 const sl=v=>sk(v)==="en_proceso"?"En revisión":sk(v)==="esperando_cliente"?"Esperando tu respuesta":sk(v)==="resuelto"?"Resuelto":sk(v)==="cerrado"?"Cerrado":"Recibido";
-const scls=v=>sk(v)==="resuelto"?"ok":sk(v)==="cerrado"?"neutral":sk(v)==="esperando_cliente"?"warn":sk(v)==="en_proceso"?"info":"ok";
+const fmt=fmtDT;
+const human=prettyBytes;
 const steps=v=>{const s=sk(v);return[{k:"abierto",t:"Recibido",done:true,active:s==="abierto"||!s},{k:"en_proceso",t:"En revisión",done:["en_proceso","esperando_cliente","resuelto","cerrado"].includes(s),active:s==="en_proceso"},{k:"esperando_cliente",t:"Esperando tu respuesta",done:["esperando_cliente","resuelto","cerrado"].includes(s),active:s==="esperando_cliente"},{k:"resuelto",t:"Resuelto",done:["resuelto","cerrado"].includes(s),active:s==="resuelto"},{k:"cerrado",t:"Cerrado",done:s==="cerrado",active:s==="cerrado"}]};
 const setBusy=v=>{ST.sending=!!v;["#stReplySend","#stReplyClear","#stReplyFiles","#stReplyText","#stReplySendPop","#stReplyClearPop","#stReplyFilesPop","#stReplyTextPop"].forEach(sel=>$(sel)&&($(sel).disabled=ST.sending))};
 const uniq=(arr,keyFn)=>{const m=new Map();(arr||[]).forEach(x=>m.set(keyFn(x),x));return[...m.values()]};
