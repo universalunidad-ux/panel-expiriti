@@ -7,13 +7,9 @@
 .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
 
 .box .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--muted) 92%,transparent)}
-
-
 .inset{padding:14px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 97%,transparent),color-mix(in srgb,var(--panel-2) 99%,transparent))}
 .row-head,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .row-head h3,.section-head h3{margin:0;font-size:16px;letter-spacing:-.02em}
-
-
 .evidence-list{display:grid;gap:10px;min-height:72px}
 .evidence-item{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel) 96%,transparent)}
 .evidence-title{font-weight:900}
@@ -138,5 +134,20 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .composer{padding-top:14px;border-top:1px solid var(--line)}
 
 
-
+.composer{display:grid;gap:12px;padding:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+.composer-head{align-items:center}
+.composer-modebar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill-switch{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-weight:850;color:var(--text)}
+.pill-switch.is-active{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:var(--brand-ink);border-color:transparent}
+.icon-note-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:18px}
+.icon-note-btn.is-active{background:color-mix(in srgb,var(--warn) 12%,var(--panel));border-color:color-mix(in srgb,var(--warn) 30%,var(--line))}
+.composer-chatbox{display:grid;gap:12px}
+.chat-area{min-height:126px;border-radius:16px}
+.composer-quickline{display:flex;gap:8px;flex-wrap:wrap}
+.composer-bottom{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.composer-left,.composer-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.attach-btn{min-height:40px}
+.mut.compact{font-size:13px;line-height:1.4}
+.composer-statusline{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:760px){.composer-bottom{display:grid;grid-template-columns:1fr;gap:10px}.composer-right,.composer-left{width:100%}.composer-right .btn,.composer-left .btn{width:100%}.composer-quickline{overflow:auto hidden;flex-wrap:nowrap;padding-bottom:2px}}
 
