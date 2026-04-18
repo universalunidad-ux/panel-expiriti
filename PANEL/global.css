@@ -73,12 +73,5 @@ body[data-shell=app]{--rail-w:188px;padding-left:var(--rail-w)} .app-rail{positi
 @media (max-width:620px){.action-now{box-shadow:none;border-width:1px}}
 
 
-.compact-item .meta,.ops-item .ops-meta,.activity-meta{opacity:.86}
-.compact-item .tags,.ops-tags,.k-tags{gap:.4rem;flex-wrap:wrap}
-.tag.info{opacity:.92}
 .action-now{border-color:rgba(245,158,11,.34);box-shadow:0 0 0 1px rgba(245,158,11,.14) inset}
 .action-now .title a,.action-now .ops-title a{font-weight:700}
-.empty-dash,.empty-state{opacity:.88}
-#activitySection .activity-item,#quickSection .item,#lateSection .ops-item,#dueSection .ops-item{opacity:.94}
-#urgentSection,#waitingClientSection,#identityPendingSection{scroll-margin-top:88px}
-@media (max-width:620px){.action-now{box-shadow:none;border-width:1px}}
