@@ -1,6 +1,6 @@
 import { supabase as s, guardSession as g, logout as o, getProfile as gp, saveTheme as svt, applyTheme as ap, logAction as la, openPdfSigned as op, fmt as f, msg as m } from "./supabase.js";
 import { $, $$, esc as e, norm as n, toast, copyTxt, show, hide, bindModal, initRayito, setRayitoItems, debounce, ensureAppShell, setAppRole, setRailOpenCount, pushRecentClient, setGlobalSearchData, openAppPanel } from "./global.js";
- 
+  
 const CLIENT_PAGE="cliente.html",TICKET_PAGE="ticket.html";
 const isMobileView=()=>window.matchMedia("(max-width:620px)").matches;
 const LIM_BASE={desktop:{radar:5,crm:5,tickets:4,urgent:4,activity:4,quick:4,late:5,due:5},mobile:{radar:3,crm:3,tickets:3,urgent:3,activity:3,quick:3,late:3,due:3}};
