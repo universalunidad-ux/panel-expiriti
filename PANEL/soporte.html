@@ -5,6 +5,7 @@
 <title>Ticket de Soporte | Expiriti</title>
 <script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
 <link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body data-surface="client">
 <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Soporte Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
@@ -87,6 +88,11 @@
 <input type="hidden" id="spEmpresaConfirmada" value="0">
 <input type="hidden" id="spContactoConfirmado" value="0">
 <input type="hidden" id="spContactoEsNuevo" value="0">
+<div class="field span-2" id="spTurnstileWrap">
+<label class="lbl">Validación de seguridad</label>
+<div class="cf-turnstile" data-sitekey="TU_TURNSTILE_SITE_KEY" data-theme="auto" data-response-field="false" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError"></div>
+<div class="mut" id="spCaptchaStatus">Confirma la validación para enviar tu solicitud.</div>
+</div>
 <div class="actions"><button class="btn btn-brand" id="spSendBtn" type="submit">Enviar solicitud</button><button class="btn btn-ghost" id="spDraftBtn" type="button">Limpiar</button></div>
 <div class="mut" id="spStatus">Completa los datos principales y agrega evidencia si la tienes.</div>
 </form>
