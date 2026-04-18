@@ -97,4 +97,12 @@ const globalSuggestRows=q=>{const x=norm(q);if(!x||x.length<1)return[];const out
 const renderGlobalSuggest=()=>{const box=$("#globalSearchSuggest"),input=$("#globalSearchInput"),items=globalSuggestRows(input?.value||"");if(!box)return;box.innerHTML=items.length?items.map(x=>`<a class="item suggest-item" href="${esc(x.href)}"><div class="item-title">${esc(x.label)}</div><div class="item-meta">${esc(x.type)} · ${esc(x.sub||"")}</div></a>`).join(""):"";box.classList.toggle("hidden",!items.length);if(items.length)box.removeAttribute("hidden");else box.setAttribute("hidden","hidden")};
 export const bindGlobalSearch=()=>{if(__globalSearchBound)return;__globalSearchBound=1;document.addEventListener("input",e=>{if(e.target?.id==="globalSearchInput")renderGlobalSuggest()});document.addEventListener("focusin",e=>{if(e.target?.id==="globalSearchInput")renderGlobalSuggest()});document.addEventListener("click",e=>{if(!e.target.closest(".global-search"))hide("#globalSearchSuggest")})};
 
+export const fmtDT=v=>v?new Date(v).toLocaleString("es-MX"):"—";
+export const daysSince=v=>v?Math.floor((Date.now()-new Date(v).getTime())/864e5):999;
+export const prettyBytes=n=>{const x=Number(n||0);return x>=1048576?`${(x/1048576).toFixed(1)} MB`:x>=1024?`${Math.max(1,Math.round(x/1024))} KB`:`${x} B`};
+export const ticketStateKey=v=>{const x=norm(v);if(["abierto","nuevo"].includes(x))return"abierto";if(["en_proceso","en proceso","proceso"].includes(x))return"en_proceso";if(["esperando_cliente","esperando cliente","espera"].includes(x))return"esperando_cliente";if(["resuelto"].includes(x))return"resuelto";if(["cerrado","closed","done","cancelado"].includes(x))return"cerrado";return"abierto"};
+export const ticketStateLabel=v=>ticketStateKey(v)==="en_proceso"?"En proceso":ticketStateKey(v)==="esperando_cliente"?"Esperando cliente":ticketStateKey(v)==="resuelto"?"Resuelto":ticketStateKey(v)==="cerrado"?"Cerrado":"Abierto";
+export const ticketStateCls=v=>{const x=ticketStateKey(v);return x==="resuelto"||x==="cerrado"?"ok":x==="esperando_cliente"?"warn":x==="en_proceso"?"info":"neutral"};
+export const ticketPriorityCls=v=>{const x=norm(v);return x==="urgente"?"bad":x==="alta"?"warn":x==="media"?"info":"ok"};
+
 
