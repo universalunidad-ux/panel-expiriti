@@ -1,12 +1,12 @@
  import{supabase as s,guardSession,msg}from"./supabase.js";
-import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb}from"./global.js";
+import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb,fmtDT,daysSince,ticketStateKey,ticketStateLabel,ticketPriorityCls}from"./global.js";
 let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:"",clienteId:"",noEvidence:false,readyClose:false,impactHigh:false,urgentStale:false,needsIdentity:false,noClientLinked:false,matchMedium:false},VIEW=localStorage.getItem("expiriti_tickets_view")||"kanban",SELECTED_ID="",EDIT_MODE=localStorage.getItem("expiriti_tickets_edit_mode")==="1",DRAG_COL=null,FOCUS_ON=localStorage.getItem("expiriti_focus_mode")==="1",FOCUS_INDEX=0;
-const fmt=v=>v?new Date(v).toLocaleString("es-MX"):"—";
-const daysSince=v=>v?Math.floor((Date.now()-new Date(v).getTime())/864e5):999;
+
+
 const rawState=t=>t?.estado||t?.estatus||t?.status||"abierto";
-const stateKey=v=>{const x=norm(v);if(["abierto","nuevo"].includes(x))return"abierto";if(["en_proceso","en proceso","proceso"].includes(x))return"en_proceso";if(["esperando_cliente","esperando cliente","espera"].includes(x))return"esperando_cliente";if(["resuelto"].includes(x))return"resuelto";if(["cerrado","closed","done","cancelado"].includes(x))return"cerrado";return"abierto"};
-const stateLabel=v=>stateKey(v)==="en_proceso"?"En proceso":stateKey(v)==="esperando_cliente"?"Esperando cliente":stateKey(v)==="resuelto"?"Resuelto":stateKey(v)==="cerrado"?"Cerrado":"Abierto";
-const priCls=v=>{const x=norm(v);return x==="urgente"?"bad":x==="alta"?"warn":x==="media"?"info":"ok"};
+
+
+
 const staleCls=t=>daysSince(t.fecha_actualizacion||t.fecha_creacion)>=1&&!["resuelto","cerrado"].includes(stateKey(rawState(t)))?"is-stale":"";
 const isCritical=t=>norm(t.prioridad)==="urgente"||daysSince(t.fecha_actualizacion||t.fecha_creacion)>=3&&!["resuelto","cerrado"].includes(stateKey(rawState(t)));
 const evidenceCount=t=>Array.isArray(t?.adjuntos)?t.adjuntos.length:Number(t?.evidencia_count||t?.attachments_count||t?.files_count||0)||0;
