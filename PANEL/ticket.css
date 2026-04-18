@@ -75,3 +75,7 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .composer-grid{align-items:end}
 .field .lbl{opacity:.92}
 @media(max-width:760px){.hero-ticket,.inset,.box,.evidence-item,.log-msg{padding:12px}}
+
+#tkCrmMiniGrid .box{min-height:72px}
+#tkCrmChips{display:flex;flex-wrap:wrap;gap:8px}
+#tkCrmHint{line-height:1.45}
