@@ -51,3 +51,13 @@
 .composer-actions{position:relative;display:flex;gap:10px;flex-wrap:wrap}
 .quick-replies{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel2) 92%,transparent)}
 #quickReplyBtn.is-active{outline:2px solid color-mix(in srgb,var(--brand) 28%,transparent)}
+
+.k-card,.compact-row{transition:border-color .16s ease,box-shadow .16s ease,background .16s ease,transform .16s ease}
+.k-card .k-meta,.compact-row .meta{opacity:.86}
+.k-card .k-tags,.compact-row .tag{row-gap:6px}
+.k-title,.compact-title{letter-spacing:-.01em}
+.ticket-preview{gap:12px}
+.ticket-preview .panel,.ticket-preview .inset{box-shadow:var(--shadow-xs)}
+#tkFocusPanel .inset{box-shadow:var(--shadow-sm)}
+.compact-row .mini.btn-ghost{min-height:30px;padding:0 10px}
+@media(max-width:720px){.ticket-preview{gap:10px}.k-card,.compact-row{padding:12px}.k-tags{gap:6px}}
