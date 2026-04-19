@@ -21,6 +21,40 @@
 <article class="metric soft"><div class="k">1ª respuesta prom.</div><div class="v small" id="heroSlaFirst">—</div></article>
 <article class="metric soft"><div class="k">Resolución prom.</div><div class="v small" id="heroSlaClose">—</div></article>
 </div>
+
+ <details class="panel inset fold-card" id="clSystemsFold">
+  <summary class="fold-head"><span>Sistemas</span><span class="fold-kicker">Versiones y entorno</span></summary>
+  <div class="fold-body">
+    <div class="stack-sm" id="clSystemsList">
+      <div class="empty-state">Sin sistemas registrados para este cliente.</div>
+    </div>
+    <div class="actions mt8">
+      <button class="btn btn-ghost" type="button" id="clAddSystemBtn">Agregar sistema</button>
+    </div>
+  </div>
+</details>
+ <div class="overlay" id="clSystemOverlay" hidden>
+  <div class="modal cliente-system-modal">
+    <div class="section-head">
+      <div><div class="section-kicker">Sistema del cliente</div><h3>Agregar o actualizar sistema</h3></div>
+      <button class="icon-btn" id="clSystemClose" type="button">✕</button>
+    </div>
+    <div class="composer-grid">
+      <div class="field span-2"><label class="lbl" for="clSysName">Sistema</label><input class="input" id="clSysName" placeholder="Ej. Contabilidad"></div>
+      <div class="field"><label class="lbl" for="clSysTypeDefault">Tipo de solicitud default</label><input class="input" id="clSysTypeDefault" placeholder="Ej. Incidencia"></div>
+      <div class="field"><label class="lbl" for="clSysVersion">Versión sistema</label><input class="input" id="clSysVersion" placeholder="Ej. 17.4.1"></div>
+      <div class="field"><label class="lbl" for="clSysWindows">Versión Windows</label><input class="input" id="clSysWindows" placeholder="Ej. Windows 10 Pro"></div>
+      <div class="field"><label class="lbl" for="clSysHost">Servidor o equipo</label><input class="input" id="clSysHost" placeholder="Ej. VPS principal"></div>
+      <div class="field"><label class="lbl" for="clSysOrigin">Origen</label><input class="input" id="clSysOrigin" placeholder="Ej. cliente, ticket, llamada"></div>
+      <div class="field span-2"><label class="lbl" for="clSysNotes">Observaciones</label><textarea class="area" id="clSysNotes" rows="4" placeholder="Notas preventivas, entorno, detalles útiles"></textarea></div>
+      <input type="hidden" id="clSysId">
+    </div>
+    <div class="actions mt12">
+      <button class="btn btn-ghost" id="clSystemCancel" type="button">Cancelar</button>
+      <button class="btn btn-brand" id="clSystemSave" type="button">Guardar sistema</button>
+    </div>
+  </div>
+</div>
  
 <div class="hero-actions">
 <button class="btn btn-brand" id="openNewTicketBtn">Nuevo ticket</button>
@@ -93,6 +127,7 @@
 <div class="main-col">
 <section class="card">
 
+ 
 <div class="tabs">
 <button class="tab active" data-tab="docs">Certificados <span class="badge" id="tabDocsCount">0</span></button>
 <button class="tab" data-tab="contactos">Contactos <span class="badge" id="tabContactsCount">0</span></button>
