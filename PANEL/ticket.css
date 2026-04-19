@@ -160,5 +160,8 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .fold-body{padding:0 16px 16px}
 .fold-card[open] .fold-head{border-bottom:1px solid var(--line)}
 
+.ticket-page{width:min(1480px,calc(100% - 32px));margin:18px auto;display:grid;grid-template-columns:380px minmax(0,1fr);gap:18px;align-items:start}
+.ticket-side,.ticket-main{min-width:0}
+.ticket-main{max-width:100%}
 
 
