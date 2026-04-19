@@ -7,16 +7,18 @@
 <section class="panel tickets-hero"><div><div class="section-kicker">Seguimiento diario</div><h1>Casos de soporte</h1><p class="mut">Ubica rápido qué requiere atención, qué está esperando respuesta y qué ya puede concluirse.</p></div><div class="hero-actions"><button class="btn" id="tkRefresh">Actualizar</button><button class="btn" id="tkEditBtn" type="button">✏️ Vista</button><button class="btn" id="tkFocusBtn" type="button">Modo foco</button><button class="btn btn-brand" id="tkNewBtn">Nuevo ticket</button></div><div class="mut tk-edit-help hidden" id="tkEditHelp">✏️ Editar vista: arrastra columnas para ordenar tu mesa. Toca otra vez el lápiz para salir.</div></section>
   
 
-<section class="metrics-grid">
-<article class="panel metric"><div class="k">Urgentes abiertos</div><div class="v" id="mUrgent">0</div></article>
-<article class="panel metric"><div class="k">Esperando cliente</div><div class="v" id="mWait">0</div></article>
-<article class="panel metric"><div class="k">Sin tocar hoy</div><div class="v" id="mStale">0</div></article>
-<article class="panel metric"><div class="k">Resueltos hoy</div><div class="v" id="mSolved">0</div></article>
-<article class="panel metric"><div class="k">Por consolidar</div><div class="v" id="mPendingIdentity">0</div></article>
-<article class="panel metric"><div class="k">Sin cliente ligado</div><div class="v" id="mNoClient">0</div></article>
-<article class="panel metric"><div class="k">1ra respuesta vencida</div><div class="v" id="mFrBreach">0</div></article>
-<article class="panel metric"><div class="k">Resolución vencida</div><div class="v" id="mRsBreach">0</div></article>
-<article class="panel metric"><div class="k">SLA por vencer</div><div class="v" id="mSlaSoon">0</div></article>
+<section class="metrics-strip-wrap">
+<div class="metrics-strip" id="tkMetricsStrip">
+<button class="metric-pill" id="metricUrgent" type="button"><span class="mk">Urgentes</span><span class="mv" id="mUrgent">0</span></button>
+<button class="metric-pill" id="metricWait" type="button"><span class="mk">Esperando cliente</span><span class="mv" id="mWait">0</span></button>
+<button class="metric-pill" id="metricStale" type="button"><span class="mk">Sin tocar</span><span class="mv" id="mStale">0</span></button>
+<button class="metric-pill" id="metricSolved" type="button"><span class="mk">Resueltos hoy</span><span class="mv" id="mSolved">0</span></button>
+<button class="metric-pill" id="metricIdentity" type="button"><span class="mk">Por consolidar</span><span class="mv" id="mPendingIdentity">0</span></button>
+<button class="metric-pill" id="metricNoClient" type="button"><span class="mk">Sin cliente</span><span class="mv" id="mNoClient">0</span></button>
+<button class="metric-pill metric-pill-bad" id="metricFrBreach" type="button"><span class="mk">1ra resp. vencida</span><span class="mv" id="mFrBreach">0</span></button>
+<button class="metric-pill metric-pill-bad" id="metricRsBreach" type="button"><span class="mk">Resolución vencida</span><span class="mv" id="mRsBreach">0</span></button>
+<button class="metric-pill metric-pill-warn" id="metricSlaSoon" type="button"><span class="mk">SLA por vencer</span><span class="mv" id="mSlaSoon">0</span></button>
+</div>
 </section>
   
 <section class="panel tickets-toolbar">
