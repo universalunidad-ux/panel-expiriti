@@ -180,4 +180,11 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 }
 
 
+.composer-chatbox{display:grid;gap:12px}
+.composer-chatbox.is-note{padding:10px;border-radius:18px;background:color-mix(in srgb,var(--ok) 5%,var(--panel))}
+.composer-chatbox.is-close{padding:10px;border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--panel))}
+.composer-statusline{display:flex;gap:8px;flex-wrap:wrap}
+#quickReplies{margin-top:2px}
+#quickReplies[hidden]{display:none!important}
+
 
