@@ -3,8 +3,8 @@
 .tickets-hero h1{margin:4px 0 0;font-size:clamp(24px,3vw,32px);line-height:1.04;letter-spacing:-.03em}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .tickets-toolbar{display:grid;gap:12px}
-.toolbar-grid{display:grid;grid-template-columns:1.1fr 1.1fr 1.1fr 1.2fr .9fr .9fr .9fr .9fr;gap:10px;align-items:start}
-.board-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start}
+
+
 .kanban-board{display:grid;grid-template-columns:repeat(4,minmax(260px,1fr));gap:16px;align-items:start;overflow:auto;padding-bottom:6px}
 .kanban-col{display:flex;flex-direction:column;min-height:520px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs)}
 .col-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--line);font-weight:900}
@@ -26,10 +26,12 @@
 .k-tags{display:flex;gap:6px;flex-wrap:wrap}
 .k-meta{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:color-mix(in srgb,var(--muted) 88%,transparent);padding-top:1px}
 .drag-over{outline:2px dashed color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:4px}
-.ticket-preview{display:grid;gap:14px;position:sticky;top:80px;align-self:start}
-.ticket-preview .actions{display:flex;gap:8px;flex-wrap:wrap}
-.ticket-preview .actions .btn{width:100%;justify-content:center}
-.preview-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toolbar-grid{display:grid;gap:10px;align-items:start}
+.toolbar-grid-base{grid-template-columns:1.1fr 1.1fr 1.1fr 1.2fr .9fr .9fr .9fr}
+.toolbar-advanced{display:flex;flex-wrap:wrap;gap:10px;padding-top:2px}
+.board-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
+
+
 .inset{padding:14px}
 .compact-list{display:grid;gap:10px}
 .compact-head,.compact-row{display:grid;grid-template-columns:120px 1fr 2fr 1fr 1fr 110px;gap:10px;align-items:center}
@@ -48,16 +50,17 @@
 @media(max-width:720px){.tickets-hero{flex-direction:column}.tickets-hero .hero-actions,.tickets-hero .actions{width:100%}.tickets-hero .btn,.tickets-hero .mini{flex:1}.kanban-board,.metrics-grid,.toolbar-grid,.preview-meta,#tkModal .grid-2{grid-template-columns:1fr}.compact-head{display:none}.compact-row{grid-template-columns:1fr;gap:8px}}
 @media(max-width:520px){.tickets-page{gap:12px}.kanban-board{grid-template-columns:1fr}.col-body{min-height:auto}.k-card,.compact-row,.inset{padding:12px}}
 
-.composer-actions{position:relative;display:flex;gap:10px;flex-wrap:wrap}
-.quick-replies{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel2) 92%,transparent)}
-#quickReplyBtn.is-active{outline:2px solid color-mix(in srgb,var(--brand) 28%,transparent)}
 
 .k-card,.compact-row{transition:border-color .16s ease,box-shadow .16s ease,background .16s ease,transform .16s ease}
 .k-card .k-meta,.compact-row .meta{opacity:.86}
 .k-card .k-tags,.compact-row .tag{row-gap:6px}
 .k-title,.compact-title{letter-spacing:-.01em}
-.ticket-preview{gap:12px}
-.ticket-preview .panel,.ticket-preview .inset{box-shadow:var(--shadow-xs)}
+
+
 #tkFocusPanel .inset{box-shadow:var(--shadow-sm)}
 .compact-row .mini.btn-ghost{min-height:30px;padding:0 10px}
-@media(max-width:720px){.ticket-preview{gap:10px}.k-card,.compact-row{padding:12px}.k-tags{gap:6px}}
+
+.toolbar-advanced.hidden{display:none}
+.toolbar-advanced .btn{min-height:40px}
+.metric{cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.metric:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 10%,transparent),var(--shadow-xs)}
