@@ -259,3 +259,16 @@ body[data-page="ticket"] .ticket-side{top:10px}
 .fold-head{padding:12px 14px}
 .fold-body{padding:0 14px 14px}
 @media(max-width:760px){.log-msg{max-width:92%}.chat-area{min-height:84px}}
+
+@media(max-width:900px){
+.ticket-layout{display:flex;flex-direction:column}
+.ticket-main{order:1}
+.ticket-side{order:2}
+.ticket-side{margin-top:10px}
+}
+
+#logText{min-height:84px;max-height:180px}
+.log-msg{box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.log-msg.me{margin-left:auto}
+.log-msg.note{border-left:3px solid var(--warn)}
+.log-msg.close{border-left:3px solid var(--ok)}
