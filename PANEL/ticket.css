@@ -233,3 +233,17 @@ body[data-page="ticket"] .ticket-side{top:10px}
 .range-opt{display:grid;gap:8px}
 .range-opt input[type="range"]{width:100%}
 
+
+.ticket-system-modal{width:min(860px,94vw);max-height:86vh;overflow:auto}
+.tk-system-item{display:grid;gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--panel) 98%,transparent)}
+.tk-system-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tk-system-title{display:flex;align-items:center;gap:10px;font-weight:800}
+.tk-system-meta{display:flex;flex-wrap:wrap;gap:8px}
+.tk-system-notes{color:var(--muted);font-size:13px;line-height:1.45}
+.tk-system-actions{display:flex;gap:8px;flex-wrap:wrap}
+.thread-gear-wrap .icon-only{border-radius:16px;min-width:44px;height:44px}
+.thread-gear-wrap .icon-only:hover{transform:translateY(-1px)}
+.thread-gear-menu{backdrop-filter:blur(14px);border:1px solid color-mix(in srgb,var(--line) 84%,white);box-shadow:0 18px 48px rgba(2,6,23,.16)}
+.thread-gear-section+.thread-gear-section{padding-top:10px;border-top:1px solid var(--line)}
+.thread-opt input[type="checkbox"]{inline-size:16px;block-size:16px}
+.range-opt input[type="range"]{accent-color:var(--brand)}
