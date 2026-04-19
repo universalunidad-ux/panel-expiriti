@@ -14,7 +14,11 @@
 <article class="panel metric"><div class="k">Resueltos hoy</div><div class="v" id="mSolved">0</div></article>
 <article class="panel metric"><div class="k">Por consolidar</div><div class="v" id="mPendingIdentity">0</div></article>
 <article class="panel metric"><div class="k">Sin cliente ligado</div><div class="v" id="mNoClient">0</div></article>
+<article class="panel metric"><div class="k">1ra respuesta vencida</div><div class="v" id="mFrBreach">0</div></article>
+<article class="panel metric"><div class="k">Resolución vencida</div><div class="v" id="mRsBreach">0</div></article>
+<article class="panel metric"><div class="k">SLA por vencer</div><div class="v" id="mSlaSoon">0</div></article>
 </section>
+  
 <section class="panel tickets-toolbar">
 <div class="searchbox"><span>🔎</span><input id="tkSearch" placeholder="Buscar ticket, cliente, sistema, prioridad o estado"></div>
 <div class="toolbar-grid toolbar-grid-base">
@@ -26,6 +30,7 @@
 <button class="btn btn-ghost" id="tkMoreFiltersBtn" type="button" aria-expanded="false">Más filtros</button>
 <button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
 </div>
+
 <div class="toolbar-advanced hidden" id="tkAdvancedFilters">
 <button class="btn btn-ghost" id="tkNoEvidence" type="button">Sin evidencia</button>
 <button class="btn btn-ghost" id="tkReadyClose" type="button">Listos para cerrar</button>
@@ -34,7 +39,11 @@
 <button class="btn btn-ghost" id="tkNeedsIdentity" type="button">Por consolidar</button>
 <button class="btn btn-ghost" id="tkNoClientLinked" type="button">Sin cliente ligado</button>
 <button class="btn btn-ghost" id="tkMatchMedium" type="button">Match medio</button>
+<button class="btn btn-ghost" id="tkFrBreach" type="button">1ra respuesta vencida</button>
+<button class="btn btn-ghost" id="tkRsBreach" type="button">Resolución vencida</button>
+<button class="btn btn-ghost" id="tkSlaSoon" type="button">SLA por vencer</button>
 </div>
+  
 </section>
 
 <section class="board-layout">
