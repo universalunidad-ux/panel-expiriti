@@ -1,6 +1,6 @@
 .ticket-page{display:grid;grid-template-columns:minmax(380px,460px) minmax(0,1fr);gap:18px;align-items:start;min-height:calc(100vh - 92px)}
 
-.ticket-main{display:grid;grid-template-rows:auto minmax(360px,1fr) auto;gap:10px;min-height:calc(100vh - 120px);min-width:0}
+.ticket-main{display:grid;grid-template-rows:minmax(360px,1fr);gap:10px;min-height:calc(100vh - 120px);min-width:0}
 
 .side-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .side-head h1{margin:4px 0 0;font-size:clamp(24px,2.4vw,28px);line-height:1.04;letter-spacing:-.03em}
@@ -125,16 +125,13 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .ticket-main>.panel,.ticket-side>.panel,.ticket-side>.inset{contain:layout paint}
 
 
-.ticket-main{grid-template-rows:auto minmax(360px,1fr) auto}
 .ticket-main>.panel{border-radius:22px}
-.ticket-main>.panel+.panel{margin-top:-2px}
-.composer{border-top-left-radius:18px;border-top-right-radius:18px}
+.ticket-thread{display:grid;grid-template-rows:minmax(420px,1fr) auto;overflow:hidden;padding:0}
+.log-area{min-height:520px;max-height:none;padding:18px 18px 10px}
+.composer{padding:14px 18px 18px;border-top:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+.composer-inline{position:sticky;bottom:0;z-index:2;backdrop-filter:blur(10px)}
 
-.log-area{min-height:520px;max-height:none}
-.composer{padding-top:14px;border-top:1px solid var(--line)}
-
-
-.composer{display:grid;gap:12px;padding:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+.composer{display:grid;gap:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
 .composer-head{align-items:center}
 .composer-modebar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .pill-switch{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-weight:850;color:var(--text)}
@@ -186,5 +183,15 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .composer-statusline{display:flex;gap:8px;flex-wrap:wrap}
 #quickReplies{margin-top:2px}
 #quickReplies[hidden]{display:none!important}
+
+.ticket-thread .composer-head{align-items:center}
+.ticket-thread .composer-chatbox{display:grid;gap:12px}
+.ticket-thread .chat-area{min-height:108px;max-height:220px;resize:vertical}
+.ticket-thread .composer-statusline{display:flex;gap:8px;flex-wrap:wrap}
+.ticket-thread #logStatus,.ticket-thread #tkComposerModeText{max-width:78ch}
+.ticket-thread .quick-replies{padding-top:2px}
+.ticket-thread .composer-chatbox.is-note{padding:10px;border-radius:18px;background:color-mix(in srgb,var(--ok) 5%,var(--panel))}
+.ticket-thread .composer-chatbox.is-close{padding:10px;border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--panel))}
+@media(max-width:760px){.ticket-thread{grid-template-rows:minmax(280px,1fr) auto}.log-area{padding:14px 14px 8px}.composer{padding:12px 14px 14px}}
 
 
