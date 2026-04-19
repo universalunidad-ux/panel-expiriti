@@ -247,3 +247,15 @@ body[data-page="ticket"] .ticket-side{top:10px}
 .thread-gear-section+.thread-gear-section{padding-top:10px;border-top:1px solid var(--line)}
 .thread-opt input[type="checkbox"]{inline-size:16px;block-size:16px}
 .range-opt input[type="range"]{accent-color:var(--brand)}
+
+.log-msg{padding:12px 14px;border-radius:18px;max-width:min(72%,760px)}
+.log-msg.me{border-radius:18px 18px 8px 18px}
+.log-msg.note{background:color-mix(in srgb,var(--warn) 8%,var(--panel));border-color:color-mix(in srgb,var(--warn) 20%,var(--line))}
+.log-msg.close{background:color-mix(in srgb,var(--ok) 10%,var(--panel));border-color:color-mix(in srgb,var(--ok) 24%,var(--line))}
+.chat-area{min-height:92px;max-height:180px}
+.composer{gap:10px;padding:12px 16px 14px}
+.composer-bottom .btn{min-height:42px}
+.ticket-side{gap:10px}
+.fold-head{padding:12px 14px}
+.fold-body{padding:0 14px 14px}
+@media(max-width:760px){.log-msg{max-width:92%}.chat-area{min-height:84px}}
