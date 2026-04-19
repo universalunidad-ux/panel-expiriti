@@ -41,7 +41,8 @@ const board=$("#tkBoard");
 const setEditMode=v=>{EDIT_MODE=!!v;localStorage.setItem("expiriti_tickets_edit_mode",EDIT_MODE?"1":"0");document.body.classList.toggle("view-edit-mode",EDIT_MODE);$("#tkEditBtn")?.classList.toggle("is-active",EDIT_MODE);$("#tkEditHelp")?.classList.toggle("hidden",!EDIT_MODE);$("#tkEditModeChk")&&($("#tkEditModeChk").checked=EDIT_MODE);$$(".kanban-col").forEach(col=>col.draggable=EDIT_MODE)};
 const boardOrder=()=>$$(".kanban-board .kanban-col").map(col=>col.querySelector(".col-body")?.id||"");
 const saveBoardOrder=()=>localStorage.setItem("expiriti_tickets_col_order",JSON.stringify(boardOrder()));
- 
+const applyBoardOrder=()=>{const raw=localStorage.getItem("expiriti_tickets_col_order");if(!raw||!board)return;try{const order=JSON.parse(raw);order.forEach(id=>{const body=$("#"+id);const col=body?.closest(".kanban-col");if(col)board.appendChild(col)})}catch{}};
+
 const KPI_EXPANDED=()=>localStorage.getItem("expiriti_tickets_kpi_more")==="1";
 const setKpiExpanded=v=>{localStorage.setItem("expiriti_tickets_kpi_more",v?"1":"0");$("#tkMetricsExtra")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.classList.toggle("hidden",v);$("#tkMetricsLessBtn")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.setAttribute("aria-expanded",v?"true":"false");$("#tkMetricsLessBtn")?.setAttribute("aria-expanded",v?"true":"false");if(v)$("#tkMetricsStrip")?.scrollBy({left:220,behavior:"smooth"});else $("#tkMetricsStrip")?.scrollTo({left:0,behavior:"smooth"})};
 
