@@ -76,3 +76,11 @@
 .quick-inline{display:flex;flex-wrap:wrap;gap:8px}
 .quick-inline .mini{min-height:32px}
 @media(max-width:720px){.quick-inline{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick-inline .btn{width:100%}}
+
+.tickets-gear-wrap{position:relative;display:flex}
+.tickets-gear-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:240px;padding:12px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),color-mix(in srgb,var(--panel-2) 99%,transparent));box-shadow:var(--shadow-md);z-index:30;display:grid;gap:12px}
+.tickets-gear-menu.hidden{display:none}
+.tickets-gear-section{display:grid;gap:10px}
+.tickets-gear-title{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.icon-only{min-width:52px;padding-inline:0;justify-content:center}
+@media(max-width:720px){.tickets-gear-menu{right:0;left:auto;min-width:min(260px,calc(100vw - 28px))}}
