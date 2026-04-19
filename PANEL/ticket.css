@@ -210,3 +210,18 @@ body[data-page="ticket"] .ticket-side{top:10px}
 .composer-inline{position:sticky;bottom:0;z-index:2;backdrop-filter:blur(10px)}
 @media(max-width:760px){body[data-page="ticket"] .ticket-page{padding-top:6px}body[data-page="ticket"] .ticket-side{top:6px}.ticket-thread{grid-template-rows:auto minmax(260px,1fr) auto}.thread-topbar{padding:12px 14px 6px}.log-area{padding:2px 14px 8px}.composer{padding:12px 14px 14px}}
 
+.hero-mini-grid{grid-template-columns:1fr 1fr}
+.box-system .v{display:flex;align-items:center;min-height:24px}
+.tk-system-chip{display:inline-flex;align-items:center;gap:10px;min-width:0}
+.tk-system-logo{width:22px;height:22px;object-fit:contain;flex:0 0 22px}
+.contact-mini-list{display:grid;gap:8px}
+.contact-mini-row{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 98%,transparent)}
+.contact-mini-row .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:color-mix(in srgb,var(--muted) 92%,transparent);padding-top:2px}
+.contact-mini-row .v{min-width:0;word-break:break-word}
+.contact-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.contact-actions a{color:inherit;text-decoration:none;border-bottom:1px dashed color-mix(in srgb,var(--brand) 40%,var(--line))}
+.contact-actions a:hover{border-bottom-color:var(--brand)}
+
+#tkContactOverlay{z-index:120}
+.ticket-contact-modal{width:min(920px,94vw);max-height:86vh;overflow:auto}
+
