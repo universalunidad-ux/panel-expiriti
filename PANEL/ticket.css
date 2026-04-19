@@ -164,4 +164,20 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .ticket-side,.ticket-main{min-width:0}
 .ticket-main{max-width:100%}
 
+@media (max-width:1100px){
+.ticket-page{grid-template-columns:1fr;max-width:900px}
+.ticket-side{order:2}
+.ticket-main{order:1}
+}
+
+.ticket-page{width:min(1440px,calc(100% - 32px));margin:16px auto 28px;display:grid;grid-template-columns:370px minmax(0,1fr);gap:16px;align-items:start}
+.ticket-side,.ticket-main{min-width:0}
+.ticket-main{max-width:100%}
+@media (max-width:1100px){
+.ticket-page{grid-template-columns:1fr;max-width:900px}
+.ticket-side{order:2}
+.ticket-main{order:1}
+}
+
+
 
