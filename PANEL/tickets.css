@@ -105,3 +105,9 @@
 .metric-toggle:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 8%,transparent)}
 .metric-toggle:not(.hidden){align-self:center}
 .metric-toggle.hidden{display:none}
+
+
+.k-desc{line-height:1.32;max-height:2.64em;overflow:hidden}
+.k-meta{font-size:13px}
+.quick-inline{gap:6px}
+.quick-inline .mini,.quick-inline .btn{min-height:36px}
