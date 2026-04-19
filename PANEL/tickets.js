@@ -44,7 +44,7 @@ const saveBoardOrder=()=>localStorage.setItem("expiriti_tickets_col_order",JSON.
 const applyBoardOrder=()=>{const raw=localStorage.getItem("expiriti_tickets_col_order");if(!raw||!board)return;try{const order=JSON.parse(raw);order.forEach(id=>{const body=$("#"+id);const col=body?.closest(".kanban-col");if(col)board.appendChild(col)})}catch{}};
 
 const KPI_EXPANDED=()=>localStorage.getItem("expiriti_tickets_kpi_more")==="1";
-const setKpiExpanded=v=>{localStorage.setItem("expiriti_tickets_kpi_more",v?"1":"0");$("#tkMetricsExtra")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.classList.toggle("hidden",v);$("#tkMetricsLessBtn")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.setAttribute("aria-expanded",v?"true":"false");$("#tkMetricsLessBtn")?.setAttribute("aria-expanded",v?"true":"false");if(v)$("#tkMetricsStrip")?.scrollBy({left:220,behavior:"smooth"});else $("#tkMetricsStrip")?.scrollTo({left:0,behavior:"smooth"})};
+const setKpiExpanded=v=>{localStorage.setItem("expiriti_tickets_kpi_more",v?"1":"0");$("#tkMetricsExtra")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.classList.toggle("hidden",v);$("#tkMetricsLessBtn")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.setAttribute("aria-expanded",v?"true":"false");$("#tkMetricsLessBtn")?.setAttribute("aria-expanded",v?"true":"false")};
 
 const focusRows=()=>filtered().filter(t=>!["cerrado"].includes(ticketStateKey(rawState(t)))).sort((a,b)=>triageScore(b)-triageScore(a)||new Date(b.fecha_actualizacion||b.fecha_creacion)-new Date(a.fecha_actualizacion||a.fecha_creacion));
 const focusCurrent=()=>focusRows()[FOCUS_INDEX]||focusRows()[0]||null;
