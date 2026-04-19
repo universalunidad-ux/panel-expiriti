@@ -73,13 +73,26 @@
 <div class="thread-topbar">
 <a class="mini btn-ghost" href="tickets.html" id="tkBackInline">Volver</a>
 <div class="log-sys" id="tkThreadStamp">Caso recibido · —</div>
+
 <div class="thread-gear-wrap">
 <button class="mini btn-ghost icon-only" id="tkThreadGearBtn" type="button" aria-label="Opciones" title="Opciones">⚙️</button>
 <div class="thread-gear-menu hidden" id="tkThreadGearMenu" hidden>
+<div class="thread-gear-section">
+<div class="thread-gear-title">Notificaciones</div>
+<label class="thread-opt"><input type="checkbox" id="tkNotifVisual"> <span>Visuales</span></label>
+<label class="thread-opt"><input type="checkbox" id="tkNotifSound"> <span>Sonido</span></label>
+<label class="thread-opt"><input type="checkbox" id="tkNotifStrongOnly"> <span>Solo cambios fuertes</span></label>
+<label class="thread-opt range-opt"><span>Volumen</span><input type="range" id="tkNotifVolume" min="0" max="1" step="0.1"></label>
 <button class="mini btn-ghost" type="button" id="tkMuteTicketBtn">Silenciar este ticket</button>
+</div>
+<div class="thread-gear-section">
+<div class="thread-gear-title">Vista</div>
 <button class="mini btn-ghost" type="button" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button>
 </div>
 </div>
+</div>
+  
+  
 </div>
 
 <div class="log-area" id="logArea"></div>
