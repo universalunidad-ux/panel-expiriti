@@ -5,7 +5,7 @@
 .metrics-strip-wrap{display:block}
 .metrics-strip{display:flex;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 2px 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scroll-snap-type:x proximity;white-space:nowrap}
 .metrics-strip::-webkit-scrollbar{height:6px}
-.metric-pill{flex:0 0 auto;display:grid;gap:2px;min-width:132px;padding:8px 10px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--panel) 97%,transparent);box-shadow:none;text-align:left;cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,background .16s ease;background-clip:padding-box;scroll-snap-align:start}
+.metric-pill{flex:0 0 auto;display:grid;gap:2px;min-width:128px;padding:8px 10px;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--panel) 97%,transparent);box-shadow:none;text-align:left;cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,background .16s ease;background-clip:padding-box;scroll-snap-align:start}
 .metrics-strip::-webkit-scrollbar-track{background:transparent}
 .metrics-strip::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--line) 88%,transparent);border-radius:999px}
 
@@ -95,3 +95,9 @@
 .thread-opt input[type="checkbox"]{inline-size:18px;block-size:18px}
 .range-opt{display:grid;gap:8px}
 .range-opt input[type="range"]{width:100%}
+
+.metrics-extra{display:flex;flex-wrap:nowrap;gap:8px}
+.metrics-extra.hidden{display:none}
+.metric-toggle{flex:0 0 auto;display:grid;place-items:center;min-width:42px;height:42px;padding:0;border:1px solid var(--line);border-radius:13px;background:color-mix(in srgb,var(--panel) 97%,transparent);font-size:22px;font-weight:800;line-height:1;cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
+.metric-toggle:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 8%,transparent)}
+.metric-toggle.hidden{display:none}
