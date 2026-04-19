@@ -12,33 +12,32 @@
 <div class="box"><div class="k">Sistema / tipo</div><div class="v small" id="tkSystem">—</div></div>
 </div>
   
-<section class="panel inset"><div class="row-head"><h3>Contexto rápido</h3></div><div class="box-grid context-grid"><div class="box"><div class="k">Impacto</div><div class="v small" id="tkImpact">—</div></div><div class="box"><div class="k">Afecta</div><div class="v small" id="tkAffected">—</div></div><div class="box"><div class="k">Desde cuándo</div><div class="v small" id="tkSince">—</div></div><div class="box"><div class="k">Próximo paso</div><div class="v small" id="tkNext">—</div></div><div class="box"><div class="k">Último cambio</div><div class="v small" id="tkLastChange">—</div></div><div class="box"><div class="k">Horario disponible</div><div class="v small" id="tkAvailability">—</div></div></div></section>
-
-
+<section class="panel inset"><div class="row-head"><h3>Contexto rápido</h3></div><div class="box-grid context-grid"><div class="box"><div class="k">Impacto</div><div class="v small" id="tkImpact">—</div></div><div class="box"><div class="k">Afecta</div><div class="v small" id="tkAffected">—</div></div><div class="box"><div class="k">Desde cuándo</div><div class="v small" id="tkSince">—</div></div><div class="box"><div class="k">Próximo paso</div><div class="v small" id="tkNext">—</div></div><div class="box"><div class="k">Último cambio</div><div class="v small" id="tkLastChange">—</div></div></div></section>
 <section class="panel inset">
-<div class="row-head"><h3>Contacto</h3><button class="mini btn-ghost" id="tkContactMoreBtn" type="button">Ver más</button></div>
+<div class="row-head"><h3>Contacto</h3><button class="mini btn-ghost" id="tkContactMoreBtn" type="button">Detalle</button></div>
 <div class="contact-mini-list">
-<div class="contact-mini-row"><span class="k">Empresa</span><span class="v small" id="tkCapturedCompany">—</span></div>
-<div class="contact-mini-row"><span class="k">Nombre</span><span class="v small" id="tkCapturedName">—</span></div>
 <div class="contact-mini-row"><span class="k">Correo</span><span class="v small contact-actions"><a href="#" id="tkCapturedEmailLink">—</a><button class="mini btn-ghost" type="button" id="tkCopyEmailBtn">Copiar</button></span></div>
 <div class="contact-mini-row"><span class="k">Teléfono</span><span class="v small contact-actions"><a href="#" id="tkCapturedPhoneLink">—</a><button class="mini btn-ghost" type="button" id="tkCopyPhoneBtn">Copiar</button></span></div>
+<div class="contact-mini-row"><span class="k">Horario laboral</span><span class="v small" id="tkWorkHours">—</span></div>
+<div class="contact-mini-row"><span class="k">Horario disponible</span><span class="v small" id="tkAvailability">—</span></div>
 </div>
 <div class="chips mt8" id="tkIdentityChips"><span class="tag">Sin datos</span></div>
 <div class="mut mt8" id="tkConsolidationHint">Aquí verás si falta algo importante del contacto para operar con claridad.</div>
 </section>
   
 <details class="panel inset fold-card" id="tkChatTurnFold">
-<summary class="fold-head"><span>Turno del chat</span><span class="fold-kicker">Quién sigue y último movimiento</span></summary>
+<summary class="fold-head"><span>Ticket</span><span class="fold-kicker">Estado y último movimiento</span></summary>
 <div class="fold-body">
 <div class="box-grid">
-<div class="box"><div class="k">Estado portal</div><div class="v small" id="tkPortalState">—</div></div>
-<div class="box"><div class="k">Turno actual</div><div class="v small" id="tkChatTurn">—</div></div>
-<div class="box"><div class="k">Último autor</div><div class="v small" id="tkChatLastAuthor">—</div></div>
-<div class="box"><div class="k">Último mensaje</div><div class="v small" id="tkChatLastAt">—</div></div>
+<div class="box"><div class="k">Estado</div><div class="v small" id="tkChatTurn">—</div></div>
+<div class="box"><div class="k">Último cambio</div><div class="v small" id="tkChatLastAuthor">—</div></div>
+<div class="box"><div class="k">Hace</div><div class="v small" id="tkChatLastAgo">—</div></div>
+<div class="box"><div class="k">Portal</div><div class="v small" id="tkPortalState">—</div></div>
 </div>
 <div class="chips mt8" id="tkChatTurnChips"><span class="tag">Sin datos</span></div>
 </div>
 </details>
+  
   
 <details class="panel inset fold-card" id="tkPortalFold">
 <summary class="fold-head"><span>Revisión del cliente</span><span class="fold-kicker">Vistas y respuesta</span></summary>
