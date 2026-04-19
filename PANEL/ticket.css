@@ -194,4 +194,19 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .ticket-thread .composer-chatbox.is-close{padding:10px;border-radius:18px;background:color-mix(in srgb,var(--brand) 6%,var(--panel))}
 @media(max-width:760px){.ticket-thread{grid-template-rows:minmax(280px,1fr) auto}.log-area{padding:14px 14px 8px}.composer{padding:12px 14px 14px}}
 
+body[data-page="ticket"] #appShell .app-topbar{display:none!important}
+body[data-page="ticket"] .ticket-page{padding-top:8px}
+body[data-page="ticket"] .ticket-side{top:10px}
+.ticket-main{display:grid;grid-template-rows:minmax(360px,1fr);gap:10px;min-height:calc(100vh - 28px);min-width:0}
+.ticket-thread{display:grid;grid-template-rows:auto minmax(360px,1fr) auto;overflow:hidden;padding:0;border-radius:22px}
+.thread-topbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:14px 18px 8px}
+#tkThreadStamp{justify-self:center}
+.thread-gear-wrap{position:relative;justify-self:end}
+.thread-gear-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:220px;padding:10px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent));box-shadow:0 14px 34px rgba(15,23,42,.10);display:grid;gap:8px;z-index:20}
+.thread-gear-menu.hidden{display:none}
+.icon-only{min-width:44px;padding-inline:0;justify-content:center}
+.log-area{min-height:520px;max-height:none;padding:4px 18px 10px}
+.composer{padding:14px 18px 18px;border-top:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+.composer-inline{position:sticky;bottom:0;z-index:2;backdrop-filter:blur(10px)}
+@media(max-width:760px){body[data-page="ticket"] .ticket-page{padding-top:6px}body[data-page="ticket"] .ticket-side{top:6px}.ticket-thread{grid-template-rows:auto minmax(260px,1fr) auto}.thread-topbar{padding:12px 14px 6px}.log-area{padding:2px 14px 8px}.composer{padding:12px 14px 14px}}
 
