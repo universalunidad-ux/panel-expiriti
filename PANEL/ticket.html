@@ -73,17 +73,27 @@
   
   
 </aside>
-
 <section class="ticket-main">
+<section class="panel ticket-thread">
+<div class="thread-topbar">
+<a class="mini btn-ghost" href="tickets.html" id="tkBackInline">Volver</a>
+<div class="log-sys" id="tkThreadStamp">Caso recibido · —</div>
+<div class="thread-gear-wrap">
+<button class="mini btn-ghost icon-only" id="tkThreadGearBtn" type="button" aria-label="Opciones" title="Opciones">⚙️</button>
+<div class="thread-gear-menu hidden" id="tkThreadGearMenu" hidden>
+<button class="mini btn-ghost" type="button" id="tkMuteTicketBtn">Silenciar este ticket</button>
+<button class="mini btn-ghost" type="button" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button>
+</div>
+</div>
+</div>
 
+<div class="log-area" id="logArea"></div>
 
-  <section class="panel"><div class="log-area" id="logArea"></div></section>
-<section class="panel composer">
+<div class="composer composer-inline">
 <div class="section-head composer-head"><div><div class="section-kicker">Centro de respuesta</div><h3>Responder o resolver</h3></div><div class="composer-modebar"><button class="pill-switch is-active" type="button" id="modeReplyBtn" data-kind="seguimiento" data-state="">Respuesta</button><button class="pill-switch" type="button" id="modeCloseBtn" data-kind="solucion" data-state="resuelto">Cierre</button><button class="icon-note-btn" type="button" id="modeNoteBtn" aria-label="Nota interna" title="Nota interna">📝</button></div></div>
 
 <div class="composer-chatbox">
-<textarea class="area chat-area" id="logText" placeholder="Escribe tu respuesta, seguimiento o cierre."></textarea>
-
+<textarea class="area chat-area" id="logText" placeholder="Escribe una respuesta clara, breve y fácil de continuar."></textarea>
 
 <div class="composer-bottom">
 <div class="composer-left">
@@ -93,16 +103,26 @@
 </div>
 <div class="composer-right">
 <button class="btn btn-ghost" id="quickReplyBtn" type="button">Mensajes sugeridos</button>
-<button class="btn btn-brand" id="saveLogBtn" type="button">Enviar</button>
+<button class="btn btn-brand" id="saveLogBtn" type="button">Enviar respuesta</button>
 </div>
 </div>
 
 <div class="composer-statusline">
-<span class="tag" id="tkComposerModeTag">Respuesta visible</span>
+<span class="tag" id="tkComposerModeTag">Visible al cliente</span>
 <span class="tag" id="tkComposerStateTag">Sin cambio de estado</span>
 </div>
-<div class="mut" id="tkComposerModeText">Este mensaje seguirá el flujo normal del caso.</div>
-<div class="mut" id="logStatus">Escribe una respuesta clara para que el equipo o el cliente continúe sin fricción.</div>
+<div class="mut" id="tkComposerModeText">Responde de forma breve, clara y fácil de continuar.</div>
+<div class="mut" id="logStatus">Se enviará como respuesta normal del caso.</div>
+
+<div class="quick-replies" id="quickReplies" hidden>
+<button class="mini btn-ghost" type="button" data-qr="xml">Pedir archivo XML</button>
+<button class="mini btn-ghost" type="button" data-qr="captura">Pedir captura</button>
+<button class="mini btn-ghost" type="button" data-qr="remoto">Pedir acceso remoto</button>
+<button class="mini btn-ghost" type="button" data-qr="horario">Pedir horario</button>
+<button class="mini btn-ghost" type="button" data-qr="espera">Quedar en espera</button>
+<button class="mini btn-ghost" type="button" data-qr="solucion">Confirmar solución</button>
+<button class="mini btn-ghost" type="button" data-qr="resuelto">Marcar resuelto</button>
+</div>
 </div>
 
 <select class="select sr-only" id="logKind">
@@ -119,11 +139,10 @@
 <option value="resuelto">Resuelto</option>
 <option value="cerrado">Cerrado</option>
 </select>
-
-
+</div>
+</section>
 </section>
   
-</section>
 </main>
 <div class="overlay" id="evModal" hidden><div class="modal ticket-ev-modal"><div class="section-head"><div><div class="section-kicker">Evidencia</div><h3 id="evTitle">Vista previa</h3></div><button class="icon-btn" id="evClose" type="button">✕</button></div><div class="ev-toolbar"><a class="btn btn-ghost" id="evOpenRaw" href="#" target="_blank" rel="noopener">Abrir original</a></div><div class="ev-body" id="evBody"><div class="empty-state">Sin vista previa.</div></div></div></div>
   <div class="overlay" id="tkContactOverlay" hidden><div class="modal ticket-contact-modal"><div class="section-head"><div><div class="section-kicker">Contacto ampliado</div><h3>Detalle de contacto e identidad</h3></div><button class="icon-btn" id="tkContactClose" type="button">✕</button></div><div class="stack-md"><div class="box-grid"><div class="box"><div class="k">Cliente sugerido</div><div class="v small" id="tkSuggestedClient">—</div></div><div class="box"><div class="k">Contacto sugerido</div><div class="v small" id="tkSuggestedContact">—</div></div><div class="box"><div class="k">Match</div><div class="v small" id="tkMatchMeta">—</div></div><div class="box"><div class="k">Estado</div><div class="v small" id="tkConsolidationState">—</div></div></div><div class="chips" id="tkCrmChips"><span class="tag">Sin contexto CRM</span></div><div class="box-grid"><div class="box"><div class="k">Contacto ligado</div><div class="v small" id="tkLinkedContactName">—</div></div><div class="box"><div class="k">Correo contacto</div><div class="v small" id="tkLinkedContactEmail">—</div></div><div class="box"><div class="k">Teléfono contacto</div><div class="v small" id="tkLinkedContactPhone">—</div></div><div class="box"><div class="k">Puesto contacto</div><div class="v small" id="tkLinkedContactRole">—</div></div></div><div class="actions"><button class="btn" id="tkUseSuggestedClientBtn" type="button">Usar cliente sugerido</button><button class="btn btn-ghost" id="tkMarkNewContactBtn" type="button">Marcar contacto nuevo</button><button class="btn btn-ghost" id="tkMarkConsolidatedBtn" type="button">Marcar consolidado</button></div><div class="composer-grid"><div class="field span-2"><label class="lbl" for="tkExistingContact">Vincular contacto existente</label><select class="select" id="tkExistingContact"><option value="">Selecciona un contacto del cliente</option></select></div></div><div class="actions"><button class="btn" id="tkLinkExistingContactBtn" type="button">Vincular contacto existente</button></div><div class="box-grid" id="tkCrmMiniGrid"><div class="box"><div class="k">Estado operativo</div><div class="v small" id="tkCrmState">—</div></div><div class="box"><div class="k">Canal ideal</div><div class="v small" id="tkCrmChannel">—</div></div><div class="box"><div class="k">Horario sugerido</div><div class="v small" id="tkCrmHours">—</div></div><div class="box"><div class="k">Siguiente mejor acción</div><div class="v small" id="tkCrmNextAction">—</div></div></div><div class="mut" id="tkCrmHint">Aquí verás el contexto ampliado del contacto.</div></div></div></div>
