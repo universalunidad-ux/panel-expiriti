@@ -84,3 +84,8 @@
 .tickets-gear-title{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .icon-only{min-width:52px;padding-inline:0;justify-content:center}
 @media(max-width:720px){.tickets-gear-menu{right:0;left:auto;min-width:min(260px,calc(100vw - 28px))}}
+
+.thread-opt{display:flex;align-items:center;gap:10px;font-size:14px}
+.thread-opt input[type="checkbox"]{inline-size:18px;block-size:18px}
+.range-opt{display:grid;gap:8px}
+.range-opt input[type="range"]{width:100%}
