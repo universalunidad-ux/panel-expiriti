@@ -150,4 +150,5 @@ body.focus-mode #tkFocusPanel{display:grid!important}
 .mut.compact{font-size:13px;line-height:1.4}
 .composer-statusline{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:760px){.composer-bottom{display:grid;grid-template-columns:1fr;gap:10px}.composer-right,.composer-left{width:100%}.composer-right .btn,.composer-left .btn{width:100%}.composer-quickline{overflow:auto hidden;flex-wrap:nowrap;padding-bottom:2px}}
+.tk-system-logo{display:block;max-height:34px;max-width:140px;width:auto;object-fit:contain}
 
