@@ -64,3 +64,7 @@
 .toolbar-advanced .btn{min-height:40px}
 .metric{cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease}
 .metric:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 10%,transparent),var(--shadow-xs)}
+
+.quick-inline{display:flex;flex-wrap:wrap;gap:8px}
+.quick-inline .mini{min-height:32px}
+@media(max-width:720px){.quick-inline{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick-inline .btn{width:100%}}
