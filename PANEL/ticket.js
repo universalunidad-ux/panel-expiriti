@@ -9,6 +9,22 @@ espera:{text:"Quedamos en espera de la información solicitada por parte del cli
 solucion:{text:"Se aplicó ajuste / validación operativa y el caso queda listo para confirmación con el cliente.",kind:"solucion",state:""},
 resuelto:{text:"Se aplicó solución y el caso queda resuelto. Pendiente únicamente confirmación final del cliente si aplica.",kind:"solucion",state:"resuelto"}
 };
+const SYS_LOGO={
+CONTABILIDAD:"../IMG/contabilidad (1).webp",
+BANCOS:"../IMG/bancos (1).webp",
+NOMINAS:"../IMG/nominas (1).webp",
+XML_EN_LINEA:"../IMG/factura (1).webp",
+COMERCIAL_START:"../IMG/comercialstart (1).webp",
+COMERCIAL_PRO:"../IMG/comercialpro (1).webp",
+COMERCIAL_PREMIUM:"../IMG/comercialpremium (1).webp",
+EVALUA:"../IMG/evalua (1).webp",
+ANALIZA:"../IMG/analiza (1).webp",
+VENDE:"../IMG/vende (3).webp",
+OPTIMIZA:"../IMG/optimiza (1).webp",
+ANTICIPA:"../IMG/anticipa (1).webp",
+PERSONIA:"../IMG/personia (2).webp"
+};
+
 const qrOpen=()=>{$("#quickReplies")&&( $("#quickReplies").hidden=false,$("#quickReplyBtn")?.classList.add("is-active"))};
 const qrClose=()=>{$("#quickReplies")&&( $("#quickReplies").hidden=true,$("#quickReplyBtn")?.classList.remove("is-active"))};
 const qrToggle=()=>$("#quickReplies")?.hidden?qrOpen():qrClose();
