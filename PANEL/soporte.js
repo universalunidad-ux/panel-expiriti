@@ -3,7 +3,7 @@ import{createClient as C}from"https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SB_URL="https://ovfmqqqwezfdtgrtkjhf.supabase.co",SB_KEY="sb_publishable_2ftu336Kc06w2I2iTwoIpQ_usfSTNG9",sb=C(SB_URL,SB_KEY);
 const ST={files:[],sending:false,notice:null,faq:null},MAX_FILES=10,MAX_MB_FILE=20,MAX_MB_TOTAL=60,ALLOWED_EXT=["jpg","jpeg","png","webp","pdf","xml","xls","xlsx","csv","txt","zip"],ALLOWED_MIME=["image/jpeg","image/png","image/webp","application/pdf","text/xml","application/xml","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","text/csv","text/plain","application/zip","application/x-zip-compressed"];
-const SUPPORT_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/submit-support";
+const SUPPORT_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/support-submit-secure";
 const STATUS_PAGE="estado.html";
 const MATCH_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/match-cliente";
 ST.match=null;
