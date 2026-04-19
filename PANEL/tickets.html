@@ -15,15 +15,18 @@
 <article class="panel metric"><div class="k">Por consolidar</div><div class="v" id="mPendingIdentity">0</div></article>
 <article class="panel metric"><div class="k">Sin cliente ligado</div><div class="v" id="mNoClient">0</div></article>
 </section>
-
 <section class="panel tickets-toolbar">
 <div class="searchbox"><span>🔎</span><input id="tkSearch" placeholder="Buscar ticket, cliente, sistema, prioridad o estado"></div>
-<div class="toolbar-grid">
+<div class="toolbar-grid toolbar-grid-base">
 <select class="select" id="tkFilterPriority"><option value="">Prioridad</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select>
 <select class="select" id="tkFilterState"><option value="">Estado</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select>
 <select class="select" id="tkFilterType"><option value="">Tipo</option><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select>
 <input class="input" id="tkFilterClient" placeholder="Cliente">
 <button class="btn" id="tkOnlyUrgent" type="button">Solo urgentes</button>
+<button class="btn btn-ghost" id="tkMoreFiltersBtn" type="button" aria-expanded="false">Más filtros</button>
+<button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
+</div>
+<div class="toolbar-advanced hidden" id="tkAdvancedFilters">
 <button class="btn btn-ghost" id="tkNoEvidence" type="button">Sin evidencia</button>
 <button class="btn btn-ghost" id="tkReadyClose" type="button">Listos para cerrar</button>
 <button class="btn btn-ghost" id="tkImpactHigh" type="button">Impacto alto</button>
@@ -31,9 +34,7 @@
 <button class="btn btn-ghost" id="tkNeedsIdentity" type="button">Por consolidar</button>
 <button class="btn btn-ghost" id="tkNoClientLinked" type="button">Sin cliente ligado</button>
 <button class="btn btn-ghost" id="tkMatchMedium" type="button">Match medio</button>
-<button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
 </div>
-  
 </section>
 
 <section class="board-layout">
@@ -63,18 +64,6 @@
 <article class="kanban-col"><div class="col-header">Resueltos <span class="col-count" id="count-resuelto">0</span></div><div class="col-body" id="col-resuelto"></div></article>
 </section>
 
-<aside class="panel ticket-preview" id="tkPreview">
-<div class="section-head"><div><div class="section-kicker">OJO, NO SE SI DEJAR ESTO PORQUE ACTUALMENTE ESTORBA AL TABLERO KANBAN, Y NO SE SI ES REUNDANDRTE SI AKS CARDS SI MUESTRAN CORRECTAMENTE O SUFICIENTE O MISMA INFO QUE ESOT: TU QUE DIES BBUKI GPT ? Resumen rápido</div><h3 id="pvTitle">Selecciona un caso</h3></div></div>
-<div class="preview-meta">
-<div class="box"><div class="k">Cliente</div><div class="v small" id="pvClient">—</div></div>
-<div class="box"><div class="k">Sistema</div><div class="v small" id="pvSystem">—</div></div>
-<div class="box"><div class="k">Estado</div><div class="v small" id="pvState">—</div></div>
-<div class="box"><div class="k">Prioridad</div><div class="v small" id="pvPriority">—</div></div>
-</div>
-<div class="panel inset"><div class="row-head"><h3>Resumen</h3></div><div class="mut" id="pvDesc">Aquí verás una vista breve del caso para decidir rápido si hace falta abrir el detalle completo.</div></div>
-<div class="panel inset"><div class="row-head"><h3>Indicadores</h3></div><div class="chips" id="pvChips"><span class="tag">Sin selección</span></div></div>
-<div class="actions"><a class="btn btn-brand" id="pvOpen" href="javascript:void(0)">Abrir ticket</a></div>
-</aside>
 </section>
 
 <section class="panel compact-list hidden" id="tkCompact">
@@ -84,7 +73,7 @@
 </section>
 </main>
 
-<div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Registro rápido</div><h3>Nuevo caso</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
+<div class="overlay" id="tkModal" hidden><div class="modal"><div class="section-head"><div><div class="section-kicker">Registro rápido</div><h3>Nuevo caso</h3></div><button class="icon-btn" id="tkClose" type="button">✕</button></div><div class="grid"><input class="input" id="tkCliente" placeholder="Cliente ID o nombre"><input class="input" id="tkTitulo" placeholder="Título"><textarea class="area" id="tkDesc" placeholder="Descripción"></textarea><div class="grid-2"><select class="select" id="tkTipo"><option value="soporte">Soporte</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="configuracion">Configuración</option></select><select class="select" id="tkPrioridad"><option value="baja">Baja</option><option value="media" selected>Media</option><option value="alta">Alta</option><option value="urgente">Urgente</option></select></div><div class="actions"><button class="btn btn-brand" id="tkSave">Guardar</button><button class="btn btn-ghost" id="tkCancel">Cancelar</button></div><div class="mut" id="tkStatus">Completa los datos.</div></div></div></div>
 
 <script type="module" src="tickets.js"></script>
 </body>
