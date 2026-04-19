@@ -1,4 +1,4 @@
-.tickets-page{display:grid;gap:14px} 
+ .tickets-page{display:grid;gap:14px} 
 .tickets-hero{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
 .tickets-hero h1{margin:4px 0 0;font-size:clamp(24px,3vw,32px);line-height:1.04;letter-spacing:-.03em}
 .metrics-strip-wrap{display:block}
