@@ -7,7 +7,7 @@ const SUPPORT_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/su
 const STATUS_PAGE="estado.html";
 const MATCH_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/match-cliente";
 ST.match=null;
-const TURNSTILE_ENABLED=true;
+const TURNSTILE_ENABLED=false;
 let TURNSTILE_TOKEN="";
 let SUPPORT_SENDING=false;
 const extOf=name=>((name||"").split(".").pop()||"").toLowerCase();
