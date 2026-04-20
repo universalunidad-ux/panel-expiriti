@@ -53,4 +53,19 @@
 .support-global-notice.info{border-color:color-mix(in srgb,var(--info) 28%,var(--line));background:color-mix(in srgb,var(--info) 8%,var(--panel))}
 
 
+.support-ticket-preview{overflow:hidden}
+.ticket-preview-card{display:grid;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 97%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs)}
+.ticket-preview-head{display:grid;gap:8px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.ticket-preview-kicker{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ticket-preview-title{font-size:18px;font-weight:950;line-height:1.15;letter-spacing:-.02em;color:var(--text)}
+.ticket-preview-chips{display:flex;gap:8px;flex-wrap:wrap}
+.ticket-preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pv-item,.pv-block{display:grid;gap:6px}
+.pv-item .k,.pv-block .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pv-item .v,.pv-block .v{font-size:14px;line-height:1.5;font-weight:720;color:var(--text);word-break:break-word}
+.pv-block{padding-top:10px;border-top:1px dashed color-mix(in srgb,var(--line) 88%,transparent)}
+.support-side .support-ticket-preview .panel.inset{padding:0;background:transparent;box-shadow:none}
+@media(max-width:760px){.ticket-preview-grid{grid-template-columns:1fr}.support-side{gap:10px}.support-ticket-preview{order:-1}}
+
+
 
