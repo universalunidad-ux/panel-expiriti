@@ -6,9 +6,9 @@ export const qp=k=>new URLSearchParams(location.search).get(k);
 export const show=v=>{const el=typeof v==="string"?$(v):v;el?.classList.remove("hidden");el?.classList.add("open");el?.removeAttribute("hidden");return el};
 export const hide=v=>{const el=typeof v==="string"?$(v):v;el?.classList.add("hidden");el?.classList.remove("open");el?.setAttribute("hidden","hidden");return el};
 
-export const toggle=sel=>{$(sel)?.classList.toggle("hidden");$(sel)?.classList.toggle("open")};
+export const toggle=v=>{const el=typeof v==="string"?$(v):v;if(!el)return;el.classList.toggle("hidden");el.classList.toggle("open");el.hidden=el.classList.contains("hidden");return el};
 
-export const toast=(text,type="",ms=2600)=>{const d=document.createElement("div");d.className=`toast ${type}`.trim();d.textContent=text;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)};
+export const toast=(text,type="",ms=2600)=>{document.querySelectorAll(".toast").forEach(x=>x.remove());const d=document.createElement("div");d.className=`toast ${type}`.trim();d.textContent=text;document.body.appendChild(d);setTimeout(()=>d.remove(),ms)};
 export const debounce=(fn,ms=220)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
 export const copyTxt=(v,msg="Copiado")=>navigator.clipboard.writeText(v||"").then(()=>toast(msg,"ok")).catch(()=>toast("No se pudo copiar","bad"));
 
@@ -104,5 +104,11 @@ export const ticketStateKey=v=>{const x=norm(v);if(["abierto","nuevo"].includes(
 export const ticketStateLabel=v=>ticketStateKey(v)==="en_proceso"?"En proceso":ticketStateKey(v)==="esperando_cliente"?"Esperando cliente":ticketStateKey(v)==="resuelto"?"Resuelto":ticketStateKey(v)==="cerrado"?"Cerrado":"Abierto";
 export const ticketStateCls=v=>{const x=ticketStateKey(v);return x==="resuelto"||x==="cerrado"?"ok":x==="esperando_cliente"?"warn":x==="en_proceso"?"info":"neutral"};
 export const ticketPriorityCls=v=>{const x=norm(v);return x==="urgente"?"bad":x==="alta"?"warn":x==="media"?"info":"ok"};
+
+
+export const telHref=v=>{const d=String(v||"").replace(/\D+/g,"");return d?`tel:${d}`:"#"};
+export const mailHref=v=>String(v||"").trim()?`mailto:${String(v).trim()}`:"#";
+export const ago=v=>{if(!v)return"—";const s=Math.floor((Date.now()-new Date(v).getTime())/1000);if(s<60)return`hace ${s}s`;if(s<3600)return`hace ${Math.floor(s/60)}m`;if(s<86400)return`hace ${Math.floor(s/3600)}h`;return`hace ${Math.floor(s/86400)}d`};
+
 
 
