@@ -6,6 +6,7 @@ const ST={files:[],sending:false,notice:null,faq:null},MAX_FILES=10,MAX_MB_FILE=
 const SUPPORT_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/support-submit-secure";
 const STATUS_PAGE="estado.html";
 const MATCH_ENDPOINT="https://ovfmqqqwezfdtgrtkjhf.supabase.co/functions/v1/match-cliente";
+const REQUIRE_TURNSTILE=(Deno.env.get("REQUIRE_TURNSTILE")||"false")==="true";
 ST.match=null;
 const TURNSTILE_ENABLED=false;
 let TURNSTILE_TOKEN="";
