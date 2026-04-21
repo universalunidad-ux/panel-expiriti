@@ -10,13 +10,13 @@ body[data-page="tickets"]{overflow-x:hidden}
 .tickets-hero .mut{margin-top:4px;font-size:14px;line-height:1.35}
 .tk-edit-help{margin-top:8px;max-width:760px}
 
-.metrics-strip-wrap{position:relative}
+.metrics-strip-wrap{position:relative;min-width:0}
 .metrics-strip-wrap:after{content:"";position:absolute;top:0;right:0;width:24px;height:100%;pointer-events:none;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg) 88%,transparent))}
-.metrics-strip{display:flex;align-items:stretch;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 2px 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;white-space:nowrap}
+.metrics-strip{display:flex;align-items:stretch;flex-wrap:nowrap;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 2px 6px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;white-space:nowrap;min-width:0}
 .metrics-strip::-webkit-scrollbar{height:6px}
 .metrics-strip::-webkit-scrollbar-track{background:transparent}
 .metrics-strip::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--line) 88%,transparent);border-radius:999px}
-.metrics-extra{display:flex;align-items:stretch;flex-wrap:nowrap;gap:8px;padding-left:0}
+.metrics-extra{display:flex;align-items:stretch;flex-wrap:nowrap;gap:8px;padding-left:0;min-width:0}
 .metrics-extra.hidden{display:none}
 
 .metric-pill{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:124px;max-width:124px;min-height:58px;padding:8px 10px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 97%,transparent);box-shadow:none;text-align:center;cursor:pointer;transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease,background .16s ease;scroll-snap-align:start}
@@ -147,6 +147,7 @@ body[data-page="tickets"]{overflow-x:hidden}
 .tickets-gear-menu{min-width:min(320px,calc(100vw - 20px))}
 }
 
+
 @media(max-width:520px){
 .tickets-page{gap:12px;padding:10px 8px 14px}
 .hero-actions{grid-template-columns:1fr auto;grid-template-areas:"view gear""new new"}
@@ -176,4 +177,5 @@ body[data-page="tickets"]{overflow-x:hidden}
 .metric-pill,.metric-toggle{min-width:0;max-width:none}
 }
 
-
+@media(max-width:720px){.tickets-hero,.tickets-toolbar,.compact-list,.closed-strip{width:100%;max-width:100%}.searchbox,.searchbox input,.toolbar-grid,.toolbar-advanced{min-width:0}.k-meta,.k-submeta{min-width:0}.k-client{max-width:100%}.kanban-board,.kanban-col,.col-body,.k-card{box-sizing:border-box}}
+@media(max-width:520px){.tickets-hero .mut,.closed-strip .section-head .mut,.compact-list .mut{font-size:13px;line-height:1.32}.metric-pill .mk{font-size:9.5px}.metric-pill .mv{font-size:15px}.mini-meta{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.quick-inline .btn,.quick-inline .mini{min-height:42px}}
