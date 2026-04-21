@@ -1,4 +1,7 @@
 .tickets-page{display:grid;gap:14px;width:100%;max-width:none;margin:0;padding:12px 14px 16px;align-content:start}
+.tickets-page,.tickets-page>*{min-width:0}
+.board-layout,.kanban-board,.kanban-col,.col-body,.tickets-toolbar,.tickets-hero,.compact-list,.closed-strip{min-width:0;max-width:100%}
+body[data-page="tickets"]{overflow-x:hidden}
 .tickets-hero{display:block;padding:12px 14px}
 .hero-main{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:14px}
 .hero-copy{min-width:0;display:grid;gap:4px}
@@ -114,23 +117,29 @@
 @media(max-width:720px){
 .tickets-page{padding:10px 10px 14px;gap:12px}
 .tickets-hero{padding:12px}
-.hero-actions{display:grid;grid-template-columns:1fr auto auto;align-items:start;gap:8px}
+.hero-main{grid-template-columns:1fr;gap:12px}
+.hero-actions{display:grid;grid-template-columns:1fr auto;align-items:start;gap:8px}
 .hero-actions .btn,.hero-actions .mini{min-height:44px}
+.hero-actions>#tkNewBtn{grid-column:1/-1}
 .tickets-gear-wrap{justify-self:end}
-.metrics-strip{padding-bottom:4px}
+.metrics-strip-wrap:after{display:none}
+.metrics-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:visible;white-space:normal;padding:0}
+.metrics-extra{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-column:1/-1}
+.metric-pill,.metric-toggle{min-width:0;max-width:none;width:100%}
+.metric-toggle{height:42px;width:100%}
 .toolbar-grid-base{grid-template-columns:1fr 1fr}
 .tickets-toolbar{padding:12px}
-.kanban-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;overflow:visible}
-.kanban-col{min-width:0}
+.kanban-board{grid-template-columns:1fr;gap:10px;overflow:visible;width:100%}
+.kanban-col{min-width:0;width:100%;max-width:100%}
 .col-header{padding:12px 12px 10px;font-size:14px}
 .col-body{padding:10px;gap:10px}
-.k-card{padding:12px;gap:8px}
+.k-card{padding:12px;gap:8px;width:100%}
 .k-title{font-size:14px;line-height:1.28}
 .k-desc{font-size:12px;-webkit-line-clamp:2}
 .k-tags{gap:5px}
 .mini-meta{min-height:22px;padding:0 7px;font-size:11px}
 .quick-inline{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.quick-inline .btn,.quick-inline .mini{width:100%;min-height:38px}
+.quick-inline .btn,.quick-inline .mini{width:100%;min-height:40px}
 .quick-inline .btn:last-child,.quick-inline .mini:last-child{grid-column:1/-1}
 .compact-head{display:none}
 .compact-row{grid-template-columns:1fr;gap:8px}
@@ -139,14 +148,16 @@
 }
 
 @media(max-width:520px){
-.tickets-page{gap:12px}
+.tickets-page{gap:12px;padding:10px 8px 14px}
 .hero-actions{grid-template-columns:1fr auto;grid-template-areas:"view gear""new new"}
 .hero-actions>#tkViewBtn{grid-area:view}
 .hero-actions>.tickets-gear-wrap{grid-area:gear}
 .hero-actions>#tkNewBtn{grid-area:new}
 .toolbar-grid-base{grid-template-columns:1fr}
-.metric-pill{min-width:118px;max-width:118px;padding:8px}
-.kanban-board{grid-template-columns:1fr 1fr;gap:8px}
+.metrics-strip{grid-template-columns:1fr}
+.metrics-extra{grid-template-columns:1fr}
+.metric-pill,.metric-toggle{min-width:0;max-width:none}
+.kanban-board{grid-template-columns:1fr;gap:8px}
 .col-header{padding:10px 10px 8px;font-size:13px}
 .col-count{min-width:22px;height:22px;font-size:11px}
 .col-body{padding:8px;gap:8px}
@@ -160,8 +171,9 @@
 }
 
 @media(max-width:390px){
-.kanban-board{grid-template-columns:1fr}
 .col-body{padding:8px}
 .k-card{padding:10px}
-.metric-pill{min-width:112px;max-width:112px}
+.metric-pill,.metric-toggle{min-width:0;max-width:none}
 }
+
+
