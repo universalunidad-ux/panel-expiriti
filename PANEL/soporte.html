@@ -55,7 +55,21 @@
   </div>
 </section>
   
-<div class="form-grid">
+<div class="form-grid" id="spIdentityFields">
+  <section class="panel inset hidden" id="spKnownIdentityBox">
+  <div class="row-head"><h3>Datos detectados</h3></div>
+  <div class="preview-card">
+    <div class="k">Empresa detectada</div><div class="v" id="spKnownCompany">—</div>
+    <div class="k">Contacto detectado</div><div class="v" id="spKnownName">—</div>
+    <div class="k">Correo detectado</div><div class="v" id="spKnownEmail">—</div>
+    <div class="k">Teléfono detectado</div><div class="v" id="spKnownPhone">—</div>
+  </div>
+  <div class="actions" style="margin-top:12px">
+    <button class="btn btn-brand" type="button" id="spUseKnownBtn">Usar estos datos</button>
+    <button class="btn btn-ghost" type="button" id="spEditKnownBtn">Editar</button>
+    <button class="btn btn-ghost" type="button" id="spOtherIdentityBtn">Usar otros datos</button>
+  </div>
+</section>
 <div class="field"><label class="lbl" for="spName">Nombre <span class="req">*</span></label><input class="input" id="spName" placeholder="Tu nombre"></div>
 <div class="field"><label class="lbl" for="spCompany">Empresa <span class="req">*</span></label><input class="input" id="spCompany" placeholder="Empresa o razón social"></div>
 <div class="field"><label class="lbl" for="spEmail">Correo <span class="req">*</span></label><input class="input" id="spEmail" type="email" placeholder="correo@empresa.com"></div>
