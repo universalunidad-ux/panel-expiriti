@@ -12,6 +12,7 @@ const sk=v=>(v||"").toString().trim().toLowerCase();
 const sl=v=>sk(v)==="en_proceso"?"En revisión":sk(v)==="esperando_cliente"?"Esperando tu respuesta":sk(v)==="resuelto"?"Resuelto":sk(v)==="cerrado"?"Cerrado":"Recibido";
 const fmt=fmtDT;
 const human=prettyBytes;
+const copyTxt=async txt=>{try{await navigator.clipboard.writeText(txt);toast("Copiado","ok")}catch{toast("No se pudo copiar","bad")}};
 const steps=v=>{const s=sk(v);return[{k:"abierto",t:"Recibido",done:true,active:s==="abierto"||!s},{k:"en_proceso",t:"En revisión",done:["en_proceso","esperando_cliente","resuelto","cerrado"].includes(s),active:s==="en_proceso"},{k:"esperando_cliente",t:"Esperando tu respuesta",done:["esperando_cliente","resuelto","cerrado"].includes(s),active:s==="esperando_cliente"},{k:"resuelto",t:"Resuelto",done:["resuelto","cerrado"].includes(s),active:s==="resuelto"},{k:"cerrado",t:"Cerrado",done:s==="cerrado",active:s==="cerrado"}]};
 const setBusy=v=>{ST.sending=!!v;["#stReplySend","#stReplyClear","#stReplyFiles","#stReplyText","#stReplySendPop","#stReplyClearPop","#stReplyFilesPop","#stReplyTextPop"].forEach(sel=>$(sel)&&($(sel).disabled=ST.sending))};
 const uniq=(arr,keyFn)=>{const m=new Map();(arr||[]).forEach(x=>m.set(keyFn(x),x));return[...m.values()]};
