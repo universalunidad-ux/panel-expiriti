@@ -5,7 +5,7 @@
 <title>Ticket de Soporte | Expiriti</title>
 <script>!function(){try{document.documentElement.setAttribute("data-theme",localStorage.getItem("expiriti_theme")||"light")}catch(e){}}();</script>
 <link rel="stylesheet" href="global.css"><link rel="stylesheet" href="soporte.css"><script type="module" src="theme.js"></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 </head>
 <body data-surface="client">
 <header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><span class="brand-dot"></span><span>Soporte Expiriti</span></a><div class="top-actions"><a class="mini btn-ghost" href="index.html">Inicio</a><button class="mini" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button></div></div></header>
@@ -56,9 +56,9 @@
 </section>
   
 <div class="form-grid">
-<div class="field"><label class="lbl" for="spName">Nombre</label><input class="input" id="spName" placeholder="Tu nombre"></div>
-<div class="field"><label class="lbl" for="spCompany">Empresa</label><input class="input" id="spCompany" placeholder="Empresa o razón social"></div>
-<div class="field"><label class="lbl" for="spEmail">Correo</label><input class="input" id="spEmail" type="email" placeholder="correo@empresa.com"></div>
+<div class="field"><label class="lbl" for="spName">Nombre <span class="req">*</span></label><input class="input" id="spName" placeholder="Tu nombre"></div>
+<div class="field"><label class="lbl" for="spCompany">Empresa <span class="req">*</span></label><input class="input" id="spCompany" placeholder="Empresa o razón social"></div>
+<div class="field"><label class="lbl" for="spEmail">Correo <span class="req">*</span></label><input class="input" id="spEmail" type="email" placeholder="correo@empresa.com"></div>
 <div class="field"><label class="lbl" for="spPhone">Teléfono / WhatsApp</label><input class="input" id="spPhone" placeholder="55..."></div>
 
 <div class="field"><label class="lbl" for="spCategory">Tipo de solicitud</label><select class="select" id="spCategory"><option value="incidencia">Incidencia</option><option value="duda">Duda</option><option value="configuracion">Configuración</option><option value="renovacion">Renovación</option><option value="facturacion">Facturación</option><option value="capacitacion">Capacitación</option></select></div>
