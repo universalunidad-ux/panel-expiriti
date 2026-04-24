@@ -284,3 +284,8 @@ body[data-page="ticket"] .ticket-side{top:10px}
 
 .ticket-side .panel,.ticket-side .inset{transition:border-color .18s ease,transform .18s ease}
 .ticket-side .panel:hover,.ticket-side .inset:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 14%,var(--line))}
+
+.tk-radar{border-color:color-mix(in srgb,var(--brand) 10%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 98%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent))}
+.tk-radar-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.tk-radar-grid>div{padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 98%,transparent)}
+#tkRadarHint{margin-top:10px}
