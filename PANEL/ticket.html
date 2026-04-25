@@ -101,8 +101,9 @@
 <label class="thread-opt"><input type="checkbox" id="tkNotifSound"> <span>Sonido</span></label>
 <label class="thread-opt"><input type="checkbox" id="tkNotifStrongOnly"> <span>Solo cambios fuertes</span></label>
 <label class="thread-opt range-opt"><span>Volumen</span><input type="range" id="tkNotifVolume" min="0" max="1" step="0.1"></label>
+<label class="thread-opt"><input type="checkbox" id="tkEnterSends"> <span>Enter envía</span></label>
 <button class="mini btn-ghost" type="button" id="tkMuteTicketBtn">Silenciar este ticket</button>
-</div>
+  </div>
 <div class="thread-gear-section">
 <div class="thread-gear-title">Vista</div>
 <button class="mini btn-ghost" type="button" data-theme-toggle>🌓 <span data-theme-label>Claro</span></button>
@@ -123,7 +124,7 @@
 
 <div class="composer-bottom">
 <div class="composer-left">
-<button class="btn btn-ghost attach-btn" id="pickPublicFilesBtn" type="button">Adjuntar</button>
+<button class="btn btn-ghost attach-btn" id="pickPublicFilesBtn" type="button" title="Adjuntar archivo">📎</button>
 <input class="sr-only" id="logFiles" type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf,.xml,.xls,.xlsx,.csv,.txt,.zip">
 <div class="mut compact" id="logFilesMeta">Sin archivos adjuntos.</div>
 </div>
