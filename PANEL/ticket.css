@@ -83,3 +83,32 @@ body.modal-open{overflow:hidden}
 @media(max-width:1100px){.ticket-page{grid-template-columns:1fr;max-width:900px}.ticket-side{order:2;position:static}.ticket-main{order:1;min-height:auto}}
 @media(max-width:760px){.ticket-page{gap:12px}.box-grid,.composer-grid,.hero-mini-grid{grid-template-columns:1fr}.hero-ticket,.inset,.box,.evidence-item,.log-msg,.panel{padding:12px}.hero-top{flex-direction:column;align-items:flex-start}.side-head h1,.hero-top h2{font-size:22px}.composer-bottom{display:grid;grid-template-columns:1fr;gap:10px}.composer-right,.composer-left{width:100%}.composer-right .btn,.composer-left .btn,.quick-actions .btn{width:100%;min-width:0}.log-msg{max-width:92%}.ticket-thread{grid-template-rows:auto minmax(260px,1fr) auto}.thread-topbar{padding:12px 14px 6px}.log-area{padding:2px 14px 8px}.composer{padding:12px 14px 14px}}
 @media(max-width:480px){.ticket-page{gap:12px}}
+
+
+
+.ticket-page{width:min(1800px,calc(100% - 24px));grid-template-columns:minmax(330px,390px) minmax(0,1fr);height:calc(100dvh - 24px);min-height:0;margin:12px auto;padding-top:0}
+.ticket-side{max-height:calc(100dvh - 32px);overflow:auto}
+.ticket-main{min-height:0;height:100%}
+.ticket-thread{height:100%;min-height:0;grid-template-rows:auto minmax(0,1fr) auto}
+.log-area{min-height:0;height:auto;max-height:none;overflow:auto;padding-bottom:12px}
+.composer{position:sticky;bottom:0;padding:10px 14px;gap:8px}
+.composer-head{align-items:center}
+.composer-head>div:first-child:empty{display:none}
+.composer-chatbox{gap:7px}
+.composer-input-wrap{position:relative;display:grid}
+#logText.chat-area{min-height:46px;max-height:104px;padding:12px 52px 12px 14px;resize:none;overflow:auto}
+.composer-input-wrap .attach-btn{position:absolute;right:8px;bottom:8px;width:36px;height:32px;min-width:36px;min-height:32px;padding:0;font-size:18px;border-radius:12px}
+.composer-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px}
+.composer-left{min-width:0}
+.composer-left>.attach-btn{display:none!important}
+#logFilesMeta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#tkComposerModeText:empty{display:none}
+#logStatus{font-size:13px;line-height:1.35;margin:0}
+.quick-replies{max-height:40px;overflow:auto;flex-wrap:nowrap;padding-bottom:2px}
+.quick-replies .mini{white-space:nowrap}
+.contact-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.contact-actions a{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;mask-image:linear-gradient(90deg,#000 0,#000 78%,transparent 100%)}
+.log-msg{max-width:min(760px,78%)}
+.log-msg.me{max-width:min(760px,72%)}
+@media(max-width:1180px){.ticket-page{display:block;height:auto}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(390px,92vw);max-height:none;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);padding:14px;background:var(--panel)}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.ticket-main{height:calc(100dvh - 18px);margin:9px}.ticket-thread{height:100%}}
+@media(max-width:640px){.ticket-main{height:100dvh;margin:0}.ticket-thread{border-radius:0}.thread-topbar{grid-template-columns:auto 1fr auto;padding:10px}.log-area{padding:4px 10px 10px}.composer{padding:8px 10px}.composer-modebar{gap:6px}.pill-switch{padding:8px 10px}.log-msg,.log-msg.me{max-width:88%}.quick-replies{display:none}}
