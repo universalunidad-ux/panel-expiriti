@@ -109,6 +109,10 @@ body.modal-open{overflow:hidden}
 .log-msg.me{max-width:min(760px,72%)}
 @media(max-width:1180px){.ticket-page{display:block;height:auto}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(390px,92vw);max-height:none;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);padding:14px;background:var(--panel)}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.ticket-main{height:calc(100dvh - 18px);margin:9px}.ticket-thread{height:100%}}
 @media(max-width:640px){.ticket-main{height:100dvh;margin:0}.ticket-thread{border-radius:0}.thread-topbar{grid-template-columns:auto 1fr auto;padding:10px}.log-area{padding:4px 10px 10px}.composer{padding:8px 10px}.composer-modebar{gap:6px}.pill-switch{padding:8px 10px}.log-msg,.log-msg.me{max-width:88%}.quick-replies{display:none}}
+.contact-fold[open] .contact-open-head h3{display:none}
+.contact-fold[open] .contact-open-head{justify-content:flex-end;margin-bottom:8px}
+.contact-fold[open]>.fold-head{display:none}
+
 body[data-page="ticket"] #appShell>header,body[data-page="ticket"] .app-hero,body[data-page="ticket"] .shell-hero{display:none!important}
 body[data-page="ticket"]{overflow:hidden}
 .ticket-page{width:min(1800px,calc(100% - 24px));height:calc(100dvh - 24px);min-height:0;margin:12px auto;padding:0;display:grid;grid-template-columns:minmax(340px,390px) minmax(0,1fr);gap:14px}
