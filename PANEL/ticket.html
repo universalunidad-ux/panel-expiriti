@@ -4,7 +4,7 @@
 <body data-surface="support" data-shell="app" data-page="ticket"> <div id="appShell"></div>
 
 <main class="ticket-page wrap" id="pageMount">
-<aside class="ticket-side">
+<aside class="ticket-side"><button class="mini btn-ghost tk-side-close" id="tkSideClose" type="button" aria-label="Cerrar panel">✕</button>
 <div class="side-head"><div><div class="section-kicker">Expiriti</div><h1 id="tkTitle">Cargando ticket…</h1></div><div class="chips" id="tkTopChips"><span class="tag">Ticket</span></div></div>
 
 <div class="box-grid hero-mini-grid">
@@ -89,7 +89,7 @@
 <section class="ticket-main">
 <section class="panel ticket-thread">
 <div class="thread-topbar">
-<div class="thread-left-actions"><a class="mini btn-ghost" href="tickets.html" id="tkBackInline">Volver</a><button class="mini btn-ghost tk-context-btn" id="tkSideToggle" type="button">☰ Contexto</button></div>
+<div class="thread-left-actions"><button class="mini btn-ghost tk-side-btn" id="tkSideToggle" type="button" aria-label="Abrir panel">☰</button><a class="mini btn-ghost" href="tickets.html" id="tkBackInline">Volver</a></div>
 <div class="log-sys" id="tkThreadStamp">Caso recibido · —</div>
 
 <div class="thread-gear-wrap">
