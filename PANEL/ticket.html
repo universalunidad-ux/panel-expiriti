@@ -7,14 +7,13 @@
 <aside class="ticket-side"><button class="mini btn-ghost tk-side-close" id="tkSideClose" type="button" aria-label="Cerrar panel">✕</button>
 <div class="side-head"><div><div class="section-kicker">Expiriti</div><h1 id="tkTitle">Cargando ticket…</h1></div><div class="chips" id="tkTopChips"><span class="tag">Ticket</span></div></div>
 
-<div class="box-grid hero-mini-grid">
+<div class="box-grid hero-mini-grid case-grid">
 <div class="box"><div class="k">Usuario</div><div class="v small" id="tkClient">—</div></div>
 <div class="box"><div class="k">Sistema</div><div class="v small" id="tkSystem">—</div><div class="mut mini" id="tkType">—</div></div>
+<div class="box"><div class="k">Cuándo</div><div class="v small" id="tkSince">—</div></div>
+<div class="box"><div class="k">Cambio previo</div><div class="v small" id="tkLastChange">—</div></div>
+<div class="box span-2"><div class="k">Adicional</div><div class="v small" id="tkContextExtra">—</div></div>
 </div>
-
-  
-<section class="panel inset"><div class="row-head"><h3>Contexto rápido</h3></div><div class="box-grid context-grid"><div class="box"><div class="k">Desde cuándo</div><div class="v small" id="tkSince">—</div></div><div class="box"><div class="k">Cambio previo</div><div class="v small" id="tkLastChange">—</div></div><div class="box span-2"><div class="k">Adicional</div><div class="v small" id="tkContextExtra">—</div></div></div></section>
-
   
 
 <section class="panel inset"><div class="row-head"><h3>Contacto</h3><button class="mini btn-ghost icon-only" id="tkContactMoreBtn" type="button" aria-label="Más opciones de contacto" title="Más opciones de contacto"><img src="../IMG/mas.png" alt=""></button></div><div class="contact-mini-list"><div class="contact-mini-row" id="tkEmailRow"><span class="k icon-k"><img src="../IMG/bandeja-de-entrada-de-correo.png" alt=""></span><span class="v small contact-actions"><a href="#" id="tkCapturedEmailLink">—</a><span class="tag ok contact-pref-badge" id="tkEmailPrefBadge" hidden>Mejor</span><button class="mini btn-ghost copy-icon-btn" type="button" id="tkCopyEmailBtn" aria-label="Copiar correo"><img src="../IMG/copy.png" alt=""></button></span></div><div class="contact-mini-row" id="tkPhoneRow"><span class="k icon-k"><img src="../IMG/contactos-telefonicos.png" alt=""></span><span class="v small contact-actions"><a href="#" id="tkCapturedPhoneLink">—</a><span class="tag ok contact-pref-badge" id="tkPhonePrefBadge" hidden>Mejor</span><button class="mini btn-ghost copy-icon-btn" type="button" id="tkCopyPhoneBtn" aria-label="Copiar teléfono"><img src="../IMG/copy.png" alt=""></button></span></div><div class="contact-ops-row"><span class="tag ok" id="tkConsolidationHint">Listo para operar</span><span class="anydesk-pill" id="tkAnyDeskPill"><img src="../IMG/anydesk.webp" alt=""><span id="tkAnyDesk">Agregar acceso</span><button class="mini btn-ghost copy-icon-btn" type="button" id="tkCopyAnyDeskBtn" aria-label="Copiar o agregar AnyDesk"><img src="../IMG/mas.png" alt=""></button></span></div><div class="box-grid"><div class="box"><div class="k">Horario</div><div class="v small" id="tkWorkHours">—</div></div><div class="box"><div class="k">Disponible</div><div class="v small" id="tkAvailability">—</div></div></div></div></section>
@@ -31,7 +30,7 @@
   
 
 <details class="panel inset fold-card" id="tkHeatFold">
-<summary class="fold-head"><span>Sistemas</span><span class="fold-kicker">Entorno del cliente</span></summary>
+<summary class="fold-head"><span>Sistemas</span><span class="tag">Versiones</span></summary>
   <div class="fold-body">
 <div class="heat-periods" id="tkHeatPeriods"><button class="heat-period is-active" type="button" data-heat-days="30">1 mes</button><button class="heat-period" type="button" data-heat-days="90">3 meses</button><button class="heat-period" type="button" data-heat-days="180">6 meses</button><button class="heat-period" type="button" data-heat-days="365">1 año</button></div>
 <div class="box-grid">
@@ -154,7 +153,7 @@
       <button class="icon-btn" id="tkSystemClose" type="button">✕</button>
     </div>
     <div class="composer-grid">
-      <div class="field span-2"><label class="lbl" for="tkSysName">Sistema</label><input class="input" id="tkSysName" placeholder="Ej. Contabilidad"></div>
+      <div class="field span-2"><label class="lbl" for="tkSysName">Sistema</label><select class="select" id="tkSysName"><option value="">Selecciona sistema</option><option value="Contabilidad">Contabilidad</option><option value="Nóminas">Nóminas</option><option value="Bancos">Bancos</option><option value="Comercial">Comercial</option><option value="Factura electrónica">Factura electrónica</option><option value="XML en línea">XML en línea</option><option value="Vende">Vende</option><option value="Servidor / VPS">Servidor / VPS</option><option value="Otro">Otro</option></select></div>
       <div class="field"><label class="lbl" for="tkSysTypeDefault">Tipo de solicitud default</label><input class="input" id="tkSysTypeDefault" placeholder="Ej. Incidencia"></div>
       <div class="field"><label class="lbl" for="tkSysVersion">Versión sistema</label><input class="input" id="tkSysVersion" placeholder="Ej. 17.4.1"></div>
       <div class="field"><label class="lbl" for="tkSysWindows">Versión Windows</label><input class="input" id="tkSysWindows" placeholder="Ej. Windows 10 Pro"></div>
