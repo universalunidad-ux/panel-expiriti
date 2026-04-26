@@ -12,7 +12,6 @@
 <div class="box"><div class="k">Sistema</div><div class="v small" id="tkSystem">—</div><div class="mut mini" id="tkType">—</div></div>
 </div>
 
-<details class="panel inset fold-card tk-radar" id="tkRadarBox"><summary class="fold-head"><span>Radar operativo</span><span class="tag" id="tkRadarPulse">Sin presión</span></summary><div class="fold-body"><div class="tk-radar-grid"><div><div class="k">SLA</div><div class="v small" id="tkRadarSla">—</div></div><div><div class="k">Atención</div><div class="v small" id="tkRadarAttention">—</div></div><div><div class="k">Siguiente acción</div><div class="v small" id="tkRadarNext">—</div></div></div><div class="mut" id="tkRadarHint">Sin alertas relevantes.</div></div></details>
   
 <section class="panel inset"><div class="row-head"><h3>Contexto rápido</h3></div><div class="box-grid context-grid"><div class="box"><div class="k">Desde cuándo</div><div class="v small" id="tkSince">—</div></div><div class="box"><div class="k">Último cambio</div><div class="v small" id="tkLastChange">—</div></div><div class="box"><div class="k">Canal preferido</div><div class="v small" id="tkChannel">—</div></div><div class="box"><div class="k">AnyDesk</div><div class="v small" id="tkAnyDesk">—</div></div><div class="box span-2"><div class="k">Contexto adicional</div><div class="v small" id="tkContextExtra">—</div></div></div></section>
 
@@ -25,7 +24,10 @@
 <div class="box"><div class="k">Horario laboral</div><div class="v small" id="tkWorkHours">—</div></div>
 <div class="box"><div class="k">Horario disponible</div><div class="v small" id="tkAvailability">—</div></div>
 </div>
+
+<details class="panel inset fold-card tk-radar" id="tkRadarBox"><summary class="fold-head"><span>Radar operativo</span><span class="tag" id="tkRadarPulse">Sin presión</span></summary><div class="fold-body"><div class="tk-radar-grid"><div><div class="k">SLA</div><div class="v small" id="tkRadarSla">—</div></div><div><div class="k">Atención</div><div class="v small" id="tkRadarAttention">—</div></div><div><div class="k">Siguiente acción</div><div class="v small" id="tkRadarNext">—</div></div></div><div class="mut" id="tkRadarHint">Sin alertas relevantes.</div></div></details>
   
+  <summary class="fold-head"><span>Actividad del cliente</span><span class="fold-kicker">Consulta y respuesta</span></summary>
 
 <div class="mut mt8" id="tkConsolidationHint">Aquí verás si falta confirmar contacto.</div>
 </section>
@@ -45,13 +47,11 @@
   
   
 <details class="panel inset fold-card" id="tkPortalFold">
-<summary class="fold-head"><span>Revisión del cliente</span><span class="fold-kicker">Vistas y respuesta</span></summary>
+<summary class="fold-head"><span>Actividad del cliente</span><span class="fold-kicker">Consulta y respuesta</span></summary>
 <div class="fold-body">
 <div class="box-grid">
-<div class="box"><div class="k">Acceso disponible</div><div class="v small" id="tkPortalLinkState">—</div></div>
+<div class="box"><div class="k">Última consulta</div><div class="v small" id="tkPortalLastView">—</div></div>
 <div class="box"><div class="k">Vence</div><div class="v small" id="tkPortalExpires">—</div></div>
-<div class="box"><div class="k">Última vez que abrió seguimiento</div><div class="v small" id="tkPortalLastView">—</div></div>
-<div class="box"><div class="k">Última respuesta del cliente</div><div class="v small" id="tkPortalLastReply">—</div></div>
 </div>
 <div class="chips mt8" id="tkPortalChips"><span class="tag">Sin datos</span></div>
 </div>
