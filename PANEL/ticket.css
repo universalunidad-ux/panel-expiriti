@@ -141,5 +141,28 @@ body[data-page="ticket"]{overflow:hidden}.ticket-page{width:min(1800px,calc(100%
 
 
 
+.ticket-contact-modal,.contact-mini-list,.contact-mini-row,.contact-actions,.contact-ops-row,.anydesk-pill{min-width:0!important}
+.contact-mini-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;overflow:hidden!important}
+.contact-mini-row{position:relative!important;display:grid!important;grid-template-columns:1fr!important;align-content:center!important;gap:8px!important;min-height:82px!important;padding:12px 50px 12px 13px!important;border-radius:18px!important;overflow:hidden!important}
+.contact-mini-row .k{display:flex!important;align-items:center!important;gap:8px!important;font-size:11px!important;font-weight:760!important;letter-spacing:.08em!important;text-transform:uppercase!important}
+.icon-k img{width:22px!important;height:22px!important;object-fit:contain!important;opacity:.9!important}
+.contact-actions{display:block!important;width:100%!important}
+.contact-actions a{display:block!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:14px!important;font-weight:650!important;line-height:1.25!important;mask-image:none!important}
+.contact-actions .copy-icon-btn{position:absolute!important;right:11px!important;top:11px!important;display:grid!important;place-items:center!important;width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;padding:0!important;border-radius:12px!important;font-size:0!important}
+.contact-actions .copy-icon-btn:after,.contact-actions .mini:after{display:none!important;content:none!important}
+.contact-actions .copy-icon-btn img,.copy-icon-btn img{display:block!important;width:17px!important;height:17px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important}
+.contact-pref-badge{display:none!important;position:static!important;margin-top:6px!important;width:max-content!important;font-size:10px!important;line-height:1!important;padding:4px 7px!important;border-radius:999px!important}
+.contact-mini-row.is-preferred .contact-pref-badge:not([hidden]){display:inline-flex!important}
+#tkPhoneRow.is-whatsapp .icon-k img{content:url("../IMG/whatsapp.svg")!important;filter:none!important;opacity:.95!important}
+.contact-ops-row{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin:0!important}
+.contact-ops-row>#tkConsolidationHint,.contact-ops-row>#tkAnyDeskPill{width:100%!important;height:42px!important;min-height:42px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;border-radius:999px!important;overflow:hidden!important;white-space:nowrap!important}
+.anydesk-pill{border:1px solid color-mix(in srgb,#ef4444 42%,var(--line))!important;background:color-mix(in srgb,#fef2f2 86%,var(--panel))!important;color:#991b1b!important;padding:6px 10px!important}
+.anydesk-pill.has-access{background:color-mix(in srgb,#fff1f2 82%,var(--panel))!important}
+.anydesk-pill>img{width:18px!important;height:18px!important;object-fit:contain!important;flex:0 0 auto!important}
+.anydesk-pill #tkAnyDesk{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-weight:850!important}
+.anydesk-pill .copy-icon-btn{position:static!important;margin-left:auto!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;border-radius:12px!important}
+.contact-mini-list>.box-grid{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+@media(max-width:520px){.contact-mini-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.contact-mini-row{min-height:78px!important;padding:11px 46px 11px 12px!important}.contact-actions a{font-size:13px!important}.contact-ops-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.contact-ops-row>#tkConsolidationHint,.contact-ops-row>#tkAnyDeskPill{font-size:12px!important;padding-inline:8px!important}}
+
 
 
