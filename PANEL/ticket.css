@@ -121,9 +121,18 @@ body[data-page="ticket"]{overflow:hidden}
 .ticket-side>.panel,.ticket-side>.inset,.ticket-side>.fold-card,.ticket-side details:not(.fold-card){border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 99%,transparent),color-mix(in srgb,var(--panel-2) 100%,transparent));box-shadow:0 6px 18px rgba(15,23,42,.04)}
 .ticket-side .section-kicker{display:none}
 .side-head h1{margin:0;font-size:clamp(28px,3vw,36px);line-height:.98;letter-spacing:-.04em;font-weight:760}
+#tkType{display:none!important}
+.tk-system-chip span{display:none!important}
 .box-grid,.case-grid,.contact-mini-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .case-grid .span-2,.contact-mini-list>.box-grid{grid-column:1/-1}
 .ticket-side .box{min-width:0;min-height:86px;border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel) 98%,transparent);box-shadow:0 10px 24px rgba(15,23,42,.035)}
+.contact-fold:not([open])>.fold-body{display:none}
+.contact-fold[open]>.fold-head{display:none}
+.contact-open-head{justify-content:flex-end;margin-bottom:8px}
+.contact-hours-grid .span-2{grid-column:1/-1}
+.availability-line{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.info-mini{width:28px;height:28px;min-width:28px;min-height:28px;border-radius:999px;padding:0;font-weight:800}
+.hidden{display:none!important}
 .ticket-side .box .k,.contact-mini-row .k{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--muted) 86%,transparent)}
 .ticket-side .box .v.small,.contact-actions a,.fold-body .v.small{font-size:15px;font-weight:560;line-height:1.28;color:color-mix(in srgb,var(--text) 94%,transparent)}
 .fold-card{padding:0;overflow:hidden}
