@@ -110,8 +110,8 @@ body.modal-open{overflow:hidden}
 @media(max-width:1180px){.ticket-page{display:block;height:auto}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(390px,92vw);max-height:none;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);padding:14px;background:var(--panel)}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.ticket-main{height:calc(100dvh - 18px);margin:9px}.ticket-thread{height:100%}}
 @media(max-width:640px){.ticket-main{height:100dvh;margin:0}.ticket-thread{border-radius:0}.thread-topbar{grid-template-columns:auto 1fr auto;padding:10px}.log-area{padding:4px 10px 10px}.composer{padding:8px 10px}.composer-modebar{gap:6px}.pill-switch{padding:8px 10px}.log-msg,.log-msg.me{max-width:88%}.quick-replies{display:none}}
 .contact-fold[open] .contact-open-head h3{display:none}
-.contact-fold[open] .contact-open-head{justify-content:flex-end;margin-bottom:8px}
-.contact-fold[open]>.fold-head{display:none}
+.contact-fold[open] .contact-open-head{display:flex;justify-content:flex-end;margin-bottom:8px}
+.contact-fold[open]>.fold-head{display:flex}.contact-fold[open]>.fold-head .tag{display:none}.contact-fold[open]>.fold-head:before{content:"Contacto";font-size:14px;font-weight:560;color:color-mix(in srgb,var(--muted) 82%,transparent)}
 
 body[data-page="ticket"] #appShell>header,body[data-page="ticket"] .app-hero,body[data-page="ticket"] .shell-hero{display:none!important}
 body[data-page="ticket"]{overflow:hidden}
@@ -149,7 +149,7 @@ body[data-page="ticket"]{overflow:hidden}
 .contact-mini-row{position:relative;display:grid;grid-template-columns:1fr;gap:8px;min-height:86px;padding:13px 52px 13px 14px;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 98%,transparent);overflow:hidden}
 .contact-actions{display:grid;grid-template-columns:minmax(0,1fr) 34px;align-items:center;gap:8px}
 .contact-actions a{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:none;border-bottom:1px dashed color-mix(in srgb,var(--brand) 40%,var(--line))}
-.contact-actions .copy-icon-btn{display:grid;place-items:center;width:34px;height:34px;min-width:34px;min-height:34px;padding:0;border-radius:12px;font-size:0}
+.contact-actions .copy-icon-btn{display:none;place-items:center;width:34px;height:34px;min-width:34px;min-height:34px;padding:0;border-radius:12px;font-size:0}#tkEmailRow .copy-icon-btn{display:grid}#tkAnyDeskPill .copy-icon-btn{display:grid}
 .contact-actions .copy-icon-btn:after,.contact-actions .mini:after{display:none!important;content:none!important}
 .copy-icon-btn img{display:block;width:17px;height:17px;object-fit:contain}
 .icon-k img{width:22px;height:22px;object-fit:contain;opacity:.82}
@@ -163,6 +163,7 @@ body[data-page="ticket"]{overflow:hidden}
 .anydesk-pill>img{width:18px;height:18px;object-fit:contain;flex:0 0 auto}
 .anydesk-pill #tkAnyDesk{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .anydesk-pill .copy-icon-btn{margin-left:auto;width:32px;height:32px;min-width:32px;min-height:32px}
+.tag.muted{border-color:var(--line)!important;background:color-mix(in srgb,var(--panel) 96%,transparent)!important;color:color-mix(in srgb,var(--muted) 92%,transparent)!important}
 #tkContactMoreBtn{width:14px;height:14px;min-width:14px;min-height:14px;padding:0;border-radius:50%;font-size:0;box-shadow:none}
 #tkContactMoreBtn img,#tkContactMoreBtn:after{display:none!important}
 #tkContactMoreBtn.needs-review{background:#f59e0b;border-color:#f59e0b}
@@ -204,7 +205,7 @@ body[data-page="ticket"]{overflow:hidden}
 .quick-edit-btn{width:42px;min-width:42px;height:42px;border-radius:14px}
 .log-msg.close,.log-msg.me.close{width:auto;height:auto;min-height:unset;aspect-ratio:auto;overflow:visible;border-radius:18px 18px 8px 18px;padding:12px 14px;max-width:min(780px,88%)}
 .log-msg.close *{max-height:none;overflow:visible;white-space:normal;text-overflow:clip}
-@media(max-width:1180px){.ticket-page{display:block;width:100%;height:100dvh;margin:0}.ticket-main{height:100dvh;margin:0}.ticket-thread{height:100dvh;border-radius:0}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(430px,88vw);max-width:88vw;max-height:100dvh;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);box-shadow:24px 0 60px rgba(2,6,23,.18)}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.tk-side-close{display:flex;position:sticky;top:0;margin-left:auto;z-index:2}.thread-topbar{grid-template-columns:auto minmax(0,1fr) auto;padding:8px 10px}.log-area{padding:4px 10px 10px}.log-msg{max-width:90%}.log-msg.me{max-width:88%}.log-msg.close,.log-msg.note{max-width:96%}}
+@media(max-width:1180px){.ticket-page{display:block;width:100%;height:100dvh;margin:0}.ticket-main{height:100dvh;margin:0}.ticket-thread{height:100dvh;border-radius:0}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(430px,88vw);max-width:88vw;max-height:100dvh;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);box-shadow:24px 0 60px rgba(2,6,23,.18)}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.tk-side-close{display:flex;position:absolute;right:12px;top:12px;z-index:4;width:38px;height:38px;min-width:38px;min-height:38px;border-radius:14px}.thread-topbar{grid-template-columns:auto minmax(0,1fr) auto;padding:8px 10px}.log-area{padding:4px 10px 10px}.log-msg{max-width:90%}.log-msg.me{max-width:88%}.log-msg.close,.log-msg.note{max-width:96%}}
 @media(max-width:520px){.contact-mini-list{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-mini-row{min-height:78px;padding:12px 46px 12px 12px}.contact-actions a{font-size:13px}.contact-ops-row{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-ops-row>#tkConsolidationHint,.contact-ops-row>#tkAnyDeskPill{font-size:12px;padding-inline:8px}.heat-periods{grid-template-columns:repeat(2,minmax(0,1fr))}.composer{padding-left:4px;padding-right:4px}.pill-switch{font-size:13px;padding:8px 6px}}
 @media(max-height:520px) and (orientation:landscape){.quick-replies-wrap,.composer-statusline{display:none!important}.composer-input-wrap #logText{min-height:46px;max-height:82px}.composer{padding:6px}.thread-topbar{padding:6px 10px}}
-
+.tk-side-close{display:none}
