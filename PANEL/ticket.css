@@ -21,7 +21,8 @@ body[data-page="ticket"]{overflow:hidden}
 .hidden{display:none!important}
 .ticket-side .box .k,.contact-mini-row .k{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:color-mix(in srgb,var(--muted) 86%,transparent)}
 .ticket-side .box .v.small,.contact-actions a,.fold-body .v.small{font-size:15px;font-weight:560;line-height:1.28;color:color-mix(in srgb,var(--text) 94%,transparent)}
-.fold-card{padding:0;overflow:hidden}
+.fold-card{padding:0;overflow:visible}
+.fold-card:not([open]){overflow:hidden}.fold-card[open]{overflow:visible}
 .fold-head{min-height:76px;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;cursor:pointer;list-style:none;border:0}
 .fold-head::-webkit-details-marker{display:none}
 .fold-head span:first-child{display:none}
@@ -94,14 +95,13 @@ body[data-page="ticket"]{overflow:hidden}
 .tk-side-close{display:none!important}
 @media(max-width:1180px){.ticket-page{display:block;width:100%;height:100dvh;margin:0}.ticket-main,.ticket-thread{height:100dvh;margin:0;border-radius:0}.ticket-side{position:fixed;inset:0 auto 0 0;width:min(430px,88vw);max-width:88vw;max-height:100dvh;z-index:60;transform:translateX(-105%);transition:transform .22s ease;border-right:1px solid var(--line);box-shadow:24px 0 60px rgba(2,6,23,.18);background:var(--panel);padding-top:10px}body.tk-side-open .ticket-side{transform:translateX(0)}body.tk-side-open:before{content:"";position:fixed;inset:0;background:rgba(15,23,42,.32);z-index:55}.side-head,.tk-side-close,.side-head #tkTopChips{display:none!important}.thread-topbar{grid-template-columns:auto minmax(0,1fr) auto;padding:8px 10px}.log-area{padding:4px 10px 10px}.log-msg{max-width:90%}.log-msg.me{max-width:88%}.log-msg.close,.log-msg.note{max-width:96%}}
 
-@media(max-width:520px){.contact-mini-list{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-mini-row{min-height:78px;padding:12px 46px 12px 12px}.contact-actions a{font-size:13px}.contact-ops-row{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-ops-row>#tkConsolidationHint,.contact-ops-row>#tkAnyDeskPill{font-size:12px;padding-inline:8px}.composer{padding-left:4px;padding-right:4px}.pill-switch{font-size:13px;padding:8px 6px}}
+@media(max-width:520px){.contact-mini-list{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-mini-row{min-height:112px;padding:14px!important}.contact-actions a{font-size:13px}.contact-ops-row{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-ops-row>#tkConsolidationHint,.contact-ops-row>#tkAnyDeskPill{font-size:12px;padding-inline:8px}.composer{padding-left:4px;padding-right:4px}.pill-switch{font-size:13px;padding:8px 6px}}
 @media(max-height:520px) and (orientation:landscape){.quick-replies-wrap,.composer-statusline{display:none!important}.composer-input-wrap #logText{min-height:46px;max-height:82px}.composer{padding:6px}.thread-topbar{padding:6px 10px}}
 
 
 
+@media(max-width:520px){.ticket-side{display:grid;grid-template-columns:1fr;align-content:start;gap:10px}.case-grid{margin-bottom:8px}.ticket-side>.fold-card{grid-column:1/-1}.ticket-side>.fold-card:not([open]){min-height:92px;overflow:hidden}.ticket-side>.fold-card:not([open])>.fold-head{min-height:92px}.ticket-side>.fold-card[open]{min-height:auto;overflow:visible}.ticket-side:not(:has(.fold-card[open])){grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-side:not(:has(.fold-card[open]))>.side-head,.ticket-side:not(:has(.fold-card[open]))>.case-grid{grid-column:1/-1}.ticket-side:not(:has(.fold-card[open]))>.fold-card{grid-column:auto}.ticket-side:not(:has(.fold-card[open]))>#tkSystemsFold{grid-column:1/-1}}
 
-@media(max-width:520px){.ticket-side{gap:10px}.ticket-side>.fold-card:not([open]){min-height:92px}.ticket-side>.fold-card:not([open])>.fold-head{min-height:92px}.case-grid{margin-bottom:8px}}
-@media(max-width:520px){.ticket-side{display:grid;grid-template-columns:1fr;align-content:start;gap:10px}.ticket-side:not(:has(.fold-card[open])){grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-side:not(:has(.fold-card[open]))>.side-head,.ticket-side:not(:has(.fold-card[open]))>.case-grid{grid-column:1/-1}.ticket-side>.fold-card{grid-column:1/-1}.ticket-side:not(:has(.fold-card[open]))>.fold-card{grid-column:auto}.ticket-side:not(:has(.fold-card[open]))>#tkSystemsFold{grid-column:1/-1}.ticket-side>.fold-card[open]{grid-column:1/-1}}
 #tkPortalChips{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#tkPortalChips .tag{justify-content:center;text-align:center}#tkRadarHint{display:none!important}
 
 #tkHeatFold .box{min-height:68px!important;padding:10px 12px!important}#tkHeatFold .box .v.small{font-size:18px!important;line-height:1.1}#tkHeatChips{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#tkHeatChips .tag{justify-content:center;text-align:center;padding:8px 10px!important}
