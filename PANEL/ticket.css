@@ -11,7 +11,7 @@ body[data-page="ticket"]{overflow:hidden}
 .tk-system-chip span{display:none!important}
 .box-grid,.case-grid,.contact-mini-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .case-grid .span-2,.contact-mini-list>.box-grid{grid-column:1/-1}
-.ticket-side .box{min-width:0;min-height:86px;border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel) 98%,transparent);box-shadow:0 10px 24px rgba(15,23,42,.035)}
+.ticket-side .box{min-width:0;min-height:82px;border:1px solid var(--line);border-radius:18px;padding:15px 14px;background:color-mix(in srgb,var(--panel) 98%,transparent);box-shadow:0 10px 24px rgba(15,23,42,.035)}
 .contact-fold:not([open])>.fold-body{display:none}
 .contact-fold[open]>.fold-head{display:none}
 .contact-open-head{justify-content:flex-end;margin-bottom:8px}
@@ -100,7 +100,7 @@ body[data-page="ticket"]{overflow:hidden}
 
 
 
-@media(max-width:520px){.ticket-side{display:grid;grid-template-columns:1fr;align-content:start;gap:10px}.case-grid{margin-bottom:8px}.ticket-side>.fold-card{grid-column:1/-1}.ticket-side>.fold-card:not([open]){min-height:92px;overflow:hidden}.ticket-side>.fold-card:not([open])>.fold-head{min-height:92px}.ticket-side>.fold-card[open]{min-height:auto;overflow:visible}.ticket-side:not(:has(.fold-card[open])){grid-template-columns:repeat(2,minmax(0,1fr))}.ticket-side:not(:has(.fold-card[open]))>.side-head,.ticket-side:not(:has(.fold-card[open]))>.case-grid{grid-column:1/-1}.ticket-side:not(:has(.fold-card[open]))>.fold-card{grid-column:auto}.ticket-side:not(:has(.fold-card[open]))>#tkSystemsFold{grid-column:1/-1}}
+@media(max-width:520px){.ticket-side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:10px;padding:14px 14px 24px}.case-grid{grid-column:1/-1;margin:0 0 4px}.ticket-side>.fold-card{grid-column:auto}.ticket-side>.fold-card:not([open]){min-height:86px;overflow:hidden}.ticket-side>.fold-card:not([open])>.fold-head{min-height:86px}.ticket-side>.fold-card[open]{grid-column:1/-1;min-height:auto;overflow:visible}.ticket-side>#tkSystemsFold:not([open]){grid-column:auto}}
 
 #tkPortalChips{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#tkPortalChips .tag{justify-content:center;text-align:center}#tkRadarHint{display:none!important}
 
