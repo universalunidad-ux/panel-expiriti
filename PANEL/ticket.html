@@ -39,7 +39,7 @@
 <div class="box"><div class="k">En espera</div><div class="v small" id="tkHeatWait">—</div></div>
 <div class="box"><div class="k">Ritmo</div><div class="v small" id="tkHeatLevel">—</div></div>
 </div>
-<div class="chips mt8" id="tkHeatChips"><span class="tag">Sin datos</span></div>
+ 
     
   </div>
 </details>
@@ -63,7 +63,7 @@
 <section class="ticket-main">
 <section class="panel ticket-thread">
 <div class="thread-topbar">
-<div class="thread-left-actions"><button class="mini btn-ghost tk-side-btn" id="tkSideToggle" type="button" aria-label="Abrir panel">☰</button><a class="mini btn-ghost" href="tickets.html" id="tkBackInline">Volver</a></div>
+<div class="thread-left-actions"><button class="mini btn-ghost tk-side-btn" id="tkSideToggle" type="button" aria-label="Abrir panel">☰</button><a class="mini btn-ghost icon-only tk-back-arrow" href="tickets.html" id="tkBackInline" aria-label="Volver a tickets" title="Volver a tickets">←</a></div>
 <div class="log-sys" id="tkThreadStamp">Caso recibido · —</div>
 
 <div class="thread-gear-wrap">
@@ -160,7 +160,8 @@
       <div class="field span-2"><label class="lbl" for="tkSysNotes">Observaciones</label><textarea class="area" id="tkSysNotes" rows="4" placeholder="Notas preventivas, entorno, detalles útiles"></textarea></div>
       <input type="hidden" id="tkSysId">
     </div>
-    <div class="actions mt12">
+<div class="actions mt12">
+      <button class="btn btn-ghost danger" id="tkSystemDelete" type="button" hidden>Borrar</button>
       <button class="btn btn-ghost" id="tkSystemCancel" type="button">Cancelar</button>
       <button class="btn btn-brand" id="tkSystemSave" type="button">Guardar sistema</button>
     </div>
