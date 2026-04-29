@@ -23,7 +23,7 @@ body[data-page="ticket"]{overflow:hidden}
 .ticket-side .box .v.small,.contact-actions a,.fold-body .v.small{font-size:15px;font-weight:560;line-height:1.28;color:color-mix(in srgb,var(--text) 94%,transparent)}
 .fold-card{padding:0;overflow:visible}
 .fold-card:not([open]){overflow:hidden}.fold-card[open]{overflow:visible}
-.fold-head{min-height:76px;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;cursor:pointer;list-style:none;border:0}
+.fold-head{min-height:82px;display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 14px;cursor:pointer;list-style:none;border:0}
 .fold-head::-webkit-details-marker{display:none}
 .fold-head span:first-child{display:none}
 .fold-head .tag,.fold-head .fold-kicker{margin:auto;border:1px solid var(--line);border-radius:999px;padding:10px 18px;background:color-mix(in srgb,var(--panel) 96%,transparent);font-size:14px;font-weight:650;letter-spacing:0;text-transform:none;color:color-mix(in srgb,var(--text) 88%,transparent)}
@@ -129,3 +129,4 @@ body[data-page="ticket"]{overflow:hidden}
 .ev-menu-wrap{position:relative;display:inline-flex}.ev-menu{position:absolute;left:0;bottom:calc(100% + 8px);z-index:90;width:190px;padding:8px;border:1px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:0 18px 50px rgba(2,6,23,.18);display:none}.ev-menu.open{display:grid;gap:4px}.ev-menu button{display:flex;align-items:center;gap:9px;width:100%;min-height:38px;border:0;border-radius:12px;background:transparent;padding:8px 10px;font-size:13px;font-weight:750;color:var(--text);cursor:pointer;text-align:left}.ev-menu button:hover{background:color-mix(in srgb,var(--brand) 8%,transparent)}.ev-menu img{width:18px;height:18px;object-fit:contain}
 
 #tkSystemOverlay .sys-picker{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}#tkSystemOverlay .sys-pick{min-height:78px;padding:10px 8px}#tkSystemOverlay .sys-pick img{width:34px;height:34px;object-fit:contain}#tkSystemOverlay .sys-pick span{font-size:12px;line-height:1.15;text-align:center}
+@media(min-width:1181px){.ticket-side{display:grid;grid-template-columns:1fr;grid-template-rows:auto repeat(5,minmax(92px,1fr));gap:14px;padding:14px 12px 18px}.case-grid{gap:14px;margin-bottom:0}.ticket-side>.fold-card:not([open]){min-height:clamp(92px,12dvh,128px);display:flex}.ticket-side>.fold-card:not([open])>.fold-head{width:100%;min-height:100%;padding:18px}.ticket-side>.fold-card{border-radius:24px}.fold-head .tag,.fold-head .fold-kicker{box-shadow:0 8px 20px rgba(15,23,42,.035)}.ticket-side .box{border-radius:20px}.case-grid>.box{min-height:96px}.case-grid>.span-2{min-height:104px}}
