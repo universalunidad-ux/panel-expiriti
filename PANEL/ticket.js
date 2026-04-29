@@ -34,13 +34,39 @@ const applyQuickBoot=()=>{if(ST.quickBootDone||!QK)return;const key=quickBootMap
 const openContactPanel=()=>{$("#tkContactOverlay")&&($("#tkContactOverlay").hidden=false,document.body.classList.add("modal-open"))};
 const closeContactPanel=()=>{$("#tkContactOverlay")&&($("#tkContactOverlay").hidden=true,document.body.classList.remove("modal-open"))};
 const shouldShowContactMore=t=>!!(t?.requiere_consolidacion||!t?.cliente_id||!t?.contacto_id||t?.cliente_id_sugerido||t?.contacto_id_sugerido);
-const defaultQrs=modo=>modo==="nota"?[{scope:"global",modo,titulo:"Validar contacto",texto:"Pendiente validar contacto antes de continuar con el caso."},{scope:"global",modo,titulo:"Escalar con admin",texto:"Conviene escalar con administración o revisar con perfil interno adicional."}]:modo==="solucion"?[{scope:"global",modo,titulo:"Corrección aplicada",texto:"Se aplicó corrección y el sistema quedó operando correctamente."},{scope:"global",modo,titulo:"Caso resuelto",texto:"Caso resuelto sin impacto adicional. Se comparte cierre al usuario."}]:[{scope:"global",modo,titulo:"Pedir XML",texto:QR.xml.text},{scope:"global",modo,titulo:"Pedir captura",texto:QR.captura.text},{scope:"global",modo,titulo:"Pedir horario",texto:QR.horario.text},{scope:"global",modo,titulo:"Quedar en espera",texto:QR.espera.text}];
+const defaultQrs=modo=>modo==="nota"?[
+{scope:"global",modo,titulo:"Validar contacto",texto:"Pendiente validar contacto antes de continuar con el caso."},
+{scope:"global",modo,titulo:"Escalar con admin",texto:"Conviene escalar con administración o revisar con perfil interno adicional."},
+{scope:"global",modo,titulo:"Claridad insuficiente",texto:"La información recibida aún no permite determinar causa raíz. Conviene pedir evidencia puntual antes de avanzar."},
+{scope:"global",modo,titulo:"Tema de versión",texto:"Revisar versión instalada, versión de SQL/Windows y confirmar si el comportamiento inició después de actualización."},
+{scope:"global",modo,titulo:"Pendiente admin",texto:"Pendiente validar con administración antes de cerrar o comprometer una solución."},
+{scope:"global",modo,titulo:"Revisar historial",texto:"Conviene revisar historial reciente del cliente para detectar recurrencia o patrón operativo."},
+{scope:"global",modo,titulo:"Sin acción cliente",texto:"Por ahora no se requiere acción del cliente; queda como nota interna de seguimiento."}
+]:modo==="solucion"?[
+{scope:"global",modo,titulo:"Solución aplicada",texto:"Se aplicó la solución correspondiente en {sistema}. Favor de validar operación con {empresa}."},
+{scope:"global",modo,titulo:"Caso resuelto",texto:"Caso resuelto. Queda a reserva de confirmación final por parte de {empresa} si aplica."},
+{scope:"global",modo,titulo:"Configuración corregida",texto:"Se corrigió la configuración detectada y el sistema quedó listo para operar."},
+{scope:"global",modo,titulo:"Versión actualizada",texto:"Se validó/actualizó la versión necesaria para continuar con la operación."},
+{scope:"global",modo,titulo:"Acceso validado",texto:"Se validó el acceso y se confirmó operación correcta en el equipo correspondiente."},
+{scope:"global",modo,titulo:"Sin falla activa",texto:"No se detecta falla activa al momento de la revisión. Se deja el caso como resuelto."},
+{scope:"global",modo,titulo:"Cierre preventivo",texto:"Se deja el caso cerrado con validación preventiva. Si vuelve a presentarse, favor de responder en el portal."}
+]:[
+{scope:"global",modo,titulo:"Pedir XML",texto:QR.xml.text},
+{scope:"global",modo,titulo:"Pedir captura",texto:QR.captura.text},
+{scope:"global",modo,titulo:"Pedir horario",texto:QR.horario.text},
+{scope:"global",modo,titulo:"Quedar en espera",texto:QR.espera.text},
+{scope:"global",modo,titulo:"Pedir remoto",texto:QR.remoto.text},
+{scope:"global",modo,titulo:"Confirmar solución",texto:QR.solucion.text},
+{scope:"global",modo,titulo:"Marcar resuelto",texto:QR.resuelto.text}
+];
+
 const loadQuickReplies=async()=>{const modo=$("#logKind")?.value||"seguimiento",cid=T?.cliente_id||null;let q=s.from("ticket_respuestas_rapidas").select("*").eq("activo",true).eq("modo",modo).order("scope",{ascending:true}).order("orden",{ascending:true}).limit(20);if(cid)q=q.or(`scope.eq.global,cliente_id.eq.${cid}`);else q=q.eq("scope","global");const{data,error}=await q;if(error){QRS=defaultQrs(modo);return}QRS=(data?.length?data:defaultQrs(modo)).slice(0,10)};
 const qrClientId=()=>T?.cliente_id||null;
 const openQrModal=async()=>{QRM.mode=$("#logKind")?.value||"seguimiento";QRM.scope="global";$("#tkQrModal").hidden=false;document.body.classList.add("modal-open");await qrLoadEditor();qrPaintEditor()};
 const qrClose=()=>{$("#tkQrModal").hidden=true;document.body.classList.remove("modal-open")};
 const qrTabSync=()=>{$$("[data-qrmode]").forEach(b=>b.classList.toggle("is-on",b.dataset.qrmode===QRM.mode));$$("[data-qrscope]").forEach(b=>b.classList.toggle("is-on",b.dataset.qrscope===QRM.scope))};
-const qrSeedRows=rows=>{const defs=defaultQrs(QRM.mode).map((x,i)=>({...x,id:"",orden:i+1,scope:QRM.scope})),base=[...(rows?.length?rows:defs)].slice(0,10);while(base.length<7)base.push({id:"",titulo:`Respuesta ${base.length+1}`,texto:"",orden:base.length+1,activo:true,scope:QRM.scope,modo:QRM.mode});return base};
+const qrSeedRows=rows=>{const defs=defaultQrs(QRM.mode).map((x,i)=>({...x,id:"",orden:i+1,scope:QRM.scope,cliente_id:QRM.scope==="cliente"?qrClientId():null})),base=[...(rows?.length?rows:defs)].slice(0,10);while(base.length<7)base.push({id:"",titulo:`Respuesta ${base.length+1}`,texto:"",orden:base.length+1,activo:true,scope:QRM.scope,modo:QRM.mode,cliente_id:QRM.scope==="cliente"?qrClientId():null});return base};
+
 const qrLoadEditor=async()=>{let q=s.from("ticket_respuestas_rapidas").select("*").eq("activo",true).eq("modo",QRM.mode).order("orden",{ascending:true}).limit(10);if(QRM.scope==="cliente"&&qrClientId())q=q.eq("scope","cliente").eq("cliente_id",qrClientId());else q=q.eq("scope","global");const{data,error}=await q;if(error){toast(msg(error),"bad");QRM.rows=qrSeedRows([]);return}QRM.rows=qrSeedRows(data||[])};
 const qrRowTpl=(r,i)=>`<div class="tk-qr-row" data-i="${i}" data-id="${r.id||""}"><div class="tk-qr-name"><span>Nombre</span><input type="text" data-k="titulo" maxlength="80" placeholder="Ej. Pedir XML" value="${esc(r.titulo||`Respuesta ${i+1}`)}"></div><textarea data-k="texto" placeholder="Texto completo que se insertará en el chat. Puedes usar {empresa}, {sistema}, {agente}, {folio}">${esc(r.texto||"")}</textarea><button class="mini btn-ghost danger" type="button" data-qr-act="del">Borrar</button></div>`;
 const qrPaintEditor=()=>{qrTabSync();$("#tkQrRows").innerHTML=QRM.rows.length?QRM.rows.map((r,i)=>qrRowTpl(r,i)).join(""):`<div class="empty-state">Sin respuestas guardadas.</div>`};
