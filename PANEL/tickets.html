@@ -20,18 +20,34 @@
 <button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
 </div>
 
-<div class="toolbar-advanced hidden" id="tkAdvancedFilters">
-<button class="btn btn-ghost" id="tkNoEvidence" type="button">Sin evidencia</button>
-<button class="btn btn-ghost" id="tkReadyClose" type="button">Listos para cerrar</button>
-<button class="btn btn-ghost" id="tkImpactHigh" type="button">Impacto alto</button>
-<button class="btn btn-ghost" id="tkUrgentStale" type="button">Urgente + sin tocar</button>
-
-<button class="btn btn-ghost" id="tkNoClientLinked" type="button">Sin registro</button>
-<button class="btn btn-ghost" id="tkMatchMedium" type="button">Match medio</button>
-<button class="btn btn-ghost" id="tkFrBreach" type="button">1ra respuesta vencida</button>
-<button class="btn btn-ghost" id="tkRsBreach" type="button">Resolución vencida</button>
-<button class="btn btn-ghost" id="tkSlaSoon" type="button">SLA por vencer</button>
+<div class="tickets-toolbar-line">
+  <div class="searchbox tk-search-compact"><span>🔎</span><input id="tkSearch" placeholder="Buscar folio, cliente, correo, sistema o texto"></div>
+  <button class="btn" id="tkOnlyUrgent" type="button">Solo urgentes</button>
+  <div class="tk-filter-wrap">
+    <button class="btn btn-ghost tk-filter-btn" id="tkMoreFiltersBtn" type="button" aria-expanded="false"><img src="../IMG/filtro.webp" alt="">Filtros</button>
+    <div class="tk-filter-pop hidden" id="tkAdvancedFilters">
+      <div class="tk-filter-grid">
+        <select class="select" id="tkFilterPriority"><option value="">Todas las prioridades</option><option value="urgente">Urgente</option><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select>
+        <select class="select" id="tkFilterState"><option value="">Todos los estados</option><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="esperando_cliente">Esperando cliente</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select>
+        <select class="select" id="tkFilterType"><option value="">Todos los tipos</option><option value="soporte">Soporte</option><option value="renovacion">Renovación</option></select>
+        <input class="input" id="tkFilterClient" placeholder="Cliente">
+      </div>
+      <div class="tk-filter-actions">
+        <button class="btn btn-ghost" id="tkNoEvidence" type="button">Sin evidencia</button>
+        <button class="btn btn-ghost" id="tkReadyClose" type="button">Listos para cerrar</button>
+        <button class="btn btn-ghost" id="tkImpactHigh" type="button">Impacto alto</button>
+        <button class="btn btn-ghost" id="tkUrgentStale" type="button">Urgente + sin tocar</button>
+        <button class="btn btn-ghost" id="tkNoClientLinked" type="button">Sin registro</button>
+        <button class="btn btn-ghost" id="tkMatchMedium" type="button">Match medio</button>
+        <button class="btn btn-ghost" id="tkFrBreach" type="button">1ra respuesta vencida</button>
+        <button class="btn btn-ghost" id="tkRsBreach" type="button">Resolución vencida</button>
+        <button class="btn btn-ghost" id="tkSlaSoon" type="button">SLA por vencer</button>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-ghost" id="tkClearFilters" type="button">Limpiar</button>
 </div>
+  
   
 </section>
 <section class="board-layout">
