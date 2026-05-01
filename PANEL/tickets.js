@@ -68,7 +68,7 @@ const saveBoardOrder=()=>localStorage.setItem("expiriti_tickets_col_order",JSON.
 const applyBoardOrder=()=>{const raw=localStorage.getItem("expiriti_tickets_col_order");if(!raw||!board)return;try{const order=JSON.parse(raw);order.forEach(id=>{const body=$("#"+id);const col=body?.closest(".kanban-col");if(col)board.appendChild(col)})}catch{}};
 
 const KPI_EXPANDED=()=>localStorage.getItem("expiriti_tickets_kpi_more")==="1";
-const setKpiExpanded=v=>{localStorage.setItem("expiriti_tickets_kpi_more",v?"1":"0");$("#tkMetricsExtra")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.classList.toggle("hidden",v);$("#tkMetricsLessBtn")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")?.setAttribute("aria-expanded",v?"true":"false");$("#tkMetricsLessBtn")?.setAttribute("aria-expanded",v?"true":"false")};
+const setKpiExpanded=v=>{localStorage.setItem("expiriti_tickets_kpi_more",v?"1":"0");$("#tkMetricsExtra")?.classList.toggle("hidden",!v);$("#tkMetricsMoreBtn")&&($("#tkMetricsMoreBtn").textContent=v?"−":"+");$("#tkMetricsMoreBtn")?.setAttribute("aria-expanded",v?"true":"false")};
 const pageSlice=(arr,key)=>{const p=COL_PAGE[key]||0,s=COL_PAGE_SIZE,start=p*s;return arr.slice(start,start+s)};
 const pageCount=arr=>Math.max(1,Math.ceil((arr?.length||0)/COL_PAGE_SIZE));
 const clampPage=(key,total)=>{const max=Math.max(0,pageCount(total)-1);if((COL_PAGE[key]||0)>max)COL_PAGE[key]=max};
