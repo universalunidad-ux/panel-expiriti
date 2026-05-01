@@ -32,6 +32,9 @@ const triageScore=t=>{const s=ticketStateKey(rawState(t)),p=norm(t?.prioridad),i
 const createdMs=t=>new Date(t?.fecha_creacion||t?.created_at||t?.fecha_actualizacion||0).getTime()||0;
 const updatedMs=t=>new Date(t?.fecha_actualizacion||t?.fecha_creacion||t?.created_at||0).getTime()||0;
 const isNewTicket=t=>Date.now()-createdMs(t)<36e5;
+const createdMs=t=>new Date(t?.fecha_creacion||t?.created_at||t?.fecha_actualizacion||0).getTime()||0;
+const updatedMs=t=>new Date(t?.fecha_actualizacion||t?.fecha_creacion||t?.created_at||0).getTime()||0;
+const isNewTicket=t=>Date.now()-createdMs(t)<36e5;
 const randToken=()=>crypto.randomUUID().replace(/-/g,"")+crypto.randomUUID().replace(/-/g,"");
 const nextFolioSimple=async()=>{const d=new Date(),yy=String(d.getFullYear()).slice(-2),mm=String(d.getMonth()+1).padStart(2,"0"),dd=String(d.getDate()).padStart(2,"0"),rnd=Math.random().toString(36).slice(2,6).toUpperCase();return`SP-${yy}${mm}${dd}-${rnd}`};
 const qp=k=>new URLSearchParams(location.search).get(k)||"";
