@@ -1,5 +1,6 @@
 import{supabase as s,guardSession,msg}from"./supabase.js";
 import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,setGlobalSearchData,setBreadcrumb,daysSince,ticketStateKey as baseTicketStateKey,ticketStateLabel,ticketPriorityCls}from"./global.js";
+window.s=s;
 let TK=[],FILTER={q:"",priority:"",state:"",type:"",client:"",clienteId:"",noEvidence:false,readyClose:false,impactHigh:false,urgentStale:false,noClientLinked:false,matchMedium:false,frBreach:false,rsBreach:false,slaSoon:false},VIEW=localStorage.getItem("expiriti_tickets_view")||"kanban",SELECTED_ID="",EDIT_MODE=localStorage.getItem("expiriti_tickets_edit_mode")==="1",DRAG_COL=null,BOARD_NOTIF=JSON.parse(localStorage.getItem("expiriti_tickets_notif")||'{"visual":true,"sound":true,"strongOnly":false,"volume":0.5,"muted":false}'),COL_PAGE={abierto:0,en_proceso:0,esperando_cliente:0,resuelto:0},COL_PAGE_SIZE=3,QUICK={lastCopied:"",lastAction:"",open:false},SAVE_BUSY=false;
 
 const saveBoardNotif=()=>{localStorage.setItem("expiriti_tickets_notif",JSON.stringify(BOARD_NOTIF));syncBoardNotifUI()};
