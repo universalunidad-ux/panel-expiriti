@@ -198,3 +198,5 @@ body[data-page="tickets"] .tickets-hero{overflow:visible!important}body[data-pag
 body[data-page="tickets"] .tk-filter-pop{border-radius:18px!important;box-shadow:0 18px 40px rgba(15,23,42,.16)!important}
 
 @media(max-width:720px){body[data-page="tickets"] .tk-filter-wrap{position:static!important}body[data-page="tickets"] .tk-filter-pop{position:fixed!important;left:12px!important;right:12px!important;top:auto!important;bottom:12px!important;width:auto!important;max-width:none!important;max-height:min(78vh,680px)!important;z-index:140!important}}
+
+body[data-page="tickets"] .tk-closed-copy{display:flex!important;align-items:center!important;min-height:46px!important}body[data-page="tickets"] .tk-closed-copy .section-kicker,body[data-page="tickets"] .tk-closed-copy .mut{display:none!important}body[data-page="tickets"] .tk-closed-copy h3{margin:0!important;font-size:1.55rem!important;line-height:1!important;letter-spacing:-.045em!important}
