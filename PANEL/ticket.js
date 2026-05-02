@@ -1,6 +1,5 @@
+import{supabase as s,guardSession,logAction,msg}from"./supabase.js";
 import{$,toast,esc,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb,ticketStateKey,ticketStateLabel,ticketStateCls,prettyBytes}from"./global.js";
-import{supabase as s,guardSession,logAction}from"./supabase.js";
-const msg=e=>e?.message||e?.error_description||e?.details||e?.hint||String(e||"Error inesperado");
 
 let CLIENT_SYSTEMS=[];
 const $$=(q,ctx=document)=>[...ctx.querySelectorAll(q)];
