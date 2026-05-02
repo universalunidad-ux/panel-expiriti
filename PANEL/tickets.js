@@ -72,11 +72,7 @@ const pageSlice=(arr,key)=>{const p=COL_PAGE[key]||0,s=COL_PAGE_SIZE,start=p*s;r
 const pageCount=arr=>Math.max(1,Math.ceil((arr?.length||0)/COL_PAGE_SIZE));
 const clampPage=(key,total)=>{const max=Math.max(0,pageCount(total)-1);if((COL_PAGE[key]||0)>max)COL_PAGE[key]=max};
 const renderPager=(key,total)=>{$("#info-"+key)&&($("#info-"+key).textContent=`${(COL_PAGE[key]||0)+1}/${pageCount(total)}`);$("#prev-"+key)&&($("#prev-"+key).disabled=(COL_PAGE[key]||0)<=0);$("#next-"+key)&&($("#next-"+key).disabled=(COL_PAGE[key]||0)>=pageCount(total)-1);$("#pager-"+key)?.classList.toggle("hidden",(total?.length||0)<=COL_PAGE_SIZE)};
-const closedSince=()=>{const d=new Date(),r=CLOSED.range;if(r==="all")return null;if(r==="month")return new Date(d.getFullYear(),d.getMonth(),1).getTime();const m=r==="3m"?3:r==="6m"?6:12;const x=new Date(d);x.setMonth(x.getMonth()-m);return x.getTime()};
-const closedDate=t=>new Date(t?.fecha_cierre||t?.fecha_actualizacion||t?.fecha_creacion||0).getTime()||0;
-const closedBlob=t=>norm([t?.empresa_capturada,t?.clientes?.nombre,t?.nombre_capturado,t?.correo_capturado,t?.folio,t?.titulo,t?.descripcion].join(" | "));
-const closedRows=()=>{const since=closedSince(),q=norm(CLOSED.q||"");return TK.filter(t=>ticketStateKey(rawState(t))==="cerrado").filter(t=>!since||closedDate(t)>=since).filter(t=>CLOSED.mode!=="client"||!q||closedBlob(t).includes(q)).sort((a,b)=>closedDate(b)-closedDate(a))};
-const syncClosedUI=()=>{document.querySelectorAll("[data-closed-mode]").forEach(b=>b.classList.toggle("is-active",b.dataset.closedMode===CLOSED.mode));document.querySelectorAll("[data-closed-range]").forEach(b=>b.classList.toggle("is-active",b.dataset.closedRange===CLOSED.range));$("#tkClosedSearchBox")?.classList.toggle("hidden",CLOSED.mode!=="client");$("#tkClosedQ")&&($("#tkClosedQ").value=CLOSED.q||"")};
+
 const closedSince=()=>{const d=new Date(),r=CLOSED.range;if(r==="all")return null;if(r==="30d"){const x=new Date(d);x.setDate(x.getDate()-30);return x.getTime()}const m=r==="3m"?3:r==="6m"?6:12,x=new Date(d);x.setMonth(x.getMonth()-m);return x.getTime()};
 const closedDate=t=>new Date(t?.fecha_cierre||t?.fecha_actualizacion||t?.fecha_creacion||0).getTime()||0;
 const closedBlob=t=>norm([t?.empresa_capturada,t?.clientes?.nombre,t?.nombre_capturado,t?.correo_capturado,t?.folio,t?.titulo,t?.descripcion].join(" | "));
@@ -87,8 +83,7 @@ const syncClosedUI=()=>{document.querySelectorAll("[data-closed-mode]").forEach(
 const renderClosed=()=>{const rows=closedFiltered(),pageRows=closedPaged(rows),pages=closedTotalPages(rows),info=rows.length?`${(CLOSED.page||0)+1}/${pages}`:"0/0";syncClosedUI();$("#tkClosedRows")&&($("#tkClosedRows").innerHTML=pageRows.length?pageRows.map(compactRow).join(""):`<div class="empty-state">Sin tickets cerrados para este filtro.</div>`);$("#tkClosedTotal")&&($("#tkClosedTotal").textContent=`${rows.length} ticket${rows.length===1?"":"s"}`);$("#tkClosedPageInfo")&&($("#tkClosedPageInfo").textContent=info);$("#tkClosedPrev")&&($("#tkClosedPrev").disabled=(CLOSED.page||0)<=0);$("#tkClosedNext")&&($("#tkClosedNext").disabled=!rows.length||(CLOSED.page||0)>=pages-1)};
 const openClosedModal=()=>{$("#tkClosedModal")&&(($("#tkClosedModal").hidden=false),document.body.classList.add("modal-open"));renderClosed()};
 const closeClosedModal=()=>{$("#tkClosedModal")&&(($("#tkClosedModal").hidden=true),document.body.classList.remove("modal-open"))};
-const openClosedModal=()=>{$("#tkClosedModal")&&(($("#tkClosedModal").hidden=false),document.body.classList.add("modal-open"));renderClosed()};
-const closeClosedModal=()=>{$("#tkClosedModal")&&(($("#tkClosedModal").hidden=true),document.body.classList.remove("modal-open"))};
+
 
 
 const openCount=arr=>(arr||[]).filter(t=>ticketStateKey(rawState(t))!=="cerrado").length;
