@@ -139,6 +139,10 @@ body[data-page="tickets"] .compact-list{gap:12px!important}body[data-page="ticke
 
 
 
+body[data-page="tickets"] #tkModal .tk-new-modal{width:min(760px,calc(100vw - 28px))}body[data-page="tickets"] #tkModal .section-head h3{margin:2px 0 4px}body[data-page="tickets"] #tkModal .section-head .mut{margin:0;max-width:560px;font-size:.9rem}body[data-page="tickets"] .tk-new-grid{gap:11px!important}body[data-page="tickets"] .tk-new-grid .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}body[data-page="tickets"] .tk-notify-opt{min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--panel) 97%,transparent)}body[data-page="tickets"] .tk-notify-opt.is-muted{opacity:.62}body[data-page="tickets"] .tk-notify-opt span{font-weight:800}
+@media(max-width:640px){body[data-page="tickets"] .tk-new-grid .grid-2{grid-template-columns:1fr}body[data-page="tickets"] #tkModal .tk-new-modal{width:calc(100vw - 18px)}}
+
+
 
 
 
