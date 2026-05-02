@@ -5,3 +5,4 @@ self.addEventListener("fetch",e=>{const r=e.request,u=new URL(r.url);if(r.method
 if(r.mode==="navigate")return e.respondWith((async()=>{try{const n=await fetch(r,{cache:"no-store"});if(n&&n.ok)(await caches.open(P)).put(r,n.clone());return n}catch{const c=await caches.open(P);return await c.match(r)||await c.match("./estado.html")||await c.match("./soporte.html")||await c.match("./dashboard.html")||await c.match("./index.html")||new Response("Sin conexión",{status:503,headers:{"Content-Type":"text/plain;charset=UTF-8"}})}})());
 e.respondWith((async()=>{const c=await caches.open(S);try{const n=await fetch(r,{cache:"no-store"});if(n&&n.ok)c.put(r,n.clone());return n}catch{const m=await c.match(r);return m||new Response("",{status:504})}})());
 });
+ 
