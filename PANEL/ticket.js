@@ -1,4 +1,7 @@
 import{$,toast,esc,norm,ensureAppShell,setAppRole,setRailOpenCount,pushRecentClient,setGlobalSearchData,setBreadcrumb,ticketStateKey,ticketStateLabel,ticketStateCls,prettyBytes}from"./global.js";
+import{supabase as s,guardSession,logAction}from"./supabase.js";
+const msg=e=>e?.message||e?.error_description||e?.details||e?.hint||String(e||"Error inesperado");
+
 let CLIENT_SYSTEMS=[];
 const $$=(q,ctx=document)=>[...ctx.querySelectorAll(q)];
 const QS=new URLSearchParams(location.search),ID=QS.get("id")||"",QK=(QS.get("qk")||"").trim().toLowerCase(),MUTE_KEY=`expiriti_ticket_mute_${ID}`,ST={busy:false,linkedContact:null,logFiles:[],portalMeta:null,notif:null,lastNotifSig:"",poller:null,ticketMuted:false,quickBootDone:false,quickBootKey:"",quickBootText:""};let T=null,C=null,LOGS=[],HEAT={periodDays:30,rows:[],total30:0,urgent30:0,waitOpen:0,level:"Normal"},FILES=[],QRS=[],CLIENT_ACCESSES=[];
