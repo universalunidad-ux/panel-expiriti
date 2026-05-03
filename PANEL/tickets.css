@@ -240,3 +240,12 @@ body[data-page="tickets"] .tickets-gear-menu{position:fixed!important;left:50%!i
 body[data-page="tickets"] .tickets-gear-section{gap:12px!important}
 body[data-page="tickets"] .tickets-gear-section .mini,body[data-page="tickets"] .tickets-gear-section .btn-ghost{min-height:46px!important;border-radius:16px!important}
 }
+
+body[data-page="tickets"] [data-icon-only="1"]{display:grid!important;place-items:center!important;padding:0!important;min-width:46px!important;width:46px!important;height:46px!important;min-height:46px!important;border-radius:16px!important}
+body[data-page="tickets"] #tkNewBtn[data-icon-only="1"]{min-width:54px!important;width:54px!important;height:46px!important}
+body[data-page="tickets"] .hdr-btn-icon{display:block;width:20px;height:20px;object-fit:contain;pointer-events:none}
+body[data-page="tickets"] #tkViewBtn[data-icon-only="1"] .hdr-btn-icon{width:20px;height:20px}
+body[data-page="tickets"] #tkMoreFiltersBtn[data-icon-only="1"] .hdr-btn-icon{width:19px;height:19px}
+body[data-page="tickets"] #tkClearFilters[data-icon-only="1"] .hdr-btn-icon{width:19px;height:19px}
+body[data-page="tickets"] #tkNewBtn[data-icon-only="1"] .hdr-btn-icon{width:22px;height:22px}
+@media(max-width:720px){body[data-page="tickets"] [data-icon-only="1"]{min-width:46px!important;width:46px!important;height:46px!important}body[data-page="tickets"] #tkNewBtn[data-icon-only="1"]{min-width:52px!important;width:52px!important}}
