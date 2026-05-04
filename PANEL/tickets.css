@@ -2,13 +2,8 @@
 .tickets-page,.tickets-page>*{min-width:0}
 .board-layout,.kanban-board,.kanban-col,.col-body,.tickets-toolbar,.tickets-hero,.compact-list,.closed-strip{min-width:0;max-width:100%}
 body[data-page="tickets"]{overflow-x:hidden}
-.tickets-hero{display:block;padding:12px 14px}
-.hero-main{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:14px}
-.hero-copy{min-width:0;display:grid;gap:4px}
-.hero-actions{display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;flex-wrap:nowrap}
-.tickets-hero h1{margin:1px 0 0;font-size:clamp(18px,2vw,26px);line-height:1.02;letter-spacing:-.03em}
-.tickets-hero .mut{margin-top:4px;font-size:14px;line-height:1.35}
-.tk-edit-help{margin-top:8px;max-width:760px}
+
+
 
 .metrics-strip-wrap{position:relative;min-width:0}
 .metrics-strip-wrap:after{content:"";position:absolute;top:0;right:0;width:24px;height:100%;pointer-events:none;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg) 88%,transparent))}
