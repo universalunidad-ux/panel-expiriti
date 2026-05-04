@@ -7,6 +7,8 @@ const saveBoardNotif=()=>{localStorage.setItem("expiriti_tickets_notif",JSON.str
 const syncBoardNotifUI=()=>{$("#tkNotifVisual")&&($("#tkNotifVisual").checked=!!BOARD_NOTIF.visual);$("#tkNotifSound")&&($("#tkNotifSound").checked=!!BOARD_NOTIF.sound);$("#tkNotifStrongOnly")&&($("#tkNotifStrongOnly").checked=!!BOARD_NOTIF.strongOnly);$("#tkNotifVolume")&&($("#tkNotifVolume").value=String(Number(BOARD_NOTIF.volume??0.5)));$("#tkMuteBoardBtn")&&($("#tkMuteBoardBtn").textContent=BOARD_NOTIF.muted?"Reactivar mesa":"Silenciar mesa")};
 const syncNotifyHint=()=>{const mail=$("#tkCorreo")?.value?.trim()||"",chk=$("#tkNotificar");if(!chk)return;if(!mail){chk.checked=false;chk.closest("label")?.classList.add("is-muted")}else chk.closest("label")?.classList.remove("is-muted")};
 
+const metricNum=id=>Number(($("#"+id)?.textContent||"0").replace(/\D+/g,""))||0;
+const syncHeroMetrics=()=>{const u=metricNum("mUrgent"),s=metricNum("mStale"),mu=$("#metricUrgent"),ms=$("#metricStale"),box=$("#tkMetricsStrip");mu?.classList.toggle("is-empty",u<=0);ms?.classList.toggle("is-empty",s<=0);box?.classList.toggle("is-empty",u<=0&&s<=0)};
 
 const rawState=t=>t?.estado||t?.estatus||t?.status||"abierto";
 const ticketStateKey=v=>{const x=norm(v||"abierto").replace(/[\s-]+/g,"_").replace(/^_+|_+$/g,"");if(x==="esperando_cliente"||x==="espera_cliente"||x==="pendiente_cliente"||x.includes("esperando")||x.includes("pendiente_cliente"))return"esperando_cliente";if(x==="en_proceso"||x==="proceso"||x==="revision"||x.includes("proceso")||x.includes("revision"))return"en_proceso";if(x==="resuelto"||x.includes("resuelt"))return"resuelto";if(x==="cerrado"||x.includes("cerrad"))return"cerrado";if(x==="abierto"||x.includes("abiert"))return"abierto";return baseTicketStateKey?.(v)||"abierto"};
@@ -179,3 +181,4 @@ const bindDynamic=()=>{window.__ticketsClickHandler=ticketClickRouter;window.__t
 document.addEventListener("DOMContentLoaded",()=>{bindStatic();bindDynamic();load().then(()=>bindDynamic()).catch(err=>toast(msg(err),"bad"));setTimeout(bindDynamic,600);setTimeout(bindDynamic,1600);setInterval(()=>load().then(()=>bindDynamic()).catch(()=>{}),20000)});
 document.addEventListener("click",e=>{if(e.target.closest("#tkMoreFiltersBtn,#tkAdvancedFilters,#tkGearBtn,#tkGearMenu"))return;closeTicketMenus()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeTicketMenus()});
+setTimeout(syncHeroMetrics,0);new MutationObserver(syncHeroMetrics).observe($("#tkMetricsStrip"),{subtree:true,childList:true,characterData:true});
