@@ -1,6 +1,6 @@
 .tickets-page{display:grid;gap:14px;width:100%;max-width:none;margin:0;padding:12px 14px 16px;align-content:start}
 .tickets-page,.tickets-page>*{min-width:0}
-.board-layout,.kanban-board,.kanban-col,.col-body,.tickets-toolbar,.tickets-hero,.compact-list,.closed-strip{min-width:0;max-width:100%}
+.board-layout,.kanban-board,.kanban-col,.col-body,.tickets-tfoolbar,.tickets-hero,.compact-list,.closed-strip{min-width:0;max-width:100%}
 body[data-page="tickets"]{overflow-x:hidden}
 
 
@@ -221,7 +221,7 @@ body[data-page="tickets"] .tickets-hero{overflow:visible!important}body[data-pag
 
 @media(min-width:1181px){body[data-page="tickets"] .tickets-hero{display:grid!important;grid-template-columns:auto minmax(320px,520px) auto auto!important;align-items:center!important;gap:12px!important}body[data-page="tickets"] .hero-copy{min-width:max-content!important}body[data-page="tickets"] .hero-tools{display:grid!important;grid-template-columns:minmax(260px,420px) 56px auto!important;align-items:center!important;gap:8px!important;min-width:0!important}body[data-page="tickets"] .tk-search-compact{width:100%!important;max-width:420px!important;min-width:260px!important}body[data-page="tickets"] .tk-search-compact input{min-width:0!important;text-overflow:ellipsis!important}body[data-page="tickets"] .tk-filter-btn{width:56px!important;min-width:56px!important;padding:0!important;font-size:0!important}body[data-page="tickets"] .tk-filter-btn img{display:none!important}body[data-page="tickets"] #tkClearFilters{height:52px!important;min-height:52px!important;padding:0 18px!important}body[data-page="tickets"] .hero-metrics{justify-self:end!important;display:grid!important;grid-template-columns:repeat(4,94px)!important;gap:8px!important}body[data-page="tickets"] .metric-pill{height:52px!important;min-height:52px!important;padding:7px 10px!important;border-radius:16px!important}body[data-page="tickets"] .metric-pill .mk{font-size:9px!important;letter-spacing:.16em!important}body[data-page="tickets"] .metric-pill .mv{font-size:22px!important;line-height:1!important}body[data-page="tickets"] .hero-actions{justify-self:end!important;display:flex!important;align-items:center!important;gap:8px!important}body[data-page="tickets"] #tkViewBtn,body[data-page="tickets"] #tkGearBtn,body[data-page="tickets"] #tkNewBtn{height:52px!important;min-height:52px!important;border-radius:16px!important}}
 
-body[data-page="tickets"] .tk-filter-pop.hidden,body[data-page="tickets"] .tickets-gear-menu.hidden{display:none!important;pointer-events:none!important}
+
 body[data-page="tickets"] .tk-filter-pop:not(.hidden),body[data-page="tickets"] .tickets-gear-menu:not(.hidden){pointer-events:auto!important;z-index:140!important}
 
 body[data-page="tickets"] .tk-filter-btn img{display:block!important;width:20px!important;height:20px!important;object-fit:contain!important}body[data-page="tickets"] #tkNewBtn{font-size:0!important}body[data-page="tickets"] #tkNewBtn:after{content:"+";font-size:24px;font-weight:900;line-height:1}body[data-page="tickets"] #tkGearBtn{font-size:18px!important}
@@ -230,7 +230,7 @@ body[data-page="tickets"] .tk-filter-btn img{display:block!important;width:20px!
 
 
 
-body[data-page="tickets"] .tk-filter-pop.hidden,body[data-page="tickets"] .tickets-gear-menu.hidden{display:none!important;pointer-events:none!important}
+
 body[data-page="tickets"] .tk-filter-pop:not(.hidden),body[data-page="tickets"] .tickets-gear-menu:not(.hidden){pointer-events:auto!important;z-index:140!important}
 
 
