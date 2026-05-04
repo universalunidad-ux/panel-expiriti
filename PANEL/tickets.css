@@ -33,7 +33,7 @@ body[data-page="tickets"]{overflow-x:hidden}body[data-page="tickets"] .tkHeroMin
 .toolbar-advanced .btn{min-height:40px}
 
 .board-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
-.kanban-board{display:grid;grid-template-columns:repeat(4,minmax(280px,1fr));gap:14px;align-items:start;overflow:visible;padding-bottom:6px}
+.kanban-board{display:grid;grid-template-columns:repeat(3,minmax(280px,1fr));gap:14px;align-items:start;overflow:visible;padding-bottom:6px}
 .kanban-col{display:flex;flex-direction:column;align-self:start;min-height:0;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs)}
 .col-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--line);font-weight:900}
 .col-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:12px;color:var(--muted)}
