@@ -7,7 +7,7 @@ if(!["abierto","en_proceso","esperando_cliente"].includes(MOBILE_STATE)){MOBILE_
 const saveBoardNotif=()=>{localStorage.setItem("expiriti_tickets_notif",JSON.stringify(BOARD_NOTIF));syncBoardNotifUI()};
 const syncBoardNotifUI=()=>{$("#tkNotifVisual")&&($("#tkNotifVisual").checked=!!BOARD_NOTIF.visual);$("#tkNotifSound")&&($("#tkNotifSound").checked=!!BOARD_NOTIF.sound);$("#tkNotifStrongOnly")&&($("#tkNotifStrongOnly").checked=!!BOARD_NOTIF.strongOnly);$("#tkNotifVolume")&&($("#tkNotifVolume").value=String(Number(BOARD_NOTIF.volume??0.5)));$("#tkMuteBoardBtn")&&($("#tkMuteBoardBtn").textContent=BOARD_NOTIF.muted?"Reactivar mesa":"Silenciar mesa")};
 const syncNotifyHint=()=>{const mail=$("#tkCorreo")?.value?.trim()||"",chk=$("#tkNotificar");if(!chk)return;if(!mail){chk.checked=false;chk.closest("label")?.classList.add("is-muted")}else chk.closest("label")?.classList.remove("is-muted")};
-
+ 
 const rawState=t=>t?.estado||t?.estatus||t?.status||"abierto";
 const ticketStateKey=v=>{const x=norm(v||"abierto").replace(/[\s-]+/g,"_").replace(/^_+|_+$/g,"");if(x==="esperando_cliente"||x==="espera_cliente"||x==="pendiente_cliente"||x.includes("esperando")||x.includes("pendiente_cliente"))return"esperando_cliente";if(x==="en_proceso"||x==="proceso"||x==="revision"||x.includes("proceso")||x.includes("revision"))return"en_proceso";if(x==="resuelto"||x.includes("resuelt"))return"resuelto";if(x==="cerrado"||x.includes("cerrad"))return"cerrado";if(x==="abierto"||x.includes("abiert"))return"abierto";return baseTicketStateKey?.(v)||"abierto"};
 const staleCls=t=>daysSince(t.fecha_actualizacion||t.fecha_creacion)>=1&&!["resuelto","cerrado"].includes(ticketStateKey(rawState(t)))?"is-stale":"";
