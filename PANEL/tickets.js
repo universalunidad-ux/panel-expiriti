@@ -7,9 +7,6 @@ const saveBoardNotif=()=>{localStorage.setItem("expiriti_tickets_notif",JSON.str
 const syncBoardNotifUI=()=>{$("#tkNotifVisual")&&($("#tkNotifVisual").checked=!!BOARD_NOTIF.visual);$("#tkNotifSound")&&($("#tkNotifSound").checked=!!BOARD_NOTIF.sound);$("#tkNotifStrongOnly")&&($("#tkNotifStrongOnly").checked=!!BOARD_NOTIF.strongOnly);$("#tkNotifVolume")&&($("#tkNotifVolume").value=String(Number(BOARD_NOTIF.volume??0.5)));$("#tkMuteBoardBtn")&&($("#tkMuteBoardBtn").textContent=BOARD_NOTIF.muted?"Reactivar mesa":"Silenciar mesa")};
 const syncNotifyHint=()=>{const mail=$("#tkCorreo")?.value?.trim()||"",chk=$("#tkNotificar");if(!chk)return;if(!mail){chk.checked=false;chk.closest("label")?.classList.add("is-muted")}else chk.closest("label")?.classList.remove("is-muted")};
 
-const metricNum=id=>Number(($("#"+id)?.textContent||"0").replace(/\D+/g,""))||0;
-const syncHeroMetrics=()=>{const u=metricNum("mUrgent"),s=metricNum("mStale"),mu=$("#metricUrgent"),ms=$("#metricStale"),box=$("#tkMetricsStrip");mu?.classList.toggle("is-empty",u<=0);ms?.classList.toggle("is-empty",s<=0);box?.classList.toggle("is-empty",u<=0&&s<=0)};
-
 const rawState=t=>t?.estado||t?.estatus||t?.status||"abierto";
 const ticketStateKey=v=>{const x=norm(v||"abierto").replace(/[\s-]+/g,"_").replace(/^_+|_+$/g,"");if(x==="esperando_cliente"||x==="espera_cliente"||x==="pendiente_cliente"||x.includes("esperando")||x.includes("pendiente_cliente"))return"esperando_cliente";if(x==="en_proceso"||x==="proceso"||x==="revision"||x.includes("proceso")||x.includes("revision"))return"en_proceso";if(x==="resuelto"||x.includes("resuelt"))return"resuelto";if(x==="cerrado"||x.includes("cerrad"))return"cerrado";if(x==="abierto"||x.includes("abiert"))return"abierto";return baseTicketStateKey?.(v)||"abierto"};
 const staleCls=t=>daysSince(t.fecha_actualizacion||t.fecha_creacion)>=1&&!["resuelto","cerrado"].includes(ticketStateKey(rawState(t)))?"is-stale":"";
