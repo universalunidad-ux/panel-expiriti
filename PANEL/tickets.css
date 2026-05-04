@@ -328,3 +328,14 @@ body[data-page="tickets"] #tkNewBtn{grid-area:new!important}
 body[data-page="tickets"] #tkViewBtn{display:none!important}
 body[data-page="tickets"] .hero-metrics{display:none!important}
 }
+
+
+body[data-page="tickets"][data-view="kanban"] .compact-list{display:none!important}
+body[data-page="tickets"][data-view="compact"] .board-layout,body[data-page="tickets"][data-view="compact"] .tk-mobile-statebar{display:none!important}
+body[data-page="tickets"][data-view="kanban"] .board-layout{display:grid!important}
+
+@media(max-width:720px){
+body[data-page="tickets"] .tk-mobile-statebar{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+body[data-page="tickets"] .tk-mobile-statebar [data-mobile-state="resuelto"]{display:none!important}
+body[data-page="tickets"] .hero-metrics{display:none!important}
+}  
