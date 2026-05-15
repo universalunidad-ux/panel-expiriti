@@ -121,6 +121,7 @@ export const telHref=v=>{const d=String(v||"").replace(/\D+/g,"");return d?`tel:
 export const mailHref=v=>String(v||"").trim()?`mailto:${String(v).trim()}`:"#";
 export const ago=v=>{if(!v)return"—";const s=Math.floor((Date.now()-new Date(v).getTime())/1000);if(s<60)return`hace ${s}s`;if(s<3600)return`hace ${Math.floor(s/60)}m`;if(s<86400)return`hace ${Math.floor(s/3600)}h`;return`hace ${Math.floor(s/86400)}d`};
 const renderHeader=()=>{const p=T?.prioridad||"media",client=C?.nombre||T?.empresa_capturada||"Cliente sin nombre",u=T?.nombre_capturado||T?.nombre_cliente_contacto||"—",m=getSystemMeta(T?.sistema||T?.tipo||"");$("#tkTitle").textContent=client;$("#tkClient").textContent=u;$("#tkSystem").innerHTML=`<span class="tk-system-chip">${m.logo?`<img class="tk-system-logo" src="${m.logo}" alt="">`:""}<span>${esc(m.label)}</span></span>`;$("#tkType").textContent="";$("#tkTopChips").innerHTML=`<span class="tag">${esc(T?.folio||"Sin folio")}</span><span class="tag ${ticketPriorityCls(p)}">${esc(p)}</span>`};
+(()=>{if(window.__appHeadTap)return;window.__appHeadTap=1;const touch=()=>matchMedia("(hover:none)").matches,close=()=>document.body.classList.remove("app-head-open");document.addEventListener("click",e=>{const hot=e.target.closest?.(".app-hotzone"),head=e.target.closest?.(".app-header");if(hot&&touch()){document.body.classList.toggle("app-head-open");return}if(touch()&&!head)close()},{passive:true});document.addEventListener("keydown",e=>{if(e.key==="Escape")close()})})();
 
 
 
