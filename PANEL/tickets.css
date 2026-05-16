@@ -266,11 +266,19 @@ body[data-page="tickets"] #tkViewBtn,body[data-page="tickets"] #tkClearFilters,b
 body[data-page="tickets"] #tkViewBtn .hdr-btn-icon,body[data-page="tickets"] #tkClearFilters .hdr-btn-icon,body[data-page="tickets"] #tkMoreFiltersBtn .hdr-btn-icon{display:block!important}
 body[data-page="tickets"] #tkClearFilters.is-idle{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 body[data-page="tickets"] #tkClearFilters:not(.is-idle){visibility:visible!important;opacity:1!important;pointer-events:auto!important}
-body[data-page="tickets"] .tickets-gear-menu .gear-icon-btn{display:grid!important;place-items:center!important;width:54px!important;height:44px!important;padding:0!important;font-size:0!important}
-body[data-page="tickets"] .tickets-gear-menu .gear-icon-btn img{width:22px!important;height:22px!important;object-fit:contain!important;display:block!important}
 
-body[data-page="tickets"] .tickets-gear-menu .thread-opt-icon{width:54px!important;height:44px!important;padding:0!important}
-body[data-page="tickets"] .tickets-gear-menu .thread-opt-box{display:grid!important;place-items:center!important;width:54px!important;height:44px!important}
-body[data-page="tickets"] .tickets-gear-menu .gear-glyph{display:grid!important;place-items:center!important;font-size:17px!important;font-weight:900!important;line-height:1!important;color:var(--ink,#07131f)!important}
+
+
+body[data-page="tickets"] .tickets-gear-menu .gear-top-section{padding-bottom:8px!important}
+body[data-page="tickets"] .tickets-gear-menu .tickets-gear-topline{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-top-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;margin-left:auto!important}
+body[data-page="tickets"] .tickets-gear-menu .tickets-gear-title{margin:0!important;font-size:.74rem!important;font-weight:950!important;letter-spacing:.16em!important;text-transform:uppercase!important;color:var(--muted)!important}
+body[data-page="tickets"] .tickets-gear-menu .tickets-gear-title-icon{display:flex!important;align-items:center!important;height:24px!important;margin:0 0 8px!important}
+body[data-page="tickets"] .tickets-gear-menu .tickets-gear-title-icon img{width:22px!important;height:22px!important;object-fit:contain!important;display:block!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-icon-btn{display:grid!important;place-items:center!important;width:54px!important;height:44px!important;padding:0!important;font-size:0!important;border-radius:16px!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-icon-btn img{width:22px!important;height:22px!important;object-fit:contain!important;display:block!important}
+body[data-page="tickets"] .tickets-gear-menu .range-opt-head img{width:22px!important;height:22px!important;object-fit:contain!important;display:block!important}
 body[data-page="tickets"] .tickets-gear-menu .theme-mini span{display:none!important}
-body[data-page="tickets"] .tickets-gear-menu .gear-dual-row{display:grid!important;grid-template-columns:54px 54px!important;gap:10px!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-dual-row{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:10px!important;margin-top:10px!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-mute-row{display:flex!important;justify-content:flex-start!important;align-items:center!important;margin-top:10px!important}
+body[data-page="tickets"] .tickets-gear-menu .gear-mini-row{display:flex!important;align-items:center!important;gap:8px!important}
