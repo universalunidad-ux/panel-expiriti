@@ -284,3 +284,20 @@ body[data-page="tickets"] .tk-qr-cols{display:grid;grid-template-columns:repeat(
 body[data-page="tickets"] .tk-qr-cols section{border:1px solid var(--line);border-radius:20px;padding:12px;background:color-mix(in srgb,var(--panel) 94%,transparent)}
 body[data-page="tickets"] .tk-qr-list{display:grid;gap:8px}
 @media(max-width:720px){body[data-page="tickets"] .tk-qr-cols{grid-template-columns:1fr!important}}
+
+ body[data-page="tickets"] .col-body:has(>.empty-state:only-child){height:100%!important;display:grid!important;place-items:center!important;align-content:center!important}
+body[data-page="tickets"] .col-body>.empty-state{width:100%!important;min-height:clamp(180px,42dvh,520px)!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:18px!important}
+body[data-page="tickets"] #tkCompactRows{display:grid!important;grid-auto-rows:clamp(126px,17dvh,164px)!important;align-content:start!important;gap:10px!important;overflow:hidden!important}
+body[data-page="tickets"] #tkCompactRows>.empty-state{height:clamp(260px,56dvh,540px)!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:22px!important}
+body[data-page="tickets"] .compact-head{display:grid!important;grid-template-columns:minmax(420px,1.05fr) minmax(300px,.8fr) minmax(150px,auto)!important;gap:14px!important;align-items:center!important;padding:0 12px!important}
+body[data-page="tickets"] .compact-head>div:first-child{visibility:hidden!important}
+body[data-page="tickets"] .compact-row{display:grid!important;grid-template-columns:minmax(420px,1.05fr) minmax(300px,.8fr) minmax(150px,auto)!important;gap:14px!important;align-items:center!important;min-height:126px!important;max-height:164px!important;overflow:hidden!important}
+body[data-page="tickets"] .compact-case{display:grid!important;gap:5px!important;min-width:0!important}
+body[data-page="tickets"] .compact-topline{display:flex!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important;min-width:0!important}
+body[data-page="tickets"] .compact-client{font-weight:900!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body[data-page="tickets"] .compact-title{font-weight:800!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+body[data-page="tickets"] .compact-desc{display:-webkit-box!important;-webkit-line-clamp:1!important;-webkit-box-orient:vertical!important;overflow:hidden!important;color:var(--muted)!important;font-weight:650!important}
+body[data-page="tickets"] .compact-context{display:grid!important;gap:3px!important;justify-content:start!important;align-content:center!important;color:var(--muted)!important}
+body[data-page="tickets"] .compact-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;white-space:nowrap!important}
+body[data-page="tickets"] .compact-actions .mini{width:42px!important;height:38px!important;min-width:42px!important;padding:0!important;border-radius:14px!important}
+@media(min-width:721px){body[data-page="tickets"] .col-body{display:grid!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;align-content:stretch!important;overflow:hidden!important}body[data-page="tickets"] .k-card{height:100%!important;min-height:0!important;max-height:none!important}}
