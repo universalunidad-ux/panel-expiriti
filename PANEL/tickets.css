@@ -301,3 +301,18 @@ body[data-page="tickets"] .compact-context{display:grid!important;gap:3px!import
 body[data-page="tickets"] .compact-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;white-space:nowrap!important}
 body[data-page="tickets"] .compact-actions .mini{width:42px!important;height:38px!important;min-width:42px!important;padding:0!important;border-radius:14px!important}
 @media(min-width:721px){body[data-page="tickets"] .col-body{display:grid!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;align-content:stretch!important;overflow:hidden!important}body[data-page="tickets"] .k-card{height:100%!important;min-height:0!important;max-height:none!important}}
+
+body[data-page="tickets"] .tk-quick-db{display:flex!important;gap:8px!important;flex-wrap:wrap!important;margin-top:8px!important}
+body[data-page="tickets"] .tk-quick-titleline{display:flex!important;align-items:center!important;gap:10px!important}
+body[data-page="tickets"] .tk-quick-edit{width:38px;height:38px;border:1px solid var(--line);border-radius:14px;background:var(--panel);display:grid;place-items:center}
+body[data-page="tickets"] .tk-quick-edit img{width:18px;height:18px;object-fit:contain}
+body[data-page="tickets"] .tk-qr-editor{position:fixed;inset:0;z-index:390;display:grid;place-items:center;background:rgba(15,23,42,.18);backdrop-filter:blur(8px)}
+body[data-page="tickets"] .tk-qr-editor.hidden{display:none!important}
+body[data-page="tickets"] .tk-qr-box{width:min(920px,94vw);max-height:86dvh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 28px 90px rgba(15,23,42,.22)}
+body[data-page="tickets"] .tk-qr-head,.tk-qr-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+body[data-page="tickets"] .tk-qr-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+body[data-page="tickets"] .tk-qr-tabs .is-on{background:color-mix(in srgb,var(--brand) 12%,var(--panel));border-color:color-mix(in srgb,var(--brand) 32%,var(--line))}
+body[data-page="tickets"] .tk-qr-rows{display:grid;gap:10px}
+body[data-page="tickets"] .tk-qr-row{display:grid;grid-template-columns:minmax(160px,.35fr) minmax(280px,1fr) auto;gap:10px;align-items:start}
+body[data-page="tickets"] .tk-qr-row textarea{min-height:76px}
+@media(max-width:720px){body[data-page="tickets"] .tk-qr-row{grid-template-columns:1fr!important}}
