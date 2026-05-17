@@ -1,6 +1,6 @@
 import{supabase as s,guardSession,msg}from"./supabase.js";
 import{$,$$,toast,debounce,show,hide,bindModal,norm,ensureAppShell,setAppRole,setRailOpenCount,setGlobalSearchData,setBreadcrumb,daysSince,ticketStateKey as baseTicketStateKey,ticketStateLabel,ticketPriorityCls}from"./global.js";
-
+ 
 window.s=s;
 let QR_SHARED_OK=false;
 let qrDefaults=modo=>modo==="solucion"?[{titulo:"Solución aplicada",texto:"Se aplicó la solución correspondiente en {sistema}. Favor de validar operación con {empresa}."},{titulo:"Caso resuelto",texto:"Caso resuelto. Queda a reserva de confirmación final por parte de {empresa} si aplica."}]:modo==="nota"?[{titulo:"Validar contacto",texto:"Pendiente validar contacto antes de continuar con el caso."},{titulo:"Claridad insuficiente",texto:"La información recibida aún no permite determinar causa raíz."}]:[{titulo:"Pedir XML",texto:"Para revisar {sistema} en {empresa}, por favor adjunta un XML / CFDI de ejemplo y, si es posible, una captura completa del mensaje de error."},{titulo:"Pedir captura",texto:"Por favor comparte una captura completa donde se vea {sistema}, el mensaje de error y la acción que estabas realizando."},{titulo:"Pedir horario",texto:"Compártenos por favor uno o dos horarios disponibles para revisar {sistema} en {empresa}."},{titulo:"Pedir remoto",texto:"Para avanzar más rápido con {sistema} en {empresa}, comparte tu ID de acceso remoto y un horario disponible."}];
