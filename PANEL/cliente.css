@@ -154,3 +154,14 @@ body.is-critical .hero.card{box-shadow:0 0 0 1px color-mix(in srgb,var(--danger)
 .cl-system-notes{color:var(--muted);font-size:13px;line-height:1.45}
 .cl-system-actions{display:flex;gap:8px;flex-wrap:wrap}
 
+
+.overlay{position:fixed;inset:0;z-index:180;display:grid;place-items:center;padding:18px;background:rgba(3,10,24,.38);backdrop-filter:blur(10px)}
+.overlay[hidden]{display:none!important}
+.modal{width:min(860px,94vw);max-height:86vh;overflow:auto;padding:18px;border:1px solid var(--line);border-radius:22px;background:color-mix(in srgb,var(--panel) 98%,transparent);box-shadow:var(--client-shadow)}
+.composer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.composer-grid .span-2{grid-column:1/-1}
+.actions{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap}
+.icon-btn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel-2) 98%,transparent);color:var(--text);cursor:pointer}
+body.modal-open{overflow:hidden}
+@media(max-width:720px){.modal{width:100%;max-height:92vh}.composer-grid{grid-template-columns:1fr}.actions{justify-content:stretch}.actions .btn{flex:1}}
+
