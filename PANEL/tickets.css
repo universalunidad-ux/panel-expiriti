@@ -368,3 +368,5 @@ body[data-page="tickets"] .tk-filter-pop,body[data-page="tickets"] .tickets-gear
 body[data-page="tickets"] #tkGearMenu[data-gear-tab="bg"]{background:color-mix(in srgb,var(--panel) 72%,transparent)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
 body[data-page="tickets"] #tkGearMenu[data-gear-tab="bg"] .tk-board-bg-section{background:transparent!important}
 
+@media(min-width:721px){body[data-page="tickets"] #tkModal .tk-new-modal{width:min(840px,calc(100vw - 32px))!important}body[data-page="tickets"] #tkDesc{min-height:78px!important;max-height:92px!important}body[data-page="tickets"] .tk-desc-wrap{grid-column:1/3!important;width:100%!important}body[data-page="tickets"] #tkModal .actions{grid-column:3/4!important;align-self:end!important}}
+
