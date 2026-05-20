@@ -4,11 +4,10 @@ import { $, show, hide } from "./global.js";
 const showErr=t=>{ $("#err").textContent=t||"Error"; show("#err"); hide("#ok"); };
 const showOk=t=>{ $("#ok").textContent=t||""; show("#ok"); hide("#err"); };
 
+const safeSession=async(ms=3500)=>Promise.race([supabase.auth.getSession(),new Promise(r=>setTimeout(()=>r({data:{session:null},error:new Error("SESSION_TIMEOUT")}),ms))]);
 const boot = async () => {
-  const { data:{ session } } = await supabase.auth.getSession();
-  if(session && !location.hash.includes("type=recovery")) location.href="dashboard.html";
-
   $("#loginForm")?.addEventListener("submit", async e => {
+    
     e.preventDefault();
     hide("#err"); hide("#ok");
     const email=$("#email").value.trim(), password=$("#password").value;
