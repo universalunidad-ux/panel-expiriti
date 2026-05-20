@@ -13,11 +13,19 @@ const boot = async () => {
     const email=$("#email").value.trim(), password=$("#password").value;
     if(!email || !password) return showErr("Escribe tu correo y contraseña.");
     const { error } = await supabase.auth.signInWithPassword({ email, password });
+ 
     if(error) return showErr(msg(error));
     markLoginNow();
     location.href="dashboard.html";
   });
 
+  safeSession().then(({data:{session},error})=>{
+    if(error?.message==="SESSION_TIMEOUT")console.warn("LOGIN_SESSION_TIMEOUT");
+    if(session && !location.hash.includes("type=recovery")) location.href="dashboard.html";
+  }).catch(e=>console.warn("LOGIN_SESSION_CHECK_ERROR",e));
+  
+
+  
   $("#forgotBtn")?.addEventListener("click", async () => {
     hide("#err"); hide("#ok");
     const email=$("#email").value.trim();
