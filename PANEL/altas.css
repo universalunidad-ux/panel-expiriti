@@ -31,3 +31,5 @@
 .review-card .k{font-size:.75rem;color:var(--muted);margin-bottom:4px}
 .review-card .v{font-weight:700;word-break:break-word}
 @media(max-width:720px){.review-grid{grid-template-columns:1fr}.alta-modal{max-width:96vw}.alta-review{max-height:70vh}}
+
+.alta-history{display:grid;gap:10px}.hist-row{border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:14px;padding:10px;background:color-mix(in srgb,var(--bg) 35%,transparent)}.hist-row b{display:block;font-size:.92rem}.hist-row span{display:block;margin-top:2px;font-size:.78rem;color:var(--muted)}.hist-row p{margin:6px 0 0;color:var(--muted);font-size:.86rem;line-height:1.35}@media(max-width:720px){.actions{flex-wrap:wrap}.actions .btn{flex:1 1 auto}.hist-row{padding:9px}}
