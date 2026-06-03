@@ -34,8 +34,8 @@ body[data-page="tickets"]{overflow-x:hidden}body[data-page="tickets"] .tkHeroMin
 .board-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
 .kanban-board{display:grid;grid-template-columns:repeat(3,minmax(280px,1fr));gap:14px;align-items:start;overflow:visible;padding-bottom:6px}
 .kanban-col{display:flex;flex-direction:column;align-self:start;min-height:0;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs)}
-.col-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 14px 12px;border-bottom:1px solid var(--line);font-weight:900}
-.col-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:12px;color:var(--muted)}
+
+
 .col-body{display:grid;gap:12px;padding:12px;min-height:0}
 .col-pager{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 12px 12px}
 .col-pager.hidden{display:none}
@@ -44,7 +44,7 @@ body[data-page="tickets"]{overflow-x:hidden}body[data-page="tickets"] .tkHeroMin
 .pager-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
 .pager-info{font-size:12px;font-weight:800;color:var(--muted);min-width:42px;text-align:center}
 
-.k-card{display:grid;gap:9px;padding:13px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs);cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease}
+
 .k-card:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 10%,transparent),var(--shadow-xs)}
 .k-card:focus-within{border-color:color-mix(in srgb,var(--brand) 45%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--brand) 18%,transparent),var(--shadow-xs)}
 .k-card:active{transform:scale(.99)}
@@ -55,13 +55,32 @@ body[data-page="tickets"]{overflow-x:hidden}body[data-page="tickets"] .tkHeroMin
 
 .k-head{display:grid;gap:8px}
 .k-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.k-title{font-size:15px;font-weight:900;line-height:1.32;letter-spacing:-.01em}
+.col-header{display:flex;justify-content:center;align-items:center;text-align:center;gap:8px;padding:14px;border-bottom:1px solid var(--line);font-weight:900}
+.col-count{display:none}
+.tk-col-total{width:100%;border:0;background:transparent;display:grid;place-items:center;gap:4px;cursor:pointer;color:var(--text)}
+.tk-col-total span{font-size:1rem;font-weight:950}
+.tk-col-total b{font-size:clamp(2.1rem,4vw,4.2rem);line-height:.95;font-weight:1000}
+.k-card{display:grid;gap:6px;padding:10px 12px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),color-mix(in srgb,var(--panel-2) 98%,transparent));box-shadow:var(--shadow-xs);cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease}
+.k-desc{display:none}
+.k-submeta{display:none}
+.k-title{font-size:.95rem;font-weight:900;line-height:1.22;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.k-company{font-size:.86rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.k-card-actions{margin-top:2px}
+.k-card-actions .mini{width:42px;height:38px;min-width:42px;padding:0;border-radius:14px}
+.tk-col-overlay{z-index:10020}
+.tk-col-modal{width:min(980px,calc(100vw - 24px));max-height:calc(100dvh - 24px);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px}
+.tk-col-modal-top,.tk-col-modal-foot{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tk-col-modal-rows{display:grid;gap:10px;overflow:auto;padding:2px}
+.tk-col-modal-pager{display:flex;align-items:center;gap:10px}
+@media(max-width:720px){body[data-page="tickets"] .kanban-col .col-header{display:flex}body[data-page="tickets"] .tk-col-total b{font-size:2.4rem}body[data-page="tickets"] .col-body{overflow-y:auto}body[data-page="tickets"] .tk-col-modal{width:calc(100vw - 8px);height:calc(100dvh - 10px);border-radius:22px;padding:14px 10px}}
+
+
 .k-clip{flex:0 0 auto;font-size:15px;line-height:1;opacity:.82}
-.k-desc{font-size:12.5px;line-height:1.36;max-height:2.72em;overflow:hidden;color:color-mix(in srgb,var(--muted) 92%,transparent);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+
 .k-tags{display:flex;gap:6px;flex-wrap:wrap}
 .k-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted)}
 .k-client{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.k-submeta{display:flex;flex-wrap:wrap;gap:6px}
+
 .mini-meta{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border:1px solid var(--line);border-radius:999px;font-size:12px;color:var(--muted);background:color-mix(in srgb,var(--panel) 97%,transparent)}
 
 .quick-inline{display:flex;flex-wrap:wrap;gap:6px}
