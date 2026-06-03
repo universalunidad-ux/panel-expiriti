@@ -200,7 +200,7 @@ body[data-page="tickets"] #tkModal .modal{border-radius:28px!important;overflow:
 
 @media(max-width:720px){body[data-page="tickets"] .hero-metrics,body[data-page="tickets"] .metrics-strip,body[data-page="tickets"] .metrics-strip-wrap{display:none!important}}
 
-}body[data-page="tickets"] .kanban-col{border-top:0!important;border-radius:0 0 22px 22px!important}body[data-page="tickets"] .col-body{padding-top:12px!important}}
+
 
 
 body[data-page="tickets"] .tk-new-grid{display:grid!important;gap:11px!important}body[data-page="tickets"] .tk-new-grid .grid-2{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}body[data-page="tickets"] #tkCorreo,body[data-page="tickets"] #tkTelefono,body[data-page="tickets"] #tkTipo,body[data-page="tickets"] .tk-notify-opt{display:none!important}body[data-page="tickets"] #tkStatus{min-height:0!important;margin:0!important;font-size:.82rem!important;color:var(--muted)!important}body[data-page="tickets"] .tk-desc-wrap{position:relative!important}body[data-page="tickets"] .tk-desc-wrap textarea{min-height:132px!important;resize:vertical!important}body[data-page="tickets"] #tkModal .actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;margin-top:2px!important}body[data-page="tickets"] .tk-save-main{display:grid!important;grid-auto-flow:column!important;place-content:center!important;align-items:center!important;gap:8px!important;min-height:48px!important;border-radius:16px!important}body[data-page="tickets"] .tk-save-main img{width:18px!important;height:18px!important;object-fit:contain!important}
@@ -402,3 +402,19 @@ body[data-page="tickets"] .k-card-actions{display:flex!important;align-items:cen
 body[data-page="tickets"] .k-card-actions .mini,body[data-page="tickets"] .k-card-actions button{display:grid!important;place-items:center!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important}
 body[data-page="tickets"] .k-action-bolt{margin-left:auto!important;color:#eab308!important}
 @media(max-width:720px){body[data-page="tickets"] .kanban-col{height:calc(100dvh - 168px)!important;min-height:0!important}body[data-page="tickets"] .kanban-col .col-header{display:flex!important}body[data-page="tickets"] .col-body{overflow-y:auto!important;padding:10px 8px 34px!important}}
+
+
+body[data-page="tickets"],body[data-page="tickets"] #pageMount{height:100dvh!important;overflow:hidden!important}
+body[data-page="tickets"] .tickets-page{grid-template-rows:auto minmax(0,1fr)!important}
+body[data-page="tickets"] .board-layout{height:100%!important;min-height:0!important;overflow:hidden!important}
+body[data-page="tickets"] .kanban-board{height:100%!important;min-height:0!important;align-items:stretch!important;overflow:hidden!important}
+body[data-page="tickets"] .kanban-col{height:100%!important;min-height:0!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;border-radius:22px!important}
+body[data-page="tickets"] .kanban-col .col-header{display:flex!important;flex:0 0 auto!important}
+body[data-page="tickets"] .col-body{flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;padding:12px!important;gap:10px!important;scrollbar-width:thin!important;scrollbar-color:rgba(15,23,42,.28) transparent!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar{width:10px!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar-track{background:transparent!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar-thumb{background:rgba(15,23,42,.22)!important;border:3px solid transparent!important;border-radius:999px!important;background-clip:content-box!important}
+body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:none!important}
+body[data-page="tickets"] .k-card-actions{display:flex!important;align-items:center!important;gap:8px!important;visibility:visible!important;opacity:1!important}
+body[data-page="tickets"] .k-action-bolt{margin-left:auto!important}
+@media(max-width:720px){body[data-page="tickets"] .kanban-board{height:100%!important}body[data-page="tickets"] .kanban-col{height:100%!important}body[data-page="tickets"] .col-body{overflow-y:auto!important;padding-bottom:38px!important}}
