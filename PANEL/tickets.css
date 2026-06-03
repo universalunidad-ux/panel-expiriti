@@ -418,3 +418,14 @@ body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:n
 body[data-page="tickets"] .k-card-actions{display:flex!important;align-items:center!important;gap:8px!important;visibility:visible!important;opacity:1!important}
 body[data-page="tickets"] .k-action-bolt{margin-left:auto!important}
 @media(max-width:720px){body[data-page="tickets"] .kanban-board{height:100%!important}body[data-page="tickets"] .kanban-col{height:100%!important}body[data-page="tickets"] .col-body{overflow-y:auto!important;padding-bottom:38px!important}}
+
+body[data-page="tickets"] .col-pager{display:none!important}
+body[data-page="tickets"] .kanban-board{height:calc(100dvh - 112px)!important;align-items:stretch!important;overflow:hidden!important}
+body[data-page="tickets"] .kanban-col{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+body[data-page="tickets"] .kanban-col .col-header{flex:0 0 auto!important}
+body[data-page="tickets"] .col-body{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;display:grid!important;align-content:start!important;gap:10px!important;padding:12px!important;scrollbar-width:thin!important;scrollbar-color:rgba(15,23,42,.30) transparent!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar{width:11px!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar-track{background:transparent!important}
+body[data-page="tickets"] .col-body::-webkit-scrollbar-thumb{background:rgba(15,23,42,.22)!important;border:3px solid transparent!important;border-radius:999px!important;background-clip:content-box!important}
+body[data-page="tickets"] .k-card{min-height:86px!important;height:auto!important;overflow:hidden!important}
+body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:none!important}
