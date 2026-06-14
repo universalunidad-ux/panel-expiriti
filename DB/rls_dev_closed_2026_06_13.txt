@@ -1,0 +1,22 @@
+CIERRE RLS DEV ANON — 2026-06-13
+
+Resultado:
+- Se cerraron las 6 policies dev anon:
+  - tickets_dev_anon_update
+  - tickets_dev_anon_select
+  - clientes_dev_anon_select
+  - qr_dev_anon_insert
+  - qr_dev_anon_update
+  - qr_dev_anon_select
+
+Validación SQL:
+- SELECT en pg_policies devolvió 0 filas para esas 6 policies.
+
+Validación código:
+- PANEL/tickets.js ya no usa s.supabaseKey como Bearer.
+- qrBoardRestRows usa sessionToken obtenido por tkSessionToken().
+
+Validación navegador:
+- http://localhost:5500/PANEL/tickets.html carga.
+- Respuestas rápidas visibles.
+- Consola sin errores 401/403/RLS visibles.

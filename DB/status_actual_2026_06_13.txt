@@ -1,0 +1,15 @@
+ M supabase/functions/ticket-internal-reply/index.ts
+?? DB/
+?? docs/
+?? supabase/.temp/
+?? supabase/functions/alta-aprobar/
+?? supabase/functions/crear-ticket-interno/
+?? supabase/functions/estado-ticket-responder-ts/
+?? supabase/functions/estado-ticket-ts/
+?? supabase/functions/match-cliente/
+?? supabase/functions/quick-function/
+?? supabase/functions/registro-aprobar/
+?? supabase/functions/submit-alta/
+?? supabase/functions/submit-registro/
+?? supabase/functions/super-service/
+?? supabase/functions/support-submit-secure/

@@ -1,0 +1,12 @@
+supabase/functions/alta-aprobar/index.ts
+supabase/functions/crear-ticket-interno/index.ts
+supabase/functions/estado-ticket-responder-ts/index.ts
+supabase/functions/estado-ticket-ts/index.ts
+supabase/functions/match-cliente/index.ts
+supabase/functions/quick-function/index.ts
+supabase/functions/registro-aprobar/index.ts
+supabase/functions/submit-alta/index.ts
+supabase/functions/submit-registro/index.ts
+supabase/functions/super-service/index.ts
+supabase/functions/support-submit-secure/index.ts
+supabase/functions/ticket-internal-reply/index.ts
