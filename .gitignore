@@ -1,2 +1,5 @@
 .DS_Store
 _audit/
+
+# Supabase local CLI metadata / secrets
+supabase/.temp/
