@@ -20,7 +20,7 @@ Para cada pregunta:
 **Contexto:**  
 - P0-bis: `clientes_contactos` (deny_all, roto en producción)
 - P0: `tickets`, `clientes`, `cliente_accesos`, `ticket_respuestas_rapidas` (SELECT/INSERT/UPDATE qual=true)
-- P0-5: `quick-function` EF rota deployada
+- P0: `quick-function` EF rota deployada *(nota: algunas referencias internas previas usaban la etiqueta informal "P0-5"; la clasificación correcta es **P0** — service_role expuesto en endpoint público con 100% error rate es riesgo de seguridad activo, no P1)*
 - P1: `ticket_archivos` (legacy), `ticket_match_decisiones`, `super-service`, `match-cliente`, Storage buckets
 - P2: Rate limits (4 endpoints), Turnstile, `ticket_eventos` incompleto, pg_cron
 - P3: Deuda técnica de normalización, índices duplicados, doble-write
@@ -149,7 +149,14 @@ La auditoría identifica estos prerrequisitos antes de ejecutar el primer SQL:
 - Decisión D4: ¿`registros.js:approve()` se migra a EF?
 - Confirmar dead code en `altas.js:34-38`
 
-**Pregunta específica:** ¿Hay algo que la auditoría no identificó como prerrequisito pero que debería verificarse antes de ejecutar el primer script de remediación? ¿El orden propuesto (P0-bis primero, luego P0, luego P1) tiene algún punto ciego?
+**Gaps de cobertura identificados post-cierre (no auditados, pendientes de Dashboard):**
+
+- **G01 — `ticket_eventos` RLS:** Las policies SELECT/INSERT/UPDATE/DELETE no fueron verificadas en Dashboard. La tabla es leída por la EF pública `estado-ticket-ts` (sin JWT). Estado desconocido.
+- **G02 — `clientes_contacto_historial`:** Tabla detectada en inventario, sin auditoría de RLS, grants, writers, readers ni PII. Estado completamente desconocido.
+- **G03 — INSERT/UPDATE/DELETE de `clientes` y `cliente_accesos`:** La auditoría P0 solo verificó SELECT. `dashboard.js:84` hace INSERT en `clientes`; `ticket.js:168` hace INSERT/UPDATE en `cliente_accesos`. Si las policies de escritura son abiertas, el riesgo de integridad sigue activo incluso después de aplicar P0 SELECT.
+- **G04 — `estado-ticket-ts` GET sin rate limit HTTP:** Superficie distinta de `estado-ticket-responder-ts` POST. Sin fix propuesto en el plan P2 actual. La implementación de `randToken()` no fue auditada — entropía del token desconocida.
+
+**Pregunta específica:** ¿Hay algo que la auditoría no identificó como prerrequisito pero que debería verificarse antes de ejecutar el primer script de remediación? ¿El orden propuesto (P0-bis primero, luego P0, luego P1) tiene algún punto ciego? ¿Los gaps G01–G04 son bloqueantes para aprobar el SQL de P0-bis/P0 o pueden auditarse en paralelo?
 
 ---
 

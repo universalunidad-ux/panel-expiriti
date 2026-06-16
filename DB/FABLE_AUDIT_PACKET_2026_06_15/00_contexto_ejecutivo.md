@@ -61,14 +61,15 @@ CLIENTE (portal de seguimiento)
           │ Valida: tickets WHERE folio=X AND token_publico=Y AND token_publico_expira > now()
           │ Lee: ticket_eventos (historial), archivos_ticket (adjuntos), ticket_portal_logs
           │ Genera: signed URLs para archivos (vigencia 8h)
-          └── Sin rate limit HTTP — solo throttle de logs interno
+          └── Sin rate limit HTTP en GET (gap P2) — [inferencia: throttle de logs interno — código EF no disponible en repo local]
         │
   └─► Respuesta del portal
         │ estado.js → POST /estado-ticket-responder-ts?folio=X&token=Y
         │
         ▼
         EF estado-ticket-responder-ts (pública, sin JWT, solo folio+token)
-          │ Sin rate limit HTTP — FALTA (solo anti-spam en BD por porcentaje)
+          │ Sin rate limit HTTP — FALTA
+          │ [inferencia: anti-spam en BD por porcentaje — código EF no disponible en repo local; comportamiento no confirmado]
           └── Escribe respuesta del cliente en el ticket
 ```
 

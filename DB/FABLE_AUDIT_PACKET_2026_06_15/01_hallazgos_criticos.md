@@ -126,19 +126,25 @@ Cerrar estas policies no rompe ningún flujo de UI. Puede adelantarse al P0 sin 
 
 ### H12 — `ticket-internal-reply`: versión de deploy no confirmada
 
-**Fix aplicado en repo:** Commit `f54e22b` (2026-06-13) — hardening de idempotencia.  
-**Problema:** No se puede confirmar vía SQL si el deploy actual es el post-fix.  
-**Acción:** Verificar fecha de deploy en Dashboard → Edge Functions.
+**Fix en repositorio:** Commit `567ef9a` (2026-06-13) — `fix: harden ticket internal reply idempotency`. El commit `f54e22b` es el backup documental pre-fix, no el fix.
+
+**Deploy confirmado: PENDIENTE.** No se puede confirmar vía SQL si la versión deployada corresponde al fix.
+
+**Acción:** Verificar fecha de deploy en Dashboard → Edge Functions (debe ser posterior a 2026-06-13).
 
 ---
 
 ## P2 — MEDIO OPERACIONAL (No rompe funcionalidad, pero escala el riesgo)
 
-### H13 — `estado-ticket-responder-ts`: sin rate limit HTTP
+### H13 — `estado-ticket-responder-ts` (POST) y `estado-ticket-ts` (GET): sin rate limit HTTP
 
-**Estado:** Endpoint público (solo folio+token para autenticación). Sin rate limit HTTP.  
-**Riesgo:** Con token válido se puede hacer spam de respuestas al portal sin límite de frecuencia.  
-Hay anti-spam de BD (porcentaje), pero no hay límite de peticiones HTTP por IP.
+**`estado-ticket-responder-ts` (POST):** Endpoint público (solo folio+token). Sin rate limit HTTP.
+
+**Riesgo POST:** Spam de respuestas al portal sin límite de frecuencia.
+
+**[inferencia]:** El mecanismo anti-spam "por porcentaje en BD" no está confirmado — el código de esta EF no está disponible en el repositorio local. Comportamiento inferido, no auditado.
+
+**`estado-ticket-ts` (GET) — gap adicional P2:** El endpoint de consulta del portal tampoco tiene rate limit HTTP confirmado. Folio secuencial + `token_publico` en plaintext = bruteforce sin barrera de red. No hay fix propuesto en el plan P2 actual. Este gap es independiente de H23 (token en plaintext).
 
 ### H14 — `submit-alta`: sin rate limit (acepta hasta 80MB por request)
 
@@ -179,8 +185,49 @@ La EF `crear-ticket-interno` sí inserta `ticket_eventos` (correcto).
 **Problema:** No se puede determinar via SQL qué versión de cada EF está deployada en producción.  
 **Items pendientes:**
 - Confirmar si `quick-function` y `super-service` siguen activas (pueden haber sido retiradas manualmente)
-- Confirmar si `ticket-internal-reply` post-fix está en producción
+- Confirmar si `ticket-internal-reply` post-fix (`567ef9a`) está en producción — el commit `f54e22b` es el backup pre-fix documental, no el fix
 - Confirmar versiones de EFs críticas: `support-submit-secure`, `estado-ticket-ts`, etc.
+
+---
+
+## GAPS DE COBERTURA (identificados post-cierre — pendientes de auditoría)
+
+> Estos items no tienen hallazgo H-numerado porque no fueron auditados en el ciclo principal. No se les asigna prioridad hasta confirmar su estado en Dashboard. No afirmar riesgo sin evidencia.
+
+### G01 — `ticket_eventos`: RLS no auditado explícitamente
+
+**Estado:** La tabla canónica de eventos nunca fue objeto de una query `pg_policies` directa en la auditoría.
+
+**Por qué importa:** `ticket_eventos` es leída por la EF pública `estado-ticket-ts` (sin JWT) para mostrar el historial al cliente. Si sus policies de SELECT son abiertas o incorrectas, el historial podría estar más expuesto de lo esperado.
+
+**Verificación requerida:** Dashboard → SQL Editor: `SELECT policyname, cmd, qual FROM pg_policies WHERE tablename='ticket_eventos'`
+
+**No inferir su estado actual.** Puede ser correcto o incorrecto — requiere comprobación.
+
+### G02 — `clientes_contacto_historial`: tabla detectada, sin auditoría
+
+**Estado:** Referenciada en el inventario de tablas de `00_contexto_ejecutivo.md` como "RLS no auditado". Ausente del resto del análisis.
+
+**Por qué importa:** Su nombre sugiere historial de contacto — posiblemente PII. Lectors, writers, grants y policies son completamente desconocidos.
+
+**Verificación requerida:** Dashboard → Table Editor + `SELECT policyname FROM pg_policies WHERE tablename='clientes_contacto_historial'` + revisar si hay referencias en PANEL/*.js o EFs.
+
+**No clasificar como vulnerable sin evidencia.** Solo auditar.
+
+### G03 — INSERT/UPDATE/DELETE de `clientes` y `cliente_accesos`: no auditadas en P0
+
+**Estado:** La auditoría P0 verificó policies SELECT. Las operaciones de escritura no fueron auditadas.
+
+**Flujos que escriben:**
+- `dashboard.js:84` — INSERT en `clientes` (cliente rápido)
+- `cliente.core.js:34` — UPDATE en `clientes`
+- `ticket.js:168` — INSERT/UPDATE en `cliente_accesos` (accesos AnyDesk)
+
+**Por qué importa:** Si las policies INSERT/UPDATE son abiertas (`qual=true`), cualquier `authenticated` puede crear/modificar clientes y credenciales AnyDesk incluso después de aplicar P0 SELECT.
+
+**Verificación requerida:** Dashboard → SQL Editor: `SELECT policyname, cmd, qual, with_check FROM pg_policies WHERE tablename IN ('clientes','cliente_accesos') AND cmd IN ('INSERT','UPDATE','DELETE')`
+
+**Bloquea aprobación final de SQL-04 y SQL-05** hasta confirmar.
 
 ---
 

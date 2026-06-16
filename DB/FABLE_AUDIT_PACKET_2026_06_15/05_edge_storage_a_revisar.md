@@ -38,7 +38,7 @@
 
 ## 2. Detalle por Edge Function Problemática
 
-### 2.1 `quick-function` — P0-5 (EF rota, retirar del deploy)
+### 2.1 `quick-function` — P0 (EF rota, retirar del deploy)
 
 **Diagnóstico:**
 ```typescript
@@ -112,7 +112,7 @@ Opción B (más seguro, más complejo):
 
 ### 2.5 `ticket-internal-reply` — P1-7 (deploy no confirmado)
 
-**Fix aplicado:** Commit `f54e22b` (2026-06-13) — hardening de idempotencia con `edge_idempotency`.
+**Fix en repositorio:** Commit `567ef9a` (2026-06-13) — `fix: harden ticket internal reply idempotency`. **Nota:** el commit `f54e22b` es el backup documental pre-fix (`docs: add ticket-internal-reply pre-fix backup`), no el commit del fix. **Deploy confirmado: PENDIENTE** — verificar fecha de deploy en Dashboard → Edge Functions (debe ser posterior a 2026-06-13 y corresponder al fix `567ef9a`).
 
 **Comportamiento post-fix:**
 ```typescript
@@ -123,7 +123,7 @@ Opción B (más seguro, más complejo):
 4. Si no: INSERT pending, ejecuta operación, UPDATE completed
 ```
 
-**Riesgo si deploy es pre-fix:** Dos clicks rápidos en "Enviar respuesta" desde el panel crean dos respuestas duplicadas. Los 10 registros en `edge_idempotency` son evidencia de que la función SÍ se usa post-fix (pero el deploy fecha no confirmado).
+**Riesgo si deploy es pre-fix:** Dos clicks rápidos en "Enviar respuesta" desde el panel crean dos respuestas duplicadas. **[inferencia]** Los 10 registros en `edge_idempotency` confirman actividad en la tabla, pero **no prueban qué versión de la Edge Function está desplegada** — no es evidencia de que el fix `567ef9a` esté en producción. La versión real debe confirmarse por la fecha de deploy en Dashboard.
 
 **Pregunta para Fable:**
 - Con el patrón de idempotencia descrito, ¿qué pasa si la EF crashea entre el INSERT pending y el UPDATE completed? ¿El registro queda en estado pending indefinidamente? ¿Hay un timeout?
@@ -238,7 +238,8 @@ Antes de ejecutar cualquier fix de Storage, verificar estos items en Dashboard:
 | `match-cliente` sin RL ni auth | ALTO | ✅ Sí | Fix P1-4 (código + deploy) |
 | `submit-alta` sin RL | MEDIO | ✅ Sí | Fix P2-2 (código + deploy) |
 | `submit-registro` sin RL | MEDIO | ✅ Sí | Fix P2-3 (código + deploy) |
-| `estado-ticket-responder-ts` sin RL | MEDIO | ✅ Sí | Fix P2-1 (código + deploy) |
+| `estado-ticket-responder-ts` sin RL (POST) | MEDIO | ✅ Sí | Fix P2-1 (código + deploy) |
+| `estado-ticket-ts` sin RL (GET) | MEDIO | ✅ Sí (gap P2 nuevo) | Sin fix propuesto aún — ver gap documentado; bruteforce de folio+token sin barrera HTTP |
 | `ticket-internal-reply` deploy fecha | MEDIO | ❌ No | Verificar Dashboard |
 | `support-submit-secure` Turnstile off | MEDIO | ✅ Sí | Decisión D5 → activar si spam |
 | Storage `soporte_adjuntos` policies | DESCONOCIDO | ❌ No | Verificación Dashboard visual |

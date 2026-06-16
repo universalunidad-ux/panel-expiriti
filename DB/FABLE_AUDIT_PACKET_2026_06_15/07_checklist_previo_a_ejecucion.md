@@ -53,8 +53,8 @@
 | B04 | Exportar estado actual de policies de `cliente_accesos` | Idem con `tablename='cliente_accesos'` | `cliente_accesos_select_auth` abierta |
 | B05 | Exportar estado actual de policies de `ticket_respuestas_rapidas` | Idem con `tablename='ticket_respuestas_rapidas'` | 6 policies abiertas + policies correctas si existen |
 | B06 | Resultado guardado en archivo local o en nota del Dashboard | Archivar antes de ejecutar cualquier DROP | Texto completo del resultado de cada query |
-| B07 | El SQL de rollback P0-bis está redactado y disponible | Ver `DB/plan_rls_p0_bis_clientes_contactos_2026_06_15.md §4.3` | Script de rollback listo — recrear `deny_all` |
-| B08 | El SQL de rollback P0 está redactado y disponible | Ver `DB/rls_p0_preflight_remediation_2026_06_15.md §7` | Scripts de rollback por tabla listos |
+| B07 | El SQL de rollback P0-bis está redactado y disponible | Ver `DB/plan_rls_p0_bis_clientes_contactos_2026_06_15.md §4.3` — **documento fuente externo al paquete Fable; no incluido en los 10 archivos adjuntos. Fable no puede verificarlo directamente.** | Script de rollback listo — recrear `deny_all` |
+| B08 | El SQL de rollback P0 está redactado y disponible | Ver `DB/rls_p0_preflight_remediation_2026_06_15.md §7` — **documento fuente externo al paquete Fable; no incluido en los 10 archivos adjuntos. Fable no puede verificarlo directamente.** | Scripts de rollback por tabla listos |
 
 **Resultado bloque B:** ☐ Todos ✅ → continuar | ☐ Algún ❌ → detener
 
@@ -137,14 +137,15 @@
 
 | # | EF | Dónde verificar | Qué verificar | Estado esperado | ¿Bloquea? |
 |---|----|--------------  |--------------|-----------------|-----------|
-| EF01 | `quick-function` | Dashboard → Edge Functions → lista | ¿Aparece en la lista? | Si aparece: verificar logs antes de retirar | Sí para P0-5 (retirar) |
+| EF01 | `quick-function` | Dashboard → Edge Functions → lista | ¿Aparece en la lista? | Si aparece: verificar logs antes de retirar | Sí para P0 (retirar) |
 | EF02 | `quick-function` | Dashboard → EF → quick-function → Logs | ¿Hay invocaciones en los últimos 7 días? | 0 invocaciones exitosas (se esperan solo 500s) | Sí — si hay invocaciones externas no documentadas |
 | EF03 | `super-service` | Dashboard → Edge Functions → lista | ¿Aparece en la lista? | Si aparece: verificar logs | Sí para P1-3 (retirar) |
 | EF04 | `super-service` | Dashboard → EF → super-service → Logs | ¿Hay invocaciones recientes? | 0 invocaciones | Sí — si hay integraciones externas no documentadas |
-| EF05 | `ticket-internal-reply` | Dashboard → EF → ticket-internal-reply | Fecha de último deploy | Posterior a 2026-06-13 (commit `f54e22b`) | No bloquea P0-bis/P0 directamente, sí P1-7 |
+| EF05 | `ticket-internal-reply` | Dashboard → EF → ticket-internal-reply | Fecha de último deploy | Posterior a 2026-06-13 — fix commit es `567ef9a` (`fix: harden ticket internal reply idempotency`); `f54e22b` es el backup pre-fix documental, no el fix | No bloquea P0-bis/P0 directamente, sí P1-7 |
 | EF06 | `support-submit-secure` | Dashboard → EF → lista | Aparece y fecha de deploy | Cualquier fecha — confirmar que no hay versión no commiteada activa | No bloquea |
 | EF07 | `estado-ticket-ts` | Idem | Aparece y fecha de deploy | Confirmar activa | No bloquea |
 | EF08 | `match-cliente` | Dashboard → EF → match-cliente → Logs | Volumen de invocaciones por IP | Sin patrones de abuso masivo antes de aplicar rate limit | No bloquea P0-bis/P0, sí P1-4 |
+| EF09 | `estado-ticket-ts` (GET) | Dashboard → EF → estado-ticket-ts → Logs | ¿Hay patrones de bruteforce (muchos requests con tokens inválidos)? — **sin rate limit HTTP confirmado en el endpoint de consulta (gap P2 nuevo)** | Ausencia de patrones anómalos | No bloquea P0-bis/P0, sí P2 |
 
 ---
 
@@ -156,6 +157,9 @@
 | CN02 | `clientes_contactos` | ¿Tiene UNIQUE constraint sobre `(id, cliente_id)`? | Dashboard → Table Editor → clientes_contactos → Constraints | No bloquea P0-bis directamente, pero es prerrequisito para que la FK compuesta de `ticket_respuestas_rapidas` sea válida |
 | CN03 | `ticket_respuestas_rapidas` | FK compuesta `(contacto_id, cliente_id) → clientes_contactos(id, cliente_id)` — ¿está activa? | Dashboard → Table Editor → ticket_respuestas_rapidas → Foreign Keys | No bloquea P0-bis — solo confirmar que el Dashboard muestra la FK |
 | CN04 | `tickets` | `tickets_folio_uidx` y `tickets_token_publico_uidx` presentes | Dashboard → Table Editor → tickets → Indexes | No bloquea — ya confirmados en auditoría, solo verificar |
+| CN05 | `ticket_eventos` | ¿RLS habilitado? ¿Policies SELECT/INSERT/UPDATE/DELETE? — **gap: tabla no auditada explícitamente** | Dashboard → SQL Editor (read-only): `SELECT policyname, cmd, qual FROM pg_policies WHERE tablename='ticket_eventos'` | Sin evidencia en el paquete | Sí — tabla leída por `estado-ticket-ts` sin JWT; su RLS afecta la superficie pública |
+| CN06 | `clientes` + `cliente_accesos` | Policies INSERT/UPDATE/DELETE — **la auditoría P0 solo confirmó SELECT; INSERT/UPDATE/DELETE no auditadas** | Dashboard → SQL Editor: `SELECT policyname, cmd, qual, with_check FROM pg_policies WHERE tablename IN ('clientes','cliente_accesos') AND cmd IN ('INSERT','UPDATE','DELETE')` | Sin evidencia de su estado | Sí — bloquea aprobación completa de SQL-04/SQL-05 (`dashboard.js:84` INSERT clientes; `ticket.js:168` INSERT/UPDATE en `cliente_accesos`) |
+| CN07 | `clientes_contacto_historial` | ¿RLS? ¿Policies? ¿Quién escribe/lee? ¿PII? — **tabla detectada en inventario pero no auditada** | Dashboard → Table Editor → clientes_contacto_historial + `SELECT policyname FROM pg_policies WHERE tablename='clientes_contacto_historial'` | Sin ninguna evidencia | Recomendable antes de P0; no bloquea P0-bis directamente |
 
 ---
 
@@ -390,7 +394,7 @@ Se puede ejecutar P0-bis cuando SE CUMPLAN TODAS las siguientes condiciones:
 | V01 | Decisión D3 tomada (¿ventas ve clientes_contactos?) | Documento con la decisión firmada o registrada |
 | V02 | Decisión D4 tomada (¿registros.js migra a EF?) | Idem |
 | V03 | Backup de policies de `clientes_contactos` exportado y guardado | Resultado de query B01 copiado |
-| V04 | SQL de rollback P0-bis disponible y validado sintácticamente | `DB/plan_rls_p0_bis_clientes_contactos_2026_06_15.md §4.3` revisado |
+| V04 | SQL de rollback P0-bis disponible y validado sintácticamente | `DB/plan_rls_p0_bis_clientes_contactos_2026_06_15.md §4.3` revisado — *externo al paquete Fable* |
 | V05 | Sesión de admin disponible para prueba inmediata post-fix | Al menos una cuenta admin con sesión activa para testear |
 | V06 | Tests UI01–UI22 tienen estado ANTES documentado | Al menos UI08, UI09, UI16, UI17, UI18 documentados como `❌` (roto) |
 | V07 | El SQL Editor del Dashboard está en el proyecto correcto | Nombre del proyecto visible y confirmado |
@@ -410,7 +414,7 @@ Ejecutar P0 (tickets, clientes, cliente_accesos, ticket_respuestas_rapidas) solo
 | A02 | Decisión D1 tomada (Opción A o B para ventas en tickets) | Documento con la decisión |
 | A03 | Decisión D2 tomada (ventas en cliente_accesos) | Idem |
 | A04 | Backup de policies de las 4 tablas P0 exportado | Resultado de queries B02–B05 copiados |
-| A05 | SQL de rollback P0 disponible por tabla | `DB/rls_p0_preflight_remediation_2026_06_15.md §7` revisado |
+| A05 | SQL de rollback P0 disponible por tabla | `DB/rls_p0_preflight_remediation_2026_06_15.md §7` revisado — *externo al paquete Fable* |
 | A06 | Ventana de mantenimiento acordada (fuera de horario pico) | Horario definido y comunicado al equipo |
 | A07 | Verificación visual de Storage completada (GA-1, GA-2, GA-3) | Las 3 políticas de buckets verificadas en Dashboard |
 | A08 | Verificación visual de EF deploy completada (GV-4, GV-5, GV-6) | quick-function, super-service y ticket-internal-reply verificados |
@@ -447,10 +451,10 @@ Suspender toda ejecución si se cumple CUALQUIERA de las siguientes condiciones:
 | 03 | BD — Backup | Policies de `clientes_contactos` exportadas | 1 policy: `deny_all_clientes_contactos` | Texto copiado del Dashboard SQL | Dev / DBA | **Sí — P0-bis** |
 | 04 | BD — Backup | Policies de `tickets` exportadas | 2 policies SELECT `qual=true` duplicadas | Texto copiado del Dashboard SQL | Dev / DBA | **Sí — P0** |
 | 05 | BD — Backup | Policies de `clientes`, `cliente_accesos`, `ticket_respuestas_rapidas` exportadas | Según auditoría (1, 1, 6 abiertas) | Texto copiado | Dev / DBA | **Sí — P0** |
-| 06 | BD — Rollback | SQL de rollback P0-bis disponible | Script listo en documento de plan | `plan_rls_p0_bis §4.3` | Dev | **Sí — P0-bis** |
-| 07 | BD — Rollback | SQL de rollback P0 disponible por tabla | Scripts listos en preflight | `rls_p0_preflight §7` | Dev | **Sí — P0** |
+| 06 | BD — Rollback | SQL de rollback P0-bis disponible | Script listo en documento de plan | `plan_rls_p0_bis §4.3` — *externo al paquete Fable* | Dev | **Sí — P0-bis** |
+| 07 | BD — Rollback | SQL de rollback P0 disponible por tabla | Scripts listos en preflight | `rls_p0_preflight §7` — *externo al paquete Fable* | Dev | **Sí — P0** |
 | 08 | BD — Estado | `perfiles` tiene policy `self_select` activa | Policy SELECT con `id = auth.uid()` | `SELECT * FROM pg_policies WHERE tablename='perfiles'` | Dev / DBA | **Sí** |
-| 09 | BD — Estado | Policies "correctas" de `ticket_respuestas_rapidas` existen antes de DROP | Al menos 2 policies con nombres distintos a los 6 abiertos | `SELECT policyname FROM pg_policies WHERE tablename='ticket_respuestas_rapidas'` | Dev / DBA | **Sí — P0** |
+| 09 | BD — Estado | Policies positivas de `ticket_respuestas_rapidas` verificadas antes de DROP — **su existencia no fue confirmada en auditoría** | Al menos 2 policies positivas (admin/soporte) con nombres distintos a los 6 abiertos — o crearlas antes del DROP | `SELECT policyname, cmd, qual FROM pg_policies WHERE tablename='ticket_respuestas_rapidas'` | Dev / DBA | **Sí — P0** |
 | 10 | Decisiones | D3: ¿ventas ve clientes_contactos? | Decisión registrada | Documento / email / nota | Dueño del negocio | **Sí — P0-bis** |
 | 11 | Decisiones | D4: ¿registros.js migra a EF? | Decisión registrada | Idem | Líder técnico / arquitecto | **Sí — P0-bis** |
 | 12 | Decisiones | D1: ¿ventas ve todos los tickets? | Decisión registrada | Idem | Dueño del negocio | **Sí — P0** |
@@ -461,7 +465,7 @@ Suspender toda ejecución si se cumple CUALQUIERA de las siguientes condiciones:
 | 17 | Storage | Bucket `altas_tmp` — policies auditadas | INSERT solo service_role | Dashboard visual | Dev | No (P1-6) |
 | 18 | Storage | Bucket `certificados` — policies auditadas | INSERT authenticated + SELECT sin anon | Dashboard visual | Dev | **Sí — P1-6** |
 | 19 | Storage | Ningún bucket activo es `Public` | Todos `Private` | Dashboard → Storage → tipo de bucket | Dev | **Sí** |
-| 20 | EF Deploy | `quick-function` — verificar logs | 0 invocaciones externas en 7 días | Dashboard → EF → Logs | Dev | **Sí — P0-5** |
+| 20 | EF Deploy | `quick-function` — verificar logs | 0 invocaciones externas en 7 días | Dashboard → EF → Logs | Dev | **Sí — P0** |
 | 21 | EF Deploy | `super-service` — verificar logs | 0 invocaciones en 7 días | Dashboard → EF → Logs | Dev | **Sí — P1-3** |
 | 22 | EF Deploy | `ticket-internal-reply` — fecha deploy | Posterior a 2026-06-13 | Dashboard → EF → fecha | Dev | No (P1-7) |
 | 23 | Operacional | `edge_idempotency` — sin pending colgados | Solo `completed` y `failed` | `SELECT status, COUNT(*) FROM edge_idempotency GROUP BY status` | Dev / DBA | No |
@@ -472,8 +476,8 @@ Suspender toda ejecución si se cumple CUALQUIERA de las siguientes condiciones:
 | 28 | UI — Post-fix | Tests AD01–AD10 (admin) ejecutados | Todos ✅ | Este mismo checklist completado | Dev / QA | Sí (post-ejecución) |
 | 29 | UI — Post-fix | Tests SO01–SO08 (soporte) ejecutados | Todos ✅ | Este mismo checklist completado | Dev / QA | Sí (post-ejecución) |
 | 30 | UI — Post-fix | Tests VE01–VE07 (ventas) ejecutados | Según D1 y D3 | Este mismo checklist completado | Dev / QA | Sí (post-ejecución) |
-| 31 | Rollback | Script de rollback P0-bis ejecutable en <2 min | Probado en lectura — no ejecutar todavía | Lectura del script `plan_rls_p0_bis §4.3` | Dev / DBA | **Sí — P0-bis** |
-| 32 | Rollback | Script de rollback P0 ejecutable por tabla | Probado en lectura | Lectura del script `rls_p0_preflight §7` | Dev / DBA | **Sí — P0** |
+| 31 | Rollback | Script de rollback P0-bis ejecutable en <2 min | Probado en lectura — no ejecutar todavía | Lectura del script `plan_rls_p0_bis §4.3` — *externo al paquete Fable* | Dev / DBA | **Sí — P0-bis** |
+| 32 | Rollback | Script de rollback P0 ejecutable por tabla | Probado en lectura | Lectura del script `rls_p0_preflight §7` — *externo al paquete Fable* | Dev / DBA | **Sí — P0** |
 | 33 | Seguridad | `SUPABASE_SERVICE_ROLE_KEY` ausente en PANEL/*.js | 0 resultados en grep | `grep -r "service_role" PANEL/` | Dev | **Sí** |
 | 34 | Seguridad | Ninguna EF nueva fue desplegada sin código commiteado | EF deployadas coinciden con el repo | Dashboard EF vs repo | Dev | **Sí** |
 

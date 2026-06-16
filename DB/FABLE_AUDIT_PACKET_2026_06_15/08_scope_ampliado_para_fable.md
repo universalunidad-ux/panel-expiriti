@@ -224,7 +224,7 @@
 | Dimensión | Estado A | Estado F (post-P0) | Observaciones |
 |-----------|----------|-------------------|---------------|
 | **Confidencialidad** | 🔴 ROTO — PII completo (nombre, email, RFC, plan) a cualquier authenticated | 🟢 OK — solo staff con perfil activo | `dashboard.js:142` carga todo sin LIMIT — performance risk en escala |
-| **Integridad** | 🟡 RIESGO — INSERT y UPDATE sin restricción de rol explícita documentada | 🟡 MEDIO — pendiente verificar si hay policies INSERT/UPDATE en auditoría | `dashboard.js:84` hace INSERT rápido; `cliente.core.js:34` hace UPDATE |
+| **Integridad** | 🟡 RIESGO — INSERT y UPDATE sin restricción de rol explícita documentada | ❓ NO AUDITADO — policies INSERT/UPDATE/DELETE no verificadas en la auditoría P0 (gap G03) | `dashboard.js:84` hace INSERT rápido; `cliente.core.js:34` hace UPDATE. Sin auditoría de escritura, el riesgo de integridad es desconocido incluso post-P0 SELECT |
 | **Disponibilidad** | 🟢 OK | 🟢 OK | Sin operaciones de borrado documentadas desde browser |
 
 ---
@@ -234,7 +234,7 @@
 | Dimensión | Estado A | Estado F (post-P0) | Observaciones |
 |-----------|----------|-------------------|---------------|
 | **Confidencialidad** | 🔴 CRÍTICO — credenciales AnyDesk, URLs de acceso remoto, usuarios y claves cifradas accesibles a cualquier authenticated | 🟢 OK — solo admin/soporte | Esta es la tabla de mayor sensibilidad de credenciales del sistema |
-| **Integridad** | 🟡 RIESGO — INSERT/UPDATE sin restricción de rol explícita | 🟡 MEDIO — mismo gap que clientes | `ticket.js:168` hace INSERT/UPDATE de accesos AnyDesk |
+| **Integridad** | 🟡 RIESGO — INSERT/UPDATE sin restricción de rol explícita | ❓ NO AUDITADO — policies INSERT/UPDATE/DELETE no verificadas en la auditoría P0 (gap G03) | `ticket.js:168` hace INSERT/UPDATE de accesos AnyDesk desde el browser; sin auditoría de escritura, el riesgo sobre credenciales sigue siendo desconocido post-P0 SELECT |
 | **Disponibilidad** | 🟢 OK | 🟢 OK | |
 
 **Nota CIA especial:** `cliente_accesos.clave_cifrada` — la auditoría no documenta el mecanismo de cifrado. Si es cifrado a nivel de aplicación (antes de INSERT), la exposición via SELECT es de datos ya cifrados. Si no hay cifrado y solo "cifrado" es encoding base64 u ofuscación, la exposición es total. Pregunta crítica para Fable: ¿RLS es suficiente para una tabla de credenciales, o se recomienda cifrado a nivel de columna (pg_crypto/Vault)?
@@ -277,7 +277,7 @@
 
 | Dimensión | ticket_eventos | tickets.timeline_publica (JSONB) |
 |-----------|----------------|----------------------------------|
-| **Confidencialidad** | 🟡 MEDIO — RLS no auditado explícitamente | 🟡 MEDIO — accesible con la policy SELECT de tickets |
+| **Confidencialidad** | ❓ NO AUDITADO — policies SELECT/INSERT/UPDATE/DELETE de `ticket_eventos` no fueron verificadas en Dashboard (gap G01); tabla leída por `estado-ticket-ts` sin JWT | 🟡 MEDIO — accesible con la policy SELECT de tickets |
 | **Integridad** | 🔴 ROTO — moveTicket, closeTicket, batchClose no insertan eventos → historial incompleto | 🟡 RIESGO — JSONB append sin control de visibilidad publica/interna |
 | **Disponibilidad** | 🟢 OK — tabla existe y funciona para los eventos que sí se insertan | 🟡 RIESGO — crecimiento sin límite (JSONB array, sin archivado) |
 
@@ -453,13 +453,15 @@ Con una sola llamada se puede obtener nombre+correo+teléfono de clientes reales
 | Acceso a token de otro cliente | Sin rate limit permite prueba masiva | 🔴 RIESGO REAL |
 | Replay de token expirado | EF valida `token_publico_expira > now()` | ✅ Protegido |
 
-**Cálculo de bruteforce:** Si `token_publico` tiene 32 caracteres alfanuméricos (entropía de `randToken()` no documentada), con un espacio de 36^32 combinaciones, el bruteforce directo es inviable. Sin embargo, si la función `randToken()` usa `Math.random()` (32 bits de entropía), el espacio se reduce drásticamente y el bruteforce por folio conocido es factible.
+**Riesgo de enumeración/fuerza bruta:** La longitud, el alfabeto y la fuente criptográfica de `token_publico` no están confirmados en la evidencia disponible. Por tanto, no puede cuantificarse su entropía ni afirmarse que sea resistente o vulnerable a fuerza bruta. El riesgo debe evaluarse inspeccionando la implementación real de `randToken()` y verificando longitud, aleatoriedad criptográfica, expiración y manejo de intentos fallidos. La ausencia de rate limit HTTP confirmado en `estado-ticket-ts` aumenta la superficie de abuso, aunque no demuestra por sí sola que el token sea adivinable.
+
+**Gap P2 adicional:** `estado-ticket-ts` GET carece de rate limit HTTP confirmado; es una superficie distinta de `estado-ticket-responder-ts` POST y no tiene fix documentado.
 
 ### 4.6 `estado-ticket-responder-ts`
 
 | Vector | Mitigación actual | Estado |
 |--------|------------------|--------|
-| Spam de respuestas con token válido | Anti-spam en BD (porcentaje de respuestas recientes) | 🟡 PARCIAL |
+| Spam de respuestas con token válido | **[inferencia]** Anti-spam en BD (porcentaje) — código EF no disponible en repo local; mecanismo no confirmado | ❓ NO VERIFICADO |
 | Flood HTTP (sin rate limit) | Sin rate limit HTTP | 🔴 NINGUNA |
 | Payload grande en respuesta | Sin validación de tamaño documentada | ❓ Desconocido |
 | Adjuntos maliciosos en respuesta del portal | No documentado si EF acepta adjuntos | ❓ Desconocido |
@@ -477,7 +479,7 @@ El repositorio `panel-expiriti-audit-bd` contiene documentación de auditoría, 
 | Schema de BD (23+ tablas) | `docs/audit/supabase-public-schema.sql` (2026-06-13) | 🟡 SNAPSHOT — puede haber cambiado |
 | Código de EFs | Solo backup de `ticket-internal-reply` pre-fix | ❌ INCOMPLETO |
 | RLS policies | `DB/audit_dashboard_2026_06_15.md` (SQL read-only) | 🟡 PUNTO EN EL TIEMPO |
-| Commit del fix de idempotencia | `f54e22b` (2026-06-13) | ✅ COMMITEADO |
+| Commit del fix de idempotencia | `567ef9a` (2026-06-13) — `fix: harden ticket internal reply idempotency`. `f54e22b` es el backup pre-fix documental. | ✅ COMMITEADO (deploy no confirmado) |
 | Fix de `tickets.js:111` Bearer token | En repo `panel-expiriti` rama `main` | ✅ COMMITEADO |
 | Código JS del panel | En repo `panel-expiriti` (auditoría via grep) | 🟡 PUEDE HABER DIVERGIDO |
 
@@ -929,7 +931,7 @@ Por favor responde con la siguiente estructura exacta:
 | P0: Opción A vs Opción B para tickets | APROBAR / CORREGIR | [cuál opción recomiendas] |
 | P0: SQL clientes | APROBAR / CORREGIR / POSPONER | |
 | P0: SQL cliente_accesos | APROBAR / CORREGIR / POSPONER | |
-| P0-5: Retirar quick-function | APROBAR / CORREGIR / POSPONER | |
+| P0: Retirar quick-function | APROBAR / CORREGIR / POSPONER | |
 | P1-3: Retirar super-service | APROBAR / CORREGIR / POSPONER | |
 | P1-4: match-cliente header x-service-key | APROBAR / CORREGIR / POSPONER | |
 | P2-1/2/3: Rate limits (4 endpoints) | APROBAR / CORREGIR / POSPONER | |

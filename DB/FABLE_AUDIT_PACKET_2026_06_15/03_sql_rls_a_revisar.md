@@ -212,10 +212,15 @@ COMMIT;
 
 ```sql
 -- ================================================================
--- BORRADOR P0 — clientes
+-- BORRADOR P0 — clientes (solo SELECT)
 -- Nota: dashboard.js:142 hace SELECT * sin LIMIT — debe funcionar para todos los roles
 -- PREGUNTA PARA FABLE: ¿Debería haber filtro por cliente asignado
 -- o todos los roles ven todos los clientes?
+-- ⚠️ GAP PENDIENTE (G03): La auditoría P0 solo cubre SELECT.
+-- Las policies INSERT, UPDATE y DELETE de `clientes` NO fueron auditadas.
+-- ANTES DE APROBAR ESTE SQL: verificar en Dashboard el estado de INSERT/UPDATE/DELETE.
+-- `dashboard.js:84` hace INSERT de clientes; `cliente.core.js:34` hace UPDATE.
+-- Si esas policies son abiertas (qual=true), el riesgo de integridad sigue activo post-P0 SELECT.
 -- ================================================================
 
 BEGIN;
@@ -248,11 +253,16 @@ COMMIT;
 
 ```sql
 -- ================================================================
--- BORRADOR P0 — cliente_accesos (credenciales AnyDesk)
+-- BORRADOR P0 — cliente_accesos (credenciales AnyDesk, solo SELECT)
 -- Recomendación: solo admin/soporte — ventas no necesita credenciales de acceso remoto
 -- Decisión humana D2: ¿se incluye ventas?
 -- PREGUNTA PARA FABLE: ¿Debería este campo estar en una tabla separada con
 -- mayor nivel de protección? ¿Es suficiente RLS o se recomienda cifrado adicional?
+-- ⚠️ GAP PENDIENTE (G03): La auditoría P0 solo cubre SELECT.
+-- Las policies INSERT, UPDATE y DELETE de `cliente_accesos` NO fueron auditadas.
+-- `ticket.js:168` hace INSERT/UPDATE de accesos AnyDesk desde el browser.
+-- Si esas policies son abiertas, cualquier authenticated puede crear/modificar credenciales.
+-- ANTES DE APROBAR ESTE SQL: verificar INSERT/UPDATE/DELETE policies en Dashboard.
 -- ================================================================
 
 BEGIN;
@@ -285,11 +295,16 @@ COMMIT;
 -- ================================================================
 -- BORRADOR P0 — ticket_respuestas_rapidas
 -- Problema: hay 6 policies abiertas en 2 grupos duplicados
--- Hay también policies correctas (para admin/soporte) que deben mantenerse
--- RIESGO: si se eliminan las 6 abiertas y las "correctas" no existen,
--- los quick replies quedan sin acceso. VERIFICAR PRIMERO.
--- PREGUNTA PARA FABLE: ¿Cómo verificar cuáles son las "correctas" sin ejecutar
--- queries que no aparecen en la auditoría?
+-- ⚠️ ADVERTENCIA: La existencia de policies positivas (para admin/soporte) NO fue confirmada en Dashboard.
+-- La frase "hay también policies correctas que deben mantenerse" era una suposición — no es evidencia.
+-- PASO OBLIGATORIO ANTES DE CUALQUIER DROP:
+--   Ejecutar read-only: SELECT policyname, cmd, roles, qual, with_check
+--                       FROM pg_policies WHERE tablename='ticket_respuestas_rapidas';
+--   y revisar el cuadro COMPLETO: SELECT/INSERT/UPDATE/DELETE para todos los roles.
+-- SOLO si existen policies positivas válidas para admin/soporte: proceder con DROP de las 6 abiertas.
+-- Si NO existen: crear primero las policies correctas en la misma transacción ANTES del DROP.
+-- NO EJECUTAR ESTE SQL hasta confirmar la matriz completa de policies.
+-- ESTE SQL NO ESTÁ APROBADO — pendiente de verificación Dashboard.
 -- ================================================================
 
 BEGIN;

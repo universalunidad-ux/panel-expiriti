@@ -77,7 +77,8 @@ Además: `quick-function` — EF deployada con `Deno.env.get("6fb8db5c...")` (ha
 
 #### P2 — OPERACIONAL / CONTROL DE ABUSO
 
-- `estado-ticket-responder-ts`: sin rate limit HTTP (solo folio+token como autenticación)
+- `estado-ticket-responder-ts` (POST): sin rate limit HTTP (solo folio+token). **[inferencia]:** mecanismo anti-spam en BD no confirmado — código EF no disponible en repo local
+- `estado-ticket-ts` (GET): sin rate limit HTTP confirmado — gap P2 adicional; superficie distinta del POST; bruteforce de folio+token sin barrera de red (ver §4.5 de `08_scope_ampliado_para_fable.md`)
 - `submit-alta`: sin rate limit (acepta hasta 80MB/request)
 - `submit-registro`: sin rate limit
 - `support-submit-secure`: Turnstile implementado pero apagado (`REQUIRE_TURNSTILE=false`)
@@ -211,7 +212,14 @@ Con el código descrito (dashboard.js:142 sin LIMIT, ticket.js:202, etc.), ¿ide
 ¿La estrategia de normalización en 5 fases con doble-escritura temporal es razonable para este volumen (<500 clientes, <10K tickets)?
 
 **P7 — Prerrequisitos antes de fixes:**  
-¿Hay algo que la auditoría no identificó como prerrequisito pero que debería verificarse antes de ejecutar el primer SQL?
+¿Hay algo que la auditoría no identificó como prerrequisito pero que debería verificarse antes de ejecutar el primer SQL? Contexto adicional: la auditoría identificó cuatro gaps de cobertura post-cierre que aún no tienen evidencia:
+
+- **G01 — `ticket_eventos` RLS no auditado:** Las policies SELECT/INSERT/UPDATE/DELETE de esta tabla no fueron consultadas en Dashboard. La tabla es leída por `estado-ticket-ts` (EF pública sin JWT). Su estado real es desconocido.
+- **G02 — `clientes_contacto_historial` no auditada:** Tabla detectada en el inventario pero sin análisis de RLS, grants, writers, readers ni presencia de PII. Completamente opaca.
+- **G03 — INSERT/UPDATE/DELETE de `clientes` y `cliente_accesos` no auditadas:** La auditoría P0 solo cubre SELECT. `dashboard.js:84` hace INSERT en `clientes`; `ticket.js:168` hace INSERT/UPDATE en `cliente_accesos`. Si las policies de escritura son abiertas, el riesgo de integridad sigue activo post-P0 SELECT.
+- **G04 — `estado-ticket-ts` GET sin rate limit HTTP:** Superficie distinta de `estado-ticket-responder-ts` POST. No tiene fix documentado en el plan P2 actual. La entropía de `token_publico` no está confirmada (implementación de `randToken()` no auditada).
+
+¿Son estos gaps bloqueantes para aprobar el SQL de P0-bis/P0, o pueden auditarse en paralelo?
 
 **P8 — Qué no tocar todavía:**  
 ¿Hay algo en la lista de "no tocar" que es demasiado conservador, o algo que falta agregar a esa lista?
@@ -281,7 +289,7 @@ Por favor responde con esta estructura:
 | P0: clientes | 🟢 / 🟡 / 🔴 | [condición] |
 | P0: cliente_accesos | 🟢 / 🟡 / 🔴 | [condición] |
 | P0: ticket_respuestas_rapidas | 🟢 / 🟡 / 🔴 | [condición] |
-| P0-5: quick-function retirar | 🟢 / 🟡 / 🔴 | [condición] |
+| P0: quick-function retirar | 🟢 / 🟡 / 🔴 | [condición] |
 | P1: match-cliente fix | 🟢 / 🟡 / 🔴 | [condición] |
 | P1: Storage verificación | 🟢 / 🟡 / 🔴 | [condición] |
 | P2: rate limits (4 endpoints) | 🟢 / 🟡 / 🔴 | [condición] |
@@ -296,7 +304,7 @@ Por favor responde con esta estructura:
 | P0: SQL de tickets (Opción A) | APROBAR / CORREGIR / POSPONER | ... |
 | P0: SQL de clientes | APROBAR / CORREGIR / POSPONER | ... |
 | P0: SQL de cliente_accesos | APROBAR / CORREGIR / POSPONER | ... |
-| P0-5: Retirar quick-function | APROBAR / CORREGIR / POSPONER | ... |
+| P0: Retirar quick-function | APROBAR / CORREGIR / POSPONER | ... |
 | P1-4: match-cliente header x-service-key | APROBAR / CORREGIR / POSPONER | ... |
 | P2-1/2/3: Rate limits | APROBAR / CORREGIR / POSPONER | ... |
 | P2-5: ticket_eventos en moveTicket | APROBAR / CORREGIR / POSPONER | ... |
