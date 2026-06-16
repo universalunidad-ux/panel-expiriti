@@ -144,7 +144,7 @@ Cerrar estas policies no rompe ningún flujo de UI. Puede adelantarse al P0 sin 
 
 **[inferencia]:** El mecanismo anti-spam "por porcentaje en BD" no está confirmado — el código de esta EF no está disponible en el repositorio local. Comportamiento inferido, no auditado.
 
-**`estado-ticket-ts` (GET) — gap adicional P2:** El endpoint de consulta del portal tampoco tiene rate limit HTTP confirmado. Folio secuencial + `token_publico` en plaintext = bruteforce sin barrera de red. No hay fix propuesto en el plan P2 actual. Este gap es independiente de H23 (token en plaintext).
+**`estado-ticket-ts` (GET) — gap adicional P2 (G04):** El endpoint de consulta del portal tampoco tiene rate limit HTTP confirmado. Folio secuencial + `token_publico` en plaintext = bruteforce sin barrera de red. No hay fix propuesto en el plan P2 actual. Este gap es independiente de H23 (token en plaintext). Corresponde al mismo gap etiquetado como **G04** en `02`, `06` y `07`.
 
 ### H14 — `submit-alta`: sin rate limit (acepta hasta 80MB por request)
 

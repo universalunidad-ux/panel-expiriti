@@ -13,7 +13,7 @@
 
 Eres Fable, un auditor de seguridad especializado en Supabase, PostgreSQL RLS y arquitectura de backend. Voy a darte el contexto de una auditoría de seguridad que quiero que revises como segunda opinión.
 
-**No tienes acceso al código fuente, a la base de datos, ni a producción.** Todo lo que necesitas está en este mensaje. Si algo no está claro o necesitas información adicional, pídela — no inferas ni inventes datos.
+**No tienes acceso al código fuente, a la base de datos, ni a producción.** Este es el prompt principal y se acompaña de los anexos `01_hallazgos_criticos.md`, `03_sql_rls_a_revisar.md` y `08_scope_ampliado_para_fable.md`, a los que se hace referencia explícita. Trabaja con el paquete completo, no solo con este mensaje. Si algo no está claro o necesitas información adicional, pídela — no infieras ni inventes datos.
 
 ---
 
@@ -63,7 +63,7 @@ Cuatro tablas con policies `qual=true` (sin filtro de rol):
 | `tickets` | `tickets_select_auth` + `tickets_select_authenticated` (duplicadas) `qual=true` | Cualquier rol lee todos los tickets de todos los clientes |
 | `clientes` | `clientes_select_auth` `qual=true` | Cualquier rol exporta base completa de clientes (PII) |
 | `cliente_accesos` | `cliente_accesos_select_auth` `qual=true` | Cualquier rol lee IDs AnyDesk y credenciales de acceso remoto |
-| `ticket_respuestas_rapidas` | 6 policies abiertas en 2 grupos duplicados | Cualquier rol lee/crea/modifica quick replies de cualquier cliente |
+| `ticket_respuestas_rapidas` | 6 policies abiertas en 2 grupos duplicados | Cualquier rol lee/crea/modifica quick replies de cualquier cliente. **SQL-06 NO está aprobado:** antes de cualquier `DROP` debe confirmarse en Dashboard la matriz completa SELECT/INSERT/UPDATE/DELETE y conservarse o crearse policies positivas válidas |
 
 Además: `quick-function` — EF deployada con `Deno.env.get("6fb8db5c...")` (hash SHA256 como nombre de variable → undefined → 500 siempre). Endpoint público con service_role, sin uso en ningún frontend. Superficie de ataque activa.
 
@@ -74,6 +74,7 @@ Además: `quick-function` — EF deployada con `Deno.env.get("6fb8db5c...")` (ha
 - `super-service`: EF legacy sin uso, POST público con service_role — candidata a retirar
 - `match-cliente`: POST público sin JWT ni rate limit, full scan de 400+ clientes, devuelve nombre/email/teléfono/score
 - Storage: 3 buckets (`soporte_adjuntos`, `altas_tmp`, `certificados`) sin verificación visual de policies
+- `ticket-internal-reply`: fix de idempotencia presente en el commit `567ef9a`; `f54e22b` es únicamente el backup documental pre-fix. **Deploy NO confirmado**: la versión en producción no puede comprobarse mediante SQL y requiere validación de fecha/versión en Supabase Dashboard. No asumir que el fix está desplegado.
 
 #### P2 — OPERACIONAL / CONTROL DE ABUSO
 
@@ -238,6 +239,7 @@ Con el panorama completo, ¿qué vector de ataque, punto de fallo o riesgo de ar
 - **NO inventar datos** — si algo no está documentado, indicarlo como "información no disponible"
 - **NO retirar EFs legacy sin confirmar logs primero** — el paso de verificación es obligatorio
 - **NO mezclar fixes de UI (P3) con fixes de seguridad (P0)** — son ventanas de ejecución separadas
+- **SÍ etiquetar cada afirmación de tu respuesta** según su base: evidencia de repositorio, evidencia de Dashboard, inferencia, propuesta o pendiente de verificación. No presentes una inferencia como hecho ni un commit como deploy confirmado. Lo no verificable con este paquete debe quedar como `pendiente externo / no verificable`.
 
 ---
 

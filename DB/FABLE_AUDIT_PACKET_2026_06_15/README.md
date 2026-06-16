@@ -50,7 +50,7 @@ Panel Expiriti es un CRM de soporte técnico B2B construido sobre Supabase. El f
 
 ## Advertencia de modo
 
-Los documentos originales de auditoría tienen más de 8,000 líneas combinadas. Este paquete (10 archivos, 3,429 líneas totales) extrae solo lo relevante para la segunda opinión. Si Fable necesita más contexto sobre algún punto específico, pedirlo explícitamente en lugar de inferir.
+Los documentos originales de auditoría tienen más de 8,000 líneas combinadas. Este paquete (10 archivos, 3,518 líneas totales) extrae solo lo relevante para la segunda opinión. Si Fable necesita más contexto sobre algún punto específico, pedirlo explícitamente en lugar de inferir.
 
 ---
 
