@@ -29,6 +29,8 @@ Este paquete contiene toda la información necesaria para auditar el estado de s
 | `04_bd_arquitectura_a_revisar.md` | Deuda técnica de BD: God Table, doble-write, tokens, índices |
 | `05_edge_storage_a_revisar.md` | Estado de las 12 Edge Functions y 3 buckets de Storage |
 | `06_prompt_final_para_fable.md` | Prompt listo para pegar — contiene todo el brief de la revisión |
+| `07_checklist_previo_a_ejecucion.md` | Checklist operativo previo a cualquier SQL, cambio RLS o deploy; incluye validaciones Dashboard, pruebas por rol, rollback y semáforo de ejecución |
+| `08_scope_ampliado_para_fable.md` | Threat model, matriz CIA, privacidad/PII, abuso, deploy drift, pruebas por rol, rollback y riesgo de negocio |
 
 ---
 
@@ -48,7 +50,7 @@ Panel Expiriti es un CRM de soporte técnico B2B construido sobre Supabase. El f
 
 ## Advertencia de modo
 
-Los documentos originales de auditoría tienen más de 8,000 líneas combinadas. Este paquete extrae solo lo relevante para la segunda opinión. Si Fable necesita más contexto sobre algún punto específico, pedirlo explícitamente en lugar de inferir.
+Los documentos originales de auditoría tienen más de 8,000 líneas combinadas. Este paquete (10 archivos, 3,429 líneas totales) extrae solo lo relevante para la segunda opinión. Si Fable necesita más contexto sobre algún punto específico, pedirlo explícitamente en lugar de inferir.
 
 ---
 
