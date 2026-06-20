@@ -466,3 +466,8 @@ body[data-page="tickets"] .col-body::-webkit-scrollbar-track{background:transpar
 body[data-page="tickets"] .col-body::-webkit-scrollbar-thumb{background:rgba(15,23,42,.22)!important;border:3px solid transparent!important;border-radius:999px!important;background-clip:content-box!important}
 body[data-page="tickets"] .k-card{height:auto!important;min-height:96px!important;display:flex!important;flex-direction:column!important;gap:6px!important;overflow:visible!important}
 body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:none!important}
+
+
+body[data-page="tickets"] #tkClearFilters[hidden]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+body[data-page="tickets"] #tkClearFilters.is-idle{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:720px){body[data-page="tickets"] #tkClearFilters{display:none!important}}
