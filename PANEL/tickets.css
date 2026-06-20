@@ -471,6 +471,3 @@ body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:n
 body[data-page="tickets"] #tkClearFilters[hidden]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 body[data-page="tickets"] #tkClearFilters.is-idle{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 @media(max-width:720px){body[data-page="tickets"] #tkClearFilters{display:none!important}}
-body[data-page="tickets"] #tkClearFilters[hidden]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
-body[data-page="tickets"] #tkClearFilters.is-idle{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
-@media(max-width:720px){body[data-page="tickets"] #tkClearFilters{display:none!important}}
