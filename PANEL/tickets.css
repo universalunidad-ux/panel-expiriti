@@ -470,3 +470,4 @@ body[data-page="tickets"] .k-desc,body[data-page="tickets"] .k-submeta{display:n
 body[data-page="tickets"] #tkClearFilters[hidden]{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 body[data-page="tickets"] #tkClearFilters.is-idle{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
 @media(max-width:720px){body[data-page="tickets"] #tkClearFilters{display:none!important}}
+@media(max-width:720px){body[data-page="tickets"] .kanban-col .col-header{min-height:82px!important;height:82px!important;padding:10px 12px!important}body[data-page="tickets"] .kanban-col .tk-col-total{gap:2px!important}body[data-page="tickets"] .kanban-col .tk-col-total span{font-size:.95rem!important;line-height:1.05!important}body[data-page="tickets"] .kanban-col .tk-col-total b{font-size:2rem!important;line-height:.9!important}}
